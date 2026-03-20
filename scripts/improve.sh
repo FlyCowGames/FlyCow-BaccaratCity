@@ -85,6 +85,18 @@ Update the living documents:
 5. Git commit all changes with message: "Session N: [brief description]"
 6. Git push
 
+## Required Skills (invoke these via slash commands)
+You have access to 52+ skills via the .claude/skills/ directory. USE THEM. Key skills for this project:
+
+- **/brainstorming** — MUST invoke before any creative/design work. Explores intent, requirements, and design before implementation.
+- **/writing-plans** — MUST invoke when planning multi-step implementation. Creates structured plans with dependencies.
+- **/systematic-debugging** — MUST invoke when encountering any bug or unexpected behavior. Diagnose before fixing.
+- **/verification-before-completion** — MUST invoke before claiming work is done. Evidence before assertions.
+- **/requesting-code-review** — Invoke after completing implementation to verify quality.
+- **/web-operations** — Use for fetching Macau weather data, event info, map data from APIs.
+- **/image-generation** — Use when you need reference images or visual assets.
+- **/agent-browser** — Use to check the live site, take screenshots, verify rendering.
+
 ## Rules
 - ONE improvement per session. Do it well.
 - Always read the prime directive first — it's your compass.
@@ -93,6 +105,9 @@ Update the living documents:
 - Commit and push every session, even if the change is small.
 - Be bold with ideas but disciplined with implementation.
 - The instructions (ROADMAP, IDEAS) should morph over time. Add to them. Reprioritize.
+- ALWAYS invoke /brainstorming before design decisions.
+- ALWAYS invoke /verification-before-completion before deploying.
+- ALWAYS invoke /systematic-debugging when something breaks.
 PROMPT_EOF
 )
 
@@ -101,7 +116,7 @@ echo "[$TIMESTAMP] Launching Claude CLI..." | tee -a "$LOG_FILE"
 
 claude --print \
   --dangerously-skip-permissions \
-  --model claude-sonnet-4-6 \
+  --model claude-opus-4-6 \
   --max-turns 30 \
   --prompt "$PROMPT" \
   --cwd "$PROJECT_DIR" \
