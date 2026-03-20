@@ -65,6 +65,19 @@
 - **Observation:** Review/revision phases were light since this was a pattern-following change with no visual regressions expected. For UI/design changes, the screenshot review phase would be more critical.
 - **Suggestion for future sessions:** The next high-impact features should shift away from animation (ferries, cars, planes are done) toward interactivity or atmosphere. Casino interior / baccarat tables would fulfill the Prime Directive's "signature feature." Ambient audio (Howler.js) would add immersion.
 
+## Session 9 (2026-03-20) -- Ambient Audio Soundscape
+- **Lesson:** Web Audio API is ideal for procedural ambient sound in a single-file app — no external audio files needed, no CDN dependency (unlike Howler.js which was originally planned in the roadmap).
+- **Lesson:** Three sound layers (ocean, wind, city) create a convincing ambient soundscape. The LFO-modulated low-pass filter on white noise is the key technique for ocean waves — it creates rhythmic "surge" without requiring audio samples.
+- **Lesson:** `linearRampToValueAtTime()` provides smooth gain transitions between audio states. Use 2-second ramps to avoid clicks/pops.
+- **Lesson:** Starting audio muted and requiring user click is mandatory — browsers block autoplay. Using `AudioContext.suspend()/resume()` is the cleanest way to handle mute/unmute without destroying and recreating nodes.
+- **Lesson:** Weather-reactive audio (wind speed scaling, rain detection) reuses the same `currentWeather` variable and `isRainyCode()` function from the weather system — no new API calls needed.
+- **Observation:** This is the first non-visual feature. Adding a new sensory dimension (sound) is a category shift that feels more impactful than incremental visual improvements.
+
+## Session 9 Meta-Observations
+- **Observation:** Session was efficient — audio is self-contained with no dependencies on CesiumJS entities. Pure JavaScript Web Audio API, ~180 lines of code.
+- **Decision:** Did not modify improve.mjs — orchestrator remains stable.
+- **Suggestion for future sessions:** Next high-impact features should focus on interactivity (landmark info popups, click-to-explore) or the Prime Directive's signature feature (casino interior / baccarat tables). Audio could be enhanced later with more layers (traffic sounds, distant music for casino areas) but the foundation is solid.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

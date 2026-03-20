@@ -66,6 +66,16 @@
 - Updated subtitle to "Live Traffic & Flights"
 - File grew from ~1531 to ~1631 lines
 
+## Session 9 — 2026-03-20 (Automated Agent)
+- Ambient audio soundscape using Web Audio API (no external files)
+- 3 procedural sound layers: ocean waves (LFO-modulated filtered noise), wind (bandpass noise with gusts), city hum (60/120Hz + shimmer)
+- Time-of-day variation: louder city during day, more ocean at night
+- Weather-reactive: wind volume scales with real wind speed, rain boosts noise
+- Smooth 2-second gain ramps for transitions between mixes
+- Mute/unmute toggle button in bottom-left UI (starts muted, respects browser autoplay policy)
+- Updated subtitle to include "Ambient Sound"
+- File grew from ~1631 to ~1842 lines
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

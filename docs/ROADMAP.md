@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-20 (Session 8)*
+*This document evolves every session. Last updated: 2026-03-20 (Session 9)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -16,7 +16,7 @@
 - Guia Circuit road path for F3 event
 - ~~Airport planes (approach/takeoff animations)~~ — Done (Session 8)
 - More landmark detail and info popups
-- Ambient audio system (Howler.js)
+- ~~Ambient audio system~~ — Done (Session 9: Web Audio API, 3-layer procedural soundscape)
 - Bridge traffic animations
 
 ### Medium-Term (Sessions 30-100)
@@ -48,3 +48,4 @@
 - Neon casino glow: bloom post-processing, 11 zones, time-of-day modulation (Session 6)
 - Animated road traffic: 19 vehicles, 5 routes, 3 bridges + Cotai + peninsula (Session 7)
 - Airport flights: 4 planes, 2 routes (approach + departure), altitude interpolation (Session 8)
+- Ambient audio: 3-layer procedural Web Audio API soundscape, time/weather reactive (Session 9)

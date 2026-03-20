@@ -17,7 +17,6 @@
   a { color: #d4af37; text-decoration: none; }
   a:hover { text-decoration: underline; }
 
-  /* ── Header ── */
   header {
     text-align: center; padding: 40px 20px 30px;
     border-bottom: 1px solid rgba(212,175,55,0.2);
@@ -43,187 +42,169 @@
     color: #d4af37; transition: all 0.3s;
   }
   header .back-link:hover {
-    background: rgba(212,175,55,0.1);
-    text-decoration: none;
+    background: rgba(212,175,55,0.1); text-decoration: none;
   }
 
-  /* ── Layout ── */
   .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
 
-  /* ── Day Index ── */
-  .day-index {
-    padding: 24px 0;
-    border-bottom: 1px solid rgba(212,175,55,0.1);
-  }
-  .day-index h2 {
-    font-family: 'Cinzel', serif; font-size: 1.1em;
-    color: #d4af37; margin-bottom: 12px;
-    letter-spacing: 0.1em;
-  }
-  .day-links {
-    display: flex; flex-wrap: wrap; gap: 8px;
-  }
-  .day-link {
-    padding: 6px 16px;
-    border: 1px solid rgba(212,175,55,0.25);
-    font-size: 0.85em; color: #d4af37;
-    transition: all 0.2s; cursor: pointer;
-  }
-  .day-link:hover, .day-link.active {
-    background: rgba(212,175,55,0.15);
-    text-decoration: none;
-  }
-  .day-link .count {
-    color: rgba(232,224,208,0.4);
-    margin-left: 6px;
-  }
-
-  /* ── Domain Filter ── */
-  .domain-filter {
-    padding: 20px 0;
-    border-bottom: 1px solid rgba(212,175,55,0.1);
-  }
-  .domain-filter h3 {
-    font-family: 'Cinzel', serif; font-size: 0.9em;
-    color: rgba(212,175,55,0.7); margin-bottom: 10px;
-    letter-spacing: 0.08em;
-  }
-  .domain-tags {
-    display: flex; flex-wrap: wrap; gap: 6px;
-  }
-  .domain-tag {
-    padding: 4px 12px;
-    border: 1px solid rgba(232,224,208,0.15);
-    font-size: 0.8em; color: rgba(232,224,208,0.6);
-    cursor: pointer; transition: all 0.2s;
-  }
-  .domain-tag:hover, .domain-tag.active {
-    border-color: #d4af37;
-    color: #d4af37;
-    background: rgba(212,175,55,0.08);
-  }
-  .domain-tag .icon { margin-right: 4px; }
-
-  /* ── Stats Bar ── */
+  /* Stats */
   .stats-bar {
-    display: flex; gap: 30px; padding: 20px 0;
+    display: flex; gap: 30px; padding: 24px 0;
     border-bottom: 1px solid rgba(212,175,55,0.1);
     flex-wrap: wrap;
   }
-  .stat {
-    text-align: center;
-  }
+  .stat { text-align: center; }
   .stat .number {
     font-family: 'Cinzel', serif; font-size: 1.8em;
     color: #d4af37; font-weight: 700;
   }
   .stat .label {
-    font-size: 0.75em; color: rgba(232,224,208,0.4);
+    font-size: 0.7em; color: rgba(232,224,208,0.4);
     text-transform: uppercase; letter-spacing: 0.1em;
   }
 
-  /* ── Day Section ── */
-  .day-section {
-    padding: 30px 0 10px;
+  /* Domain legend */
+  .domain-legend {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(212,175,55,0.1);
   }
-  .day-section.hidden { display: none; }
-  .day-header {
-    font-family: 'Cinzel', serif; font-size: 1.2em;
-    color: #d4af37; letter-spacing: 0.1em;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(212,175,55,0.15);
-    margin-bottom: 20px;
-  }
-
-  /* ── Domain Group ── */
-  .domain-group { margin-bottom: 24px; }
-  .domain-group-header {
-    font-family: 'Cinzel', serif; font-size: 0.95em;
-    color: rgba(212,175,55,0.8); margin-bottom: 12px;
-    letter-spacing: 0.05em;
+  .domain-legend-label {
+    font-size: 0.7em; color: rgba(212,175,55,0.5);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    align-self: center; margin-right: 8px;
   }
 
-  /* ── Session Card ── */
-  .session-card {
-    border: 1px solid rgba(212,175,55,0.12);
+  /* Domain badge styles */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px; font-size: 0.65em;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    border-radius: 2px; white-space: nowrap;
+  }
+  .badge-rendering      { background: rgba(180,100,255,0.15); color: #b464ff; border: 1px solid rgba(180,100,255,0.3); }
+  .badge-atmosphere     { background: rgba(80,180,255,0.15);  color: #50b4ff; border: 1px solid rgba(80,180,255,0.3); }
+  .badge-animation      { background: rgba(80,220,160,0.15);  color: #50dca0; border: 1px solid rgba(80,220,160,0.3); }
+  .badge-landmarks      { background: rgba(255,180,80,0.15);  color: #ffb450; border: 1px solid rgba(255,180,80,0.3); }
+  .badge-events         { background: rgba(255,100,100,0.15); color: #ff6464; border: 1px solid rgba(255,100,100,0.3); }
+  .badge-interactivity  { background: rgba(255,220,80,0.15);  color: #ffdc50; border: 1px solid rgba(255,220,80,0.3); }
+  .badge-audio          { background: rgba(100,200,255,0.15); color: #64c8ff; border: 1px solid rgba(100,200,255,0.3); }
+  .badge-infrastructure { background: rgba(180,180,180,0.15); color: #b4b4b4; border: 1px solid rgba(180,180,180,0.3); }
+
+  .badge-agent {
+    background: rgba(80,200,80,0.1); color: rgba(80,200,80,0.7);
+    border: 1px solid rgba(80,200,80,0.25);
+  }
+  .badge-manual {
+    background: rgba(212,175,55,0.1); color: rgba(212,175,55,0.7);
+    border: 1px solid rgba(212,175,55,0.25);
+  }
+
+  /* Timeline */
+  .timeline { padding: 24px 0; }
+
+  .iteration {
+    position: relative;
+    padding: 0 0 0 32px;
+    margin-bottom: 2px;
+  }
+  /* Vertical line */
+  .iteration::before {
+    content: '';
+    position: absolute; left: 11px; top: 0; bottom: 0;
+    width: 1px; background: rgba(212,175,55,0.12);
+  }
+  .iteration:last-child::before { display: none; }
+
+  /* Dot on timeline */
+  .iteration::after {
+    content: '';
+    position: absolute; left: 7px; top: 18px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #0a0a12;
+    border: 2px solid rgba(212,175,55,0.4);
+  }
+
+  .iteration-card {
+    border: 1px solid rgba(212,175,55,0.1);
     margin-bottom: 12px;
     transition: border-color 0.2s;
   }
-  .session-card:hover {
-    border-color: rgba(212,175,55,0.35);
+  .iteration-card:hover { border-color: rgba(212,175,55,0.3); }
+
+  .card-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 14px 16px 4px;
+    gap: 10px; flex-wrap: wrap;
   }
-  .session-card.hidden { display: none; }
-  .card-header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 16px;
-    cursor: pointer;
-    background: rgba(212,175,55,0.03);
+  .card-top-left { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 200px; }
+  .card-top-right { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+
+  .card-session {
+    font-family: 'Cinzel', serif; font-size: 0.75em;
+    color: rgba(212,175,55,0.5); letter-spacing: 0.1em;
   }
-  .card-header:hover { background: rgba(212,175,55,0.06); }
   .card-title {
-    font-family: 'Cinzel', serif; font-size: 0.95em;
-    color: #e8e0d0;
+    font-family: 'Cinzel', serif; font-size: 1.05em;
+    color: #e8e0d0; letter-spacing: 0.04em;
   }
-  .card-badges {
-    display: flex; gap: 8px; align-items: center;
-  }
-  .badge {
-    padding: 2px 8px; font-size: 0.7em;
-    text-transform: uppercase; letter-spacing: 0.08em;
-  }
-  .badge-session {
-    border: 1px solid rgba(212,175,55,0.3);
-    color: #d4af37;
-  }
-  .badge-agent {
-    border: 1px solid rgba(100,200,100,0.3);
-    color: rgba(100,200,100,0.8);
-  }
-  .badge-manual {
-    border: 1px solid rgba(200,150,100,0.3);
-    color: rgba(200,150,100,0.8);
-  }
-  .card-summary {
-    padding: 0 16px 12px;
-    color: rgba(232,224,208,0.6);
-    font-size: 0.88em;
-  }
-  .card-details {
-    display: none;
-    padding: 0 16px 14px;
-    border-top: 1px solid rgba(212,175,55,0.08);
-  }
-  .card-details.open { display: block; padding-top: 12px; }
-  .card-details ul {
-    list-style: none; padding: 0;
-  }
-  .card-details li {
-    padding: 3px 0; font-size: 0.82em;
-    color: rgba(232,224,208,0.5);
-  }
-  .card-details li::before {
-    content: '›'; color: #d4af37;
-    margin-right: 8px;
-  }
-  .lines-added {
-    font-size: 0.75em; color: rgba(100,200,100,0.5);
-    margin-top: 8px;
+  .card-timestamp {
+    font-size: 0.7em; color: rgba(232,224,208,0.3);
+    letter-spacing: 0.05em;
   }
 
-  /* ── Footer ── */
+  .card-summary {
+    padding: 4px 16px 12px;
+    color: rgba(232,224,208,0.55);
+    font-size: 0.85em;
+  }
+
+  .card-details-toggle {
+    display: block; width: 100%;
+    padding: 8px 16px;
+    border: none; border-top: 1px solid rgba(212,175,55,0.06);
+    background: rgba(212,175,55,0.02);
+    color: rgba(212,175,55,0.4); font-family: 'DM Mono', monospace;
+    font-size: 0.7em; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s; text-align: left;
+  }
+  .card-details-toggle:hover {
+    background: rgba(212,175,55,0.05); color: rgba(212,175,55,0.6);
+  }
+
+  .card-details {
+    display: none;
+    padding: 10px 16px 14px;
+    border-top: 1px solid rgba(212,175,55,0.06);
+  }
+  .card-details.open { display: block; }
+  .card-details ul { list-style: none; padding: 0; }
+  .card-details li {
+    padding: 3px 0; font-size: 0.8em;
+    color: rgba(232,224,208,0.45);
+  }
+  .card-details li::before {
+    content: '\203A'; color: rgba(212,175,55,0.4);
+    margin-right: 8px;
+  }
+  .lines-stat {
+    margin-top: 8px; font-size: 0.7em;
+    color: rgba(80,200,80,0.4);
+  }
+
   footer {
     text-align: center; padding: 30px 20px;
     border-top: 1px solid rgba(212,175,55,0.1);
     margin-top: 20px;
-    color: rgba(232,224,208,0.3);
-    font-size: 0.8em;
+    color: rgba(232,224,208,0.25);
+    font-size: 0.75em; line-height: 1.8;
   }
 
-  /* ── Responsive ── */
   @media (max-width: 600px) {
     header h1 { font-size: 1.6em; }
     .stats-bar { gap: 16px; }
     .stat .number { font-size: 1.3em; }
+    .card-top { flex-direction: column; }
   }
 </style>
 </head>
@@ -231,150 +212,104 @@
 
 <header>
   <h1>BACCARAT CITY</h1>
-  <div class="subtitle">改進日誌 · Improvement Log</div>
+  <div class="subtitle">改進日誌 &middot; Improvement Log</div>
   <div class="meta" id="headerMeta"></div>
   <a href="/" class="back-link">Enter the City</a>
 </header>
 
 <div class="container">
   <div class="stats-bar" id="statsBar"></div>
-  <div class="day-index" id="dayIndex"></div>
-  <div class="domain-filter" id="domainFilter"></div>
-  <div id="content"></div>
+  <div class="domain-legend" id="domainLegend"></div>
+  <div class="timeline" id="timeline"></div>
 </div>
 
 <footer>
-  Baccarat City — A living digital twin of Macau<br>
-  Autonomously improved every hour by Claude Opus 4.6
+  Baccarat City &mdash; A living digital twin of Macau<br>
+  Autonomously improved every hour by Claude Opus 4.6<br>
+  <a href="https://baccaratcity.com/data/improvements.json">Raw data (JSON)</a>
 </footer>
 
 <script>
 (async function() {
-  const resp = await fetch('/data/improvements.json');
-  const data = await resp.json();
+  var resp = await fetch('/data/improvements.json');
+  var data = await resp.json();
 
-  // ── Group sessions by date ──
-  const byDate = {};
-  data.sessions.forEach(s => {
-    if (!byDate[s.date]) byDate[s.date] = [];
-    byDate[s.date].push(s);
+  // Sort sessions: most recent first
+  var sessions = data.sessions.slice().sort(function(a, b) {
+    if (b.date !== a.date) return b.date.localeCompare(a.date);
+    return b.session - a.session;
   });
-  const dates = Object.keys(byDate).sort().reverse();
 
-  // ── Stats ──
-  const totalSessions = data.sessions.length;
-  const totalLines = data.sessions.reduce((sum, s) => sum + (s.linesAdded || 0), 0);
-  const domainsUsed = new Set(data.sessions.map(s => s.domain)).size;
-  const autoSessions = data.sessions.filter(s => s.agent === 'automated').length;
+  // Stats
+  var totalSessions = sessions.length;
+  var totalLines = sessions.reduce(function(sum, s) { return sum + (s.linesAdded || 0); }, 0);
+  var autoCount = sessions.filter(function(s) { return s.agent === 'automated'; }).length;
+  var domainSet = {};
+  sessions.forEach(function(s) { domainSet[s.domain] = true; });
+  var domainCount = Object.keys(domainSet).length;
+  var dateSet = {};
+  sessions.forEach(function(s) { dateSet[s.date] = true; });
+  var dayCount = Object.keys(dateSet).length;
 
-  document.getElementById('statsBar').innerHTML = `
-    <div class="stat"><div class="number">${totalSessions}</div><div class="label">Sessions</div></div>
-    <div class="stat"><div class="number">${autoSessions}</div><div class="label">Automated</div></div>
-    <div class="stat"><div class="number">${totalLines.toLocaleString()}</div><div class="label">Lines Added</div></div>
-    <div class="stat"><div class="number">${domainsUsed}</div><div class="label">Domains</div></div>
-    <div class="stat"><div class="number">${dates.length}</div><div class="label">Days Active</div></div>
-  `;
+  document.getElementById('statsBar').innerHTML =
+    '<div class="stat"><div class="number">' + totalSessions + '</div><div class="label">Iterations</div></div>' +
+    '<div class="stat"><div class="number">' + autoCount + '</div><div class="label">Automated</div></div>' +
+    '<div class="stat"><div class="number">' + totalLines.toLocaleString() + '</div><div class="label">Lines Added</div></div>' +
+    '<div class="stat"><div class="number">' + domainCount + '</div><div class="label">Domains</div></div>' +
+    '<div class="stat"><div class="number">' + dayCount + '</div><div class="label">Days Active</div></div>';
 
+  var latestDate = sessions.length > 0 ? sessions[0].date : 'N/A';
   document.getElementById('headerMeta').textContent =
-    `${totalSessions} improvements across ${dates.length} day${dates.length > 1 ? 's' : ''} — Last updated: ${dates[0]}`;
+    totalSessions + ' iterations \u00B7 Last updated ' + latestDate;
 
-  // ── Day Index ──
-  let dayIndexHtml = '<h2>Daily Index</h2><div class="day-links">';
-  dates.forEach((date, i) => {
-    const count = byDate[date].length;
-    dayIndexHtml += `<a class="day-link${i === 0 ? ' active' : ''}" data-date="${date}" href="#day-${date}">${date}<span class="count">(${count})</span></a>`;
+  // Domain legend
+  var legendHtml = '<span class="domain-legend-label">Domains</span>';
+  Object.entries(data.domains).forEach(function(entry) {
+    var key = entry[0], d = entry[1];
+    legendHtml += '<span class="badge badge-' + key + '">' + d.icon + ' ' + d.label + '</span>';
   });
-  dayIndexHtml += '</div>';
-  document.getElementById('dayIndex').innerHTML = dayIndexHtml;
+  document.getElementById('domainLegend').innerHTML = legendHtml;
 
-  // ── Domain Filter ──
-  let filterHtml = '<h3>Filter by Domain</h3><div class="domain-tags">';
-  filterHtml += '<span class="domain-tag active" data-domain="all">All</span>';
-  Object.entries(data.domains).forEach(([key, d]) => {
-    filterHtml += `<span class="domain-tag" data-domain="${key}"><span class="icon">${d.icon}</span>${d.label}</span>`;
-  });
-  filterHtml += '</div>';
-  document.getElementById('domainFilter').innerHTML = filterHtml;
+  // Timeline
+  var html = '';
+  sessions.forEach(function(s, idx) {
+    var dom = data.domains[s.domain] || { icon: '?', label: s.domain };
+    var agentBadge = s.agent === 'automated'
+      ? '<span class="badge badge-agent">auto</span>'
+      : '<span class="badge badge-manual">manual</span>';
+    var domainBadge = '<span class="badge badge-' + s.domain + '">' + dom.icon + ' ' + dom.label + '</span>';
+    var cardId = 'card-' + s.session;
 
-  // ── Render content ──
-  function renderContent(filterDate, filterDomain) {
-    let html = '';
-    const datesToShow = filterDate === 'all' ? dates : [filterDate];
+    html += '<div class="iteration">';
+    html += '<div class="iteration-card">';
 
-    datesToShow.forEach(date => {
-      let sessions = byDate[date];
-      if (filterDomain !== 'all') {
-        sessions = sessions.filter(s => s.domain === filterDomain);
-      }
-      if (sessions.length === 0) return;
+    // Top row: session label + title on left, badges on right
+    html += '<div class="card-top">';
+    html += '<div class="card-top-left">';
+    html += '<div class="card-session">ITERATION #' + s.session + '</div>';
+    html += '<div class="card-title">' + s.title + '</div>';
+    html += '<div class="card-timestamp">' + s.date + ' \u00B7 Session ' + s.session + '</div>';
+    html += '</div>';
+    html += '<div class="card-top-right">' + domainBadge + agentBadge + '</div>';
+    html += '</div>';
 
-      // Group by domain within this day
-      const byDomain = {};
-      sessions.forEach(s => {
-        if (!byDomain[s.domain]) byDomain[s.domain] = [];
-        byDomain[s.domain].push(s);
-      });
+    // Summary
+    html += '<div class="card-summary">' + s.summary + '</div>';
 
-      html += `<div class="day-section" id="day-${date}">`;
-      html += `<div class="day-header">${date} — ${sessions.length} improvement${sessions.length > 1 ? 's' : ''}</div>`;
-
-      Object.entries(byDomain).forEach(([domKey, domSessions]) => {
-        const dom = data.domains[domKey] || { icon: '?', label: domKey };
-        html += `<div class="domain-group">`;
-        html += `<div class="domain-group-header">${dom.icon} ${dom.label}</div>`;
-
-        domSessions.forEach(s => {
-          const agentClass = s.agent === 'automated' ? 'badge-agent' : 'badge-manual';
-          const agentLabel = s.agent === 'automated' ? 'auto' : 'manual';
-          html += `
-            <div class="session-card" data-domain="${s.domain}" data-session="${s.session}">
-              <div class="card-header" onclick="this.parentElement.querySelector('.card-details').classList.toggle('open')">
-                <span class="card-title">${s.title}</span>
-                <div class="card-badges">
-                  <span class="badge badge-session">#${s.session}</span>
-                  <span class="badge ${agentClass}">${agentLabel}</span>
-                </div>
-              </div>
-              <div class="card-summary">${s.summary}</div>
-              <div class="card-details">
-                <ul>${s.details.map(d => `<li>${d}</li>`).join('')}</ul>
-                ${s.linesAdded ? `<div class="lines-added">+${s.linesAdded} lines</div>` : ''}
-              </div>
-            </div>`;
-        });
-
-        html += '</div>';
-      });
-
+    // Details toggle + content
+    if (s.details && s.details.length > 0) {
+      html += '<button class="card-details-toggle" onclick="var d=document.getElementById(\'' + cardId + '\');d.classList.toggle(\'open\');this.textContent=d.classList.contains(\'open\')?\'Hide details\':\'Show details (' + s.details.length + ')\'">Show details (' + s.details.length + ')</button>';
+      html += '<div class="card-details" id="' + cardId + '">';
+      html += '<ul>' + s.details.map(function(d) { return '<li>' + d + '</li>'; }).join('') + '</ul>';
+      if (s.linesAdded) html += '<div class="lines-stat">+' + s.linesAdded + ' lines of code</div>';
       html += '</div>';
-    });
+    }
 
-    document.getElementById('content').innerHTML = html || '<p style="padding:40px 0;color:rgba(232,224,208,0.3);text-align:center;">No improvements match this filter.</p>';
-  }
-
-  // ── Initial render (latest day) ──
-  renderContent(dates[0], 'all');
-
-  // ── Day index clicks ──
-  document.querySelectorAll('.day-link').forEach(el => {
-    el.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.querySelectorAll('.day-link').forEach(l => l.classList.remove('active'));
-      this.classList.add('active');
-      const activeDomain = document.querySelector('.domain-tag.active')?.dataset.domain || 'all';
-      renderContent(this.dataset.date, activeDomain);
-    });
+    html += '</div>'; // card
+    html += '</div>'; // iteration
   });
 
-  // ── Domain filter clicks ──
-  document.querySelectorAll('.domain-tag').forEach(el => {
-    el.addEventListener('click', function() {
-      document.querySelectorAll('.domain-tag').forEach(t => t.classList.remove('active'));
-      this.classList.add('active');
-      const activeDate = document.querySelector('.day-link.active')?.dataset.date || dates[0];
-      renderContent(activeDate, this.dataset.domain);
-    });
-  });
+  document.getElementById('timeline').innerHTML = html;
 })();
 </script>
 </body>

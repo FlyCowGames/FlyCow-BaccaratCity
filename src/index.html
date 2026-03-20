@@ -191,6 +191,29 @@
   }
   #glow-indicator.visible { opacity: 1; }
 
+  /* Audio toggle button */
+  #audio-toggle {
+    position: absolute; bottom: 80px; left: 32px;
+    pointer-events: auto; cursor: pointer;
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(212,175,55,0.4);
+    background: rgba(10,10,18,0.6);
+    border: 1px solid rgba(212,175,55,0.15);
+    padding: 6px 14px; border-radius: 2px;
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+    z-index: 101;
+  }
+  #audio-toggle:hover {
+    color: rgba(212,175,55,0.7);
+    border-color: rgba(212,175,55,0.35);
+  }
+  #audio-toggle.active {
+    color: #d4af37;
+    border-color: rgba(212,175,55,0.4);
+  }
+
   /* ── Attractions Panel ── */
   #attractions-toggle {
     position: absolute; top: 50%; right: 0; transform: translateY(-50%);
@@ -324,7 +347,7 @@
   <div id="title-block">
     <div id="title">BACCARAT CITY</div>
     <div id="tagline">百家樂之城 &middot; 澳門風雲</div>
-    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather &middot; Live Traffic &amp; Flights</div>
+    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather &middot; Live Traffic &amp; Flights &middot; Ambient Sound</div>
     <div id="title-line"></div>
   </div>
 
@@ -343,6 +366,8 @@
     <div id="clock-label">Macau Time (UTC+8)</div>
     <div id="clock"></div>
   </div>
+
+  <button id="audio-toggle">&#9835; Sound Off</button>
 
   <div id="hints">
     scroll to zoom &middot; drag to orbit<br>
@@ -1620,6 +1645,191 @@ document.getElementById('attractions-toggle').addEventListener('click', function
 
 // Refresh live events every hour
 setInterval(updateLiveEvents, 60 * 60 * 1000);
+
+// ── Ambient Audio System (Web Audio API) ──
+var _audioCtx = null;
+var _audioEnabled = false;
+var _audioNodes = {};
+
+function initAudio() {
+  if (_audioCtx) return;
+  _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  // Master gain
+  var master = _audioCtx.createGain();
+  master.gain.value = 0.35;
+  master.connect(_audioCtx.destination);
+  _audioNodes.master = master;
+
+  // Ocean waves — filtered noise with LFO modulation
+  var oceanBuf = _audioCtx.createBufferSource();
+  var oceanLen = _audioCtx.sampleRate * 4;
+  var oceanBuffer = _audioCtx.createBuffer(1, oceanLen, _audioCtx.sampleRate);
+  var oceanData = oceanBuffer.getChannelData(0);
+  for (var i = 0; i < oceanLen; i++) {
+    oceanData[i] = (Math.random() * 2 - 1);
+  }
+  oceanBuf.buffer = oceanBuffer;
+  oceanBuf.loop = true;
+
+  var oceanFilter = _audioCtx.createBiquadFilter();
+  oceanFilter.type = 'lowpass';
+  oceanFilter.frequency.value = 400;
+  oceanFilter.Q.value = 0.7;
+
+  // LFO for wave surge
+  var oceanLfo = _audioCtx.createOscillator();
+  var oceanLfoGain = _audioCtx.createGain();
+  oceanLfo.frequency.value = 0.12;
+  oceanLfoGain.gain.value = 200;
+  oceanLfo.connect(oceanLfoGain);
+  oceanLfoGain.connect(oceanFilter.frequency);
+  oceanLfo.start();
+
+  var oceanGain = _audioCtx.createGain();
+  oceanGain.gain.value = 0.5;
+  oceanBuf.connect(oceanFilter);
+  oceanFilter.connect(oceanGain);
+  oceanGain.connect(master);
+  oceanBuf.start();
+  _audioNodes.oceanGain = oceanGain;
+  _audioNodes.oceanBuf = oceanBuf;
+
+  // Wind — higher filtered noise
+  var windBuf = _audioCtx.createBufferSource();
+  var windLen = _audioCtx.sampleRate * 6;
+  var windBuffer = _audioCtx.createBuffer(1, windLen, _audioCtx.sampleRate);
+  var windData = windBuffer.getChannelData(0);
+  for (var i = 0; i < windLen; i++) {
+    windData[i] = (Math.random() * 2 - 1);
+  }
+  windBuf.buffer = windBuffer;
+  windBuf.loop = true;
+
+  var windFilter = _audioCtx.createBiquadFilter();
+  windFilter.type = 'bandpass';
+  windFilter.frequency.value = 800;
+  windFilter.Q.value = 0.5;
+
+  // Wind LFO for gusts
+  var windLfo = _audioCtx.createOscillator();
+  var windLfoGain = _audioCtx.createGain();
+  windLfo.frequency.value = 0.07;
+  windLfoGain.gain.value = 0.25;
+  windLfo.connect(windLfoGain);
+
+  var windGain = _audioCtx.createGain();
+  windGain.gain.value = 0.15;
+  windLfoGain.connect(windGain.gain);
+  windBuf.connect(windFilter);
+  windFilter.connect(windGain);
+  windGain.connect(master);
+  windBuf.start();
+  _audioNodes.windGain = windGain;
+  _audioNodes.windBuf = windBuf;
+
+  // City hum — low oscillator with harmonics
+  var cityOsc1 = _audioCtx.createOscillator();
+  cityOsc1.type = 'sine';
+  cityOsc1.frequency.value = 60;
+
+  var cityOsc2 = _audioCtx.createOscillator();
+  cityOsc2.type = 'sine';
+  cityOsc2.frequency.value = 120;
+
+  var cityGain = _audioCtx.createGain();
+  cityGain.gain.value = 0.06;
+  cityOsc1.connect(cityGain);
+  cityOsc2.connect(cityGain);
+
+  // City shimmer — subtle high noise
+  var cityNoiseBuf = _audioCtx.createBufferSource();
+  var cityNoiseLen = _audioCtx.sampleRate * 3;
+  var cityNoiseBuffer = _audioCtx.createBuffer(1, cityNoiseLen, _audioCtx.sampleRate);
+  var cityNoiseData = cityNoiseBuffer.getChannelData(0);
+  for (var i = 0; i < cityNoiseLen; i++) {
+    cityNoiseData[i] = (Math.random() * 2 - 1);
+  }
+  cityNoiseBuf.buffer = cityNoiseBuffer;
+  cityNoiseBuf.loop = true;
+
+  var cityNoiseFilter = _audioCtx.createBiquadFilter();
+  cityNoiseFilter.type = 'highpass';
+  cityNoiseFilter.frequency.value = 3000;
+  var cityNoiseGain = _audioCtx.createGain();
+  cityNoiseGain.gain.value = 0.02;
+  cityNoiseBuf.connect(cityNoiseFilter);
+  cityNoiseFilter.connect(cityNoiseGain);
+  cityNoiseGain.connect(cityGain);
+
+  cityGain.connect(master);
+  cityOsc1.start();
+  cityOsc2.start();
+  cityNoiseBuf.start();
+  _audioNodes.cityGain = cityGain;
+
+  _audioEnabled = true;
+}
+
+function updateAudioMix() {
+  if (!_audioEnabled || !_audioNodes.master) return;
+  var hour = getMacauHour();
+
+  // Time-of-day mixing
+  var isNight = hour < 6 || hour > 20;
+  var isDawn = hour >= 5 && hour < 7;
+  var isDusk = hour >= 18 && hour < 20;
+
+  // City hum: louder during day, softer at night
+  var cityVol = isNight ? 0.02 : isDawn || isDusk ? 0.04 : 0.08;
+  // Ocean: always present, slightly louder at night (less city noise)
+  var oceanVol = isNight ? 0.6 : 0.4;
+  // Wind: base level, boosted by weather
+  var windVol = 0.1;
+
+  // Weather-reactive adjustments
+  if (currentWeather) {
+    var code = currentWeather.weather_code;
+    var windSpeed = currentWeather.wind_speed_10m || 0;
+
+    // Boost wind with actual wind speed
+    windVol = Math.min(0.5, 0.08 + windSpeed / 80);
+
+    // Rain adds more high-frequency noise via wind channel
+    if (isRainyCode(code)) {
+      windVol = Math.max(windVol, isHeavyRain(code) ? 0.45 : 0.25);
+    }
+  }
+
+  // Smooth transitions (ramp over 2 seconds)
+  var t = _audioCtx.currentTime;
+  _audioNodes.cityGain.gain.linearRampToValueAtTime(cityVol, t + 2);
+  _audioNodes.oceanGain.gain.linearRampToValueAtTime(oceanVol, t + 2);
+  _audioNodes.windGain.gain.linearRampToValueAtTime(windVol, t + 2);
+}
+
+// Update audio mix every 30 seconds
+setInterval(updateAudioMix, 30000);
+
+// Audio toggle
+document.getElementById('audio-toggle').addEventListener('click', function() {
+  if (!_audioCtx) {
+    initAudio();
+    updateAudioMix();
+    this.textContent = '\u266B Sound On';
+    this.classList.add('active');
+  } else if (_audioCtx.state === 'suspended') {
+    _audioCtx.resume();
+    this.textContent = '\u266B Sound On';
+    this.classList.add('active');
+    _audioEnabled = true;
+  } else if (_audioEnabled) {
+    _audioCtx.suspend();
+    this.textContent = '\u266B Sound Off';
+    this.classList.remove('active');
+    _audioEnabled = false;
+  }
+});
 
 // ── Initialize ──
 init();
