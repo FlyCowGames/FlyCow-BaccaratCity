@@ -51,6 +51,12 @@
 - **Lesson:** `translucencyByDistance` with far value of 0.0 (fully transparent) helps cars fade out completely at bird's eye views where they'd be too small to see anyway — reduces visual clutter.
 - **Lesson:** Session was very efficient (~5 min implementation) because the ferry pattern was proven and only needed new route data + smaller icons. Building on proven patterns is fast.
 
+## Session 7 Meta-Observations
+- **Observation:** Session was one of the fastest — pattern reuse from Session 4 (ferries) made traffic implementation near-trivial. Code grew by ~130 lines vs 117 for ferries, mostly route data.
+- **Observation:** The "Required Skills" in the prompt are still listed but not used (confirmed again). No harm — the agent works fine without them.
+- **Decision:** Did not modify improve.mjs — orchestrator is stable. No phases felt redundant.
+- **Observation:** All immediate priorities (Sessions 2-10) in the roadmap are now complete. Next session should pick from near-term goals or add a new immediate priority.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
