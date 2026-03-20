@@ -78,6 +78,14 @@
 - **Decision:** Did not modify improve.mjs — orchestrator remains stable.
 - **Suggestion for future sessions:** Next high-impact features should focus on interactivity (landmark info popups, click-to-explore) or the Prime Directive's signature feature (casino interior / baccarat tables). Audio could be enhanced later with more layers (traffic sounds, distant music for casino areas) but the foundation is solid.
 
+## Session 10 (2026-03-20) -- Landmark Info Cards
+- **Lesson:** Rich data (descriptions, facts, year, type) added directly to the LANDMARKS array keeps everything in one place — no separate data file needed for 8 items.
+- **Lesson:** CSS modal pattern (fixed overlay + backdrop + card with transform animation) works well for info cards on top of CesiumJS. `pointer-events: none` on the container, `auto` when visible, prevents blocking 3D interaction.
+- **Lesson:** Connecting explore panel clicks to landmark info cards via `LANDMARKS.find(l => l.name === item.name)` is simple name-matching that works because landmark names are unique. No need for IDs.
+- **Lesson:** `setTimeout(showCard, 800)` after `flyTo` gives the camera enough time to start moving before the card appears, making the transition feel intentional rather than jarring.
+- **Observation:** This is the first interactivity feature — shifting from passive viewing to active exploration. The info card transforms "look at landmark" into "learn about landmark."
+- **Suggestion for future sessions:** Next high-impact features: casino interior (baccarat tables — the Prime Directive's signature feature), or more interactivity like time slider, minimap, or search.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

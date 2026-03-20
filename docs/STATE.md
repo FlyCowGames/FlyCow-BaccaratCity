@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-20 (Session 9)
+## Last Updated: 2026-03-20 (Session 10)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -16,6 +16,7 @@
 - **Airport flights**: 4 planes on 2 routes (approach from south descending, departure north climbing), continuously animating
 - **Neon casino glow**: 11 glow zones with bloom post-processing, active at night (19:00-05:00) with dusk/dawn ramps
 - **Ambient audio**: 3-layer procedural soundscape (ocean, wind, city hum) via Web Audio API, time-of-day + weather reactive
+- **Landmark info cards**: click any landmark to see a rich popup with description, history, facts, type, and year
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -24,7 +25,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~1842 lines, ~61KB)
+- Single HTML file (~2027 lines, ~70KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -46,10 +47,11 @@
 - **Airport flights**: 4 planes approaching and departing Macau International Airport
 - **Neon casino glow** at night with radial light billboard entities
 - **Ambient audio** soundscape with mute/unmute toggle
+- **Landmark info cards** with descriptions, facts, history (click any landmark)
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)
 - Casino interior / baccarat tables
 - ~~Audio~~ (Done Session 9 — ambient soundscape)
-- Interactive exploration (click buildings for info)
+- ~~Interactive exploration (click buildings for info)~~ (Done Session 10 — landmark info cards)
 - Typhoon signal weather effects (T1-T10)

@@ -76,6 +76,15 @@
 - Updated subtitle to include "Ambient Sound"
 - File grew from ~1631 to ~1842 lines
 
+## Session 10 — 2026-03-20 (Automated Agent)
+- Landmark info cards: click any landmark (3D billboard or Explore panel) to see a rich info popup
+- 8 landmarks enriched with descriptions, historical facts, type, and year data
+- Info card UI: dark/gold theme, emoji + name + Chinese, meta tags (type/year), description, diamond-bulleted facts
+- Dismiss via close button, backdrop click, or Escape key
+- Explore panel landmarks and casinos also trigger info cards via name matching
+- Updated hint text: "click landmark for info"
+- File grew from ~1842 to ~2027 lines
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

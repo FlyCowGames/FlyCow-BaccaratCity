@@ -143,6 +143,22 @@
       ],
       "linesAdded": 210,
       "agent": "automated"
+    },
+    {
+      "session": 10,
+      "date": "2026-03-20",
+      "title": "Landmark Info Cards",
+      "domain": "interactivity",
+      "summary": "Click any landmark to see a rich info popup with description, historical facts, type, and year.",
+      "details": [
+        "8 landmarks enriched with descriptions, facts, type (Casino/Temple/Heritage), and year",
+        "Dark/gold themed info card with emoji, name, Chinese name, meta tags, description, and bulleted facts",
+        "Triggered from both 3D billboard clicks and Explore panel selections",
+        "Dismiss via close button, backdrop click, or Escape key",
+        "Smooth CSS transitions: card slides up with backdrop fade"
+      ],
+      "linesAdded": 185,
+      "agent": "automated"
     }
   ]
 }

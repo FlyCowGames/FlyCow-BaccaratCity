@@ -294,6 +294,95 @@
     line-height: 1.4;
   }
 
+  /* ── Landmark Info Card ── */
+  #landmark-card {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 200; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.4s ease;
+  }
+  #landmark-card.visible { opacity: 1; pointer-events: auto; }
+  #landmark-card-backdrop {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10,10,18,0.6);
+  }
+  .lm-card {
+    position: relative;
+    width: min(420px, 90vw);
+    background: rgba(10,10,18,0.95);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 4px;
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  #landmark-card.visible .lm-card { transform: translateY(0); }
+  .lm-card-accent {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  }
+  .lm-card-header {
+    padding: 20px 24px 12px;
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .lm-card-emoji {
+    font-size: 2rem; line-height: 1; flex-shrink: 0;
+  }
+  .lm-card-titles { flex: 1; }
+  .lm-card-name {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 1.1rem; color: #d4af37;
+    letter-spacing: 0.08em;
+  }
+  .lm-card-chinese {
+    font-family: 'Noto Sans SC', sans-serif; font-weight: 300;
+    font-size: 0.85rem; color: rgba(212,175,55,0.5);
+    margin-top: 2px;
+  }
+  .lm-card-close {
+    position: absolute; top: 12px; right: 14px;
+    cursor: pointer; pointer-events: auto;
+    font-size: 1.2rem; color: rgba(212,175,55,0.4);
+    background: none; border: none;
+    transition: color 0.2s;
+    font-family: 'DM Mono', monospace;
+  }
+  .lm-card-close:hover { color: #d4af37; }
+  .lm-card-meta {
+    padding: 0 24px 12px;
+    display: flex; gap: 16px;
+    font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    color: rgba(255,255,255,0.3); letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .lm-card-meta span { display: flex; align-items: center; gap: 4px; }
+  .lm-card-divider {
+    margin: 0 24px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(212,175,55,0.15), rgba(212,175,55,0.08), transparent);
+  }
+  .lm-card-body {
+    padding: 14px 24px 8px;
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.75rem; line-height: 1.7;
+    color: rgba(232,224,208,0.7);
+  }
+  .lm-card-facts {
+    padding: 8px 24px 20px;
+    list-style: none;
+  }
+  .lm-card-facts li {
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.68rem; color: rgba(212,175,55,0.5);
+    padding: 3px 0 3px 14px;
+    position: relative; line-height: 1.5;
+  }
+  .lm-card-facts li::before {
+    content: '\25C6'; position: absolute; left: 0;
+    color: rgba(212,175,55,0.3); font-size: 0.5rem; top: 5px;
+  }
+
   /* Vignette */
   #vignette {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -371,10 +460,29 @@
 
   <div id="hints">
     scroll to zoom &middot; drag to orbit<br>
-    click landmark to fly there
+    click landmark for info
   </div>
 
   <button id="replay-btn">&#9654; Replay Flythrough</button>
+
+  <div id="landmark-card">
+    <div id="landmark-card-backdrop"></div>
+    <div class="lm-card">
+      <div class="lm-card-accent"></div>
+      <button class="lm-card-close">&times;</button>
+      <div class="lm-card-header">
+        <div class="lm-card-emoji" id="lmc-emoji"></div>
+        <div class="lm-card-titles">
+          <div class="lm-card-name" id="lmc-name"></div>
+          <div class="lm-card-chinese" id="lmc-chinese"></div>
+        </div>
+      </div>
+      <div class="lm-card-meta" id="lmc-meta"></div>
+      <div class="lm-card-divider"></div>
+      <div class="lm-card-body" id="lmc-desc"></div>
+      <ul class="lm-card-facts" id="lmc-facts"></ul>
+    </div>
+  </div>
 
   <div id="attractions-toggle">EXPLORE</div>
   <div id="attractions-panel">
@@ -407,16 +515,40 @@ const TILES_URL = 'https://tile.googleapis.com/v1/3dtiles/root.json?key=' + GOOG
 const MACAU_LAT = 22.1987;
 const MACAU_LON = 113.5439;
 
-// Landmarks
+// Landmarks (with info card data)
 const LANDMARKS = [
-  { name: "Grand Lisboa",        chinese: "\u65B0\u8461\u4EAC",     emoji: "\uD83C\uDFB0",       lat: 22.1893, lon: 113.5390 },
-  { name: "The Venetian",        chinese: "\u5A01\u5C3C\u65AF\u4EBA", emoji: "\uD83C\uDFB0",     lat: 22.1494, lon: 113.5590 },
-  { name: "Macau Tower",         chinese: "\u6FB3\u9580\u65C5\u904A\u5854", emoji: "\uD83D\uDDFC", lat: 22.1801, lon: 113.5318 },
-  { name: "Ruins of St. Paul's", chinese: "\u5927\u4E09\u5DF4",     emoji: "\uD83C\uDFDB\uFE0F", lat: 22.1974, lon: 113.5410 },
-  { name: "Galaxy Macau",        chinese: "\u9280\u6CB3",           emoji: "\uD83C\uDFB0",       lat: 22.1487, lon: 113.5544 },
-  { name: "Wynn Palace",         chinese: "\u6C38\u5229\u7687\u5BAE", emoji: "\uD83C\uDFB0",     lat: 22.1478, lon: 113.5630 },
-  { name: "A-Ma Temple",         chinese: "\u5ABD\u95A3\u5EDF",     emoji: "\u26E9\uFE0F",       lat: 22.1868, lon: 113.5311 },
-  { name: "City of Dreams",      chinese: "\u65B0\u6FE0\u5929\u5730", emoji: "\uD83C\uDFB0",     lat: 22.1486, lon: 113.5586 },
+  { name: "Grand Lisboa", chinese: "\u65B0\u8461\u4EAC", emoji: "\uD83C\uDFB0",
+    lat: 22.1893, lon: 113.5390, type: "Casino & Hotel", year: "2008",
+    desc: "The Grand Lisboa is Macau's most iconic building \u2014 a 258-metre lotus-shaped tower that dominates the peninsula skyline. Designed by Dennis Lau & Ng Chun Man Architects, it houses the world's largest casino floor and holds the famous Star of Stanley Ho, a 218.08-carat diamond.",
+    facts: ["258m tall \u2014 tallest building in Macau", "Shaped like a blooming lotus flower", "Houses the 218-carat Star of Stanley Ho diamond", "Over 800 gaming tables across multiple floors"] },
+  { name: "The Venetian", chinese: "\u5A01\u5C3C\u65AF\u4EBA", emoji: "\uD83C\uDFB0",
+    lat: 22.1494, lon: 113.5590, type: "Integrated Resort", year: "2007",
+    desc: "The Venetian Macao is the largest casino in the world by floor area, modelled after its Las Vegas sister. Its 550,000 sq ft gaming floor hosts over 3,000 slot machines. Inside, a quarter-mile Grand Canal with singing gondoliers recreates Venice under a painted sky ceiling.",
+    facts: ["Largest casino in the world by floor area", "3,000+ slot machines and 800+ gaming tables", "Indoor canal with real gondola rides", "15,000-seat Cotai Arena for concerts and events"] },
+  { name: "Macau Tower", chinese: "\u6FB3\u9580\u65C5\u904A\u5854", emoji: "\uD83D\uDDFC",
+    lat: 22.1801, lon: 113.5318, type: "Observation Tower", year: "2001",
+    desc: "Standing 338 metres above Nam Van Lake, the Macau Tower Convention & Entertainment Centre was designed by Gordon Moller. Its observation deck at 223m offers panoramic views stretching 55km on clear days. Thrill-seekers can attempt the world's highest commercial bungee jump from 233 metres.",
+    facts: ["338m tall \u2014 10th tallest freestanding tower in the world", "World's highest commercial bungee jump (233m)", "Revolving restaurant completes a rotation every 90 minutes", "Skywalk X lets visitors walk around the outer rim at 233m"] },
+  { name: "Ruins of St. Paul's", chinese: "\u5927\u4E09\u5DF4", emoji: "\uD83C\uDFDB\uFE0F",
+    lat: 22.1974, lon: 113.5410, type: "UNESCO Heritage", year: "1602",
+    desc: "The iconic stone facade is all that remains of the Church of Mater Dei, once the largest Catholic church in East Asia. Built in 1602\u20131640, it was destroyed by a typhoon-sparked fire in 1835. The surviving facade blends Renaissance and Oriental stone carvings, and has been a UNESCO World Heritage Site since 2005.",
+    facts: ["Built 1602\u20131640 by Japanese Christian exiles and Chinese craftsmen", "Largest Catholic church in East Asia before the 1835 fire", "UNESCO World Heritage Site since 2005", "Facade carvings mix Christian imagery with Chinese and Japanese motifs"] },
+  { name: "Galaxy Macau", chinese: "\u9280\u6CB3", emoji: "\uD83C\uDFB0",
+    lat: 22.1487, lon: 113.5544, type: "Integrated Resort", year: "2011",
+    desc: "Galaxy Macau is a mega-resort on the Cotai Strip featuring the world's largest rooftop wave pool, a 575-metre lazy river, and the Grand Resort Deck \u2014 a 75,000 sq m tropical paradise. The complex spans five interconnected hotel towers with over 3,500 rooms.",
+    facts: ["World's largest rooftop wave pool with 1.5m waves", "575-metre lazy river through tropical gardens", "3,500+ hotel rooms across five towers", "UA Galaxy cinema with IMAX screen"] },
+  { name: "Wynn Palace", chinese: "\u6C38\u5229\u7687\u5BAE", emoji: "\uD83C\uDFB0",
+    lat: 22.1478, lon: 113.5630, type: "Casino & Hotel", year: "2016",
+    desc: "Wynn Palace is a US$4.2 billion luxury resort on the Cotai Strip, known for its spectacular Performance Lake \u2014 a choreographed fountain show set to music with flames and LED lights. SkyCabs (cable cars) carry guests over the lake for a bird's eye view of the water ballet.",
+    facts: ["US$4.2 billion construction cost", "Performance Lake with choreographed water, fire, and light shows", "SkyCab cable cars over the fountain lake", "Largest collection of floral sculptures by Preston Bailey"] },
+  { name: "A-Ma Temple", chinese: "\u5ABD\u95A3\u5EDF", emoji: "\u26E9\uFE0F",
+    lat: 22.1868, lon: 113.5311, type: "Temple & Heritage", year: "1488",
+    desc: "A-Ma Temple is Macau's oldest temple, predating the arrival of the Portuguese by decades. Dedicated to Mazu, goddess of the sea, it gave Macau its name \u2014 Portuguese sailors heard locals say 'A-Ma-Gao' (Bay of A-Ma) and adapted it. The temple complex spans six pavilions along the hillside of Barra.",
+    facts: ["Built around 1488 \u2014 oldest temple in Macau", "Gave Macau its name: A-Ma-Gao (Bay of A-Ma)", "UNESCO World Heritage Site since 2005", "Dedicated to Mazu, goddess of seafarers"] },
+  { name: "City of Dreams", chinese: "\u65B0\u6FE0\u5929\u5730", emoji: "\uD83C\uDFB0",
+    lat: 22.1486, lon: 113.5586, type: "Integrated Resort", year: "2009",
+    desc: "City of Dreams is an entertainment complex on the Cotai Strip anchored by the sculptural Morpheus tower, designed by the late Zaha Hadid. The world's first free-form exoskeleton high-rise, Morpheus resembles a twisted figure-eight carved from steel and glass. The resort features The House of Dancing Water, a US$250 million aquatic spectacular.",
+    facts: ["Morpheus tower \u2014 world's first free-form exoskeleton high-rise", "Designed by Zaha Hadid Architects (completed 2018)", "The House of Dancing Water \u2014 US$250M aquatic show", "Over 1,600 hotel rooms across three towers"] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -705,7 +837,7 @@ function addLandmarks(viewer) {
     });
   });
 
-  // Click landmark to fly
+  // Click landmark to fly + show info card
   var clickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
   clickHandler.setInputAction(function(click) {
     var picked = viewer.scene.pick(click.position);
@@ -724,11 +856,60 @@ function addLandmarks(viewer) {
             duration: 2.5,
             easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
           });
+          // Show info card after camera starts moving
+          setTimeout(function() { showLandmarkCard(lm); }, 800);
         }
       } catch(e) { /* ignore non-landmark clicks */ }
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 }
+
+// ── Landmark Info Card ──
+function showLandmarkCard(lm) {
+  var card = document.getElementById('landmark-card');
+  document.getElementById('lmc-emoji').textContent = lm.emoji || '';
+  document.getElementById('lmc-name').textContent = lm.name;
+  document.getElementById('lmc-chinese').textContent = lm.chinese;
+  document.getElementById('lmc-desc').textContent = lm.desc || '';
+
+  // Meta tags (type + year)
+  var metaEl = document.getElementById('lmc-meta');
+  metaEl.innerHTML = '';
+  if (lm.type) {
+    var s1 = document.createElement('span');
+    s1.textContent = lm.type;
+    metaEl.appendChild(s1);
+  }
+  if (lm.year) {
+    var s2 = document.createElement('span');
+    s2.textContent = 'Est. ' + lm.year;
+    metaEl.appendChild(s2);
+  }
+
+  // Facts
+  var factsEl = document.getElementById('lmc-facts');
+  factsEl.innerHTML = '';
+  if (lm.facts && lm.facts.length) {
+    lm.facts.forEach(function(f) {
+      var li = document.createElement('li');
+      li.textContent = f;
+      factsEl.appendChild(li);
+    });
+  }
+
+  card.classList.add('visible');
+}
+
+function hideLandmarkCard() {
+  document.getElementById('landmark-card').classList.remove('visible');
+}
+
+// Close card: click backdrop, close button, or Escape key
+document.getElementById('landmark-card-backdrop').addEventListener('click', hideLandmarkCard);
+document.querySelector('.lm-card-close').addEventListener('click', hideLandmarkCard);
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') hideLandmarkCard();
+});
 
 function createLandmarkCanvas(lm) {
   var canvas = document.createElement('canvas');
@@ -1553,6 +1734,11 @@ function flyToAttraction(item) {
     duration: 3,
     easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
   });
+  // Show info card if this attraction has a matching landmark with details
+  var lm = LANDMARKS.find(function(l) { return l.name === item.name; });
+  if (lm && lm.desc) {
+    setTimeout(function() { showLandmarkCard(lm); }, 800);
+  }
 }
 
 function buildAttractionItem(item, badge) {

@@ -40,7 +40,7 @@
 
 ## Interactivity
 - [ ] Click casino → enter and see baccarat tables
-- [ ] Click landmark → info popup with history
+- [x] Click landmark → info popup with history (Session 10: rich info cards with description, facts, year, type)
 - [ ] Time slider to preview any time of day
 - [ ] Minimap for navigation
 - [ ] Search for landmarks
