@@ -119,6 +119,7 @@ Reflect on your own process and improve it:
 - Be bold with ideas, disciplined with implementation.
 - Living documents (ROADMAP, IDEAS, LEARNINGS) should evolve every session.
 - IMPROVE YOURSELF: update this script, CLAUDE.md, or docs if you see a way to make the process better.
+- CRITICAL: You MUST complete phases 6 (deploy) and 7 (evolve/git) before finishing. Deploy to S3 and git commit+push are non-negotiable final steps.
 PROMPT_EOF
 )
 
@@ -132,7 +133,7 @@ cd "$PROJECT_DIR"
 claude -p \
   --dangerously-skip-permissions \
   --model claude-opus-4-6 \
-  --max-budget-usd 5 \
+  --max-budget-usd 10 \
   "$PROMPT" \
   2>&1 | tee -a "$LOG_FILE"
 
