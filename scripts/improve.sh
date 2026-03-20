@@ -88,6 +88,7 @@ Update the living documents:
 ## Required Skills (invoke these via slash commands)
 You have access to 52+ skills via the .claude/skills/ directory. USE THEM. Key skills for this project:
 
+- **/frontend-design** — MUST invoke for ALL visual/UI/frontend work. Generates distinctive, production-grade interfaces. Avoids generic AI aesthetics. Bold typography, color, motion, spatial composition.
 - **/brainstorming** — MUST invoke before any creative/design work. Explores intent, requirements, and design before implementation.
 - **/writing-plans** — MUST invoke when planning multi-step implementation. Creates structured plans with dependencies.
 - **/systematic-debugging** — MUST invoke when encountering any bug or unexpected behavior. Diagnose before fixing.
