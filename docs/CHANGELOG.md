@@ -34,6 +34,18 @@
 - File grew from ~850 to ~967 lines
 - First animated "life" in the digital twin — city is no longer static
 
+## Session 6 — 2026-03-20 (Automated Agent)
+- Neon casino glow system: 11 glow zones across Cotai Strip, Peninsula, and waterfront
+- CesiumJS bloom post-processing (built-in `postProcessStages.bloom`) enabled at night
+- Canvas radial gradient billboards as neon light sources (64px low + 96px high altitude)
+- Time-of-day modulation: full glow 19:00-05:00, ramp at dusk/dawn, off during day
+- Bloom parameters dynamically adjust with glow intensity (brightness, delta, sigma)
+- Major casinos (intensity >= 0.85) get secondary high-altitude glow visible from afar
+- Color-coded zones: gold for most casinos, purple for City of Dreams, warm amber for waterfront
+- UI indicator shows "Casino Neon X%" in top-left during glow hours
+- Updated subtitle to "Neon City"
+- File grew from ~967 to ~1135 lines
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

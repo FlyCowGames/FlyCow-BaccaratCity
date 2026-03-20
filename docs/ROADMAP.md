@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-20 (Session 4)*
+*This document evolves every session. Last updated: 2026-03-20 (Session 6)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -9,7 +9,7 @@
 2. ~~**Weather integration**~~ — Done (Session 3: Open-Meteo API, rain, fog, cloud dimming)
 3. **Animated traffic** — Cars moving along main Macau roads (polyline paths)
 4. ~~**Ferry boats**~~ — Done (Session 4: 5 ferries, 2 routes, continuous animation)
-5. **Neon/glow effects** — CesiumJS post-processing bloom on casino district at night
+5. ~~**Neon/glow effects**~~ — Done (Session 6: bloom post-processing, 11 neon zones, time-of-day modulation)
 
 ### Near-Term (Sessions 10-30)
 - Casino interior transition (click Grand Lisboa → Three.js baccarat room)
@@ -45,3 +45,4 @@
 - Real-time day/night cycle (Session 2)
 - Live weather: Open-Meteo API, rain/fog effects, cloud dimming (Session 3)
 - Animated ferry boats: 2 routes, 5 ferries, continuous harbor movement (Session 4)
+- Neon casino glow: bloom post-processing, 11 zones, time-of-day modulation (Session 6)

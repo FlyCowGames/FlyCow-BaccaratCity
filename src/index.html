@@ -181,6 +181,16 @@
   }
   #stage-label.show { opacity: 1; }
 
+  /* Night glow indicator */
+  #glow-indicator {
+    position: absolute; top: 32px; left: 32px;
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.6rem; color: rgba(212,175,55,0.3);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    opacity: 0; transition: opacity 2s ease;
+  }
+  #glow-indicator.visible { opacity: 1; }
+
   /* Vignette */
   #vignette {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -234,11 +244,13 @@
   <div id="title-block">
     <div id="title">BACCARAT CITY</div>
     <div id="tagline">百家樂之城 &middot; 澳門風雲</div>
-    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather &middot; Living City</div>
+    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather &middot; Neon City</div>
     <div id="title-line"></div>
   </div>
 
   <div id="stage-label"></div>
+
+  <div id="glow-indicator"></div>
 
   <div id="weather-block">
     <div id="weather-icon"></div>
@@ -512,9 +524,11 @@ async function init() {
     // Apply weather effects now that viewer is ready
     if (currentWeather) applyWeatherEffects(currentWeather);
 
-    // Add landmarks and ferries
+    // Add landmarks, ferries, and neon glow
     addLandmarks(viewer);
     addFerries(viewer);
+    addNeonGlow(viewer);
+    updateNeonGlow(); // apply immediately
 
     // Start flythrough
     runFlythrough(viewer);
@@ -958,6 +972,160 @@ function addFerries(viewer) {
     }
   });
 }
+
+// ── Neon Casino Glow System ──
+// Key casino/entertainment areas that glow at night
+var NEON_ZONES = [
+  // Cotai Strip casinos
+  { name: 'Venetian Glow',      lon: 113.5590, lat: 22.1494, color: [255, 220, 100], intensity: 1.0 },
+  { name: 'City of Dreams Glow', lon: 113.5586, lat: 22.1486, color: [180, 140, 255], intensity: 0.9 },
+  { name: 'Galaxy Glow',        lon: 113.5544, lat: 22.1487, color: [255, 200, 80],  intensity: 1.0 },
+  { name: 'Wynn Palace Glow',   lon: 113.5630, lat: 22.1478, color: [255, 180, 60],  intensity: 0.85 },
+  // Cotai fill lights
+  { name: 'Cotai East',         lon: 113.5610, lat: 22.1505, color: [255, 210, 90],  intensity: 0.6 },
+  { name: 'Cotai West',         lon: 113.5555, lat: 22.1500, color: [220, 180, 100], intensity: 0.5 },
+  // Peninsula
+  { name: 'Grand Lisboa Glow',  lon: 113.5390, lat: 22.1893, color: [255, 215, 0],   intensity: 1.0 },
+  { name: 'Lisboa Area',        lon: 113.5400, lat: 22.1905, color: [255, 190, 70],  intensity: 0.7 },
+  { name: 'Wynn Macau Glow',    lon: 113.5410, lat: 22.1930, color: [255, 200, 100], intensity: 0.7 },
+  // Waterfront
+  { name: 'NAPE District',      lon: 113.5440, lat: 22.1870, color: [255, 200, 120], intensity: 0.5 },
+  { name: 'Fisherman\'s Wharf', lon: 113.5510, lat: 22.1920, color: [200, 180, 140], intensity: 0.4 },
+];
+
+var _bloomStage = null;
+var _neonEntities = [];
+var _currentGlowIntensity = 0;
+
+function createNeonIcon(color, size) {
+  var canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  var ctx = canvas.getContext('2d');
+  var cx = size / 2, cy = size / 2, r = size / 2;
+
+  // Radial gradient — bright center fading to transparent
+  var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+  grad.addColorStop(0, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.9)');
+  grad.addColorStop(0.3, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.4)');
+  grad.addColorStop(0.7, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.1)');
+  grad.addColorStop(1, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fill();
+
+  return canvas;
+}
+
+function addNeonGlow(viewer) {
+  // Add bloom post-processing
+  _bloomStage = viewer.scene.postProcessStages.bloom;
+  _bloomStage.enabled = false; // start disabled, will activate at night
+  _bloomStage.uniforms.glowOnly = false;
+  _bloomStage.uniforms.contrast = 119;
+  _bloomStage.uniforms.brightness = -0.2;
+  _bloomStage.uniforms.delta = 0.9;
+  _bloomStage.uniforms.sigma = 3.78;
+  _bloomStage.uniforms.stepSize = 5.0;
+
+  // Add neon light entities at each casino zone
+  NEON_ZONES.forEach(function(zone) {
+    var icon = createNeonIcon(zone.color, 64);
+    var entity = viewer.entities.add({
+      name: zone.name,
+      position: Cesium.Cartesian3.fromDegrees(zone.lon, zone.lat, 50),
+      billboard: {
+        image: icon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: 1.0,
+        scaleByDistance: new Cesium.NearFarScalar(200, 3.0, 8000, 1.0),
+        translucencyByDistance: new Cesium.NearFarScalar(200, 1.0, 15000, 0.4),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      _neonZone: zone, // custom reference
+    });
+    _neonEntities.push({ entity: entity, zone: zone });
+  });
+
+  // Add secondary higher-altitude glow for major casinos (visible from afar)
+  var majorZones = NEON_ZONES.filter(function(z) { return z.intensity >= 0.85; });
+  majorZones.forEach(function(zone) {
+    var highIcon = createNeonIcon(zone.color, 96);
+    var entity = viewer.entities.add({
+      name: zone.name + ' High',
+      position: Cesium.Cartesian3.fromDegrees(zone.lon, zone.lat, 150),
+      billboard: {
+        image: highIcon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: 0.8,
+        scaleByDistance: new Cesium.NearFarScalar(500, 2.5, 15000, 0.6),
+        translucencyByDistance: new Cesium.NearFarScalar(500, 0.7, 20000, 0.1),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    _neonEntities.push({ entity: entity, zone: zone, isHigh: true });
+  });
+}
+
+function updateNeonGlow() {
+  if (!_viewer || !_bloomStage) return;
+
+  var hour = getMacauHour();
+  var glowIntensity = 0;
+
+  // Calculate glow intensity based on time of day
+  if (hour >= 19 || hour < 5) {
+    // Full night: full glow
+    glowIntensity = 1.0;
+  } else if (hour >= 18) {
+    // Dusk: ramp up (18:00 → 19:00)
+    glowIntensity = (hour - 18);
+  } else if (hour >= 5 && hour < 6.5) {
+    // Dawn: ramp down (5:00 → 6:30)
+    glowIntensity = 1.0 - (hour - 5) / 1.5;
+  } else {
+    // Daytime: no glow
+    glowIntensity = 0;
+  }
+
+  glowIntensity = Math.max(0, Math.min(1, glowIntensity));
+  _currentGlowIntensity = glowIntensity;
+
+  // Enable/disable bloom
+  if (glowIntensity > 0.05) {
+    _bloomStage.enabled = true;
+    _bloomStage.uniforms.brightness = -0.3 + glowIntensity * 0.15;
+    _bloomStage.uniforms.delta = 0.6 + glowIntensity * 0.5;
+    _bloomStage.uniforms.sigma = 2.5 + glowIntensity * 2.0;
+  } else {
+    _bloomStage.enabled = false;
+  }
+
+  // Update neon entity visibility/brightness
+  _neonEntities.forEach(function(item) {
+    var show = glowIntensity > 0.05;
+    item.entity.show = show;
+    if (show) {
+      var scale = item.isHigh ? 0.5 + glowIntensity * 0.5 : 0.6 + glowIntensity * 0.6;
+      item.entity.billboard.scale = scale * item.zone.intensity;
+    }
+  });
+
+  // Update glow indicator in UI
+  var glowEl = document.getElementById('glow-indicator');
+  if (glowIntensity > 0.1) {
+    glowEl.textContent = 'Casino Neon ' + Math.round(glowIntensity * 100) + '%';
+    glowEl.classList.add('visible');
+  } else {
+    glowEl.classList.remove('visible');
+  }
+}
+
+// Update glow every 10 seconds (doesn't need per-frame)
+setInterval(updateNeonGlow, 10000);
 
 // ── Initialize ──
 init();

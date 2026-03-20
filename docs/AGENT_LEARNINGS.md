@@ -29,6 +29,14 @@
 - **Lesson:** `disableDepthTestDistance: Number.POSITIVE_INFINITY` is essential for small moving entities to remain visible — without it they'd clip behind 3D tiles at certain angles.
 - **Lesson:** Ferry altitude of 3m (water surface level) works well with Google 3D Tiles — the boats appear to sit on the water.
 
+## Session 6 (2026-03-20) -- Neon Casino Glow
+- **Lesson:** CesiumJS `viewer.scene.postProcessStages.bloom` is a built-in ready-to-use bloom stage — no need to create one via `PostProcessStageLibrary`. Just access and configure its uniforms.
+- **Lesson:** Canvas radial gradients make effective "light source" billboards — a 64px canvas with a bright-center-to-transparent gradient creates a convincing glow orb when combined with bloom.
+- **Lesson:** Bloom `contrast` and `brightness` uniforms are the most impactful for controlling how "glowy" the scene looks. High contrast (~119) with slightly negative brightness (-0.2 to -0.15) avoids washing out the whole scene while making bright elements pop.
+- **Lesson:** Time-of-day glow modulation should use smooth ramps at dusk/dawn (1 hour each) rather than hard on/off — avoids jarring transitions as users watch.
+- **Lesson:** Adding high-altitude secondary glow entities (150m) for major casinos helps the glow remain visible from bird's eye views where ground-level entities would be too small.
+- **Lesson:** The `updateNeonGlow()` function only needs to run every 10 seconds since time changes slowly — no need for per-frame updates like ferry positions.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
