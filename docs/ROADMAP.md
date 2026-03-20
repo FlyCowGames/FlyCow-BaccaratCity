@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-20 (Session 10)*
+*This document evolves every session. Last updated: 2026-03-20 (Session 11)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -12,7 +12,7 @@
 5. ~~**Neon/glow effects**~~ — Done (Session 6: bloom post-processing, 11 neon zones, time-of-day modulation)
 
 ### Near-Term (Sessions 10-30)
-- Casino interior transition (click Grand Lisboa → Three.js baccarat room)
+- ~~Casino interior transition~~ — Done (Session 11: interactive baccarat table at any casino)
 - Guia Circuit road path for F3 event
 - ~~Airport planes (approach/takeoff animations)~~ — Done (Session 8)
 - ~~Landmark info popups~~ — Done (Session 10: click landmark for rich info card with description, facts, history)
@@ -50,3 +50,4 @@
 - Airport flights: 4 planes, 2 routes (approach + departure), altitude interpolation (Session 8)
 - Ambient audio: 3-layer procedural Web Audio API soundscape, time/weather reactive (Session 9)
 - Landmark info cards: click any landmark for rich popup with description, history, facts (Session 10)
+- Interactive baccarat: click casino → play Punto Banco with proper rules, animated dealing (Session 11)

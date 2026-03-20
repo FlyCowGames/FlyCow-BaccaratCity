@@ -86,6 +86,16 @@
 - **Observation:** This is the first interactivity feature — shifting from passive viewing to active exploration. The info card transforms "look at landmark" into "learn about landmark."
 - **Suggestion for future sessions:** Next high-impact features: casino interior (baccarat tables — the Prime Directive's signature feature), or more interactivity like time slider, minimap, or search.
 
+## Session 11 (2026-03-20) -- Interactive Baccarat Table
+- **Lesson:** A 2D game overlay on top of CesiumJS is the right approach for "casino interior" — no need for a full 3D room. A CSS/JS card game provides immediate interactivity without WebGL complexity.
+- **Lesson:** Baccarat Punto Banco rules are simple enough to implement in ~80 lines of JS. The third-card rules look complex but are just a lookup table based on banker's score and player's third card value.
+- **Lesson:** Animated card dealing (face-down → reveal → third card → result) using `setTimeout` steps creates engaging pacing. 400ms between cards, 500ms for reveal, 600ms for banker reveal works well.
+- **Lesson:** Using the landmark `type` field to determine which landmarks get the "Enter Casino" button is clean — `type.indexOf('Casino') !== -1 || type.indexOf('Resort') !== -1` catches all 6 casino landmarks.
+- **Lesson:** An 8-deck shoe (shuffled once, reshuffled when < 20 cards remain) is more realistic than shuffling per hand. Fisher-Yates shuffle is the standard.
+- **Lesson:** Color-coding Player (blue) vs Banker (red) follows real casino convention and makes the UI immediately readable.
+- **Observation:** This is the signature feature per the Prime Directive ("Baccarat is the Soul"). After 10 sessions of visual/atmospheric improvements, adding the defining interactive feature feels like crossing a major milestone.
+- **Suggestion for future sessions:** The baccarat game could be enhanced with: betting UI, hand history/scoreboard (Big Road, Bead Plate), card flip animations (CSS 3D transforms), sound effects on deal/win. But the current version is functional and engaging.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

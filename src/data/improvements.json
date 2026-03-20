@@ -159,6 +159,23 @@
       ],
       "linesAdded": 185,
       "agent": "automated"
+    },
+    {
+      "session": 11,
+      "date": "2026-03-20",
+      "title": "Interactive Baccarat Table",
+      "domain": "interactivity",
+      "summary": "Click any casino landmark to play baccarat with proper Punto Banco rules, animated card dealing, and session stats.",
+      "details": [
+        "Enter Casino button on casino/resort landmark info cards (6 casinos)",
+        "Full baccarat game overlay with green felt table and gold accents",
+        "Proper Punto Banco rules: 8-deck shoe, naturals, third-card drawing rules",
+        "Animated card dealing: face-down sequence, reveal, third card, result",
+        "Player (blue) vs Banker (red) color coding following casino convention",
+        "Session win/loss stats tracking (Player/Banker/Tie counts)"
+      ],
+      "linesAdded": 421,
+      "agent": "automated"
     }
   ]
 }

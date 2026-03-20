@@ -382,6 +382,137 @@
     content: '\25C6'; position: absolute; left: 0;
     color: rgba(212,175,55,0.3); font-size: 0.5rem; top: 5px;
   }
+  .lm-card-enter-casino {
+    display: block; margin: 4px 24px 20px; padding: 10px 0;
+    background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.1));
+    border: 1px solid rgba(212,175,55,0.35); border-radius: 3px;
+    color: #d4af37; font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.8rem; letter-spacing: 0.15em; text-align: center;
+    cursor: pointer; transition: all 0.3s ease; text-transform: uppercase;
+  }
+  .lm-card-enter-casino:hover {
+    background: linear-gradient(135deg, rgba(212,175,55,0.35), rgba(212,175,55,0.2));
+    border-color: #d4af37; box-shadow: 0 0 20px rgba(212,175,55,0.2);
+  }
+
+  /* ── Baccarat Table Overlay ── */
+  #baccarat-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 300; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.5s ease;
+  }
+  #baccarat-overlay.visible { opacity: 1; pointer-events: auto; }
+  #baccarat-backdrop {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5,5,10,0.85);
+  }
+  .bacc-table {
+    position: relative; width: min(520px, 92vw);
+    background: radial-gradient(ellipse at 50% 40%, #0a3a1a 0%, #062810 60%, #041a0a 100%);
+    border: 3px solid rgba(212,175,55,0.5); border-radius: 180px 180px 12px 12px;
+    padding: 24px 24px 20px; overflow: hidden;
+    box-shadow: 0 0 60px rgba(212,175,55,0.15), inset 0 0 80px rgba(0,0,0,0.4);
+  }
+  .bacc-table::before {
+    content: ''; position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px;
+    border: 1px solid rgba(212,175,55,0.2); border-radius: 176px 176px 8px 8px;
+    pointer-events: none;
+  }
+  .bacc-close {
+    position: absolute; top: 16px; right: 20px; cursor: pointer;
+    font-size: 1.4rem; color: rgba(212,175,55,0.5); background: none; border: none;
+    font-family: 'DM Mono', monospace; transition: color 0.2s; z-index: 2;
+  }
+  .bacc-close:hover { color: #d4af37; }
+  .bacc-title {
+    text-align: center; font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.7rem; color: rgba(212,175,55,0.6);
+    letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 4px;
+  }
+  .bacc-casino-name {
+    text-align: center; font-family: 'Cinzel', serif; font-weight: 900;
+    font-size: 1.1rem; color: #d4af37; letter-spacing: 0.15em; margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(212,175,55,0.3);
+  }
+  .bacc-hands {
+    display: flex; gap: 16px; justify-content: center; margin-bottom: 16px;
+  }
+  .bacc-hand {
+    flex: 1; max-width: 210px; text-align: center;
+  }
+  .bacc-hand-label {
+    font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.65rem;
+    letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(212,175,55,0.15);
+  }
+  .bacc-hand.player .bacc-hand-label { color: rgba(100,160,255,0.8); }
+  .bacc-hand.banker .bacc-hand-label { color: rgba(255,100,100,0.8); }
+  .bacc-cards {
+    display: flex; gap: 6px; justify-content: center; min-height: 72px;
+    align-items: center;
+  }
+  .bacc-card {
+    width: 44px; height: 64px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    font-family: 'DM Mono', monospace; font-weight: 400;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
+  .bacc-card.facedown {
+    background: linear-gradient(135deg, #8b0000, #cc0000);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .bacc-card.facedown::after {
+    content: '\2666'; color: rgba(255,255,255,0.2); font-size: 1.2rem;
+  }
+  .bacc-card.faceup {
+    background: linear-gradient(135deg, #f5f0e8, #fffdf5);
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .bacc-card-rank {
+    font-size: 0.9rem; font-weight: 700; line-height: 1;
+  }
+  .bacc-card-suit {
+    font-size: 0.7rem; line-height: 1; margin-top: 1px;
+  }
+  .bacc-card.red .bacc-card-rank, .bacc-card.red .bacc-card-suit { color: #cc0000; }
+  .bacc-card.black .bacc-card-rank, .bacc-card.black .bacc-card-suit { color: #1a1a1a; }
+  .bacc-score {
+    margin-top: 8px; font-family: 'DM Mono', monospace; font-weight: 400;
+    font-size: 1.5rem; letter-spacing: 0.05em;
+  }
+  .bacc-hand.player .bacc-score { color: rgba(100,160,255,0.9); }
+  .bacc-hand.banker .bacc-score { color: rgba(255,100,100,0.9); }
+  .bacc-result {
+    text-align: center; min-height: 32px;
+    font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.9rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .bacc-result.player-wins { color: rgba(100,160,255,0.9); }
+  .bacc-result.banker-wins { color: rgba(255,100,100,0.9); }
+  .bacc-result.tie { color: #d4af37; }
+  .bacc-deal-btn {
+    display: block; width: 100%; padding: 12px 0;
+    background: linear-gradient(135deg, rgba(212,175,55,0.25), rgba(212,175,55,0.15));
+    border: 1px solid rgba(212,175,55,0.4); border-radius: 4px;
+    color: #d4af37; font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s ease;
+  }
+  .bacc-deal-btn:hover {
+    background: linear-gradient(135deg, rgba(212,175,55,0.4), rgba(212,175,55,0.25));
+    box-shadow: 0 0 20px rgba(212,175,55,0.2);
+  }
+  .bacc-stats {
+    display: flex; justify-content: center; gap: 20px; margin-top: 12px;
+    font-family: 'DM Mono', monospace; font-size: 0.55rem;
+    color: rgba(212,175,55,0.35); letter-spacing: 0.1em; text-transform: uppercase;
+  }
 
   /* Vignette */
   #vignette {
@@ -436,7 +567,7 @@
   <div id="title-block">
     <div id="title">BACCARAT CITY</div>
     <div id="tagline">百家樂之城 &middot; 澳門風雲</div>
-    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather &middot; Live Traffic &amp; Flights &middot; Ambient Sound</div>
+    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather &middot; Live Traffic &amp; Flights &middot; Live Baccarat</div>
     <div id="title-line"></div>
   </div>
 
@@ -460,7 +591,7 @@
 
   <div id="hints">
     scroll to zoom &middot; drag to orbit<br>
-    click landmark for info
+    click landmark for info &middot; enter casino to play baccarat
   </div>
 
   <button id="replay-btn">&#9654; Replay Flythrough</button>
@@ -481,6 +612,35 @@
       <div class="lm-card-divider"></div>
       <div class="lm-card-body" id="lmc-desc"></div>
       <ul class="lm-card-facts" id="lmc-facts"></ul>
+      <button class="lm-card-enter-casino" id="lmc-enter-casino" style="display:none">Enter Casino</button>
+    </div>
+  </div>
+
+  <div id="baccarat-overlay">
+    <div id="baccarat-backdrop"></div>
+    <div class="bacc-table">
+      <button class="bacc-close">&times;</button>
+      <div class="bacc-title">Baccarat Punto Banco</div>
+      <div class="bacc-casino-name" id="bacc-casino-name">Grand Lisboa</div>
+      <div class="bacc-hands">
+        <div class="bacc-hand player">
+          <div class="bacc-hand-label">Player</div>
+          <div class="bacc-cards" id="bacc-player-cards"></div>
+          <div class="bacc-score" id="bacc-player-score">-</div>
+        </div>
+        <div class="bacc-hand banker">
+          <div class="bacc-hand-label">Banker</div>
+          <div class="bacc-cards" id="bacc-banker-cards"></div>
+          <div class="bacc-score" id="bacc-banker-score">-</div>
+        </div>
+      </div>
+      <div class="bacc-result" id="bacc-result"></div>
+      <button class="bacc-deal-btn" id="bacc-deal-btn">Deal</button>
+      <div class="bacc-stats" id="bacc-stats">
+        <span>Player: <b id="bacc-stat-p">0</b></span>
+        <span>Banker: <b id="bacc-stat-b">0</b></span>
+        <span>Tie: <b id="bacc-stat-t">0</b></span>
+      </div>
     </div>
   </div>
 
@@ -895,6 +1055,17 @@ function showLandmarkCard(lm) {
       li.textContent = f;
       factsEl.appendChild(li);
     });
+  }
+
+  // Show "Enter Casino" button for casino-type landmarks
+  var enterBtn = document.getElementById('lmc-enter-casino');
+  var isCasino = lm.type && (lm.type.indexOf('Casino') !== -1 || lm.type.indexOf('Resort') !== -1);
+  enterBtn.style.display = isCasino ? 'block' : 'none';
+  if (isCasino) {
+    enterBtn.onclick = function() {
+      hideLandmarkCard();
+      openBaccarat(lm.name);
+    };
   }
 
   card.classList.add('visible');
@@ -2014,6 +2185,256 @@ document.getElementById('audio-toggle').addEventListener('click', function() {
     this.textContent = '\u266B Sound Off';
     this.classList.remove('active');
     _audioEnabled = false;
+  }
+});
+
+// ── Baccarat Game ──
+var _baccStats = { p: 0, b: 0, t: 0 };
+
+var SUITS = ['\u2660', '\u2665', '\u2666', '\u2663']; // spade, heart, diamond, club
+var RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+var RANK_VALUES = { A:1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':0, J:0, Q:0, K:0 };
+
+function baccDeck() {
+  var deck = [];
+  for (var d = 0; d < 8; d++) { // 8-deck shoe
+    for (var s = 0; s < 4; s++) {
+      for (var r = 0; r < 13; r++) {
+        deck.push({ rank: RANKS[r], suit: SUITS[s], value: RANK_VALUES[RANKS[r]] });
+      }
+    }
+  }
+  // Fisher-Yates shuffle
+  for (var i = deck.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = deck[i]; deck[i] = deck[j]; deck[j] = tmp;
+  }
+  return deck;
+}
+
+var _baccShoe = baccDeck();
+
+function baccDraw() {
+  if (_baccShoe.length < 20) _baccShoe = baccDeck();
+  return _baccShoe.pop();
+}
+
+function baccScore(cards) {
+  var total = 0;
+  for (var i = 0; i < cards.length; i++) total += cards[i].value;
+  return total % 10;
+}
+
+function isRedSuit(suit) {
+  return suit === '\u2665' || suit === '\u2666';
+}
+
+function createCardEl(card, facedown) {
+  var el = document.createElement('div');
+  el.className = 'bacc-card ' + (facedown ? 'facedown' : 'faceup ' + (isRedSuit(card.suit) ? 'red' : 'black'));
+  if (!facedown) {
+    var rankEl = document.createElement('div');
+    rankEl.className = 'bacc-card-rank';
+    rankEl.textContent = card.rank;
+    var suitEl = document.createElement('div');
+    suitEl.className = 'bacc-card-suit';
+    suitEl.textContent = card.suit;
+    el.appendChild(rankEl);
+    el.appendChild(suitEl);
+  }
+  return el;
+}
+
+function openBaccarat(casinoName) {
+  document.getElementById('bacc-casino-name').textContent = casinoName;
+  document.getElementById('bacc-player-cards').innerHTML = '';
+  document.getElementById('bacc-banker-cards').innerHTML = '';
+  document.getElementById('bacc-player-score').textContent = '-';
+  document.getElementById('bacc-banker-score').textContent = '-';
+  document.getElementById('bacc-result').textContent = '';
+  document.getElementById('bacc-result').className = 'bacc-result';
+  document.getElementById('bacc-deal-btn').textContent = 'Deal';
+  document.getElementById('bacc-deal-btn').disabled = false;
+  document.getElementById('baccarat-overlay').classList.add('visible');
+  updateBaccStats();
+}
+
+function closeBaccarat() {
+  document.getElementById('baccarat-overlay').classList.remove('visible');
+}
+
+function updateBaccStats() {
+  document.getElementById('bacc-stat-p').textContent = _baccStats.p;
+  document.getElementById('bacc-stat-b').textContent = _baccStats.b;
+  document.getElementById('bacc-stat-t').textContent = _baccStats.t;
+}
+
+function dealBaccarat() {
+  var dealBtn = document.getElementById('bacc-deal-btn');
+  var playerCardsEl = document.getElementById('bacc-player-cards');
+  var bankerCardsEl = document.getElementById('bacc-banker-cards');
+  var playerScoreEl = document.getElementById('bacc-player-score');
+  var bankerScoreEl = document.getElementById('bacc-banker-score');
+  var resultEl = document.getElementById('bacc-result');
+
+  // Reset
+  playerCardsEl.innerHTML = '';
+  bankerCardsEl.innerHTML = '';
+  playerScoreEl.textContent = '-';
+  bankerScoreEl.textContent = '-';
+  resultEl.textContent = '';
+  resultEl.className = 'bacc-result';
+  dealBtn.disabled = true;
+  dealBtn.textContent = 'Dealing...';
+
+  var playerCards = [];
+  var bankerCards = [];
+
+  // Draw initial 4 cards
+  var p1 = baccDraw(), b1 = baccDraw(), p2 = baccDraw(), b2 = baccDraw();
+
+  // Animated dealing sequence
+  var steps = [];
+  var delay = 0;
+  var CARD_DELAY = 400;
+
+  // Card 1: Player face-down
+  steps.push(function() {
+    playerCards.push(p1);
+    playerCardsEl.appendChild(createCardEl(p1, true));
+  });
+  delay += CARD_DELAY;
+
+  // Card 2: Banker face-down
+  steps.push(function() {
+    bankerCards.push(b1);
+    bankerCardsEl.appendChild(createCardEl(b1, true));
+  });
+  delay += CARD_DELAY;
+
+  // Card 3: Player face-down
+  steps.push(function() {
+    playerCards.push(p2);
+    playerCardsEl.appendChild(createCardEl(p2, true));
+  });
+  delay += CARD_DELAY;
+
+  // Card 4: Banker face-down
+  steps.push(function() {
+    bankerCards.push(b2);
+    bankerCardsEl.appendChild(createCardEl(b2, true));
+  });
+  delay += CARD_DELAY;
+
+  // Reveal player cards
+  steps.push(function() {
+    playerCardsEl.innerHTML = '';
+    playerCardsEl.appendChild(createCardEl(p1, false));
+    playerCardsEl.appendChild(createCardEl(p2, false));
+    playerScoreEl.textContent = baccScore(playerCards);
+  });
+  delay += 500;
+
+  // Reveal banker cards
+  steps.push(function() {
+    bankerCardsEl.innerHTML = '';
+    bankerCardsEl.appendChild(createCardEl(b1, false));
+    bankerCardsEl.appendChild(createCardEl(b2, false));
+    bankerScoreEl.textContent = baccScore(bankerCards);
+  });
+  delay += 600;
+
+  // Third-card rules + result
+  steps.push(function() {
+    var pScore = baccScore(playerCards);
+    var bScore = baccScore(bankerCards);
+    var playerThird = null, bankerThird = null;
+
+    // Natural — no third card
+    if (pScore >= 8 || bScore >= 8) {
+      // naturals, go straight to result
+    } else {
+      // Player third card rule
+      if (pScore <= 5) {
+        playerThird = baccDraw();
+        playerCards.push(playerThird);
+        playerCardsEl.appendChild(createCardEl(playerThird, false));
+        pScore = baccScore(playerCards);
+        playerScoreEl.textContent = pScore;
+      }
+
+      // Banker third card rule
+      if (playerThird === null) {
+        // Player stood — banker draws on 0-5
+        if (bScore <= 5) {
+          bankerThird = baccDraw();
+          bankerCards.push(bankerThird);
+          bankerCardsEl.appendChild(createCardEl(bankerThird, false));
+          bScore = baccScore(bankerCards);
+          bankerScoreEl.textContent = bScore;
+        }
+      } else {
+        // Banker draws based on player's third card value
+        var p3v = playerThird.value;
+        var draw = false;
+        if (bScore <= 2) draw = true;
+        else if (bScore === 3 && p3v !== 8) draw = true;
+        else if (bScore === 4 && p3v >= 2 && p3v <= 7) draw = true;
+        else if (bScore === 5 && p3v >= 4 && p3v <= 7) draw = true;
+        else if (bScore === 6 && p3v >= 6 && p3v <= 7) draw = true;
+
+        if (draw) {
+          bankerThird = baccDraw();
+          bankerCards.push(bankerThird);
+          bankerCardsEl.appendChild(createCardEl(bankerThird, false));
+          bScore = baccScore(bankerCards);
+          bankerScoreEl.textContent = bScore;
+        }
+      }
+    }
+
+    // Determine winner
+    var pFinal = baccScore(playerCards);
+    var bFinal = baccScore(bankerCards);
+    playerScoreEl.textContent = pFinal;
+    bankerScoreEl.textContent = bFinal;
+
+    if (pFinal > bFinal) {
+      resultEl.textContent = 'Player Wins';
+      resultEl.className = 'bacc-result player-wins';
+      _baccStats.p++;
+    } else if (bFinal > pFinal) {
+      resultEl.textContent = 'Banker Wins';
+      resultEl.className = 'bacc-result banker-wins';
+      _baccStats.b++;
+    } else {
+      resultEl.textContent = 'Tie';
+      resultEl.className = 'bacc-result tie';
+      _baccStats.t++;
+    }
+
+    updateBaccStats();
+    dealBtn.textContent = 'Deal Again';
+    dealBtn.disabled = false;
+  });
+
+  // Execute steps with delays
+  var cumDelay = 0;
+  for (var i = 0; i < steps.length; i++) {
+    (function(step, d) {
+      setTimeout(step, d);
+    })(steps[i], cumDelay);
+    cumDelay += (i < 4 ? CARD_DELAY : (i === 4 ? 500 : 600));
+  }
+}
+
+// Baccarat event listeners
+document.getElementById('baccarat-backdrop').addEventListener('click', closeBaccarat);
+document.querySelector('.bacc-close').addEventListener('click', closeBaccarat);
+document.getElementById('bacc-deal-btn').addEventListener('click', dealBaccarat);
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('baccarat-overlay').classList.contains('visible')) {
+    closeBaccarat();
   }
 });
 

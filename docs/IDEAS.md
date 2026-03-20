@@ -39,7 +39,7 @@
 - [ ] Dragon Boat Festival — races in Nam Van Lake
 
 ## Interactivity
-- [ ] Click casino → enter and see baccarat tables
+- [x] Click casino → enter and see baccarat tables (Session 11: interactive Punto Banco game)
 - [x] Click landmark → info popup with history (Session 10: rich info cards with description, facts, year, type)
 - [ ] Time slider to preview any time of day
 - [ ] Minimap for navigation

@@ -85,6 +85,19 @@
 - Updated hint text: "click landmark for info"
 - File grew from ~1842 to ~2027 lines
 
+## Session 11 — 2026-03-20 (Automated Agent)
+- Interactive baccarat table: click any casino landmark → "Enter Casino" button → full baccarat game
+- Proper Punto Banco rules: 8-deck shoe, natural wins, third-card drawing rules for both Player and Banker
+- Animated card dealing: face-down deal sequence → reveal → third card → result announcement
+- Green felt table UI with gold border, classic rounded-top baccarat table shape
+- Player (blue) vs Banker (red) color coding for hands, scores, and results
+- Session stats tracking (Player/Banker/Tie win counts)
+- "Enter Casino" button appears only on casino/resort landmark info cards (not heritage sites)
+- 6 casino landmarks trigger baccarat: Grand Lisboa, Venetian, Galaxy, Wynn Palace, City of Dreams
+- Updated subtitle to "Live Baccarat"
+- Updated hints: "enter casino to play baccarat"
+- File grew from ~2027 to ~2448 lines
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
