@@ -24,7 +24,7 @@
 - [x] Real Macau weather from API → rain particles, fog density, cloud cover (Session 3)
 - [ ] Typhoon signal system (T1-T10) with dramatic weather effects
 - [ ] Light pollution glow from Cotai strip visible across the water
-- [ ] Ferry boats crossing between peninsula and Taipa
+- [x] Ferry boats crossing between peninsula and Taipa (Session 4)
 - [ ] Construction cranes (Macau always has construction)
 - [ ] Street markets and food stalls
 - [ ] Portuguese-style cobblestone patterns in historic district

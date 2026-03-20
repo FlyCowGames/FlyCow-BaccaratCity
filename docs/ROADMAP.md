@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-20 (Session 3)*
+*This document evolves every session. Last updated: 2026-03-20 (Session 4)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -8,7 +8,7 @@
 1. ~~**Real-time Macau clock**~~ — Done (Session 2)
 2. ~~**Weather integration**~~ — Done (Session 3: Open-Meteo API, rain, fog, cloud dimming)
 3. **Animated traffic** — Cars moving along main Macau roads (polyline paths)
-4. **Ferry boats** — Animate ferries between peninsula and Taipa
+4. ~~**Ferry boats**~~ — Done (Session 4: 5 ferries, 2 routes, continuous animation)
 5. **Neon/glow effects** — CesiumJS post-processing bloom on casino district at night
 
 ### Near-Term (Sessions 10-30)
@@ -44,3 +44,4 @@
 - Hourly improvement loop infrastructure
 - Real-time day/night cycle (Session 2)
 - Live weather: Open-Meteo API, rain/fog effects, cloud dimming (Session 3)
+- Animated ferry boats: 2 routes, 5 ferries, continuous harbor movement (Session 4)

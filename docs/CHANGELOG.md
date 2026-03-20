@@ -22,6 +22,18 @@
 - Updated subtitle to include "Live Weather"
 - File grew from ~670 to ~850 lines
 
+## Session 4 — 2026-03-20 (Automated Agent)
+- Animated ferry boats: 5 ferries across 2 routes (Outer Harbour-Taipa, Inner Harbour-Taipa)
+- Real Macau terminal coordinates for route waypoints
+- CesiumJS CallbackProperty for smooth per-frame position updates
+- Ping-pong animation: ferries travel forward then reverse at terminals
+- Staggered phase offsets so ferries are spread across routes (always visible movement)
+- Gold-themed boat billboard icons (canvas-drawn hull, cabin, smokestack)
+- Scale/translucency by distance for clean appearance at all zoom levels
+- Updated subtitle to "Living City"
+- File grew from ~850 to ~967 lines
+- First animated "life" in the digital twin — city is no longer static
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

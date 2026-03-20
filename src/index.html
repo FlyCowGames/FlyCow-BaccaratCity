@@ -234,7 +234,7 @@
   <div id="title-block">
     <div id="title">BACCARAT CITY</div>
     <div id="tagline">百家樂之城 &middot; 澳門風雲</div>
-    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather</div>
+    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather &middot; Living City</div>
     <div id="title-line"></div>
   </div>
 
@@ -512,8 +512,9 @@ async function init() {
     // Apply weather effects now that viewer is ready
     if (currentWeather) applyWeatherEffects(currentWeather);
 
-    // Add landmarks
+    // Add landmarks and ferries
     addLandmarks(viewer);
+    addFerries(viewer);
 
     // Start flythrough
     runFlythrough(viewer);
@@ -844,6 +845,119 @@ document.getElementById('replay-btn').addEventListener('click', function() {
     runFlythrough(_viewer);
   }
 });
+
+// ── Ferry Boats ──
+var FERRY_ROUTES = [
+  {
+    name: 'Outer Harbour - Taipa',
+    points: [
+      { lon: 113.5545, lat: 22.1920 }, // Outer Harbour Terminal
+      { lon: 113.5560, lat: 22.1850 },
+      { lon: 113.5580, lat: 22.1750 },
+      { lon: 113.5600, lat: 22.1650 },
+      { lon: 113.5615, lat: 22.1560 }, // Taipa Ferry Terminal
+    ],
+    durationSec: 50,
+    ferries: 3,
+  },
+  {
+    name: 'Inner Harbour - Taipa',
+    points: [
+      { lon: 113.5340, lat: 22.1870 }, // Inner Harbour
+      { lon: 113.5380, lat: 22.1800 },
+      { lon: 113.5430, lat: 22.1720 },
+      { lon: 113.5490, lat: 22.1640 },
+      { lon: 113.5530, lat: 22.1570 }, // Near Taipa
+    ],
+    durationSec: 55,
+    ferries: 2,
+  },
+];
+
+function createFerryIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 24;
+  canvas.height = 24;
+  var ctx = canvas.getContext('2d');
+
+  // Simple boat shape - hull
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.9)';
+  ctx.beginPath();
+  ctx.moveTo(4, 14);
+  ctx.lineTo(8, 20);
+  ctx.lineTo(16, 20);
+  ctx.lineTo(20, 14);
+  ctx.closePath();
+  ctx.fill();
+
+  // Cabin
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+  ctx.fillRect(9, 8, 6, 6);
+
+  // Smokestack
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.7)';
+  ctx.fillRect(11, 4, 2, 4);
+
+  return canvas;
+}
+
+function lerpPosition(points, t) {
+  // t is 0-1, interpolate along multi-point path
+  var segCount = points.length - 1;
+  var segFloat = t * segCount;
+  var segIdx = Math.min(Math.floor(segFloat), segCount - 1);
+  var segT = segFloat - segIdx;
+
+  var p0 = points[segIdx];
+  var p1 = points[segIdx + 1];
+  return {
+    lon: p0.lon + (p1.lon - p0.lon) * segT,
+    lat: p0.lat + (p1.lat - p0.lat) * segT,
+  };
+}
+
+function addFerries(viewer) {
+  var ferryIcon = createFerryIcon();
+  var startTime = Date.now();
+
+  FERRY_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.ferries; i++) {
+      var phaseOffset = i / route.ferries;
+      var reverseStart = i % 2 === 1; // alternate directions
+
+      (function(offset, reverse) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          var cycleDuration = route.durationSec;
+          var rawT = ((elapsed / cycleDuration) + offset) % 2; // 0-2: forward then backward
+          var t;
+          if (rawT <= 1) {
+            t = rawT;
+          } else {
+            t = 2 - rawT; // reverse
+          }
+          if (reverse) t = 1 - t; // start going the other way
+          var pos = lerpPosition(route.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 3);
+        }, false);
+
+        viewer.entities.add({
+          name: route.name + ' Ferry',
+          position: positionCallback,
+          billboard: {
+            image: ferryIcon,
+            verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scale: 1.0,
+            scaleByDistance: new Cesium.NearFarScalar(200, 1.5, 8000, 0.4),
+            translucencyByDistance: new Cesium.NearFarScalar(200, 1.0, 20000, 0.2),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+      })(phaseOffset, reverseStart);
+    }
+  });
+}
 
 // ── Initialize ──
 init();

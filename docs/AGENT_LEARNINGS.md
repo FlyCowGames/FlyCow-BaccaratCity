@@ -22,6 +22,13 @@
 - **Lesson:** Weather effects need to be re-applied after viewer initialization since the API response may arrive before `_viewer` is set. Always guard with `if (_viewer)` and re-trigger from the init callback.
 - **Lesson:** WMO weather codes are well-standardized (0=clear, 1-3=clouds, 45-48=fog, 51-55=drizzle, 61-65=rain, 80-82=showers, 95-99=thunderstorm). Good reference for future event-based effects.
 
+## Session 4 (2026-03-20) -- Ferry Boats
+- **Lesson:** CesiumJS `CallbackProperty` with `isConstant: false` is the simplest way to animate entity positions per-frame. No need for CZML or SampledPositionProperty for continuous loops.
+- **Lesson:** Ping-pong animation (t goes 0→1→0) with phase offsets is an effective pattern for creating multiple entities on the same path that appear naturally staggered.
+- **Lesson:** Canvas-drawn billboard icons (24x24px) work well for small moving entities — lightweight, no external assets, consistent with the gold theme.
+- **Lesson:** `disableDepthTestDistance: Number.POSITIVE_INFINITY` is essential for small moving entities to remain visible — without it they'd clip behind 3D tiles at certain angles.
+- **Lesson:** Ferry altitude of 3m (water surface level) works well with Google 3D Tiles — the boats appear to sit on the water.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
