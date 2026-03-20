@@ -324,7 +324,7 @@
   <div id="title-block">
     <div id="title">BACCARAT CITY</div>
     <div id="tagline">百家樂之城 &middot; 澳門風雲</div>
-    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather &middot; Live Traffic</div>
+    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather &middot; Live Traffic &amp; Flights</div>
     <div id="title-line"></div>
   </div>
 
@@ -629,6 +629,7 @@ async function init() {
     addLandmarks(viewer);
     addFerries(viewer);
     addTraffic(viewer);
+    addAirportPlanes(viewer);
     addNeonGlow(viewer);
     updateNeonGlow(); // apply immediately
 
@@ -1222,6 +1223,122 @@ function addTraffic(viewer) {
   });
 }
 
+// ── Airport Planes System ──
+// Macau International Airport (MFM) — runway 16/34 on Taipa reclaimed land
+// Approach from south over water, departure climbing north over peninsula
+var FLIGHT_ROUTES = [
+  {
+    name: 'Approach South',
+    // From south over water, descending to runway 34 threshold
+    points: [
+      { lon: 113.5950, lat: 22.1100, alt: 450 },
+      { lon: 113.5930, lat: 22.1200, alt: 350 },
+      { lon: 113.5915, lat: 22.1300, alt: 250 },
+      { lon: 113.5905, lat: 22.1380, alt: 150 },
+      { lon: 113.5900, lat: 22.1430, alt: 80 },
+      { lon: 113.5895, lat: 22.1480, alt: 30 },
+      { lon: 113.5892, lat: 22.1520, alt: 15 },
+    ],
+    durationSec: 40,
+    planes: 2,
+  },
+  {
+    name: 'Departure North',
+    // Takeoff from runway 16, climbing north over inner harbour
+    points: [
+      { lon: 113.5892, lat: 22.1520, alt: 15 },
+      { lon: 113.5895, lat: 22.1560, alt: 40 },
+      { lon: 113.5890, lat: 22.1620, alt: 100 },
+      { lon: 113.5870, lat: 22.1720, alt: 200 },
+      { lon: 113.5840, lat: 22.1850, alt: 350 },
+      { lon: 113.5800, lat: 22.1980, alt: 500 },
+      { lon: 113.5750, lat: 22.2100, alt: 700 },
+    ],
+    durationSec: 35,
+    planes: 2,
+  },
+];
+
+function createPlaneIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 20;
+  canvas.height = 20;
+  var ctx = canvas.getContext('2d');
+  var cx = 10, cy = 10;
+
+  // Bright white-gold glow with larger spread than cars
+  var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 10);
+  grad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+  grad.addColorStop(0.2, 'rgba(255, 240, 200, 0.7)');
+  grad.addColorStop(0.5, 'rgba(255, 220, 150, 0.3)');
+  grad.addColorStop(1, 'rgba(255, 200, 100, 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 10, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Small bright core (fuselage)
+  var core = ctx.createRadialGradient(cx, cy, 0, cx, cy, 3);
+  core.addColorStop(0, 'rgba(255, 255, 255, 1.0)');
+  core.addColorStop(1, 'rgba(255, 255, 255, 0)');
+  ctx.fillStyle = core;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  return canvas;
+}
+
+function lerpPositionWithAlt(points, t) {
+  var segCount = points.length - 1;
+  var segFloat = t * segCount;
+  var segIdx = Math.min(Math.floor(segFloat), segCount - 1);
+  var segT = segFloat - segIdx;
+
+  var p0 = points[segIdx];
+  var p1 = points[segIdx + 1];
+  return {
+    lon: p0.lon + (p1.lon - p0.lon) * segT,
+    lat: p0.lat + (p1.lat - p0.lat) * segT,
+    alt: p0.alt + (p1.alt - p0.alt) * segT,
+  };
+}
+
+function addAirportPlanes(viewer) {
+  var planeIcon = createPlaneIcon();
+  var startTime = Date.now();
+
+  FLIGHT_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.planes; i++) {
+      var phaseOffset = i / route.planes;
+
+      (function(offset) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          // One-way looping: plane goes 0→1, then resets (not ping-pong)
+          var t = ((elapsed / route.durationSec) + offset) % 1;
+          var pos = lerpPositionWithAlt(route.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, pos.alt);
+        }, false);
+
+        viewer.entities.add({
+          name: route.name + ' Plane',
+          position: positionCallback,
+          billboard: {
+            image: planeIcon,
+            verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scale: 1.0,
+            scaleByDistance: new Cesium.NearFarScalar(300, 2.0, 15000, 0.5),
+            translucencyByDistance: new Cesium.NearFarScalar(300, 1.0, 25000, 0.15),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+      })(phaseOffset);
+    }
+  });
+}
+
 // ── Neon Casino Glow System ──
 // Key casino/entertainment areas that glow at night
 var NEON_ZONES = [
@@ -1242,7 +1359,6 @@ var NEON_ZONES = [
   { name: 'Fisherman\'s Wharf', lon: 113.5510, lat: 22.1920, color: [200, 180, 140], intensity: 0.4 },
 ];
 
-var _bloomStage = null;
 var _neonEntities = [];
 var _currentGlowIntensity = 0;
 
@@ -1268,15 +1384,10 @@ function createNeonIcon(color, size) {
 }
 
 function addNeonGlow(viewer) {
-  // Add bloom post-processing
-  _bloomStage = viewer.scene.postProcessStages.bloom;
-  _bloomStage.enabled = false; // start disabled, will activate at night
-  _bloomStage.uniforms.glowOnly = false;
-  _bloomStage.uniforms.contrast = 80;
-  _bloomStage.uniforms.brightness = -0.3;
-  _bloomStage.uniforms.delta = 0.5;
-  _bloomStage.uniforms.sigma = 2.0;
-  _bloomStage.uniforms.stepSize = 2.0;
+  // NOTE: CesiumJS bloom post-processing is DISABLED.
+  // It applies to the entire scene and washes out Google 3D Tiles at night.
+  // Neon glow is achieved purely through billboard entities (radial gradient icons).
+  // DO NOT re-enable bloom — it causes severe oversaturation. (Learned Session 6-8)
 
   // Add neon light entities at each casino zone
   NEON_ZONES.forEach(function(zone) {
@@ -1289,8 +1400,8 @@ function addNeonGlow(viewer) {
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         scale: 1.0,
-        scaleByDistance: new Cesium.NearFarScalar(200, 3.0, 8000, 1.0),
-        translucencyByDistance: new Cesium.NearFarScalar(200, 1.0, 15000, 0.4),
+        scaleByDistance: new Cesium.NearFarScalar(200, 1.5, 8000, 0.5),
+        translucencyByDistance: new Cesium.NearFarScalar(200, 0.7, 15000, 0.2),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
       },
       _neonZone: zone, // custom reference
@@ -1309,9 +1420,9 @@ function addNeonGlow(viewer) {
         image: highIcon,
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-        scale: 0.8,
-        scaleByDistance: new Cesium.NearFarScalar(500, 2.5, 15000, 0.6),
-        translucencyByDistance: new Cesium.NearFarScalar(500, 0.7, 20000, 0.1),
+        scale: 0.5,
+        scaleByDistance: new Cesium.NearFarScalar(500, 1.2, 15000, 0.3),
+        translucencyByDistance: new Cesium.NearFarScalar(500, 0.5, 20000, 0.08),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
       },
     });
@@ -1320,38 +1431,26 @@ function addNeonGlow(viewer) {
 }
 
 function updateNeonGlow() {
-  if (!_viewer || !_bloomStage) return;
+  if (!_viewer) return;
 
   var hour = getMacauHour();
   var glowIntensity = 0;
 
   // Calculate glow intensity based on time of day
   if (hour >= 19 || hour < 5) {
-    // Full night: full glow
     glowIntensity = 1.0;
   } else if (hour >= 18) {
-    // Dusk: ramp up (18:00 → 19:00)
     glowIntensity = (hour - 18);
   } else if (hour >= 5 && hour < 6.5) {
-    // Dawn: ramp down (5:00 → 6:30)
     glowIntensity = 1.0 - (hour - 5) / 1.5;
   } else {
-    // Daytime: no glow
     glowIntensity = 0;
   }
 
   glowIntensity = Math.max(0, Math.min(1, glowIntensity));
   _currentGlowIntensity = glowIntensity;
 
-  // Enable/disable bloom
-  if (glowIntensity > 0.05) {
-    _bloomStage.enabled = true;
-    _bloomStage.uniforms.brightness = -0.35 + glowIntensity * 0.1;
-    _bloomStage.uniforms.delta = 0.3 + glowIntensity * 0.3;
-    _bloomStage.uniforms.sigma = 1.5 + glowIntensity * 1.0;
-  } else {
-    _bloomStage.enabled = false;
-  }
+  // No bloom — just billboard entities for neon glow
 
   // Update neon entity visibility/brightness
   _neonEntities.forEach(function(item) {
@@ -1389,6 +1488,7 @@ var ATTRACTIONS = {
     { name: "Bridge Traffic", chinese: "大橋交通", icon: "🚗", lat: 22.1780, lon: 113.5470, alt: 600, pitch: -30 },
     { name: "Outer Harbour Terminal", chinese: "外港碼頭", icon: "⚓", lat: 22.1920, lon: 113.5545, alt: 250, pitch: -20 },
     { name: "Inner Harbour", chinese: "內港", icon: "⚓", lat: 22.1870, lon: 113.5340, alt: 250, pitch: -20 },
+    { name: "Airport Flights", chinese: "機場航班", icon: "✈️", lat: 22.1490, lon: 113.5900, alt: 600, pitch: -30 },
   ],
   casinos: [
     { name: "Grand Lisboa", chinese: "新葡京", icon: "🎰", lat: 22.1893, lon: 113.5390, alt: 300, pitch: -25 },
@@ -1451,7 +1551,7 @@ function populateAttractions() {
   // Water
   var waterList = document.getElementById('water-list');
   ATTRACTIONS.water.forEach(function(a) {
-    var badge = (a.name === 'Ferry Routes' || a.name === 'Bridge Traffic') ? '<span class="attraction-badge">live</span>' : '';
+    var badge = (a.name === 'Ferry Routes' || a.name === 'Bridge Traffic' || a.name === 'Airport Flights') ? '<span class="attraction-badge">live</span>' : '';
     waterList.appendChild(buildAttractionItem(a, badge));
   });
 

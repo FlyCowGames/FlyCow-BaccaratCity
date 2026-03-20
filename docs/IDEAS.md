@@ -5,7 +5,7 @@
 ## Geography & Map
 - [ ] Use OpenStreetMap data to extract Macau's actual coastline
 - [ ] Model the three bridges: Ponte de Amizade, Ponte de Sai Van, Ponte Governador Nobre de Carvalho
-- [ ] Macau International Airport runway and terminal
+- [x] Macau International Airport runway and terminal (Session 8: approach/departure flights)
 - [ ] Inner Harbour and Outer Harbour ferry terminals
 - [ ] Porto Interior waterfront
 - [ ] Coloane village and Hac Sa beach

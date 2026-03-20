@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-20 (Session 7)*
+*This document evolves every session. Last updated: 2026-03-20 (Session 8)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -14,7 +14,7 @@
 ### Near-Term (Sessions 10-30)
 - Casino interior transition (click Grand Lisboa → Three.js baccarat room)
 - Guia Circuit road path for F3 event
-- Airport planes (approach/takeoff animations)
+- ~~Airport planes (approach/takeoff animations)~~ — Done (Session 8)
 - More landmark detail and info popups
 - Ambient audio system (Howler.js)
 - Bridge traffic animations
@@ -47,3 +47,4 @@
 - Animated ferry boats: 2 routes, 5 ferries, continuous harbor movement (Session 4)
 - Neon casino glow: bloom post-processing, 11 zones, time-of-day modulation (Session 6)
 - Animated road traffic: 19 vehicles, 5 routes, 3 bridges + Cotai + peninsula (Session 7)
+- Airport flights: 4 planes, 2 routes (approach + departure), altitude interpolation (Session 8)

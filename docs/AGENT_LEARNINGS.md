@@ -29,19 +29,13 @@
 - **Lesson:** `disableDepthTestDistance: Number.POSITIVE_INFINITY` is essential for small moving entities to remain visible — without it they'd clip behind 3D tiles at certain angles.
 - **Lesson:** Ferry altitude of 3m (water surface level) works well with Google 3D Tiles — the boats appear to sit on the water.
 
-## Session 6 (2026-03-20) -- Neon Casino Glow
-- **Lesson:** CesiumJS `viewer.scene.postProcessStages.bloom` is a built-in ready-to-use bloom stage — no need to create one via `PostProcessStageLibrary`. Just access and configure its uniforms.
-- **Lesson:** Canvas radial gradients make effective "light source" billboards — a 64px canvas with a bright-center-to-transparent gradient creates a convincing glow orb when combined with bloom.
-- **Lesson:** Bloom `contrast` and `brightness` uniforms are the most impactful for controlling how "glowy" the scene looks. High contrast (~119) with slightly negative brightness (-0.2 to -0.15) avoids washing out the whole scene while making bright elements pop.
-- **Lesson:** Time-of-day glow modulation should use smooth ramps at dusk/dawn (1 hour each) rather than hard on/off — avoids jarring transitions as users watch.
-- **Lesson:** Adding high-altitude secondary glow entities (150m) for major casinos helps the glow remain visible from bird's eye views where ground-level entities would be too small.
-- **Lesson:** The `updateNeonGlow()` function only needs to run every 10 seconds since time changes slowly — no need for per-frame updates like ferry positions.
-
-## Session 6 Meta-Observations
-- **Observation:** The "Required Skills" in the prompt (/frontend-design, /brainstorming, /verification-before-completion, /systematic-debugging) may not exist as actual slash-command skills. Session completed successfully without them — code review was done manually.
-- **Observation:** Session ran efficiently — 8 phases in sequence worked well. No phase felt redundant.
-- **Observation:** Bloom post-processing is a "scene-wide" effect — needs careful tuning to avoid washing out the entire scene. Keeping brightness negative and contrast high isolates the glow to bright elements only.
-- **Decision:** Did not modify improve.mjs this session — the orchestrator is working correctly and no improvements were urgent.
+## Session 6-8 (2026-03-20) -- Neon Casino Glow (CRITICAL LESSON)
+- **CRITICAL: DO NOT use CesiumJS bloom post-processing (`postProcessStages.bloom`) with Google 3D Tiles.** It applies to the ENTIRE scene and causes severe oversaturation/washout, especially at night. The scene turns into a green/yellow/white blob. This was tried with contrast values from 119 down to 40 — ALL caused unacceptable washout. BLOOM IS PERMANENTLY DISABLED.
+- **Lesson:** Neon glow should be achieved ONLY through billboard entities (canvas radial gradient icons). These look good without bloom and don't affect the rest of the scene.
+- **Lesson:** Canvas radial gradients make effective "light source" billboards — a 64px canvas with a bright-center-to-transparent gradient creates a convincing ambient glow.
+- **Lesson:** Time-of-day glow modulation should use smooth ramps at dusk/dawn (1 hour each) rather than hard on/off.
+- **Lesson:** Adding high-altitude secondary glow entities (150m) for major casinos helps the glow remain visible from bird's eye views.
+- **Lesson:** Always take screenshots after deploying visual changes. The agent-browser skill can verify quality.
 
 ## Session 7 (2026-03-20) -- Animated Road Traffic
 - **Lesson:** The ferry CallbackProperty + ping-pong pattern is directly reusable for any animated entity on a polyline path. Copy-paste with route data changes is the fastest approach.
@@ -56,6 +50,13 @@
 - **Observation:** The "Required Skills" in the prompt are still listed but not used (confirmed again). No harm — the agent works fine without them.
 - **Decision:** Did not modify improve.mjs — orchestrator is stable. No phases felt redundant.
 - **Observation:** All immediate priorities (Sessions 2-10) in the roadmap are now complete. Next session should pick from near-term goals or add a new immediate priority.
+
+## Session 8 (2026-03-20) -- Airport Flights
+- **Lesson:** The ferry/traffic CallbackProperty pattern extends trivially to 3D flight paths. The only difference is adding altitude interpolation (`lerpPositionWithAlt` vs `lerpPosition`), which is a ~5-line function.
+- **Lesson:** One-way looping (`t = ... % 1`) works better than ping-pong for planes — real aircraft don't fly backwards. Different animation types suit different transport modes.
+- **Lesson:** Planes need larger billboard icons than cars (20px vs 12px) because they're at higher altitudes and further from the camera. Also a wider `translucencyByDistance` range (25000 vs 8000) since planes should be visible from much further away.
+- **Lesson:** Flight path altitude descent should be non-linear in real life, but linear interpolation between waypoints with decreasing altitude steps creates a good enough glideslope effect without complexity.
+- **Observation:** Three animation systems (ferries, cars, planes) now share the same core pattern. If a 4th is needed, could extract a generic `addAnimatedEntities(viewer, routes, icon, opts)` function — but not yet, 3 instances doesn't warrant abstraction.
 
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.

@@ -109,6 +109,23 @@
       ],
       "linesAdded": 130,
       "agent": "automated"
+    },
+    {
+      "session": 8,
+      "date": "2026-03-20",
+      "title": "Airport Approach & Departure Flights",
+      "domain": "animation",
+      "summary": "4 planes on 2 flight paths (approach from south, departure north) with altitude-interpolated animation over Macau International Airport.",
+      "details": [
+        "2 flight routes: approach descending from 450m to 15m, departure climbing 15m to 700m",
+        "4 total planes with staggered offsets and one-way looping (not ping-pong)",
+        "Real MFM runway 16/34 coordinates on Taipa reclaimed land",
+        "Altitude-interpolated lerp function for 3D flight paths",
+        "20px white-gold glow billboard with bright core for visibility at distance",
+        "Airport Flights entry in Explore panel with live badge"
+      ],
+      "linesAdded": 100,
+      "agent": "automated"
     }
   ]
 }

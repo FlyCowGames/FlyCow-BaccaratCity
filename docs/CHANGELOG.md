@@ -56,6 +56,16 @@
 - Updated subtitle to "Live Traffic"
 - File grew from ~1399 to ~1531 lines
 
+## Session 8 — 2026-03-20 (Automated Agent)
+- Airport approach & departure flights: 4 planes on 2 routes over Macau International Airport
+- Routes: Approach South (descending 450m→15m over water), Departure North (climbing 15m→700m over peninsula)
+- Altitude-interpolated `lerpPositionWithAlt()` for 3D flight paths (unlike flat ferry/car paths)
+- One-way looping animation (not ping-pong — planes fly one direction and loop)
+- 20px white-gold glow billboard icons with bright core, visible at distance
+- Airport Flights entry in Explore panel with "live" badge
+- Updated subtitle to "Live Traffic & Flights"
+- File grew from ~1531 to ~1631 lines
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
