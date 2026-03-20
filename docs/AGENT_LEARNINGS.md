@@ -43,6 +43,14 @@
 - **Observation:** Bloom post-processing is a "scene-wide" effect — needs careful tuning to avoid washing out the entire scene. Keeping brightness negative and contrast high isolates the glow to bright elements only.
 - **Decision:** Did not modify improve.mjs this session — the orchestrator is working correctly and no improvements were urgent.
 
+## Session 7 (2026-03-20) -- Animated Road Traffic
+- **Lesson:** The ferry CallbackProperty + ping-pong pattern is directly reusable for any animated entity on a polyline path. Copy-paste with route data changes is the fastest approach.
+- **Lesson:** `lerpPosition()` is a general-purpose utility — it works for any multi-point path interpolation. No need to rewrite it per feature.
+- **Lesson:** Car entities at 5m altitude sit correctly on road surfaces with Google 3D Tiles. Ferries at 3m for water, cars at 5m for roads.
+- **Lesson:** Smaller billboard icons (12px vs 24px for ferries) work better for cars — they're more numerous and shouldn't dominate the view. Radial gradient dots are more subtle than drawn shapes.
+- **Lesson:** `translucencyByDistance` with far value of 0.0 (fully transparent) helps cars fade out completely at bird's eye views where they'd be too small to see anyway — reduces visual clutter.
+- **Lesson:** Session was very efficient (~5 min implementation) because the ferry pattern was proven and only needed new route data + smaller icons. Building on proven patterns is fast.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

@@ -25,6 +25,7 @@
 - [ ] Typhoon signal system (T1-T10) with dramatic weather effects
 - [x] Light pollution glow from Cotai strip visible across the water (Session 6: neon glow system)
 - [x] Ferry boats crossing between peninsula and Taipa (Session 4)
+- [x] Animated road traffic on bridges and main roads (Session 7)
 - [ ] Construction cranes (Macau always has construction)
 - [ ] Street markets and food stalls
 - [ ] Portuguese-style cobblestone patterns in historic district

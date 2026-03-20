@@ -46,6 +46,16 @@
 - Updated subtitle to "Neon City"
 - File grew from ~967 to ~1135 lines
 
+## Session 7 — 2026-03-20 (Automated Agent)
+- Animated road traffic: 19 vehicles on 5 routes across Macau
+- Routes: Ponte de Amizade, Ponte de Sai Van, Ponte Gov. Nobre de Carvalho, Cotai Strip Boulevard, Avenida da Praia Grande
+- Reuses ferry CallbackProperty ping-pong pattern for per-frame animation
+- Canvas radial gradient car icons (12px glowing dots) at road level (5m altitude)
+- Scale/translucency by distance, fade out at 8km
+- Bridge Traffic entry in Explore panel with "live" badge
+- Updated subtitle to "Live Traffic"
+- File grew from ~1399 to ~1531 lines
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

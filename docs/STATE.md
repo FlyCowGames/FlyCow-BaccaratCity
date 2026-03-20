@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-20 (Session 6)
+## Last Updated: 2026-03-20 (Session 7)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -12,6 +12,7 @@
 - Live weather from Open-Meteo API: temperature, conditions, humidity, wind, cloud cover
 - Weather-reactive atmosphere: rain overlay, fog, cloud-dimmed lighting
 - **Animated ferry boats**: 5 ferries on 2 routes (Outer Harbour-Taipa, Inner Harbour-Taipa), continuously moving
+- **Animated road traffic**: 19 vehicles on 5 routes (3 bridges, Cotai Strip, peninsula road), continuously moving
 - **Neon casino glow**: 11 glow zones with bloom post-processing, active at night (19:00-05:00) with dusk/dawn ramps
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
@@ -21,7 +22,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~1135 lines, ~36KB)
+- Single HTML file (~1531 lines, ~51KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -39,11 +40,11 @@
 - Fog effect when weather is foggy or heavily overcast
 - Light dimming based on cloud cover
 - Ferry boats animating across the harbor between Peninsula and Taipa
+- **Road traffic**: 19 cars on 5 routes (3 bridges, Cotai Strip, peninsula)
 - **Neon casino glow** at night with bloom post-processing and radial light entities
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)
-- Animated traffic (cars on roads)
 - Airport planes (approach/takeoff)
 - Casino interior / baccarat tables
 - Audio

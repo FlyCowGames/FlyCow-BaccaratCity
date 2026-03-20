@@ -1,0 +1,114 @@
+{
+  "domains": {
+    "rendering": { "label": "Rendering & Graphics", "icon": "🎨" },
+    "atmosphere": { "label": "Atmosphere & Weather", "icon": "🌤" },
+    "animation": { "label": "Animation & Life", "icon": "🚢" },
+    "landmarks": { "label": "Landmarks & Places", "icon": "🏛" },
+    "events": { "label": "Events & Calendar", "icon": "📅" },
+    "interactivity": { "label": "Interactivity & UI", "icon": "🖱" },
+    "audio": { "label": "Audio & Sound", "icon": "🔊" },
+    "infrastructure": { "label": "Infrastructure & Meta", "icon": "⚙" }
+  },
+  "sessions": [
+    {
+      "session": 0,
+      "date": "2026-03-20",
+      "title": "Initial Setup",
+      "domain": "infrastructure",
+      "summary": "Project setup with CesiumJS + Google Photorealistic 3D Tiles. Cinematic flythrough, 8 landmark billboards, dark/gold branding overlay.",
+      "details": [
+        "CesiumJS 1.119 viewer with Google 3D Tiles (real Macau photogrammetry)",
+        "5-stage cinematic flythrough sequence",
+        "8 landmark billboards with Chinese/English names",
+        "Dark/gold branding overlay with Cinzel + Noto Sans SC fonts",
+        "Loading screen with progress bar"
+      ],
+      "linesAdded": 670,
+      "agent": "manual"
+    },
+    {
+      "session": 2,
+      "date": "2026-03-20",
+      "title": "Real-Time Day/Night Cycle",
+      "domain": "atmosphere",
+      "summary": "Sun/moon position driven by actual Macau time (UTC+8). Dynamic lighting changes throughout the day.",
+      "details": [
+        "CesiumJS clock synced to real UTC+8 Macau time",
+        "Sun and moon position driven by actual date/time",
+        "Real-time clock display with day/night/golden hour indicator",
+        "Sky atmosphere rendering"
+      ],
+      "linesAdded": 0,
+      "agent": "automated"
+    },
+    {
+      "session": 3,
+      "date": "2026-03-20",
+      "title": "Live Weather System",
+      "domain": "atmosphere",
+      "summary": "Real-time Macau weather via Open-Meteo API with rain overlay, fog effects, and cloud-based light dimming.",
+      "details": [
+        "Open-Meteo API integration (free, no key, CORS-friendly)",
+        "Weather UI: temperature, conditions, humidity, wind, cloud cover",
+        "CSS rain overlay with 3 intensities based on WMO weather codes",
+        "CesiumJS fog for fog/rime/heavy overcast conditions",
+        "Sun light dimming proportional to cloud cover",
+        "Auto-refresh every 15 minutes"
+      ],
+      "linesAdded": 180,
+      "agent": "automated"
+    },
+    {
+      "session": 4,
+      "date": "2026-03-20",
+      "title": "Animated Ferry Boats",
+      "domain": "animation",
+      "summary": "5 ferries on 2 routes crossing Macau's harbor with smooth ping-pong animation and gold-themed boat icons.",
+      "details": [
+        "5 ferries on 2 routes (Outer Harbour-Taipa, Inner Harbour-Taipa)",
+        "CesiumJS CallbackProperty for per-frame position updates",
+        "Ping-pong animation with staggered phase offsets",
+        "Gold-themed canvas-drawn boat billboard icons",
+        "Scale/translucency by distance",
+        "Real Macau terminal coordinates"
+      ],
+      "linesAdded": 117,
+      "agent": "automated"
+    },
+    {
+      "session": 6,
+      "date": "2026-03-20",
+      "title": "Neon Casino Glow",
+      "domain": "rendering",
+      "summary": "11 glow zones across casino districts with CesiumJS bloom post-processing, activated at night with smooth dusk/dawn transitions.",
+      "details": [
+        "CesiumJS bloom post-processing for neon glow effect",
+        "11 glow zones: Cotai Strip, Peninsula, waterfront",
+        "Canvas radial gradient billboards as light sources",
+        "Time-of-day modulation: full glow 19:00-05:00, ramp at dusk/dawn",
+        "Color-coded: gold (casinos), purple (City of Dreams), amber (waterfront)",
+        "High-altitude secondary glow for major casinos (visible from bird's eye)",
+        "UI indicator showing glow percentage during active hours"
+      ],
+      "linesAdded": 168,
+      "agent": "automated"
+    },
+    {
+      "session": 7,
+      "date": "2026-03-20",
+      "title": "Animated Road Traffic",
+      "domain": "animation",
+      "summary": "19 vehicles on 5 routes across Macau's 3 bridges, Cotai Strip, and peninsula roads with smooth animated movement.",
+      "details": [
+        "5 traffic routes: Ponte de Amizade, Ponte de Sai Van, Ponte Gov. Nobre de Carvalho, Cotai Strip Boulevard, Avenida da Praia Grande",
+        "19 total vehicles with staggered offsets and alternating directions",
+        "Reuses ferry ping-pong CallbackProperty pattern for per-frame updates",
+        "Canvas radial gradient car icons (12px glowing dots) visible at road level",
+        "Scale/translucency by distance for clean appearance at all zoom levels",
+        "Bridge Traffic entry in Explore panel with live badge"
+      ],
+      "linesAdded": 130,
+      "agent": "automated"
+    }
+  ]
+}
