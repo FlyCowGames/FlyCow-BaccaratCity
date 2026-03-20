@@ -35,7 +35,7 @@
 - [ ] Macau Grand Prix (November) — F3 cars on Guia Circuit
 - [ ] Chinese New Year — fireworks, red lanterns, dragon dance
 - [ ] Mid-Autumn Festival — mooncakes, lantern festival
-- [ ] International Fireworks Display Contest (Sept-Oct)
+- [x] International Fireworks Display Contest (Sept-Oct) (Session 13: harbor fireworks at night)
 - [ ] Dragon Boat Festival — races in Nam Van Lake
 
 ## Interactivity

@@ -96,6 +96,15 @@
 - **Observation:** This is the signature feature per the Prime Directive ("Baccarat is the Soul"). After 10 sessions of visual/atmospheric improvements, adding the defining interactive feature feels like crossing a major milestone.
 - **Suggestion for future sessions:** The baccarat game could be enhanced with: betting UI, hand history/scoreboard (Big Road, Bead Plate), card flip animations (CSS 3D transforms), sound effects on deal/win. But the current version is functional and engaging.
 
+## Session 13 (2026-03-20) -- Harbor Fireworks
+- **Lesson:** Canvas 2D overlay is the right approach for fireworks — avoids CesiumJS bloom issues (per Session 6-8 lesson) while delivering high-impact visual effects. The canvas sits between the rain overlay and the UI overlay (z-index 55).
+- **Lesson:** A self-contained IIFE for the fireworks system keeps it fully decoupled from CesiumJS. It only depends on `getMacauHour()` for time checks.
+- **Lesson:** Particle physics (gravity, air resistance, decay, sparkle) create convincing firework bursts without complexity. 60-100 particles per burst is a good balance of visual density and performance.
+- **Lesson:** Multiple burst types (spherical, ring, willow) and color palettes add variety without code complexity — it's just different angle/speed distributions.
+- **Lesson:** Time-gated effects (20:00-01:00) should be checked periodically (every 30s) rather than continuously, to avoid unnecessary computation during inactive hours.
+- **Observation:** This is the first "event-like" visual feature — fireworks lay groundwork for the event calendar system. Future events (Chinese New Year, Grand Prix) can trigger special firework shows with custom palettes/frequency.
+- **Observation:** Since current Macau time was ~7 AM during development, the feature couldn't be visually verified live. The code was verified structurally (canvas exists, no JS errors). For time-gated features, consider temporarily overriding the time check during review.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

@@ -176,6 +176,23 @@
       ],
       "linesAdded": 421,
       "agent": "automated"
+    },
+    {
+      "session": 13,
+      "date": "2026-03-20",
+      "title": "Harbor Fireworks at Night",
+      "domain": "events",
+      "summary": "Particle-based firework display over the harbor during night hours (20:00-01:00) with rockets, bursts, and brand-matching color palettes.",
+      "details": [
+        "Canvas 2D particle system with rockets launching from bottom of screen",
+        "3 burst types: spherical, ring, and willow (trailing) with gravity and sparkle",
+        "6 color palettes: gold, red, purple, gold+red, amber, gold+purple",
+        "Active 20:00-01:00 Macau time with periodic launches every 4-10 seconds",
+        "Occasional rapid multi-rocket salvos for dramatic effect",
+        "Full particle physics: gravity, air resistance, fade, twinkle"
+      ],
+      "linesAdded": 177,
+      "agent": "automated"
     }
   ]
 }

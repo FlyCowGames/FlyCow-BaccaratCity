@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-20 (Session 11)*
+*This document evolves every session. Last updated: 2026-03-20 (Session 13)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -51,3 +51,4 @@
 - Ambient audio: 3-layer procedural Web Audio API soundscape, time/weather reactive (Session 9)
 - Landmark info cards: click any landmark for rich popup with description, history, facts (Session 10)
 - Interactive baccarat: click casino → play Punto Banco with proper rules, animated dealing (Session 11)
+- Harbor fireworks: particle-based firework display at night with 6 palettes, 3 burst types (Session 13)

@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-20 (Session 11)
+## Last Updated: 2026-03-20 (Session 13)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -18,6 +18,7 @@
 - **Ambient audio**: 3-layer procedural soundscape (ocean, wind, city hum) via Web Audio API, time-of-day + weather reactive
 - **Landmark info cards**: click any landmark to see a rich popup with description, history, facts, type, and year
 - **Interactive baccarat**: click any casino → "Enter Casino" → play baccarat with proper Punto Banco rules
+- **Harbor fireworks**: particle-based firework display over the harbor at night (20:00-01:00), 6 color palettes, 3 burst types
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -26,7 +27,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~2448 lines, ~85KB)
+- Single HTML file (~2625 lines, ~91KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -50,6 +51,7 @@
 - **Ambient audio** soundscape with mute/unmute toggle
 - **Landmark info cards** with descriptions, facts, history (click any landmark)
 - **Interactive baccarat** at any casino (Punto Banco rules, animated dealing, session stats)
+- **Harbor fireworks** at night (20:00-01:00) with particle physics, multiple burst types, brand-matching palettes
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

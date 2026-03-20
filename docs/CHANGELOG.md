@@ -98,6 +98,17 @@
 - Updated hints: "enter casino to play baccarat"
 - File grew from ~2027 to ~2448 lines
 
+## Session 13 — 2026-03-20 (Automated Agent)
+- Harbor fireworks display: particle-based firework system over the harbor during night hours
+- Canvas 2D overlay with full particle physics (rockets launch, burst into 60-100 particles)
+- 6 color palettes: gold, red, purple, gold+red, amber, gold+purple (matching brand aesthetic)
+- 3 burst types: spherical, ring, and willow (trailing) with gravity and sparkle effects
+- Active 20:00-01:00 Macau time, launches every 4-10 seconds with occasional rapid multi-rocket salvos
+- Rocket trail animation with gold particles rising from bottom of screen
+- Particle fade, gravity, air resistance, and twinkle effects for realism
+- Updated subtitle to include "Harbor Fireworks"
+- File grew from ~2448 to ~2625 lines (+177 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
