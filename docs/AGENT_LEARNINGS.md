@@ -37,6 +37,12 @@
 - **Lesson:** Adding high-altitude secondary glow entities (150m) for major casinos helps the glow remain visible from bird's eye views where ground-level entities would be too small.
 - **Lesson:** The `updateNeonGlow()` function only needs to run every 10 seconds since time changes slowly — no need for per-frame updates like ferry positions.
 
+## Session 6 Meta-Observations
+- **Observation:** The "Required Skills" in the prompt (/frontend-design, /brainstorming, /verification-before-completion, /systematic-debugging) may not exist as actual slash-command skills. Session completed successfully without them — code review was done manually.
+- **Observation:** Session ran efficiently — 8 phases in sequence worked well. No phase felt redundant.
+- **Observation:** Bloom post-processing is a "scene-wide" effect — needs careful tuning to avoid washing out the entire scene. Keeping brightness negative and contrast high isolates the glow to bright elements only.
+- **Decision:** Did not modify improve.mjs this session — the orchestrator is working correctly and no improvements were urgent.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
