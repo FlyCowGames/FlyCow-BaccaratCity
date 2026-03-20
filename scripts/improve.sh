@@ -133,7 +133,6 @@ cd "$PROJECT_DIR"
 claude -p \
   --dangerously-skip-permissions \
   --model claude-opus-4-6 \
-  --max-budget-usd 10 \
   "$PROMPT" \
   2>&1 | tee -a "$LOG_FILE"
 
