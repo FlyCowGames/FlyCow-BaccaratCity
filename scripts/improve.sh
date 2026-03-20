@@ -9,6 +9,7 @@
 # 4. Self-review and revise
 # 5. Deploy to S3 + CloudFront
 # 6. Update living documents
+# 7. Improve the improvement process itself
 # ============================================================
 
 set -euo pipefail
@@ -22,110 +23,123 @@ LOG_FILE="${LOG_DIR}/session_${SESSION_ID}.log"
 # Ensure log directory exists
 mkdir -p "${LOG_DIR}"
 
-echo "[$TIMESTAMP] Starting improvement session ${SESSION_ID}" | tee "$LOG_FILE"
+# Track session number (increment from last)
+SESSION_NUM_FILE="${PROJECT_DIR}/docs/.session_number"
+if [ -f "$SESSION_NUM_FILE" ]; then
+    SESSION_NUM=$(($(cat "$SESSION_NUM_FILE") + 1))
+else
+    SESSION_NUM=2
+fi
+echo "$SESSION_NUM" > "$SESSION_NUM_FILE"
 
-# Build the prompt with full context
+echo "[$TIMESTAMP] Starting improvement session ${SESSION_NUM} (${SESSION_ID})" | tee "$LOG_FILE"
+
+# Update official plugins before each run
+cd /home/ec2-user/GitHub/claude-code-plugins && git pull --ff-only 2>/dev/null || true
+cd "$PROJECT_DIR"
+
+# Build the prompt — passed as positional argument to claude CLI
 PROMPT=$(cat <<'PROMPT_EOF'
-You are the Baccarat City improvement agent. You run every hour to make one meaningful improvement to the living digital twin of Macau.
-
-## Your Working Directory
-/home/ec2-user/GitHub/FlyCow-BaccaratCity
+You are the Baccarat City improvement agent (Session NUM_PLACEHOLDER). You run every hour to make one meaningful improvement to the living digital twin of Macau.
 
 ## Your Process
 
-### Phase 1: CONTEXT (read these files)
-Read the following files to understand the current state:
-- docs/PRIME_DIRECTIVE.md (your north star — never changes)
+### Phase 1: CONTEXT
+Read these files to understand current state:
+- docs/PRIME_DIRECTIVE.md (immutable north star)
 - docs/ROADMAP.md (current priorities)
 - docs/IDEAS.md (backlog)
-- docs/CHANGELOG.md (what's been done)
+- docs/CHANGELOG.md (history)
 - docs/CALENDAR.md (Macau events)
 - docs/STATE.md (current scene description)
-- src/index.html (the actual code — read the first 200 lines and last 50 to understand structure, then grep for specific sections as needed)
+- docs/AGENT_LEARNINGS.md (lessons from past sessions — read this carefully, don't repeat mistakes)
+- src/index.html (the code — read first 200 lines + last 50 for structure, grep as needed)
 
 ### Phase 2: IDEATE
-Based on the roadmap priorities and ideas backlog:
-1. Identify the single highest-impact improvement you can make in this session
+Based on roadmap priorities and ideas backlog:
+1. Identify the single highest-impact improvement for this session
 2. Consider: what will make the biggest visible difference?
-3. Prefer: fixing broken things > foundational work > new features > polish
-4. Write a brief plan (5-10 lines) of what you'll do
+3. Priority: fix broken things > foundational work > new features > polish
+4. Write a brief plan (5-10 lines)
 
 ### Phase 3: IMPLEMENT
 Build the improvement:
-- Edit src/index.html directly (it's the single-file app)
-- Or edit individual src/modules/*.js files if working on a specific module
-- If editing modules, you MUST also reassemble src/index.html from all modules
-- Test by checking for syntax errors (node --check won't work for browser JS, but you can look for obvious issues)
+- Edit src/index.html directly (single-file CesiumJS app with Google 3D Tiles)
 - Keep changes focused — one improvement per session
+- Use /frontend-design skill for any visual/UI work
+- Use /brainstorming before design decisions
 
 ### Phase 4: REVIEW
-Review your own work:
+Use /verification-before-completion before claiming done:
 - Did it address the stated goal?
 - Any syntax errors or obvious bugs?
-- Does it follow the existing code patterns?
-- Is it the minimal change needed?
+- Does it follow existing code patterns?
 
 ### Phase 5: REVISE
-Fix any issues found in review. One revision pass only.
+Fix any issues found in review. One revision pass.
 
 ### Phase 6: DEPLOY
-Run these commands:
 ```bash
 aws s3 cp src/index.html s3://baccaratcity-site/index.html --content-type "text/html" --cache-control "no-cache"
 aws cloudfront create-invalidation --distribution-id E3V8V12C6EPFK6 --paths "/*"
 ```
-(If the S3 bucket or CloudFront doesn't exist yet, note it in the changelog and skip deploy.)
 
 ### Phase 7: EVOLVE
-Update the living documents:
-1. Append to docs/CHANGELOG.md with session number, date, and what you did
-2. Update docs/STATE.md to reflect what exists now
-3. Update docs/ROADMAP.md if priorities have shifted
-4. Update docs/IDEAS.md — check off completed items, add new ideas discovered
-5. Git commit all changes with message: "Session N: [brief description]"
-6. Git push
+Update living documents:
+1. Append to docs/CHANGELOG.md with session number, date, what you did
+2. Update docs/STATE.md to reflect current state
+3. Update docs/ROADMAP.md if priorities shifted
+4. Update docs/IDEAS.md — check off completed, add new ideas
+5. Append to docs/AGENT_LEARNINGS.md — what worked, what didn't, what to try next time
+6. Git commit: "Session N: [brief description]"
+7. Git push
 
-## Required Skills (invoke these via slash commands)
-You have access to 52+ skills via the .claude/skills/ directory. USE THEM. Key skills for this project:
+### Phase 8: META-IMPROVE
+Reflect on your own process and improve it:
+1. Review this session — was it efficient? Did you waste time on anything?
+2. Review scripts/improve.sh — could the prompt be better? Are there missing instructions?
+3. Review .claude/CLAUDE.md — does it give the right context?
+4. If you see a concrete improvement to the orchestration, make it.
+5. The improvement process should get better every cycle.
 
-- **/frontend-design** — MUST invoke for ALL visual/UI/frontend work. Generates distinctive, production-grade interfaces. Avoids generic AI aesthetics. Bold typography, color, motion, spatial composition.
-- **/brainstorming** — MUST invoke before any creative/design work. Explores intent, requirements, and design before implementation.
-- **/writing-plans** — MUST invoke when planning multi-step implementation. Creates structured plans with dependencies.
-- **/systematic-debugging** — MUST invoke when encountering any bug or unexpected behavior. Diagnose before fixing.
-- **/verification-before-completion** — MUST invoke before claiming work is done. Evidence before assertions.
-- **/requesting-code-review** — Invoke after completing implementation to verify quality.
-- **/web-operations** — Use for fetching Macau weather data, event info, map data from APIs.
-- **/image-generation** — Use when you need reference images or visual assets.
-- **/agent-browser** — Use to check the live site, take screenshots, verify rendering.
+## Required Skills
+- **/frontend-design** — MUST use for all visual/UI work
+- **/brainstorming** — MUST use before creative/design decisions
+- **/systematic-debugging** — MUST use when encountering bugs
+- **/verification-before-completion** — MUST use before deploying
+- **/web-operations** — Use for fetching weather/event data
+- **/agent-browser** — Use to verify the live site renders correctly
 
 ## Rules
 - ONE improvement per session. Do it well.
-- Always read the prime directive first — it's your compass.
-- The roadmap tells you what to prioritize. Follow it unless you see something more urgent.
-- If something is broken, fix it before adding new things.
-- Commit and push every session, even if the change is small.
-- Be bold with ideas but disciplined with implementation.
-- The instructions (ROADMAP, IDEAS) should morph over time. Add to them. Reprioritize.
-- ALWAYS invoke /brainstorming before design decisions.
-- ALWAYS invoke /verification-before-completion before deploying.
-- ALWAYS invoke /systematic-debugging when something breaks.
+- Read PRIME_DIRECTIVE.md first — it's your compass.
+- Read AGENT_LEARNINGS.md — don't repeat past mistakes.
+- Fix broken things before adding new features.
+- Commit and push every session.
+- Be bold with ideas, disciplined with implementation.
+- Living documents (ROADMAP, IDEAS, LEARNINGS) should evolve every session.
+- IMPROVE YOURSELF: update this script, CLAUDE.md, or docs if you see a way to make the process better.
 PROMPT_EOF
 )
 
-# Run Claude CLI with the prompt
-echo "[$TIMESTAMP] Launching Claude CLI..." | tee -a "$LOG_FILE"
+# Replace session number placeholder
+PROMPT="${PROMPT//NUM_PLACEHOLDER/$SESSION_NUM}"
 
-claude --print \
+# Run Claude CLI
+echo "[$TIMESTAMP] Launching Claude CLI (Opus 4.6, Session ${SESSION_NUM})..." | tee -a "$LOG_FILE"
+
+cd "$PROJECT_DIR"
+claude -p \
   --dangerously-skip-permissions \
   --model claude-opus-4-6 \
-  --max-turns 30 \
-  --prompt "$PROMPT" \
-  --cwd "$PROJECT_DIR" \
+  --max-budget-usd 5 \
+  "$PROMPT" \
   2>&1 | tee -a "$LOG_FILE"
 
 EXIT_CODE=${PIPESTATUS[0]}
 
-echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] Session ${SESSION_ID} completed with exit code ${EXIT_CODE}" | tee -a "$LOG_FILE"
+ENDTIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+echo "[$ENDTIME] Session ${SESSION_NUM} completed with exit code ${EXIT_CODE}" | tee -a "$LOG_FILE"
 
 # Keep last 168 logs (1 week of hourly runs)
 find "${LOG_DIR}" -name "session_*.log" -mtime +7 -delete 2>/dev/null || true

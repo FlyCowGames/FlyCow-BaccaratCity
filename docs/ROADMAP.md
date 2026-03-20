@@ -1,41 +1,44 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-20*
+*This document evolves every session. Last updated: 2026-03-20 (Session 1)*
 
-## Current Phase: Foundation
+## Current Phase: Bringing Macau to Life
 
-### Immediate Priorities (Sessions 1-10)
-1. **Fix broken camera/controls** — The cinematic camera conflicts with core engine input handling. Scene is stuck.
-2. **Replace fictional grid with real Macau geography** — Coastline shape, peninsula, Taipa island, Cotai strip, three bridges.
-3. **Place landmark anchors** — Grand Lisboa, Macau Tower, Ruins of St. Paul's, Venetian, Wynn at correct relative positions.
-4. **Real-time clock** — Sync to Macau time (UTC+8) for day/night cycle.
-5. **Working cinematic flythrough** — Aerial approach → street level → casino interior.
+### Immediate Priorities (Sessions 2-10)
+1. **Real-time Macau clock** — Use actual UTC+8 time for day/night instead of hardcoded 8:30 PM
+2. **Weather integration** — OpenWeatherMap API for Macau → rain particles, fog, clouds
+3. **Animated traffic** — Cars moving along main Macau roads (polyline paths)
+4. **Ferry boats** — Animate ferries between peninsula and Taipa
+5. **Neon/glow effects** — CesiumJS post-processing bloom on casino district at night
 
 ### Near-Term (Sessions 10-30)
-- Weather API integration (OpenWeatherMap for Macau)
-- Accurate road network (main roads: Avenida de Almeida Ribeiro, Estrada do Istmo)
-- Harbor with ferry routes
-- Casino interior detail
-- Event calendar system
+- Casino interior transition (click Grand Lisboa → Three.js baccarat room)
+- Guia Circuit road path for F3 event
+- Airport planes (approach/takeoff animations)
+- More landmark detail and info popups
+- Ambient audio system (Howler.js)
+- Bridge traffic animations
 
 ### Medium-Term (Sessions 30-100)
-- All major landmarks modeled
-- Macau Grand Prix circuit (Guia Circuit) with F3 cars
-- Airport with planes
-- Bridge traffic
-- Ambient audio system
-- Interactive exploration (click buildings, enter casinos)
+- Full event calendar system with live triggers
+- Typhoon signal weather effects
+- Street-level exploration mode
+- Real-time flight data (ADS-B) for airport
+- Construction cranes and ongoing development
+- Portuguese colonial district detail (Senado Square cobblestones)
+- Community features
 
 ### Long-Term (Sessions 100+)
-- Street-level detail throughout
-- Real-time event triggers
-- Community features
 - Mobile optimization
-- Possible game mechanics
+- VR/AR support
+- Live data dashboard
+- Possible game mechanics (baccarat play)
+- User accounts and saved views
 
 ## Completed
-- Initial Three.js scene with procedural city (v0.1)
-- Day/night cycle
-- Baccarat table animations
-- Vehicle/pedestrian systems
-- Post-processing bloom pipeline
+- ~~Procedural Three.js city~~ (replaced)
+- CesiumJS + Google 3D Tiles integration (real Macau photogrammetry)
+- Cinematic flythrough sequence
+- 8 landmark billboards
+- Dark/gold branding overlay
+- Hourly improvement loop infrastructure

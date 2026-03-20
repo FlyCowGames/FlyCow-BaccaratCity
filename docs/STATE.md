@@ -2,39 +2,38 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-20 (Session 0)
+## Last Updated: 2026-03-20 (Session 1)
 
 ## Scene Description
-- Procedural 17x17 grid city (NOT real Macau geography)
-- 289 building plots with 12 building types
-- Dense but fictional layout
-- Camera system is broken (cinematic conflicts with controls)
+- CesiumJS viewer with Google Photorealistic 3D Tiles — real Macau photogrammetry
+- Cinematic 5-stage flythrough: bird's eye → Cotai sweep → street level → Grand Lisboa orbit → casino district overview
+- 8 landmark billboards: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams
+- Night atmosphere (clock set to 8:30 PM Macau time)
+- Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 · 澳門風雲"
+- Real-time Macau clock (UTC+8)
 
 ## Technical Stack
-- Three.js 0.162.0 via CDN importmap
-- Single HTML file (~198KB, ~5100 lines)
-- PostProcessing: EffectComposer → RenderPass → UnrealBloomPass → OutputPass
-- MeshToonMaterial for cel-shaded look
+- CesiumJS 1.119 from CDN
+- Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
+- Single HTML file (~600 lines, ~20KB)
+- Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
+- Deployed: S3 (baccaratcity-site) → CloudFront (E3V8V12C6EPFK6) → baccaratcity.com
 
 ## What Works
-- Building generation and placement
-- Neon signs with bloom glow
-- Day/night cycle (120s, starts at noon)
-- Vehicle movement on road grid
-- Pedestrian walking animation
-- Baccarat table dealing animation
-- Water/harbor on south side
-- Light beams, fireworks (night), fountains, lanterns
-
-## What's Broken
-- Camera controls — stuck after cinematic sequence
-- Cinematic camera replaces ortho with perspective but doesn't properly hand off controls
+- Photorealistic 3D rendering of all Macau
+- Cinematic flythrough with smooth camera transitions
+- Landmark billboards with Chinese/English names
+- Click landmark to fly to it
+- Replay button for cinematic
+- Drag to orbit, scroll to zoom
+- Loading screen with progress bar
 
 ## What's Missing (vs Prime Directive)
-- Real Macau geography (coastline, islands, bridges)
-- Real landmarks
-- Real time (UTC+8)
-- Real weather
-- Event system
-- Working interactivity
+- Real-time weather (rain, fog, temperature)
+- Real-time Macau clock driving day/night (currently hardcoded to 8:30 PM)
+- Event system (F3, CNY, festivals)
+- Animated traffic, ferries, planes
+- Casino interior / baccarat tables
+- Neon sign effects / light beams
 - Audio
+- Interactive exploration (click buildings for info)
