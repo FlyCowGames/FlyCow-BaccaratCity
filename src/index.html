@@ -183,7 +183,7 @@
   <div id="title-block">
     <div id="title">BACCARAT CITY</div>
     <div id="tagline">百家樂之城 &middot; 澳門風雲</div>
-    <div id="subtitle">Photorealistic Macau &middot; Powered by Google 3D Tiles</div>
+    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night</div>
     <div id="title-line"></div>
   </div>
 
@@ -223,7 +223,14 @@ const LANDMARKS = [
   { name: "City of Dreams",      chinese: "\u65B0\u6FE0\u5929\u5730", emoji: "\uD83C\uDFB0",     lat: 22.1486, lon: 113.5586 },
 ];
 
-// ── Clock ──
+// ── Clock & Day/Night UI ──
+function getMacauHour() {
+  var now = new Date();
+  var macauStr = now.toLocaleString('en-US', { timeZone: 'Asia/Macau', hour12: false });
+  var macau = new Date(macauStr);
+  return macau.getHours() + macau.getMinutes() / 60;
+}
+
 function updateClock() {
   var now = new Date();
   var macauStr = now.toLocaleString('en-US', { timeZone: 'Asia/Macau', hour12: false });
@@ -232,6 +239,15 @@ function updateClock() {
   var m = String(macau.getMinutes()).padStart(2, '0');
   var s = String(macau.getSeconds()).padStart(2, '0');
   document.getElementById('clock').textContent = h + ':' + m + ':' + s;
+
+  // Update day/night indicator
+  var hour = getMacauHour();
+  var isNight = hour < 6.5 || hour > 18.5;
+  var isDusk = (hour >= 17.5 && hour <= 18.5) || (hour >= 6 && hour <= 7);
+  var label = isNight ? 'Macau Time (UTC+8) \u00B7 Night' :
+              isDusk ? 'Macau Time (UTC+8) \u00B7 Golden Hour' :
+              'Macau Time (UTC+8) \u00B7 Day';
+  document.getElementById('clock-label').textContent = label;
 }
 setInterval(updateClock, 1000);
 updateClock();
@@ -267,26 +283,23 @@ async function init() {
     shouldAnimate: true,
   });
 
-  // Dark background - no globe, no sky
+  // Scene setup — no globe (3D Tiles replace it), atmosphere + sun/moon for day/night
   viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#0a0a12');
   viewer.scene.globe.show = false;
   viewer.scene.skyBox.show = false;
-  viewer.scene.skyAtmosphere.show = false;
-  viewer.scene.sun.show = false;
-  viewer.scene.moon.show = false;
+  viewer.scene.skyAtmosphere.show = true;
+  viewer.scene.sun.show = true;
+  viewer.scene.moon.show = true;
   viewer.scene.fog.enabled = false;
 
-  // Nighttime clock (8:30 PM Macau = 12:30 UTC)
-  var nightTime = Cesium.JulianDate.fromDate(new Date('2026-03-20T12:30:00Z'));
-  viewer.clock.currentTime = nightTime;
-  viewer.clock.shouldAnimate = false;
+  // Real-time clock — scene matches actual Macau time
+  viewer.clock.currentTime = Cesium.JulianDate.now();
+  viewer.clock.shouldAnimate = true;
+  viewer.clock.multiplier = 1; // real-time (1x speed)
 
-  // Lighting
+  // Lighting — use sun position for natural day/night
   viewer.scene.globe.enableLighting = true;
-  viewer.scene.light = new Cesium.DirectionalLight({
-    direction: new Cesium.Cartesian3(0.2, -0.5, -0.8),
-    intensity: 0.3,
-  });
+  viewer.scene.light = new Cesium.SunLight({ intensity: 2.0 });
 
   // Initial camera position while loading
   viewer.camera.setView({
