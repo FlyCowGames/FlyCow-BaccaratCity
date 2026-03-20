@@ -1,12 +1,12 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-20 (Session 1)*
+*This document evolves every session. Last updated: 2026-03-20 (Session 3)*
 
 ## Current Phase: Bringing Macau to Life
 
 ### Immediate Priorities (Sessions 2-10)
-1. **Real-time Macau clock** — Use actual UTC+8 time for day/night instead of hardcoded 8:30 PM
-2. **Weather integration** — OpenWeatherMap API for Macau → rain particles, fog, clouds
+1. ~~**Real-time Macau clock**~~ — Done (Session 2)
+2. ~~**Weather integration**~~ — Done (Session 3: Open-Meteo API, rain, fog, cloud dimming)
 3. **Animated traffic** — Cars moving along main Macau roads (polyline paths)
 4. **Ferry boats** — Animate ferries between peninsula and Taipa
 5. **Neon/glow effects** — CesiumJS post-processing bloom on casino district at night
@@ -42,3 +42,5 @@
 - 8 landmark billboards
 - Dark/gold branding overlay
 - Hourly improvement loop infrastructure
+- Real-time day/night cycle (Session 2)
+- Live weather: Open-Meteo API, rain/fog effects, cloud dimming (Session 3)

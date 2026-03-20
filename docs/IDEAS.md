@@ -21,7 +21,7 @@
 - [ ] A-Ma Temple — traditional Chinese temple at the harbor
 
 ## Atmosphere & Realism
-- [ ] Real Macau weather from API → rain particles, fog density, cloud cover
+- [x] Real Macau weather from API → rain particles, fog density, cloud cover (Session 3)
 - [ ] Typhoon signal system (T1-T10) with dramatic weather effects
 - [ ] Light pollution glow from Cotai strip visible across the water
 - [ ] Ferry boats crossing between peninsula and Taipa
