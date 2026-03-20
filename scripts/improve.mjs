@@ -94,10 +94,26 @@ Update living documents:
 7. Git push
 
 ### Phase 8: META-IMPROVE
-Reflect on your own process and improve it:
-1. Was this session efficient?
-2. Could scripts/improve.mjs or .claude/CLAUDE.md be improved?
-3. Make concrete improvements if you see them.
+Reflect on your own process AND the orchestration infrastructure:
+
+**Session efficiency:**
+1. Was this session efficient? What took too long?
+2. Did the 8-phase process work well or should phases be adjusted?
+
+**Orchestration improvements (scripts/improve.mjs):**
+3. Read scripts/improve.mjs — this is the Agent SDK orchestrator that spawns you.
+4. Consider: Should the prompt be refined? Are phases missing or redundant?
+5. Could SDK options be tuned? (e.g. allowedTools, maxTurns, timeout)
+6. Should safety nets be smarter? (e.g. conditional deploy, better git handling)
+7. Would chaining multiple unstable_v2_prompt calls help? (e.g. separate ideation → implementation → review passes)
+8. Should logs capture more useful data for future sessions?
+
+**Agent configuration (.claude/CLAUDE.md):**
+9. Are the agent instructions in .claude/CLAUDE.md complete and accurate?
+10. Should new skills be added or existing ones refined?
+
+**Make concrete changes.** Don't just reflect — if you see an improvement, implement it.
+Log what you changed (or chose not to change and why) in AGENT_LEARNINGS.md.
 
 ## Required Skills
 - /frontend-design — MUST use for all visual/UI work
