@@ -99,6 +99,56 @@
     letter-spacing: 0.1em; line-height: 1.8;
   }
 
+  /* Weather display - top right */
+  #weather-block {
+    position: absolute; top: 32px; right: 32px;
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    opacity: 0; transition: opacity 1s ease;
+  }
+  #weather-block.visible { opacity: 1; }
+  #weather-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+  #weather-temp {
+    font-weight: 400; font-size: 1.2rem;
+    color: #d4af37;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 15px rgba(212,175,55,0.3);
+  }
+  #weather-desc {
+    font-weight: 300; font-size: 0.65rem;
+    color: rgba(212,175,55,0.5);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-top: 2px;
+  }
+  #weather-details {
+    font-weight: 300; font-size: 0.6rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    line-height: 1.6;
+  }
+
+  /* Rain overlay */
+  #rain-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 50;
+    opacity: 0; transition: opacity 2s ease;
+  }
+  #rain-overlay.active { opacity: 1; }
+  .rain-drop {
+    position: absolute;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(174,194,224,0.4));
+    animation: rainFall linear infinite;
+  }
+  @keyframes rainFall {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+  }
+
   /* Replay button */
   #replay-btn {
     position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
@@ -176,6 +226,7 @@
 </div>
 
 <div id="cesiumContainer"></div>
+<div id="rain-overlay"></div>
 
 <div id="overlay">
   <div id="vignette"></div>
@@ -188,6 +239,13 @@
   </div>
 
   <div id="stage-label"></div>
+
+  <div id="weather-block">
+    <div id="weather-icon"></div>
+    <div id="weather-temp"></div>
+    <div id="weather-desc"></div>
+    <div id="weather-details"></div>
+  </div>
 
   <div id="clock-block">
     <div id="clock-label">Macau Time (UTC+8)</div>
@@ -251,6 +309,128 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock();
+
+// ── Weather System ──
+var currentWeather = null;
+
+// WMO weather code to description and icon
+function weatherCodeInfo(code, isNight) {
+  var map = {
+    0: { desc: 'Clear sky', icon: isNight ? '\u{1F319}' : '\u2600\uFE0F' },
+    1: { desc: 'Mainly clear', icon: isNight ? '\u{1F319}' : '\u{1F324}\uFE0F' },
+    2: { desc: 'Partly cloudy', icon: '\u26C5' },
+    3: { desc: 'Overcast', icon: '\u2601\uFE0F' },
+    45: { desc: 'Fog', icon: '\u{1F32B}\uFE0F' },
+    48: { desc: 'Depositing rime fog', icon: '\u{1F32B}\uFE0F' },
+    51: { desc: 'Light drizzle', icon: '\u{1F326}\uFE0F' },
+    53: { desc: 'Moderate drizzle', icon: '\u{1F326}\uFE0F' },
+    55: { desc: 'Dense drizzle', icon: '\u{1F327}\uFE0F' },
+    61: { desc: 'Slight rain', icon: '\u{1F327}\uFE0F' },
+    63: { desc: 'Moderate rain', icon: '\u{1F327}\uFE0F' },
+    65: { desc: 'Heavy rain', icon: '\u{1F327}\uFE0F' },
+    80: { desc: 'Slight showers', icon: '\u{1F326}\uFE0F' },
+    81: { desc: 'Moderate showers', icon: '\u{1F327}\uFE0F' },
+    82: { desc: 'Violent showers', icon: '\u26C8\uFE0F' },
+    95: { desc: 'Thunderstorm', icon: '\u26C8\uFE0F' },
+    96: { desc: 'Thunderstorm with hail', icon: '\u26C8\uFE0F' },
+    99: { desc: 'Thunderstorm with heavy hail', icon: '\u26C8\uFE0F' },
+  };
+  return map[code] || { desc: 'Unknown', icon: '\u{1F300}' };
+}
+
+function isRainyCode(code) {
+  return [51, 53, 55, 61, 63, 65, 80, 81, 82, 95, 96, 99].indexOf(code) !== -1;
+}
+
+function isFoggyCode(code) {
+  return [45, 48].indexOf(code) !== -1;
+}
+
+function isHeavyRain(code) {
+  return [65, 82, 95, 96, 99].indexOf(code) !== -1;
+}
+
+function createRainDrops(intensity) {
+  var container = document.getElementById('rain-overlay');
+  container.innerHTML = '';
+  var count = intensity === 'heavy' ? 120 : intensity === 'moderate' ? 60 : 30;
+  for (var i = 0; i < count; i++) {
+    var drop = document.createElement('div');
+    drop.className = 'rain-drop';
+    drop.style.left = Math.random() * 100 + '%';
+    drop.style.height = (intensity === 'heavy' ? 18 + Math.random() * 14 : 10 + Math.random() * 10) + 'px';
+    drop.style.animationDuration = (0.4 + Math.random() * 0.5) + 's';
+    drop.style.animationDelay = Math.random() * 2 + 's';
+    drop.style.opacity = 0.3 + Math.random() * 0.4;
+    container.appendChild(drop);
+  }
+}
+
+async function fetchWeather() {
+  try {
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=22.1987&longitude=113.5439'
+      + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,cloud_cover'
+      + '&timezone=Asia/Macau';
+    var response = await fetch(url);
+    var data = await response.json();
+    if (data && data.current) {
+      currentWeather = data.current;
+      updateWeatherUI(data.current);
+      applyWeatherEffects(data.current);
+    }
+  } catch (e) {
+    console.warn('Weather fetch failed:', e);
+  }
+}
+
+function updateWeatherUI(w) {
+  var hour = getMacauHour();
+  var isNight = hour < 6.5 || hour > 18.5;
+  var info = weatherCodeInfo(w.weather_code, isNight);
+
+  document.getElementById('weather-icon').textContent = info.icon;
+  document.getElementById('weather-temp').textContent = Math.round(w.temperature_2m) + '\u00B0C';
+  document.getElementById('weather-desc').textContent = info.desc;
+  document.getElementById('weather-details').innerHTML =
+    'Humidity ' + w.relative_humidity_2m + '% &middot; Wind ' + Math.round(w.wind_speed_10m) + ' km/h'
+    + '<br>Cloud cover ' + w.cloud_cover + '%';
+  document.getElementById('weather-block').classList.add('visible');
+}
+
+function applyWeatherEffects(w) {
+  var code = w.weather_code;
+  var rainOverlay = document.getElementById('rain-overlay');
+
+  // Rain
+  if (isRainyCode(code)) {
+    var intensity = isHeavyRain(code) ? 'heavy' : code >= 61 ? 'moderate' : 'light';
+    createRainDrops(intensity);
+    rainOverlay.classList.add('active');
+  } else {
+    rainOverlay.classList.remove('active');
+  }
+
+  // Fog — apply CesiumJS scene fog + haze
+  if (_viewer) {
+    if (isFoggyCode(code) || w.cloud_cover > 85) {
+      _viewer.scene.fog.enabled = true;
+      _viewer.scene.fog.density = isFoggyCode(code) ? 0.001 : 0.0004;
+      _viewer.scene.fog.minimumBrightness = 0.03;
+    } else {
+      _viewer.scene.fog.enabled = false;
+    }
+
+    // Adjust light intensity based on cloud cover
+    if (_viewer.scene.light) {
+      var cloudDim = 1.0 - (w.cloud_cover / 100) * 0.4;
+      _viewer.scene.light.intensity = 2.0 * cloudDim;
+    }
+  }
+}
+
+// Fetch weather immediately, then every 15 minutes
+fetchWeather();
+setInterval(fetchWeather, 15 * 60 * 1000);
 
 // ── Loading bar ──
 var loadProgress = 0;
@@ -328,6 +508,9 @@ async function init() {
     }, 600);
 
     _viewer = viewer;
+
+    // Apply weather effects now that viewer is ready
+    if (currentWeather) applyWeatherEffects(currentWeather);
 
     // Add landmarks
     addLandmarks(viewer);
