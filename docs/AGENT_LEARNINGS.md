@@ -58,6 +58,13 @@
 - **Lesson:** Flight path altitude descent should be non-linear in real life, but linear interpolation between waypoints with decreasing altitude steps creates a good enough glideslope effect without complexity.
 - **Observation:** Three animation systems (ferries, cars, planes) now share the same core pattern. If a 4th is needed, could extract a generic `addAnimatedEntities(viewer, routes, icon, opts)` function — but not yet, 3 instances doesn't warrant abstraction.
 
+## Session 8 Meta-Observations
+- **Observation:** Another fast session — pattern reuse from Sessions 4/7 made this near-trivial. Three transport systems (ferries, cars, planes) now share the same core CallbackProperty + lerp pattern with minor variations (ping-pong vs one-way, 2D vs 3D altitude).
+- **Decision:** Did not modify improve.mjs — orchestrator remains stable. No phases redundant.
+- **Decision:** Did not extract a generic animation function despite 3 similar systems. The differences (icon creation, altitude handling, looping mode) are meaningful enough that duplication is clearer than abstraction. Will reconsider if a 4th animation type is added.
+- **Observation:** Review/revision phases were light since this was a pattern-following change with no visual regressions expected. For UI/design changes, the screenshot review phase would be more critical.
+- **Suggestion for future sessions:** The next high-impact features should shift away from animation (ferries, cars, planes are done) toward interactivity or atmosphere. Casino interior / baccarat tables would fulfill the Prime Directive's "signature feature." Ambient audio (Howler.js) would add immersion.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
