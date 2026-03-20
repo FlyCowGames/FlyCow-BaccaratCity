@@ -68,18 +68,28 @@ Build the improvement:
 - Use /frontend-design skill for any visual/UI work
 - Use /brainstorming before design decisions
 
-### Phase 4: REVIEW
-Use /verification-before-completion before claiming done:
-- Did it address the stated goal?
-- Any syntax errors or obvious bugs?
-- Does it follow existing code patterns?
+### Phase 4: REVIEW (with screenshots)
+After deploying, take screenshots of the live site to evaluate visual quality:
+1. Use /agent-browser to open https://baccaratcity.com and take a screenshot
+2. Wait 10 seconds for tiles to load, then take another screenshot
+3. Evaluate the screenshot for:
+   - **Oversaturation**: Are glow effects too bright or washing out the scene?
+   - **Color balance**: Does the scene look natural or blown out?
+   - **UI readability**: Are overlays, text, and panels legible?
+   - **Visual quality**: Does it look professional and polished?
+   - **Flythrough**: If you changed camera work, does pacing feel right?
+4. Also check code:
+   - Any syntax errors or obvious bugs?
+   - Does it follow existing code patterns?
 
 ### Phase 5: REVISE
-Fix any issues found in review. One revision pass.
+Fix any issues found in review — especially visual quality problems from screenshots. One revision pass. Re-deploy and re-screenshot if you made visual changes.
 
 ### Phase 6: DEPLOY
 \`\`\`bash
 aws s3 cp src/index.html s3://baccaratcity-site/index.html --content-type "text/html" --cache-control "no-cache"
+aws s3 cp src/improvements.html s3://baccaratcity-site/improvements.html --content-type "text/html" --cache-control "no-cache"
+aws s3 cp src/data/improvements.json s3://baccaratcity-site/data/improvements.json --content-type "application/json" --cache-control "no-cache"
 aws cloudfront create-invalidation --distribution-id E3V8V12C6EPFK6 --paths "/*"
 \`\`\`
 
@@ -90,8 +100,22 @@ Update living documents:
 3. Update docs/ROADMAP.md if priorities shifted
 4. Update docs/IDEAS.md — check off completed, add new ideas
 5. Append to docs/AGENT_LEARNINGS.md — what worked, what didn't, what to try next time
-6. Git commit: "Session ${sessionNum}: [brief description]"
-7. Git push
+6. **Update src/data/improvements.json** — append a new entry to the "sessions" array:
+   \`\`\`json
+   {
+     "session": ${sessionNum},
+     "date": "YYYY-MM-DD",
+     "title": "Short Title",
+     "domain": "one of: rendering|atmosphere|animation|landmarks|events|interactivity|audio|infrastructure",
+     "summary": "One sentence describing what was done and why it matters.",
+     "details": ["Bullet 1", "Bullet 2", "..."],
+     "linesAdded": approx_lines_added,
+     "agent": "automated"
+   }
+   \`\`\`
+   Also deploy src/data/improvements.json and src/improvements.html to S3.
+7. Git commit: "Session ${sessionNum}: [brief description]"
+8. Git push
 
 ### Phase 8: META-IMPROVE
 Reflect on your own process AND the orchestration infrastructure:
