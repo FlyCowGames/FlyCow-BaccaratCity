@@ -2,14 +2,8 @@
 # ============================================================
 # Baccarat City — Hourly Improvement Loop
 # ============================================================
-# Runs via cron every hour. Spawns Claude CLI to:
-# 1. Review current state
-# 2. Ideate improvements
-# 3. Implement the highest-impact change
-# 4. Self-review and revise
-# 5. Deploy to S3 + CloudFront
-# 6. Update living documents
-# 7. Improve the improvement process itself
+# Runs via cron every hour. Spawns Claude CLI (logged-in session)
+# to make one improvement, then ensures deploy + git happen.
 # ============================================================
 
 set -euo pipefail
@@ -20,10 +14,9 @@ TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 SESSION_ID=$(date +"%Y%m%d_%H%M")
 LOG_FILE="${LOG_DIR}/session_${SESSION_ID}.log"
 
-# Ensure log directory exists
 mkdir -p "${LOG_DIR}"
 
-# Track session number (increment from last)
+# Track session number
 SESSION_NUM_FILE="${PROJECT_DIR}/docs/.session_number"
 if [ -f "$SESSION_NUM_FILE" ]; then
     SESSION_NUM=$(($(cat "$SESSION_NUM_FILE") + 1))
@@ -34,11 +27,11 @@ echo "$SESSION_NUM" > "$SESSION_NUM_FILE"
 
 echo "[$TIMESTAMP] Starting improvement session ${SESSION_NUM} (${SESSION_ID})" | tee "$LOG_FILE"
 
-# Update official plugins before each run
+# Update official plugins
 cd /home/ec2-user/GitHub/claude-code-plugins && git pull --ff-only 2>/dev/null || true
 cd "$PROJECT_DIR"
 
-# Build the prompt — passed as positional argument to claude CLI
+# ── Prompt ──
 PROMPT=$(cat <<'PROMPT_EOF'
 You are the Baccarat City improvement agent (Session NUM_PLACEHOLDER). You run every hour to make one meaningful improvement to the living digital twin of Macau.
 
@@ -119,14 +112,13 @@ Reflect on your own process and improve it:
 - Be bold with ideas, disciplined with implementation.
 - Living documents (ROADMAP, IDEAS, LEARNINGS) should evolve every session.
 - IMPROVE YOURSELF: update this script, CLAUDE.md, or docs if you see a way to make the process better.
-- CRITICAL: You MUST complete phases 6 (deploy) and 7 (evolve/git) before finishing. Deploy to S3 and git commit+push are non-negotiable final steps.
+- CRITICAL: You MUST complete phases 6 (deploy) and 7 (evolve/git) before finishing.
 PROMPT_EOF
 )
 
-# Replace session number placeholder
 PROMPT="${PROMPT//NUM_PLACEHOLDER/$SESSION_NUM}"
 
-# Run Claude CLI
+# ── Run Claude CLI (logged-in session, no API key, no budget limit) ──
 echo "[$TIMESTAMP] Launching Claude CLI (Opus 4.6, Session ${SESSION_NUM})..." | tee -a "$LOG_FILE"
 
 cd "$PROJECT_DIR"
@@ -136,10 +128,30 @@ claude -p \
   "$PROMPT" \
   2>&1 | tee -a "$LOG_FILE"
 
-EXIT_CODE=${PIPESTATUS[0]}
+AGENT_EXIT=${PIPESTATUS[0]}
+echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Agent exited with code ${AGENT_EXIT}" | tee -a "$LOG_FILE"
+
+# ── Safety net: ensure deploy + git happen even if agent skipped them ──
+
+# Deploy if src/index.html was modified
+if ! git diff --quiet src/index.html 2>/dev/null; then
+    echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Safety net: deploying to S3..." | tee -a "$LOG_FILE"
+    aws s3 cp src/index.html s3://baccaratcity-site/index.html \
+        --content-type "text/html" --cache-control "no-cache" 2>&1 | tee -a "$LOG_FILE"
+    aws cloudfront create-invalidation --distribution-id E3V8V12C6EPFK6 \
+        --paths "/*" 2>&1 | tee -a "$LOG_FILE"
+fi
+
+# Git commit + push if there are any uncommitted changes
+if ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
+    echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] Safety net: committing and pushing..." | tee -a "$LOG_FILE"
+    git add -A
+    git commit -m "Session ${SESSION_NUM}: automated improvement (safety-net commit)" 2>&1 | tee -a "$LOG_FILE"
+    git push origin main 2>&1 | tee -a "$LOG_FILE"
+fi
 
 ENDTIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-echo "[$ENDTIME] Session ${SESSION_NUM} completed with exit code ${EXIT_CODE}" | tee -a "$LOG_FILE"
+echo "[$ENDTIME] Session ${SESSION_NUM} fully complete." | tee -a "$LOG_FILE"
 
-# Keep last 168 logs (1 week of hourly runs)
+# Keep last 168 logs (1 week)
 find "${LOG_DIR}" -name "session_*.log" -mtime +7 -delete 2>/dev/null || true
