@@ -135,6 +135,13 @@
 - **Lesson:** Fountain mist entities with animated scale provide atmospheric depth. Using IIFE closures to capture per-entity random phase/speed in `CallbackProperty` is the clean pattern for this.
 - **Observation:** Session 18's sky beams were already committed but not documented. Always check for undocumented previous sessions and update CHANGELOG accordingly.
 
+## Quality Audit Process (added 2026-03-21) — FROM OWNER
+- **RULE:** Every 10 sessions (10, 20, 30, 40...) is a FULL QUALITY AUDIT session.
+- **RULE:** During audits, screenshot from multiple angles, evaluate every feature (GOOD/MEH/BAD), and fix the worst one. Do NOT add new features during audits.
+- **RULE:** Features should not be built and forgotten. If something looks crappy, it gets fixed. Quality over quantity.
+- **RULE:** Between audits, if a previous audit flagged something as MEH or BAD, prioritize fixing it over adding new features.
+- **Lesson:** Building lots of features that each look 60% polished is worse than fewer features at 90%. Always ask: "Does this look professional?"
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
