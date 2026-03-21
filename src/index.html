@@ -683,6 +683,10 @@
       <div id="racing-list"></div>
     </div>
     <div class="panel-section">
+      <div class="panel-section-title">Bridges</div>
+      <div id="bridges-list"></div>
+    </div>
+    <div class="panel-section">
       <div class="panel-section-title">Heritage</div>
       <div id="heritage-list"></div>
     </div>
@@ -981,6 +985,7 @@ async function init() {
     addAirportPlanes(viewer);
     addNeonGlow(viewer);
     addWaterShimmer(viewer);
+    addBridgeLights(viewer);
     addSkyBeams(viewer);
     addGuiaLighthouse(viewer);
     addLRT(viewer);
@@ -2472,6 +2477,11 @@ var ATTRACTIONS = {
   heritage: [
     { name: "Guia Lighthouse", chinese: "東望洋燈塔", icon: "🗼", lat: 22.1967, lon: 113.5480, alt: 250, pitch: -20 },
   ],
+  bridges: [
+    { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
+    { name: "Ponte de Sai Van", chinese: "西灣大橋", icon: "🌉", lat: 22.1730, lon: 113.5380, alt: 600, pitch: -35 },
+    { name: "Ponte Gov. Nobre de Carvalho", chinese: "嘉樂庇總督大橋", icon: "🌉", lat: 22.1750, lon: 113.5480, alt: 600, pitch: -35 },
+  ],
   transit: [
     { name: "Macau LRT", chinese: "澳門輕軌", icon: "🚈", lat: 22.1500, lon: 113.5700, alt: 400, pitch: -25 },
   ],
@@ -2560,6 +2570,12 @@ function populateAttractions() {
   var racingList = document.getElementById('racing-list');
   ATTRACTIONS.racing.forEach(function(a) {
     racingList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
+  });
+
+  // Bridges
+  var bridgesList = document.getElementById('bridges-list');
+  ATTRACTIONS.bridges.forEach(function(a) {
+    bridgesList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
   });
 
   // Heritage
@@ -3164,6 +3180,129 @@ function updateShimmerVisibility() {
   });
 }
 setInterval(updateShimmerVisibility, 10000);
+
+// ── Bridge Night Illumination ──
+// Decorative lights along Macau's 3 iconic bridges — visible from bird's eye at night
+var BRIDGE_LIGHTS = [
+  {
+    name: 'Ponte de Amizade',
+    color: [140, 180, 255], // cool blue-white LED
+    points: [
+      { lon: 113.5520, lat: 22.1910 },
+      { lon: 113.5527, lat: 22.1893 },
+      { lon: 113.5535, lat: 22.1877 },
+      { lon: 113.5543, lat: 22.1860 },
+      { lon: 113.5551, lat: 22.1843 },
+      { lon: 113.5558, lat: 22.1825 },
+      { lon: 113.5565, lat: 22.1808 },
+      { lon: 113.5573, lat: 22.1790 },
+      { lon: 113.5580, lat: 22.1773 },
+      { lon: 113.5588, lat: 22.1755 },
+      { lon: 113.5595, lat: 22.1738 },
+      { lon: 113.5603, lat: 22.1720 },
+      { lon: 113.5610, lat: 22.1700 },
+      { lon: 113.5617, lat: 22.1680 },
+      { lon: 113.5622, lat: 22.1660 },
+      { lon: 113.5625, lat: 22.1640 },
+      { lon: 113.5625, lat: 22.1620 },
+      { lon: 113.5625, lat: 22.1590 },
+    ],
+  },
+  {
+    name: 'Ponte de Sai Van',
+    color: [255, 210, 100], // warm gold
+    points: [
+      { lon: 113.5310, lat: 22.1850 },
+      { lon: 113.5318, lat: 22.1835 },
+      { lon: 113.5326, lat: 22.1820 },
+      { lon: 113.5335, lat: 22.1805 },
+      { lon: 113.5345, lat: 22.1790 },
+      { lon: 113.5355, lat: 22.1773 },
+      { lon: 113.5365, lat: 22.1755 },
+      { lon: 113.5375, lat: 22.1738 },
+      { lon: 113.5385, lat: 22.1720 },
+      { lon: 113.5395, lat: 22.1703 },
+      { lon: 113.5405, lat: 22.1685 },
+      { lon: 113.5415, lat: 22.1668 },
+      { lon: 113.5425, lat: 22.1650 },
+      { lon: 113.5438, lat: 22.1633 },
+      { lon: 113.5450, lat: 22.1615 },
+      { lon: 113.5460, lat: 22.1600 },
+    ],
+  },
+  {
+    name: 'Ponte Gov. Nobre de Carvalho',
+    color: [255, 255, 220], // neutral white
+    points: [
+      { lon: 113.5440, lat: 22.1880 },
+      { lon: 113.5448, lat: 22.1863 },
+      { lon: 113.5455, lat: 22.1845 },
+      { lon: 113.5463, lat: 22.1828 },
+      { lon: 113.5470, lat: 22.1810 },
+      { lon: 113.5478, lat: 22.1793 },
+      { lon: 113.5485, lat: 22.1775 },
+      { lon: 113.5493, lat: 22.1758 },
+      { lon: 113.5500, lat: 22.1740 },
+      { lon: 113.5508, lat: 22.1723 },
+      { lon: 113.5515, lat: 22.1705 },
+      { lon: 113.5520, lat: 22.1688 },
+      { lon: 113.5525, lat: 22.1670 },
+      { lon: 113.5528, lat: 22.1650 },
+      { lon: 113.5530, lat: 22.1630 },
+      { lon: 113.5530, lat: 22.1610 },
+    ],
+  },
+];
+
+var _bridgeLightEntities = [];
+
+function createBridgeLightIcon(color, size) {
+  var canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  var ctx = canvas.getContext('2d');
+  var cx = size / 2, cy = size / 2, r = size / 2;
+  var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+  grad.addColorStop(0, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.9)');
+  grad.addColorStop(0.3, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.4)');
+  grad.addColorStop(0.7, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.08)');
+  grad.addColorStop(1, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fill();
+  return canvas;
+}
+
+function addBridgeLights(viewer) {
+  var startTime = Date.now();
+  BRIDGE_LIGHTS.forEach(function(bridge) {
+    var icon = createBridgeLightIcon(bridge.color, 8);
+    bridge.points.forEach(function(pt, idx) {
+      var phase = idx * 0.4 + Math.random() * 0.5; // sequential phase for running light effect
+      var entity = viewer.entities.add({
+        name: 'Bridge Light ' + bridge.name + ' ' + idx,
+        position: Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, 12), // bridge deck height
+        billboard: {
+          image: icon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: new Cesium.CallbackProperty(function() {
+            var glow = _currentGlowIntensity;
+            if (glow < 0.05) return 0; // invisible during day
+            var t = (Date.now() - startTime) / 1000;
+            var pulse = 0.8 + 0.2 * Math.sin(t * 1.2 + phase); // gentle pulse
+            return pulse * glow * 1.5;
+          }, false),
+          translucencyByDistance: new Cesium.NearFarScalar(200, 1.0, 15000, 0.0),
+          scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 12000, 0.5),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+      _bridgeLightEntities.push(entity);
+    });
+  });
+}
 
 // ── Wynn Palace Performance Lake Fountain Show ──
 // Choreographed fountain jets near Wynn Palace — iconic Macau attraction

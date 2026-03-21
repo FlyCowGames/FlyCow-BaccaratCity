@@ -178,6 +178,14 @@
 - **Observation:** At 156 entities total, still no performance issues. The entity count continues to scale well with CesiumJS.
 - **Observation:** Playwright browser version mismatches (agent-browser expected 1200, installed 1208) can be fixed with symlinks. Note for future: keep playwright versions aligned.
 
+## Session 29 (2026-03-21) -- Bridge Night Illumination
+- **Lesson:** Bridge light points at 12m altitude sit correctly at bridge deck level with Google 3D Tiles — between water surface (2-3m) and LRT elevated track (15m). The altitude layering continues to work well.
+- **Lesson:** Using `_currentGlowIntensity` to control bridge light scale (returning 0 when < 0.05) is the cleanest way to make entities night-only — no separate visibility toggle needed, and the fade-in at dusk is automatic and smooth.
+- **Lesson:** Interpolating additional waypoints between existing traffic route endpoints creates denser light point coverage along bridges. 16-18 points per bridge provides good visual density without excess.
+- **Lesson:** Different LED colors per bridge (cool blue-white, warm gold, neutral white) adds visual variety and matches real-world bridge lighting schemes. This color differentiation also helps users identify which bridge they're looking at from above.
+- **Observation:** The Explore panel now has 10 sections (Landmarks, On the Water, Casinos, Development, Shows, Racing, Bridges, Heritage, Transit, Live Events). It's getting long — future sessions may want to consider collapsible sections or a search/filter feature.
+- **Observation:** At ~166 entities total (50 bridge lights + 156 prior), still no performance issues with CesiumJS. Entity-based billboard approach continues to scale well.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 27)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 29)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -17,7 +17,7 @@
 - ~~Airport planes (approach/takeoff animations)~~ — Done (Session 8)
 - ~~Landmark info popups~~ — Done (Session 10: click landmark for rich info card with description, facts, history)
 - ~~Ambient audio system~~ — Done (Session 9: Web Audio API, 3-layer procedural soundscape)
-- Bridge traffic animations
+- ~~Bridge traffic animations~~ — Done (Session 7: traffic, Session 29: night illumination)
 
 ### Medium-Term (Sessions 30-100)
 - Full event calendar system with live triggers
@@ -62,3 +62,4 @@
 - Geographic district labels: 8 bilingual floating labels for overview orientation (Session 24)
 - Guia Lighthouse: rotating beam at Guia Hill summit, Heritage section in Explore panel (Session 26)
 - Macau LRT: 3 animated light rail trains on Taipa Line, Transit section in Explore panel (Session 27)
+- Bridge night illumination: 50 LED light points across 3 bridges, Bridges section in Explore panel (Session 29)

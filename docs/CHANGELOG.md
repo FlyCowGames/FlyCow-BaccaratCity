@@ -202,6 +202,14 @@
 - 8th entity animation system using proven CallbackProperty pattern
 - File grew from ~3778 to ~3907 lines (+129 lines)
 
+## Session 29 — 2026-03-21 (Automated Agent)
+- Bridge night illumination: decorative LED-style light points along Macau's 3 iconic bridges
+- 50 light points total: 18 on Ponte de Amizade (cool blue-white), 16 on Ponte de Sai Van (warm gold), 16 on Ponte Gov. Nobre de Carvalho (neutral white)
+- Night-only visibility tied to neon glow system (_currentGlowIntensity), with gentle pulse animation
+- Each bridge has a distinct color matching real-world bridge LED schemes
+- Bridges section added to Explore panel with 3 entries (Ponte de Amizade, Ponte de Sai Van, Ponte Gov. Nobre de Carvalho) with bilingual names and "live" badges
+- File grew from ~3907 to ~4046 lines (+139 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

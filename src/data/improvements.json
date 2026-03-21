@@ -356,6 +356,22 @@
       ],
       "linesAdded": 129,
       "agent": "automated"
+    },
+    {
+      "session": 29,
+      "date": "2026-03-21",
+      "title": "Bridge Night Illumination",
+      "domain": "atmosphere",
+      "summary": "Decorative LED-style light points along Macau's 3 iconic bridges, glowing at night with distinct colors per bridge.",
+      "details": [
+        "50 light points across 3 bridges: Ponte de Amizade (18, cool blue-white), Ponte de Sai Van (16, warm gold), Ponte Gov. Nobre de Carvalho (16, neutral white)",
+        "Night-only visibility tied to neon glow system with automatic dusk/dawn fade",
+        "Gentle pulse animation via CallbackProperty with sequential phase offsets for running light effect",
+        "Bridges section added to Explore panel with 3 entries, bilingual names, and live badges",
+        "Bridge deck altitude (12m) fits natural layering between water (2-3m) and LRT viaduct (15m)"
+      ],
+      "linesAdded": 139,
+      "agent": "automated"
     }
   ]
 }
