@@ -142,6 +142,13 @@
 - **RULE:** Between audits, if a previous audit flagged something as MEH or BAD, prioritize fixing it over adding new features.
 - **Lesson:** Building lots of features that each look 60% polished is worse than fewer features at 90%. Always ask: "Does this look professional?"
 
+## Session 21 (2026-03-21) -- Guia Circuit Race Cars
+- **Lesson:** Closed-loop circuits (where the last point equals the first) work perfectly with the one-way loop animation pattern from airport planes (`t = ... % 1`). The car seamlessly wraps from the last waypoint back to the start without any jump because the positions match.
+- **Lesson:** Race cars benefit from brighter, more distinctive icons than regular traffic. A white-core radial gradient with colored outer glow (16px vs 12px for cars) makes them stand out as special entities among regular traffic dots.
+- **Lesson:** The 6th entity animation system (after ferries, cars, planes, pedestrians, cranes) using CallbackProperty. At this point, adding a new animated entity type is truly formulaic — define waypoints, create icon, add entities with CallbackProperty, done in <15 minutes.
+- **Lesson:** For the Explore panel, adding a new section (Racing) is trivial: add HTML div, add to ATTRACTIONS object, add forEach in populateAttractions. The panel code is well-factored for extension.
+- **Observation:** The Guia Circuit is a near-term roadmap item now completed. The race cars are always active (not event-gated to November) as a permanent feature showing the iconic circuit. Future enhancement: increase car count and add sound effects during the actual Macau Grand Prix in November.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

@@ -276,6 +276,22 @@
       ],
       "linesAdded": 248,
       "agent": "automated"
+    },
+    {
+      "session": 21,
+      "date": "2026-03-21",
+      "title": "Guia Circuit Race Cars",
+      "domain": "animation",
+      "summary": "5 animated F3 race cars racing the iconic Guia Circuit street course around the Macau Peninsula.",
+      "details": [
+        "15 waypoints tracing the real 6.2km Guia Circuit (Start/Finish, Mandarin Bend, San Francisco Hill, Guia Fortress, Lisboa Bend, Melco Hairpin, R Bend)",
+        "5 race cars with distinct colors (red, blue, yellow, green, orange) and bright white-core icons (16px)",
+        "One-way looping animation — cars continuously lap the circuit like real F3 race cars",
+        "Higher speed than regular traffic (18s per lap) with evenly staggered phase offsets",
+        "Racing section added to Explore panel with Guia Circuit entry and live badge"
+      ],
+      "linesAdded": 101,
+      "agent": "automated"
     }
   ]
 }

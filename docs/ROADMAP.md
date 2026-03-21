@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 19)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 21)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -13,7 +13,7 @@
 
 ### Near-Term (Sessions 10-30)
 - ~~Casino interior transition~~ — Done (Session 11: interactive baccarat table at any casino)
-- Guia Circuit road path for F3 event
+- ~~Guia Circuit road path for F3 event~~ — Done (Session 21: 5 F3 race cars on real Guia Circuit)
 - ~~Airport planes (approach/takeoff animations)~~ — Done (Session 8)
 - ~~Landmark info popups~~ — Done (Session 10: click landmark for rich info card with description, facts, history)
 - ~~Ambient audio system~~ — Done (Session 9: Web Audio API, 3-layer procedural soundscape)
@@ -57,3 +57,4 @@
 - Harbor water shimmer: ~23 animated light reflections on water, day/night intensity modulation (Session 17)
 - Casino sky beams: 5 vertical light beams from major casinos at night with gentle sway (Session 18)
 - Wynn Performance Lake fountain show: 13 choreographed jets, 3-min shows, 6 color palettes (Session 19)
+- Guia Circuit race cars: 5 F3 cars on real 6.2km street circuit, Racing section in Explore panel (Session 21)

@@ -678,6 +678,10 @@
       <div class="panel-section-title">Shows</div>
       <div id="shows-list"></div>
     </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Racing</div>
+      <div id="racing-list"></div>
+    </div>
   </div>
 </div>
 
@@ -961,6 +965,7 @@ async function init() {
     addLandmarks(viewer);
     addFerries(viewer);
     addTraffic(viewer);
+    addGuiaCircuit(viewer);
     addPedestrians(viewer);
     addConstructionCranes(viewer);
     addAirportPlanes(viewer);
@@ -1624,6 +1629,93 @@ function addTraffic(viewer) {
   });
 }
 
+// ── Guia Circuit — Macau Grand Prix ──
+// The iconic 6.2km street circuit around the Guia Peninsula
+var GUIA_CIRCUIT = {
+  name: 'Guia Circuit',
+  // Closed loop: real waypoints tracing the actual street circuit
+  points: [
+    { lon: 113.5478, lat: 22.1903 }, // Start/Finish straight (Avenida da Amizade waterfront)
+    { lon: 113.5490, lat: 22.1925 }, // North along waterfront
+    { lon: 113.5492, lat: 22.1945 }, // Mandarin Oriental Bend
+    { lon: 113.5480, lat: 22.1960 }, // Turn west toward Guia Hill
+    { lon: 113.5458, lat: 22.1975 }, // San Francisco Hill climb
+    { lon: 113.5435, lat: 22.1988 }, // Guia Hill summit area
+    { lon: 113.5415, lat: 22.1985 }, // Around Guia Fortress
+    { lon: 113.5398, lat: 22.1968 }, // Moorish Hill descent
+    { lon: 113.5390, lat: 22.1945 }, // West side descent
+    { lon: 113.5395, lat: 22.1920 }, // Lisboa Bend (near Grand Lisboa)
+    { lon: 113.5408, lat: 22.1905 }, // Melco Hairpin
+    { lon: 113.5425, lat: 22.1895 }, // Fisherman's Bend
+    { lon: 113.5445, lat: 22.1890 }, // R Bend
+    { lon: 113.5465, lat: 22.1895 }, // Reservoir approach
+    { lon: 113.5478, lat: 22.1903 }, // Back to Start/Finish (closes the loop)
+  ],
+  durationSec: 18, // ~20s per lap — fast F3 race cars
+  cars: 5,
+  colors: [
+    [255, 50, 50],   // Red — classic F3
+    [50, 120, 255],  // Blue
+    [255, 220, 0],   // Yellow
+    [0, 200, 80],    // Green
+    [255, 140, 0],   // Orange
+  ],
+};
+
+function createRaceCarIcon(color) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 16;
+  canvas.height = 16;
+  var ctx = canvas.getContext('2d');
+  var cx = 8, cy = 8;
+  // Bright core with colored glow — more intense than regular traffic
+  var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 8);
+  grad.addColorStop(0, 'rgba(255, 255, 255, 1.0)');
+  grad.addColorStop(0.2, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.95)');
+  grad.addColorStop(0.5, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.5)');
+  grad.addColorStop(1, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+  ctx.fill();
+  return canvas;
+}
+
+function addGuiaCircuit(viewer) {
+  var startTime = Date.now();
+  var circuit = GUIA_CIRCUIT;
+
+  for (var i = 0; i < circuit.cars; i++) {
+    var phaseOffset = i / circuit.cars;
+    var color = circuit.colors[i % circuit.colors.length];
+    var carIcon = createRaceCarIcon(color);
+
+    (function(offset, icon) {
+      var positionCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        // One-way loop — race cars always go forward around the circuit
+        var t = ((elapsed / circuit.durationSec) + offset) % 1;
+        var pos = lerpPosition(circuit.points, t);
+        return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 8);
+      }, false);
+
+      viewer.entities.add({
+        name: 'Guia Circuit F3 Car',
+        position: positionCallback,
+        billboard: {
+          image: icon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: 1.0,
+          scaleByDistance: new Cesium.NearFarScalar(100, 1.5, 6000, 0.4),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 10000, 0.0),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+    })(phaseOffset, carIcon);
+  }
+}
+
 // ── Pedestrian System ──
 // Animated walking pedestrians near popular areas
 var PEDESTRIAN_ZONES = [
@@ -2144,6 +2236,9 @@ var ATTRACTIONS = {
   shows: [
     { name: "Wynn Performance Lake", chinese: "永利表演湖", icon: "⛲", lat: 22.1472, lon: 113.5628, alt: 200, pitch: -15 },
   ],
+  racing: [
+    { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
+  ],
 };
 
 // Macau events calendar — updated by improvement agent
@@ -2223,6 +2318,12 @@ function populateAttractions() {
   var showsList = document.getElementById('shows-list');
   ATTRACTIONS.shows.forEach(function(a) {
     showsList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
+  });
+
+  // Racing
+  var racingList = document.getElementById('racing-list');
+  ATTRACTIONS.racing.forEach(function(a) {
+    racingList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
   });
 
   // Live events

@@ -157,6 +157,16 @@
 - "Shows" section added to Explore panel with Wynn Performance Lake entry
 - File grew from ~3073 to ~3321 lines (+248 lines)
 
+## Session 21 — 2026-03-21 (Automated Agent)
+- Guia Circuit race cars: 5 animated F3 cars racing the iconic 6.2km street circuit around Macau Peninsula
+- 15 waypoints tracing the real Guia Circuit: Start/Finish, Mandarin Bend, San Francisco Hill, Guia Fortress, Lisboa Bend, Melco Hairpin, R Bend
+- 5 distinct car colors (red, blue, yellow, green, orange) with bright white-core 16px billboard icons
+- One-way looping animation (not ping-pong — race cars always go forward around the circuit)
+- Higher speed than regular traffic (18s per lap vs 20-28s for road traffic)
+- Racing section added to Explore panel with "live" badge
+- Fulfills near-term roadmap item: "Guia Circuit road path for F3 event"
+- File grew from ~3321 to ~3422 lines (+101 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

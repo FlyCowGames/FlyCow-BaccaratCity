@@ -33,7 +33,7 @@
 - [ ] Portuguese-style cobblestone patterns in historic district
 
 ## Events
-- [ ] Macau Grand Prix (November) — F3 cars on Guia Circuit
+- [x] Macau Grand Prix (November) — F3 cars on Guia Circuit (Session 21: 5 race cars on real circuit)
 - [ ] Chinese New Year — fireworks, red lanterns, dragon dance
 - [ ] Mid-Autumn Festival — mooncakes, lantern festival
 - [x] International Fireworks Display Contest (Sept-Oct) (Session 13: harbor fireworks at night)
