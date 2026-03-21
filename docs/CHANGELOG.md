@@ -273,6 +273,18 @@
 - Adds iconic tourist experience to the world's largest casino by floor area
 - File grew from ~4786 to ~4902 lines (+116 lines)
 
+## Session 38 — 2026-03-21 (Automated Agent)
+- Red lantern strings in historic district: 10 lantern string billboards across 4 historic areas of Macau
+- Canvas-drawn lantern icons (64x32px) with 5-6 red lanterns on a catenary wire, gold ribs/tassels, warm inner glow
+- Locations: Senado Square (3), Ruins of St. Paul's approach (3), A-Ma Temple district (2), Rua do Cunha Taipa Village (2)
+- Gentle wind sway animation via CallbackProperty scale oscillation with random phase/speed per string
+- Night brightness boost tied to _currentGlowIntensity — lanterns glow brighter at night
+- Each string has a rotation angle matching street orientation for natural placement
+- Red Lanterns entry added to Heritage section of Explore panel with "live" badge
+- 13th entity system using proven billboard + CallbackProperty pattern
+- Visible at medium zoom (translucencyByDistance 100m-5km) — between street-level and overview features
+- File grew from ~4902 to ~5036 lines (+134 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

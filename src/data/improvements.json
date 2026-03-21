@@ -468,6 +468,22 @@
       ],
       "linesAdded": 116,
       "agent": "automated"
+    },
+    {
+      "session": 38,
+      "date": "2026-03-21",
+      "title": "Red Lantern Strings",
+      "domain": "landmarks",
+      "summary": "10 traditional red Chinese lantern strings hanging across streets in 4 historic areas of Macau.",
+      "details": [
+        "10 lantern string billboards across Senado Square, Ruins of St. Paul's, A-Ma Temple, and Taipa Village",
+        "Canvas-drawn 64x32px icons with 5-6 red lanterns on catenary wire, gold ribs and tassels, warm inner glow",
+        "Gentle wind sway animation via CallbackProperty scale oscillation with random phase per string",
+        "Night brightness boost tied to neon glow intensity — lanterns glow brighter after dark",
+        "Red Lanterns entry added to Heritage section of Explore panel"
+      ],
+      "linesAdded": 134,
+      "agent": "automated"
     }
   ]
 }

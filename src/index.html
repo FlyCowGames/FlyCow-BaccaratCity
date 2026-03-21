@@ -1180,6 +1180,7 @@ async function init() {
     addFountainShow(viewer);
     addFountainMist(viewer);
     addGondolas(viewer);
+    addLanternStrings(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -2773,6 +2774,7 @@ var ATTRACTIONS = {
   heritage: [
     { name: "Guia Lighthouse", chinese: "東望洋燈塔", icon: "🗼", lat: 22.1967, lon: 113.5480, alt: 250, pitch: -20 },
     { name: "Sky Lanterns", chinese: "孔明灯", icon: "🏮", lat: 22.1850, lon: 113.5370, alt: 300, pitch: -20 },
+    { name: "Red Lanterns", chinese: "红灯笼", icon: "🏮", lat: 22.1937, lon: 113.5388, alt: 150, pitch: -15 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -4719,6 +4721,138 @@ function addGondolas(viewer) {
         },
       });
     })(route);
+  });
+}
+
+// ── Red Lantern Strings — Historic District ──
+// Traditional red Chinese lanterns strung across streets in Macau's historic areas
+var LANTERN_STRINGS = [
+  // Senado Square area — main pedestrian street
+  { lon: 113.5386, lat: 22.1937, alt: 18, heading: 35 },
+  { lon: 113.5392, lat: 22.1933, alt: 20, heading: -15 },
+  { lon: 113.5388, lat: 22.1941, alt: 17, heading: 50 },
+  // Ruins of St. Paul's approach
+  { lon: 113.5408, lat: 22.1976, alt: 19, heading: 10 },
+  { lon: 113.5412, lat: 22.1972, alt: 18, heading: -25 },
+  { lon: 113.5405, lat: 22.1969, alt: 20, heading: 40 },
+  // A-Ma Temple district
+  { lon: 113.5308, lat: 22.1870, alt: 16, heading: 20 },
+  { lon: 113.5314, lat: 22.1866, alt: 18, heading: -10 },
+  // Rua do Cunha (Taipa Village food street)
+  { lon: 113.5560, lat: 22.1560, alt: 17, heading: 5 },
+  { lon: 113.5564, lat: 22.1556, alt: 18, heading: -30 },
+];
+
+function createLanternStringIcon(lanternCount) {
+  var w = 64, h = 32;
+  var canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  var ctx = canvas.getContext('2d');
+  var count = lanternCount || 5;
+  var spacing = (w - 8) / (count - 1);
+  var startX = 4;
+
+  // Wire/string
+  ctx.strokeStyle = 'rgba(80, 60, 40, 0.6)';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.moveTo(0, 8);
+  for (var i = 0; i < count; i++) {
+    var x = startX + i * spacing;
+    // Slight catenary sag
+    var sag = 2 * Math.sin(Math.PI * i / (count - 1));
+    ctx.lineTo(x, 8 + sag);
+  }
+  ctx.lineTo(w, 8);
+  ctx.stroke();
+
+  // Lanterns
+  for (var j = 0; j < count; j++) {
+    var lx = startX + j * spacing;
+    var sag2 = 2 * Math.sin(Math.PI * j / (count - 1));
+    var ly = 10 + sag2;
+    var radius = 4 + Math.random() * 1.5;
+
+    // Tassel string
+    ctx.strokeStyle = 'rgba(180, 40, 20, 0.5)';
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    ctx.moveTo(lx, 8 + sag2);
+    ctx.lineTo(lx, ly);
+    ctx.stroke();
+
+    // Lantern glow
+    var glow = ctx.createRadialGradient(lx, ly + radius, 0, lx, ly + radius, radius * 2.5);
+    glow.addColorStop(0, 'rgba(255, 80, 30, 0.25)');
+    glow.addColorStop(1, 'rgba(255, 40, 10, 0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(lx, ly + radius, radius * 2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Lantern body — red oval
+    ctx.fillStyle = '#cc2222';
+    ctx.beginPath();
+    ctx.ellipse(lx, ly + radius, radius * 0.75, radius, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Gold ribs (top and bottom caps)
+    ctx.fillStyle = '#d4af37';
+    ctx.fillRect(lx - radius * 0.5, ly, radius, 1.2);
+    ctx.fillRect(lx - radius * 0.5, ly + radius * 2 - 1, radius, 1.2);
+
+    // Inner light highlight
+    ctx.fillStyle = 'rgba(255, 200, 100, 0.35)';
+    ctx.beginPath();
+    ctx.ellipse(lx, ly + radius - 1, radius * 0.35, radius * 0.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Tassel below lantern
+    ctx.strokeStyle = '#d4af37';
+    ctx.lineWidth = 0.6;
+    ctx.beginPath();
+    ctx.moveTo(lx, ly + radius * 2);
+    ctx.lineTo(lx, ly + radius * 2 + 3);
+    ctx.stroke();
+  }
+
+  return canvas;
+}
+
+function addLanternStrings(viewer) {
+  var startTime = Date.now();
+  var icon5 = createLanternStringIcon(5);
+  var icon6 = createLanternStringIcon(6);
+
+  LANTERN_STRINGS.forEach(function(ls, idx) {
+    var icon = idx % 2 === 0 ? icon5 : icon6;
+    var swayPhase = Math.random() * Math.PI * 2;
+    var swaySpeed = 0.3 + Math.random() * 0.2; // gentle wind sway
+
+    // Subtle sway via scale oscillation (simulates wind)
+    var scaleCallback = new Cesium.CallbackProperty(function() {
+      var elapsed = (Date.now() - startTime) / 1000;
+      // Day: fully visible. Night: brighter glow effect via slightly larger scale
+      var nightBoost = 1.0 + _currentGlowIntensity * 0.15;
+      var sway = 1.0 + 0.03 * Math.sin(elapsed * swaySpeed + swayPhase);
+      return sway * nightBoost;
+    }, false);
+
+    viewer.entities.add({
+      name: 'Red Lanterns ' + (idx + 1),
+      position: Cesium.Cartesian3.fromDegrees(ls.lon, ls.lat, ls.alt),
+      billboard: {
+        image: icon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: scaleCallback,
+        scaleByDistance: new Cesium.NearFarScalar(50, 3.0, 3000, 0.4),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 5000, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        rotation: ls.heading * Math.PI / 180,
+      },
+    });
   });
 }
 

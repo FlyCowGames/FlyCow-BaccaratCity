@@ -232,6 +232,14 @@
 - **Lesson:** The Shows section of the Explore panel is a good fit for entertainment/experience features (fountain show, gondola rides) as distinct from pure transport (Transit) or environmental features (Heritage).
 - **Observation:** At ~172 entities total (3 gondolas + 169 prior), still no performance issues with CesiumJS.
 
+## Session 38 (2026-03-21) -- Red Lantern Strings in Historic District
+- **Lesson:** The 13th entity animation system using CallbackProperty. At this point, adding new billboard entity features is purely mechanical — define positions, create canvas icon, add entities. The lantern strings used `scale` CallbackProperty for wind sway (same technique as water shimmer from Session 17).
+- **Lesson:** Canvas-drawn lantern strings at 64x32px with catenary wire sag, red oval bodies, gold ribs, inner glow highlights, and tassels create a recognizable and culturally authentic icon even at small sizes. The wider canvas (64px vs typical 28-32px) accommodates the horizontal string layout.
+- **Lesson:** Using billboard `rotation` as a static value (not animated) to match street orientation at each placement point gives a more natural appearance than all strings facing the same direction.
+- **Lesson:** Night glow boost via `_currentGlowIntensity` scaling (1.0 + intensity * 0.15) is subtle enough to avoid oversizing but noticeable enough that lanterns "light up" at night. The same approach could apply to future decorative elements.
+- **Observation:** At ~182 entities total (10 lantern strings + 172 prior), still no performance issues with CesiumJS. Entity count continues to scale well.
+- **Observation:** Cultural/decorative features (lanterns, cobblestones, temple details) are distinct from the many animation-focused features. They add atmosphere and authenticity at a different visual layer — static but visually rich, complementing the animated entities.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

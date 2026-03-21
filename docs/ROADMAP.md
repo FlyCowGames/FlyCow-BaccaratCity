@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 37)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 38)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -69,3 +69,4 @@
 - Auto-tour mode: TOUR button auto-flies through all 30+ attractions with bilingual labels (Session 34)
 - Dragon boat racing: 5 colorful dragon boats racing parallel lanes on Nam Van Lake (Session 36)
 - Venetian canal gondolas: 3 traditional gondolas on canals near The Venetian Macao (Session 37)
+- Red lantern strings: 10 lantern strings across Senado Square, Ruins of St. Paul's, A-Ma Temple, Taipa Village (Session 38)

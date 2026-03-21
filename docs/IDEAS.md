@@ -30,6 +30,7 @@
 - [x] Construction cranes (Macau always has construction) (Session 16: 5 sites with orbiting warning lights)
 - [x] Animated pedestrians near popular areas (Session 15: ~26 walkers in 6 zones)
 - [ ] Street markets and food stalls
+- [x] Red lantern strings in historic district (Session 38: 10 lantern strings across 4 areas)
 - [ ] Portuguese-style cobblestone patterns in historic district
 
 ## Events
