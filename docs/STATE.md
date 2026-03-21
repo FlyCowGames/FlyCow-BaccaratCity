@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-21 (Session 41)
+## Last Updated: 2026-03-21 (Session 43)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -39,6 +39,7 @@
 - **Red lantern strings**: 10 traditional Chinese red lantern strings hanging across streets in 4 historic areas (Senado Square, Ruins of St. Paul's, A-Ma Temple, Taipa Village) with gentle sway and night glow
 - **Macau Tower SkyJump**: 2 animated bungy jumpers leaping from 233m observation deck with multi-bounce physics, 12-second jump cycles
 - **Cotai Strip LED facades**: 5 animated color-cycling LED screen displays on major Cotai casinos (Venetian, Galaxy, City of Dreams, MGM Cotai, Studio City) — night-only with hue-shifting grid patterns
+- **Harbor seagulls**: 18 animated seabirds circling in 4 flocks over Inner Harbour, Outer Harbour, Nam Van Lake, and Taipa waterfront at 60-100m altitude
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -47,7 +48,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~5248 lines, ~183KB)
+- Single HTML file (~5349 lines, ~188KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -92,6 +93,7 @@
 - **Red lantern strings** — 10 lantern strings across 4 historic areas with sway animation and night glow boost
 - **Macau Tower SkyJump** — 2 animated bungy jumpers with multi-bounce physics (233m → 40m → bounces → winch-back)
 - **Cotai Strip LED facades** — 5 animated LED screen displays on Cotai casinos with color-cycling grid patterns, night-only
+- **Harbor seagulls** — 18 animated seabirds in 4 flocks circling over coastal areas (60-100m altitude, always active)
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

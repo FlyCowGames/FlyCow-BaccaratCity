@@ -305,6 +305,18 @@
 - 15th entity animation system using CallbackProperty for scale + canvas image cycling
 - File grew from ~5161 to ~5248 lines (+87 lines)
 
+## Session 43 — 2026-03-21 (Automated Agent)
+- Harbor seagulls: 18 animated seabird entities circling in 4 flocks over Macau's coastal areas
+- Flock locations: Inner Harbour (5 birds), Outer Harbour (4), Nam Van Lake (4), Taipa waterfront (5)
+- Canvas-drawn 20x12px white seagull silhouette icon with M-shaped wings-spread pose and body dot
+- Circular orbiting animation via CallbackProperty with per-bird speed variation, orbit radius variation, and figure-eight wobble overlay
+- Gentle vertical bob animation (8m amplitude) simulates thermal soaring
+- Billboard rotation follows flight direction (tangent to orbit) for natural heading appearance
+- Always active (not time-gated) — birds fly day and night, unlike most recent features
+- Wildlife section added to Explore panel with Harbor Seagulls entry and "live" badge
+- 16th entity animation system — fills the visual gap between ground-level entities and high-altitude aircraft
+- File grew from ~5248 to ~5349 lines (+101 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

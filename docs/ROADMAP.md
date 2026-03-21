@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 41)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 43)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -72,3 +72,4 @@
 - Red lantern strings: 10 lantern strings across Senado Square, Ruins of St. Paul's, A-Ma Temple, Taipa Village (Session 38)
 - Macau Tower SkyJump: 2 animated bungy jumpers with multi-bounce physics from 233m observation deck (Session 39)
 - Cotai Strip LED facades: 5 animated color-cycling LED screen displays on major Cotai casinos at night (Session 41)
+- Harbor seagulls: 18 animated seabirds in 4 coastal flocks with circular orbiting and figure-eight wobble (Session 43)

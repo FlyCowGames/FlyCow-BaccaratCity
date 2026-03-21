@@ -258,6 +258,14 @@
 - **Observation:** At ~189 entities total (5 LED facades + 184 prior), still no performance issues with CesiumJS. The entity count continues to scale well.
 - **Note:** Session 40 (quality audit) was skipped. The next audit should happen at Session 50.
 
+## Session 43 (2026-03-21) -- Harbor Seagulls
+- **Lesson:** The 16th entity animation system using CallbackProperty. Circular orbiting via `cos/sin` (same technique as crane warning lights from Session 16) works perfectly for bird flight patterns. Adding per-bird speed variation, radius variation, and figure-eight wobble overlay creates convincing flock behavior.
+- **Lesson:** Billboard `rotation` as a CallbackProperty following the orbit angle (tangent to circle) makes birds appear to face their direction of travel — a small detail that adds significant realism. The formula is `-angle + Math.PI/2` since CesiumJS rotation is counter-clockwise from 12 o'clock.
+- **Lesson:** Seagulls at 60-100m altitude fill a visual gap between ground-level entities (2-5m) and aircraft (200-700m). This "mid-sky" altitude layer was completely empty before — adding life there makes the scene feel more complete at medium zoom levels.
+- **Lesson:** Always-active entities (not time-gated to night) are a nice contrast to the many night-only features. Seagulls are visible during daytime when ~60% of features are hidden, giving daytime visitors more to see.
+- **Observation:** At ~207 entities total (18 seagulls + 189 prior), still no performance issues with CesiumJS. The entity count continues to scale well.
+- **Observation:** The agent-browser `eval` command has issues with curly quote encoding when commands include JavaScript with quotes. Using heredoc files or single-character strings works around this.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
