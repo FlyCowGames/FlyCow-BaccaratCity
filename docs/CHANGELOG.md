@@ -240,6 +240,18 @@
 - Helicopter Service entry added to Transit section of Explore panel with "live" badge
 - File grew from ~4313 to ~4469 lines (+156 lines)
 
+## Session 34 — 2026-03-21 (Automated Agent)
+- Auto-tour mode: TOUR button that automatically flies camera through all 30+ attractions
+- Randomized visit order with Fisher-Yates shuffle, reshuffles each full cycle
+- 4-second camera flight transitions with varied heading angles for cinematic variety
+- 6-second dwell time at each location before moving to next
+- Bilingual location label (English name + Chinese) displayed during each stop
+- Button toggles between "Tour" (start) and "Stop Tour" (active gold state)
+- Tour stops automatically on user interaction (left-click drag, scroll zoom, right-click)
+- Replay Flythrough and Tour buttons positioned side by side at bottom center
+- Meta-feature: makes all existing attractions discoverable without manual Explore panel navigation
+- File grew from ~4469 to ~4569 lines (+100 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

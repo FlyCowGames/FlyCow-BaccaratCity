@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-21 (Session 33)
+## Last Updated: 2026-03-21 (Session 34)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -33,6 +33,7 @@
 - **Time-of-day slider**: interactive slider to preview any hour (0-24h), overrides sun position and all time-gated features, with LIVE button to return to real time
 - **Floating sky lanterns**: 12 kongming lanterns drifting over Inner Harbour at night, slowly ascending 30-220m with warm golden glow and flicker, recycling at peak
 - **Helicopter service**: 3 helicopters on routes from Outer Harbour heliport — 2 HK shuttle flights (inbound/outbound) and 1 scenic peninsula tour at 200-350m altitude
+- **Auto-tour mode**: TOUR button that automatically flies camera through all 30+ attractions in random order, with bilingual location labels and 6-second dwell per stop
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -41,7 +42,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~4469 lines, ~158KB)
+- Single HTML file (~4569 lines, ~162KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -80,6 +81,7 @@
 - **Time-of-day slider** — preview any hour with sun/moon position, neon glow, fireworks, bridge lights all responding
 - **Floating sky lanterns** — 12 kongming lanterns ascending over Inner Harbour at night with warm golden glow
 - **Helicopter service** — 3 helicopters: 2 HK shuttle flights + 1 scenic tour from Outer Harbour heliport
+- **Auto-tour mode** — TOUR button flies camera through all attractions automatically with location labels
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

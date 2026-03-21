@@ -210,6 +210,14 @@
 - **Observation:** At ~169 entities total (3 helicopters + 166 prior), still no performance issues. The entity count continues to scale well.
 - **Observation:** Playwright browser version mismatch (expected 1200, installed 1208) recurred — symlink fix works but is fragile. This is a recurring issue noted in Session 27.
 
+## Session 34 (2026-03-21) -- Auto-Tour Mode
+- **Lesson:** The Explore panel already had collapsible sections (CSS `collapsed` class + JS toggle) — always read the current code before assuming a feature is missing based on old observation notes. Session 29/31 flagged it as needed but it was already implemented.
+- **Lesson:** `camera.flyTo` with a `complete` callback + `setTimeout` for dwell time is a clean pattern for sequential camera tours. No state machine needed — just recursion via `tourNext()`.
+- **Lesson:** Randomized heading angles (`30 + Math.random() * 60`) at each tour stop create cinematic variety, making the same location look different each visit.
+- **Lesson:** Stopping the tour on user interaction (LEFT_DOWN, WHEEL, RIGHT_DOWN via ScreenSpaceEventHandler) provides intuitive escape — users can "take over" at any moment by touching the controls.
+- **Observation:** This is a meta-feature (like the time slider in Session 31) that multiplies the value of all existing attractions. Users who don't explore the panel manually can still discover all 30+ points of interest. Meta-features that showcase existing content are high-leverage.
+- **Observation:** Positioning two buttons side by side requires careful CSS transform offsets. `translateX(calc(-50% - 65px))` and `translateX(calc(-50% + 65px))` with the same `left: 50%` creates a centered pair with a gap.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

@@ -420,6 +420,22 @@
       ],
       "linesAdded": 156,
       "agent": "automated"
+    },
+    {
+      "session": 34,
+      "date": "2026-03-21",
+      "title": "Auto-Tour Mode",
+      "domain": "interactivity",
+      "summary": "TOUR button that automatically flies the camera through all attractions with smooth transitions and location labels.",
+      "details": [
+        "Tour button appears alongside Replay Flythrough after initial cinematic ends",
+        "Visits all 30+ attractions in randomized order with 4-second camera flights and 6-second dwell time",
+        "Bilingual location label (English + Chinese) shown during each stop",
+        "Stops automatically on user interaction (drag, zoom, right-click) or button press",
+        "Button toggles between Tour/Stop Tour with active gold highlight state"
+      ],
+      "linesAdded": 100,
+      "agent": "automated"
     }
   ]
 }

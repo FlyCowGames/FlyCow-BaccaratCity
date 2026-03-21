@@ -202,7 +202,7 @@
 
   /* Replay button */
   #replay-btn {
-    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(calc(-50% - 65px));
     pointer-events: auto; cursor: pointer;
     font-family: 'Cinzel', serif; font-weight: 700;
     font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
@@ -219,6 +219,54 @@
     box-shadow: 0 0 20px rgba(212,175,55,0.2);
   }
   #replay-btn.visible { opacity: 1; visibility: visible; }
+
+  /* Tour button */
+  #tour-btn {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(calc(-50% + 65px));
+    pointer-events: auto; cursor: pointer;
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: #d4af37; background: rgba(10,10,18,0.7);
+    border: 1px solid rgba(212,175,55,0.3);
+    padding: 10px 28px; border-radius: 2px;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    opacity: 0; visibility: hidden;
+  }
+  #tour-btn:hover {
+    background: rgba(212,175,55,0.15);
+    border-color: #d4af37;
+    box-shadow: 0 0 20px rgba(212,175,55,0.2);
+  }
+  #tour-btn.visible { opacity: 1; visibility: visible; }
+  #tour-btn.active {
+    color: #0a0a12; background: rgba(212,175,55,0.8);
+    border-color: #d4af37;
+  }
+  #tour-btn.active:hover {
+    background: rgba(212,175,55,0.95);
+  }
+
+  /* Tour location label */
+  #tour-label {
+    position: absolute; bottom: 72px; left: 50%; transform: translateX(-50%);
+    pointer-events: none;
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: #d4af37; background: rgba(10,10,18,0.6);
+    border: 1px solid rgba(212,175,55,0.2);
+    padding: 8px 24px; border-radius: 2px;
+    backdrop-filter: blur(8px);
+    transition: opacity 0.5s ease;
+    opacity: 0; white-space: nowrap;
+    text-align: center;
+  }
+  #tour-label .tour-chinese {
+    display: block; font-family: 'Noto Sans SC', sans-serif;
+    font-size: 0.65rem; font-weight: 400;
+    color: rgba(212,175,55,0.6); margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
 
   /* Flythrough stage indicator */
   #stage-label {
@@ -665,10 +713,12 @@
 
   <div id="hints">
     scroll to zoom &middot; drag to orbit &middot; slide time to preview day/night<br>
-    click landmark for info &middot; enter casino to play baccarat
+    click landmark for info &middot; enter casino to play baccarat &middot; tour to explore
   </div>
 
   <button id="replay-btn">&#9654; Replay Flythrough</button>
+  <button id="tour-btn">&#9654; Tour</button>
+  <div id="tour-label"></div>
 
   <div id="landmark-card">
     <div id="landmark-card-backdrop"></div>
@@ -1137,6 +1187,9 @@ async function init() {
     // Start flythrough
     runFlythrough(viewer);
 
+    // Init tour interaction stop handler
+    initTourInteractionStop();
+
     // Double-click to fly to point
     var dblClickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
     dblClickHandler.setInputAction(function(click) {
@@ -1446,6 +1499,7 @@ async function runFlythrough(viewer) {
   stopOrbit(viewer);
 
   document.getElementById('replay-btn').classList.remove('visible');
+  document.getElementById('tour-btn').classList.remove('visible');
   viewer.scene.screenSpaceCameraController.enableInputs = false;
 
   // Stage 1: Bird's eye — slow pan across all Macau
@@ -1527,6 +1581,7 @@ async function runFlythrough(viewer) {
   viewer.scene.screenSpaceCameraController.enableInputs = true;
   flythroughRunning = false;
   document.getElementById('replay-btn').classList.add('visible');
+  document.getElementById('tour-btn').classList.add('visible');
 
   // Start slow orbit
   startOrbit(viewer);
@@ -1607,6 +1662,106 @@ document.getElementById('replay-btn').addEventListener('click', function() {
     runFlythrough(_viewer);
   }
 });
+
+// ── Auto-Tour Mode ──
+var _tourRunning = false;
+var _tourTimeout = null;
+var _tourIndex = -1;
+
+function getAllTourStops() {
+  var stops = [];
+  var keys = ['landmarks', 'water', 'casinos', 'development', 'shows', 'racing', 'heritage', 'bridges', 'transit'];
+  keys.forEach(function(k) {
+    if (ATTRACTIONS[k]) {
+      ATTRACTIONS[k].forEach(function(a) { stops.push(a); });
+    }
+  });
+  // Shuffle using Fisher-Yates
+  for (var i = stops.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = stops[i]; stops[i] = stops[j]; stops[j] = tmp;
+  }
+  return stops;
+}
+
+var _tourStops = [];
+
+function startTour() {
+  if (!_viewer || flythroughRunning) return;
+  _tourRunning = true;
+  _tourStops = getAllTourStops();
+  _tourIndex = -1;
+  document.getElementById('tour-btn').classList.add('active');
+  document.getElementById('tour-btn').innerHTML = '&#9724; Stop Tour';
+  document.getElementById('replay-btn').classList.remove('visible');
+  tourNext();
+}
+
+function stopTour() {
+  _tourRunning = false;
+  if (_tourTimeout) { clearTimeout(_tourTimeout); _tourTimeout = null; }
+  document.getElementById('tour-btn').classList.remove('active');
+  document.getElementById('tour-btn').innerHTML = '&#9654; Tour';
+  document.getElementById('tour-label').style.opacity = '0';
+  if (!flythroughRunning) {
+    document.getElementById('replay-btn').classList.add('visible');
+  }
+}
+
+function tourNext() {
+  if (!_tourRunning || !_viewer) return;
+  _tourIndex = (_tourIndex + 1) % _tourStops.length;
+  if (_tourIndex === 0 && _tourStops.length > 1) {
+    _tourStops = getAllTourStops(); // reshuffle each cycle
+  }
+  var stop = _tourStops[_tourIndex];
+  // Show label
+  var label = document.getElementById('tour-label');
+  label.innerHTML = stop.name + (stop.chinese ? '<span class="tour-chinese">' + stop.chinese + '</span>' : '');
+  label.style.opacity = '1';
+
+  stopOrbit(_viewer);
+  _viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(stop.lon, stop.lat, stop.alt || 300),
+    orientation: {
+      heading: Cesium.Math.toRadians(30 + Math.random() * 60),
+      pitch: Cesium.Math.toRadians(stop.pitch || -25),
+      roll: 0.0,
+    },
+    duration: 4,
+    easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
+    complete: function() {
+      if (!_tourRunning) return;
+      // Dwell for 6 seconds, then move on
+      _tourTimeout = setTimeout(function() {
+        if (_tourRunning) tourNext();
+      }, 6000);
+    },
+  });
+}
+
+document.getElementById('tour-btn').addEventListener('click', function() {
+  if (_tourRunning) {
+    stopTour();
+  } else {
+    startTour();
+  }
+});
+
+// Stop tour on user interaction (drag/zoom)
+function initTourInteractionStop() {
+  if (!_viewer) return;
+  var handler = new Cesium.ScreenSpaceEventHandler(_viewer.scene.canvas);
+  handler.setInputAction(function() {
+    if (_tourRunning) stopTour();
+  }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
+  handler.setInputAction(function() {
+    if (_tourRunning) stopTour();
+  }, Cesium.ScreenSpaceEventType.WHEEL);
+  handler.setInputAction(function() {
+    if (_tourRunning) stopTour();
+  }, Cesium.ScreenSpaceEventType.RIGHT_DOWN);
+}
 
 // ── Ferry Boats ──
 var FERRY_ROUTES = [

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 33)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 34)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -66,3 +66,4 @@
 - Time-of-day slider: interactive time preview (0-24h) with CesiumJS sun position override, LIVE button (Session 31)
 - Floating sky lanterns: 12 kongming lanterns ascending over Inner Harbour at night with warm golden glow (Session 32)
 - Helicopter service: 3 helicopters on Macau-HK shuttle and scenic tour routes from Outer Harbour heliport (Session 33)
+- Auto-tour mode: TOUR button auto-flies through all 30+ attractions with bilingual labels (Session 34)
