@@ -7,7 +7,7 @@
 - [ ] Model the three bridges: Ponte de Amizade, Ponte de Sai Van, Ponte Governador Nobre de Carvalho
 - [x] Macau International Airport runway and terminal (Session 8: approach/departure flights)
 - [ ] Inner Harbour and Outer Harbour ferry terminals
-- [ ] Porto Interior waterfront
+- [x] Porto Interior waterfront (Session 22: traditional junk boats along A-Ma Temple coast)
 - [ ] Coloane village and Hac Sa beach
 
 ## Landmarks

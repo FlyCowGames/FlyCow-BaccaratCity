@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-21 (Session 21)
+## Last Updated: 2026-03-21 (Session 22)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -25,6 +25,7 @@
 - **Casino sky beams**: 5 vertical light beams from major casinos at night with gentle sway animation
 - **Wynn Performance Lake**: Choreographed fountain show with 13 jets, 3-min shows every 15 min at night, 6 color palettes
 - **Guia Circuit race cars**: 5 F3 cars racing the 6.2km street circuit around Macau Peninsula (15 waypoints, one-way loop, 5 distinct colors)
+- **Traditional junk boats**: 4 red-sailed Chinese junks cruising 3 harbour routes (Inner Harbour, Outer Harbour, A-Ma Temple coast)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -33,7 +34,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~3422 lines, ~121KB)
+- Single HTML file (~3542 lines, ~125KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -64,6 +65,7 @@
 - **Casino sky beams** at night with gentle sway animation (5 major casinos)
 - **Wynn Performance Lake** fountain show at night — 13 choreographed jets with color-changing light shows
 - **Guia Circuit race cars** — 5 F3 cars with distinct colors racing the iconic street circuit (always active)
+- **Traditional junk boats** — 4 red-sailed Chinese junks cruising Inner/Outer Harbour and A-Ma Temple coast
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

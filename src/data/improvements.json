@@ -292,6 +292,22 @@
       ],
       "linesAdded": 101,
       "agent": "automated"
+    },
+    {
+      "session": 22,
+      "date": "2026-03-21",
+      "title": "Traditional Junk Boats",
+      "domain": "animation",
+      "summary": "4 traditional red-sailed Chinese junk boats cruising the Inner and Outer Harbours of Macau.",
+      "details": [
+        "3 harbour routes: Inner Harbour, Outer Harbour, and A-Ma Temple coastline",
+        "Distinctive 32px canvas icon with red batten sails, wooden hull, and dual sails",
+        "4 junk boats with slow, stately movement (85-100s per route) — much slower than modern ferries",
+        "Ping-pong animation with staggered phases for natural movement",
+        "Heritage Junks entry added to On the Water section in Explore panel with live badge"
+      ],
+      "linesAdded": 120,
+      "agent": "automated"
     }
   ]
 }

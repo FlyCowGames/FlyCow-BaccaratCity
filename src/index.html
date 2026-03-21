@@ -964,6 +964,7 @@ async function init() {
     // Add landmarks, ferries, traffic, and neon glow
     addLandmarks(viewer);
     addFerries(viewer);
+    addJunkBoats(viewer);
     addTraffic(viewer);
     addGuiaCircuit(viewer);
     addPedestrians(viewer);
@@ -1493,6 +1494,157 @@ function addFerries(viewer) {
             scale: 1.0,
             scaleByDistance: new Cesium.NearFarScalar(200, 1.5, 8000, 0.4),
             translucencyByDistance: new Cesium.NearFarScalar(200, 1.0, 20000, 0.2),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+      })(phaseOffset, reverseStart);
+    }
+  });
+}
+
+// ── Traditional Junk Boats ──
+// Red-sailed Chinese junks — iconic Macau/Hong Kong harbour vessels
+var JUNK_ROUTES = [
+  {
+    name: 'Inner Harbour Junk',
+    points: [
+      { lon: 113.5320, lat: 22.1900 }, // Inner Harbour north
+      { lon: 113.5310, lat: 22.1870 },
+      { lon: 113.5305, lat: 22.1840 },
+      { lon: 113.5315, lat: 22.1810 }, // Inner Harbour south
+    ],
+    durationSec: 90,
+    junks: 2,
+  },
+  {
+    name: 'Outer Harbour Junk',
+    points: [
+      { lon: 113.5560, lat: 22.1940 }, // Outer Harbour area
+      { lon: 113.5575, lat: 22.1900 },
+      { lon: 113.5585, lat: 22.1860 },
+      { lon: 113.5570, lat: 22.1820 },
+    ],
+    durationSec: 100,
+    junks: 1,
+  },
+  {
+    name: 'A-Ma Temple Coast Junk',
+    points: [
+      { lon: 113.5295, lat: 22.1880 }, // Near A-Ma Temple
+      { lon: 113.5280, lat: 22.1850 },
+      { lon: 113.5270, lat: 22.1815 },
+      { lon: 113.5265, lat: 22.1785 }, // Porto Interior south
+    ],
+    durationSec: 85,
+    junks: 1,
+  },
+];
+
+function createJunkIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 32;
+  canvas.height = 32;
+  var ctx = canvas.getContext('2d');
+
+  // Hull — dark wooden brown
+  ctx.fillStyle = 'rgba(90, 55, 25, 0.95)';
+  ctx.beginPath();
+  ctx.moveTo(4, 22);
+  ctx.lineTo(8, 28);
+  ctx.lineTo(24, 28);
+  ctx.lineTo(28, 22);
+  ctx.closePath();
+  ctx.fill();
+
+  // Hull highlight
+  ctx.fillStyle = 'rgba(130, 80, 35, 0.7)';
+  ctx.fillRect(10, 23, 12, 3);
+
+  // Mast
+  ctx.strokeStyle = 'rgba(100, 65, 30, 0.9)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(16, 22);
+  ctx.lineTo(16, 3);
+  ctx.stroke();
+
+  // Main sail — iconic red batten sail
+  ctx.fillStyle = 'rgba(180, 30, 20, 0.85)';
+  ctx.beginPath();
+  ctx.moveTo(16, 4);
+  ctx.lineTo(26, 10);
+  ctx.lineTo(25, 20);
+  ctx.lineTo(16, 21);
+  ctx.closePath();
+  ctx.fill();
+
+  // Sail battens (horizontal lines)
+  ctx.strokeStyle = 'rgba(120, 20, 10, 0.5)';
+  ctx.lineWidth = 0.5;
+  for (var i = 0; i < 4; i++) {
+    var y = 8 + i * 3.5;
+    ctx.beginPath();
+    ctx.moveTo(16, y);
+    ctx.lineTo(25.5 - i * 0.3, y);
+    ctx.stroke();
+  }
+
+  // Fore sail — smaller red
+  ctx.fillStyle = 'rgba(160, 25, 15, 0.7)';
+  ctx.beginPath();
+  ctx.moveTo(16, 6);
+  ctx.lineTo(8, 12);
+  ctx.lineTo(9, 20);
+  ctx.lineTo(16, 19);
+  ctx.closePath();
+  ctx.fill();
+
+  // Warm glow halo for visibility at distance
+  var grad = ctx.createRadialGradient(16, 16, 6, 16, 16, 16);
+  grad.addColorStop(0, 'rgba(180, 30, 20, 0.0)');
+  grad.addColorStop(0.7, 'rgba(180, 30, 20, 0.0)');
+  grad.addColorStop(1, 'rgba(180, 30, 20, 0.12)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 32, 32);
+
+  return canvas;
+}
+
+function addJunkBoats(viewer) {
+  var junkIcon = createJunkIcon();
+  var startTime = Date.now();
+
+  JUNK_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.junks; i++) {
+      var phaseOffset = i / route.junks;
+      var reverseStart = i % 2 === 1;
+
+      (function(offset, reverse) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          var cycleDuration = route.durationSec;
+          var rawT = ((elapsed / cycleDuration) + offset) % 2;
+          var t;
+          if (rawT <= 1) {
+            t = rawT;
+          } else {
+            t = 2 - rawT;
+          }
+          if (reverse) t = 1 - t;
+          var pos = lerpPosition(route.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 3);
+        }, false);
+
+        viewer.entities.add({
+          name: route.name,
+          position: positionCallback,
+          billboard: {
+            image: junkIcon,
+            verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scale: 1.0,
+            scaleByDistance: new Cesium.NearFarScalar(150, 1.8, 10000, 0.5),
+            translucencyByDistance: new Cesium.NearFarScalar(150, 1.0, 15000, 0.15),
             disableDepthTestDistance: Number.POSITIVE_INFINITY,
           },
         });
@@ -2220,6 +2372,7 @@ var ATTRACTIONS = {
     { name: "Outer Harbour Terminal", chinese: "外港碼頭", icon: "⚓", lat: 22.1920, lon: 113.5545, alt: 250, pitch: -20 },
     { name: "Inner Harbour", chinese: "內港", icon: "⚓", lat: 22.1870, lon: 113.5340, alt: 250, pitch: -20 },
     { name: "Airport Flights", chinese: "機場航班", icon: "✈️", lat: 22.1490, lon: 113.5900, alt: 600, pitch: -30 },
+    { name: "Heritage Junks", chinese: "帆船", icon: "⛵", lat: 22.1860, lon: 113.5310, alt: 300, pitch: -20 },
   ],
   casinos: [
     { name: "Grand Lisboa", chinese: "新葡京", icon: "🎰", lat: 22.1893, lon: 113.5390, alt: 300, pitch: -25 },
@@ -2298,7 +2451,7 @@ function populateAttractions() {
   // Water
   var waterList = document.getElementById('water-list');
   ATTRACTIONS.water.forEach(function(a) {
-    var badge = (a.name === 'Ferry Routes' || a.name === 'Bridge Traffic' || a.name === 'Airport Flights') ? '<span class="attraction-badge">live</span>' : '';
+    var badge = (a.name === 'Ferry Routes' || a.name === 'Bridge Traffic' || a.name === 'Airport Flights' || a.name === 'Heritage Junks') ? '<span class="attraction-badge">live</span>' : '';
     waterList.appendChild(buildAttractionItem(a, badge));
   });
 

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 21)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 22)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -58,3 +58,4 @@
 - Casino sky beams: 5 vertical light beams from major casinos at night with gentle sway (Session 18)
 - Wynn Performance Lake fountain show: 13 choreographed jets, 3-min shows, 6 color palettes (Session 19)
 - Guia Circuit race cars: 5 F3 cars on real 6.2km street circuit, Racing section in Explore panel (Session 21)
+- Traditional junk boats: 4 red-sailed Chinese junks on 3 harbour routes (Session 22)

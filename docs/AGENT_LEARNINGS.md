@@ -149,6 +149,13 @@
 - **Lesson:** For the Explore panel, adding a new section (Racing) is trivial: add HTML div, add to ATTRACTIONS object, add forEach in populateAttractions. The panel code is well-factored for extension.
 - **Observation:** The Guia Circuit is a near-term roadmap item now completed. The race cars are always active (not event-gated to November) as a permanent feature showing the iconic circuit. Future enhancement: increase car count and add sound effects during the actual Macau Grand Prix in November.
 
+## Session 22 (2026-03-21) -- Traditional Junk Boats
+- **Lesson:** The 7th entity animation system (after ferries, cars, planes, pedestrians, cranes, race cars) using CallbackProperty. Canvas icon creation is the main differentiator between entity types — the animation pattern is truly cookie-cutter at this point.
+- **Lesson:** Larger canvas icons (32px vs 24px for ferries, 12px for cars) with detailed shapes (hull, mast, sails, battens) add cultural character. The red-sailed junk is immediately recognizable even at small sizes due to the distinctive triangular sail shape and red color.
+- **Lesson:** Contrasting speeds between entity types adds realism — junks at 85-100s per route vs ferries at 50-55s creates visual variety. Slow entities feel stately and traditional, fast entities feel modern.
+- **Observation:** At bird's eye view, small billboard entities are hard to distinguish from each other. The junk boats are most impactful when zoomed to harbour level where the sail shape and red color are visible. Features designed for close-up viewing may not justify the entity count at overview level.
+- **Suggestion for future sessions:** Consider adding cultural/historical features that are visible at overview level (e.g., colored district zones, larger landmark enhancements). Many recent sessions have added small billboard entities that are only visible zoomed in.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

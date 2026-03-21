@@ -167,6 +167,15 @@
 - Fulfills near-term roadmap item: "Guia Circuit road path for F3 event"
 - File grew from ~3321 to ~3422 lines (+101 lines)
 
+## Session 22 — 2026-03-21 (Automated Agent)
+- Traditional Chinese junk boats: 4 red-sailed junks cruising 3 harbour routes
+- Routes: Inner Harbour, Outer Harbour, A-Ma Temple coastline
+- Distinctive 32px canvas icon with red batten sails, wooden hull, fore and main sails
+- Slow stately movement (85-100s per route) contrasting with fast modern ferries (50-55s)
+- Ping-pong animation with staggered phases, reuses proven CallbackProperty pattern
+- Heritage Junks entry added to Explore panel "On the Water" section with "live" badge
+- File grew from ~3422 to ~3542 lines (+120 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
