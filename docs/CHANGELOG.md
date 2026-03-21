@@ -231,6 +231,15 @@
 - Cultural feature: kongming lanterns are traditional Chinese sky lanterns released during festivals for good fortune
 - File grew from ~4188 to ~4313 lines (+125 lines)
 
+## Session 33 — 2026-03-21 (Automated Agent)
+- Macau helicopter service: 3 helicopter entities on 3 routes over the peninsula
+- Routes: HK Shuttle Outbound (helipad → east toward Hong Kong), HK Shuttle Inbound (reverse), Scenic Tour (circular loop over peninsula landmarks)
+- Heliport at Outer Harbour Terminal — real location of the Macau-Hong Kong helicopter shuttle service
+- Canvas-drawn 24px helicopter icon with fuselage, cockpit, main rotor disc, tail boom, and position lights
+- One-way loop animation at 200-350m altitude using proven lerpPositionWithAlt and CallbackProperty pattern
+- Helicopter Service entry added to Transit section of Explore panel with "live" badge
+- File grew from ~4313 to ~4469 lines (+156 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

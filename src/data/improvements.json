@@ -404,6 +404,22 @@
       ],
       "linesAdded": 125,
       "agent": "automated"
+    },
+    {
+      "session": 33,
+      "date": "2026-03-21",
+      "title": "Helicopter Service",
+      "domain": "animation",
+      "summary": "3 helicopters operating from the Outer Harbour heliport: 2 HK shuttle flights and 1 scenic peninsula tour at 200-350m altitude.",
+      "details": [
+        "3 helicopter entities on 3 routes: HK Shuttle Outbound, HK Shuttle Inbound, Scenic Peninsula Tour",
+        "Real Outer Harbour Terminal heliport coordinates for the Macau-Hong Kong shuttle service",
+        "Canvas-drawn 24px helicopter icon with fuselage, cockpit, main rotor disc, tail boom, and position lights",
+        "One-way loop animation using proven lerpPositionWithAlt and CallbackProperty pattern",
+        "Helicopter Service entry added to Transit section in Explore panel with live badge"
+      ],
+      "linesAdded": 156,
+      "agent": "automated"
     }
   ]
 }

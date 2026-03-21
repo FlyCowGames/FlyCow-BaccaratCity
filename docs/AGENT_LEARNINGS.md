@@ -202,6 +202,14 @@
 - **Observation:** The 9th entity animation system using CallbackProperty. This one introduces vertical movement (ascent) rather than horizontal path-following, which is a new variant but uses the same core pattern.
 - **Observation:** The Explore panel Heritage section now has 2 entries (Guia Lighthouse + Sky Lanterns). Heritage is a good category for cultural features.
 
+## Session 33 (2026-03-21) -- Macau Helicopter Service
+- **Lesson:** The 10th entity animation system using CallbackProperty (after ferries, cars, planes, pedestrians, cranes, race cars, junk boats, LRT, sky lanterns). The `lerpPositionWithAlt` function from airport planes is directly reusable for any 3D flight path — helicopters, drones, cable cars, etc.
+- **Lesson:** The Outer Harbour heliport at coordinates (113.5535, 22.1920) is the real location of the Macau-Hong Kong helicopter shuttle service (Sky Shuttle / East Asia Airlines). Using real heliport coordinates adds authenticity.
+- **Lesson:** Canvas helicopter icons at 24px with rotor disc, fuselage, tail boom, and position lights create a recognizable silhouette even at small sizes. The translucent rotor disc (ellipse with low-opacity stroke) suggests motion without needing animation of the rotor itself.
+- **Lesson:** Three routes (outbound shuttle, inbound shuttle, scenic tour) with one helicopter each provides good coverage without cluttering the scene. The scenic tour's circular route over the peninsula showcases landmarks from above.
+- **Observation:** At ~169 entities total (3 helicopters + 166 prior), still no performance issues. The entity count continues to scale well.
+- **Observation:** Playwright browser version mismatch (expected 1200, installed 1208) recurred — symlink fix works but is fragile. This is a recurring issue noted in Session 27.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

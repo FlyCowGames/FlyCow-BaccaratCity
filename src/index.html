@@ -1125,6 +1125,7 @@ async function init() {
     addGuiaLighthouse(viewer);
     addLRT(viewer);
     addSkyLanterns(viewer);
+    addHelicopters(viewer);
     addFountainShow(viewer);
     addFountainMist(viewer);
     updateNeonGlow(); // apply immediately
@@ -2621,6 +2622,7 @@ var ATTRACTIONS = {
   ],
   transit: [
     { name: "Macau LRT", chinese: "澳門輕軌", icon: "🚈", lat: 22.1500, lon: 113.5700, alt: 400, pitch: -25 },
+    { name: "Helicopter Service", chinese: "直升機服務", icon: "🚁", lat: 22.1920, lon: 113.5535, alt: 350, pitch: -25 },
   ],
 };
 
@@ -4131,6 +4133,160 @@ function addSkyLanterns(viewer) {
       });
     })(baseLon, baseLat, riseDur, phase, driftAngle, wobblePhase, wobbleSpeed);
   }
+}
+
+// ── Macau Helicopter Service ──
+// Real heliport at Outer Harbour Terminal — shuttle to/from Hong Kong + scenic tours
+var HELI_ROUTES = [
+  {
+    name: 'HK Shuttle Outbound',
+    // Outer Harbour helipad → fly east toward Hong Kong (exit scene)
+    points: [
+      { lon: 113.5535, lat: 22.1920, alt: 30 },
+      { lon: 113.5560, lat: 22.1935, alt: 120 },
+      { lon: 113.5620, lat: 22.1960, alt: 200 },
+      { lon: 113.5750, lat: 22.2020, alt: 250 },
+      { lon: 113.5900, lat: 22.2080, alt: 300 },
+      { lon: 113.6100, lat: 22.2150, alt: 350 },
+    ],
+    durationSec: 55,
+    count: 1,
+  },
+  {
+    name: 'HK Shuttle Inbound',
+    // Arrive from Hong Kong direction → land at helipad
+    points: [
+      { lon: 113.6100, lat: 22.2200, alt: 350 },
+      { lon: 113.5900, lat: 22.2100, alt: 300 },
+      { lon: 113.5750, lat: 22.2030, alt: 250 },
+      { lon: 113.5620, lat: 22.1970, alt: 180 },
+      { lon: 113.5560, lat: 22.1940, alt: 100 },
+      { lon: 113.5535, lat: 22.1920, alt: 30 },
+    ],
+    durationSec: 55,
+    count: 1,
+  },
+  {
+    name: 'Scenic Tour',
+    // Circular scenic tour over the peninsula
+    points: [
+      { lon: 113.5535, lat: 22.1920, alt: 60 },   // Depart helipad
+      { lon: 113.5450, lat: 22.1950, alt: 200 },   // Over inner harbour
+      { lon: 113.5350, lat: 22.1900, alt: 220 },   // West coast
+      { lon: 113.5310, lat: 22.1830, alt: 230 },   // A-Ma Temple
+      { lon: 113.5320, lat: 22.1760, alt: 220 },   // Nam Van Lake
+      { lon: 113.5400, lat: 22.1720, alt: 210 },   // Macau Tower
+      { lon: 113.5500, lat: 22.1700, alt: 200 },   // Sai Van Bridge
+      { lon: 113.5550, lat: 22.1780, alt: 210 },   // East waterfront
+      { lon: 113.5520, lat: 22.1870, alt: 200 },   // Lisboa area
+      { lon: 113.5535, lat: 22.1920, alt: 60 },    // Return to helipad
+    ],
+    durationSec: 80,
+    count: 1,
+  },
+];
+
+function createHelicopterIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 24;
+  canvas.height = 24;
+  var ctx = canvas.getContext('2d');
+  var cx = 12, cy = 12;
+
+  // Outer glow (warm white like navigation lights)
+  var glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 12);
+  glow.addColorStop(0, 'rgba(255, 255, 255, 0.0)');
+  glow.addColorStop(0.3, 'rgba(255, 240, 220, 0.15)');
+  glow.addColorStop(0.6, 'rgba(255, 200, 150, 0.08)');
+  glow.addColorStop(1, 'rgba(255, 180, 100, 0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, 24, 24);
+
+  // Fuselage body (dark with bright highlights)
+  ctx.fillStyle = 'rgba(200, 200, 220, 0.9)';
+  ctx.beginPath();
+  ctx.ellipse(cx, cy + 1, 4, 2.5, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Cockpit windshield
+  ctx.fillStyle = 'rgba(150, 220, 255, 0.7)';
+  ctx.beginPath();
+  ctx.ellipse(cx + 2, cy + 0.5, 2, 1.5, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Main rotor disc (translucent swept disc)
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.ellipse(cx, cy - 1, 9, 2.5, 0, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Tail boom
+  ctx.strokeStyle = 'rgba(200, 200, 220, 0.7)';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(cx - 4, cy + 1);
+  ctx.lineTo(cx - 9, cy - 1);
+  ctx.stroke();
+
+  // Tail rotor (small disc)
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+  ctx.lineWidth = 0.6;
+  ctx.beginPath();
+  ctx.ellipse(cx - 9, cy - 1, 1, 2.5, 0, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Red position light on tail
+  ctx.fillStyle = 'rgba(255, 60, 60, 0.8)';
+  ctx.beginPath();
+  ctx.arc(cx - 9, cy - 1, 1, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Bright navigation light core
+  var core = ctx.createRadialGradient(cx, cy, 0, cx, cy, 3);
+  core.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+  core.addColorStop(1, 'rgba(255, 255, 255, 0)');
+  ctx.fillStyle = core;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  return canvas;
+}
+
+function addHelicopters(viewer) {
+  var heliIcon = createHelicopterIcon();
+  var startTime = Date.now();
+
+  HELI_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var phaseOffset = i / route.count;
+
+      (function(offset) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          // One-way loop: helicopter flies route then resets
+          var t = ((elapsed / route.durationSec) + offset) % 1;
+          var pos = lerpPositionWithAlt(route.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, pos.alt);
+        }, false);
+
+        viewer.entities.add({
+          name: route.name + ' Helicopter',
+          position: positionCallback,
+          billboard: {
+            image: heliIcon,
+            verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scale: 1.0,
+            scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 12000, 0.6),
+            translucencyByDistance: new Cesium.NearFarScalar(200, 1.0, 20000, 0.1),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+      })(phaseOffset);
+    }
+  });
 }
 
 // ── Harbor Fireworks System ──

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 32)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 33)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -65,3 +65,4 @@
 - Bridge night illumination: 50 LED light points across 3 bridges, Bridges section in Explore panel (Session 29)
 - Time-of-day slider: interactive time preview (0-24h) with CesiumJS sun position override, LIVE button (Session 31)
 - Floating sky lanterns: 12 kongming lanterns ascending over Inner Harbour at night with warm golden glow (Session 32)
+- Helicopter service: 3 helicopters on Macau-HK shuttle and scenic tour routes from Outer Harbour heliport (Session 33)
