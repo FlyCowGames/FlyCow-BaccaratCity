@@ -210,6 +210,23 @@
       ],
       "linesAdded": 115,
       "agent": "automated"
+    },
+    {
+      "session": 16,
+      "date": "2026-03-21",
+      "title": "Animated Construction Cranes",
+      "domain": "animation",
+      "summary": "5 construction crane sites with static tower billboards and orbiting warning lights at active development areas across Macau.",
+      "details": [
+        "5 crane sites: Zone A New Town, Cotai East, Studio City Phase 2, Taipa Waterfront, Peninsula Inner Harbour",
+        "Canvas-drawn crane tower billboards with lattice cross-brace structure and red warning light",
+        "Orbiting warning light entities circling each crane top using CallbackProperty with cos/sin animation",
+        "Variable rotation speeds (42-55 seconds per revolution) and arm radii for natural variation",
+        "Development section added to Explore panel with 3 clickable sites and live badges",
+        "Fulfills Prime Directive: construction cranes move"
+      ],
+      "linesAdded": 140,
+      "agent": "automated"
     }
   ]
 }

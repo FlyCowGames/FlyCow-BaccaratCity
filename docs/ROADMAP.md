@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 15)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 16)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -24,7 +24,7 @@
 - Typhoon signal weather effects
 - Street-level exploration mode
 - Real-time flight data (ADS-B) for airport
-- Construction cranes and ongoing development
+- ~~Construction cranes and ongoing development~~ — Done (Session 16)
 - Portuguese colonial district detail (Senado Square cobblestones)
 - Community features
 
@@ -53,3 +53,4 @@
 - Interactive baccarat: click casino → play Punto Banco with proper rules, animated dealing (Session 11)
 - Harbor fireworks: particle-based firework display at night with 6 palettes, 3 burst types (Session 13)
 - Animated pedestrians: ~26 walking figures near 6 popular areas, visible at street level (Session 15)
+- Construction cranes: 5 sites with orbiting warning lights, Development section in Explore panel (Session 16)

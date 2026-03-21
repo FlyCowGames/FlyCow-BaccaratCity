@@ -119,6 +119,16 @@
 - Fulfills Prime Directive: "People walk" — first item under "Living & Breathing"
 - File grew from ~2625 to ~2740 lines (+115 lines)
 
+## Session 16 — 2026-03-21 (Automated Agent)
+- Animated construction cranes: 5 crane sites at active development areas across Macau
+- Static crane tower billboards (canvas-drawn lattice structure with red warning light)
+- Orbiting warning light entities (red-amber glow) circling each crane top via CallbackProperty
+- Crane sites: Zone A New Town, Cotai East Development, Studio City Phase 2, Taipa Waterfront, Peninsula Inner Harbour
+- Variable rotation speeds (42-55 seconds per revolution) and arm radii for natural variation
+- "Development" section added to Explore panel with 3 clickable sites and "live" badges
+- Fulfills Prime Directive: "construction cranes move"
+- File grew from ~2740 to ~2880 lines (+140 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

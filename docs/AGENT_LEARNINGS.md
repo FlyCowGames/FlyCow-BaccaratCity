@@ -113,6 +113,13 @@
 - **Lesson:** Multiple short paths per zone (2-3 waypoints each) work better than one long path for pedestrians — people stroll around a small area, they don't march long distances.
 - **Observation:** This is the 4th entity animation system using the same pattern. The pattern reuse is still cleaner than abstracting, since each entity type has different icon size, altitude, visibility range, and movement style.
 
+## Session 16 (2026-03-21) -- Construction Cranes
+- **Lesson:** For objects that need visible rotation (like crane arms), using an orbiting satellite entity (small warning light dot) circling via `cos/sin` on the CallbackProperty is more effective than trying to rotate a billboard. Billboards always face the camera, so rotation of the image looks wrong, but an orbiting light at the crane top convincingly suggests a rotating jib.
+- **Lesson:** Canvas-drawn structural shapes (lattice tower with cross-braces) work at small sizes but look best with `scaleByDistance` set to larger near values (3.0) so the detail is visible when zoomed in. The canvas icon approach is reaching its limits for complex shapes — future detailed structures might benefit from actual 3D models via glTF.
+- **Lesson:** The 5th animation system (cranes) using CallbackProperty — the pattern is truly battle-tested now. Each new entity type takes <10 minutes to implement because the pattern is so well established.
+- **Observation:** Adding a new section to the Explore panel (Development) was trivial — just add to the ATTRACTIONS object and populateAttractions function. The panel code is cleanly factored for extension.
+- **Observation:** `armRadius` values of 0.0003-0.0004 degrees produce convincing crane arm radius at Macau's latitude (~30-40m real-world radius). This is a useful reference for future circular animation paths.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

@@ -670,6 +670,10 @@
       <div class="panel-section-title">Casinos</div>
       <div id="casinos-list"></div>
     </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Development</div>
+      <div id="development-list"></div>
+    </div>
   </div>
 </div>
 
@@ -954,6 +958,7 @@ async function init() {
     addFerries(viewer);
     addTraffic(viewer);
     addPedestrians(viewer);
+    addConstructionCranes(viewer);
     addAirportPlanes(viewer);
     addNeonGlow(viewer);
     updateNeonGlow(); // apply immediately
@@ -1722,6 +1727,130 @@ function addPedestrians(viewer) {
   });
 }
 
+// ── Construction Cranes System ──
+// Macau always has construction — cranes are iconic skyline features
+var CRANE_SITES = [
+  { name: 'Zone A New Town', lon: 113.5485, lat: 22.2050, alt: 75, armRadius: 0.0004, rotSec: 50 },
+  { name: 'Cotai East Development', lon: 113.5680, lat: 22.1470, alt: 65, armRadius: 0.00035, rotSec: 45 },
+  { name: 'Studio City Phase 2', lon: 113.5645, lat: 22.1445, alt: 70, armRadius: 0.00038, rotSec: 55 },
+  { name: 'Taipa Waterfront', lon: 113.5560, lat: 22.1580, alt: 55, armRadius: 0.0003, rotSec: 42 },
+  { name: 'Peninsula Inner Harbour', lon: 113.5345, lat: 22.1920, alt: 50, armRadius: 0.00028, rotSec: 48 },
+];
+
+function createCraneTowerIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 16;
+  canvas.height = 32;
+  var ctx = canvas.getContext('2d');
+
+  // Vertical tower (yellow-orange steel structure)
+  ctx.strokeStyle = 'rgba(255, 180, 50, 0.7)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(8, 30);
+  ctx.lineTo(8, 4);
+  ctx.stroke();
+
+  // Cross braces
+  ctx.strokeStyle = 'rgba(255, 180, 50, 0.4)';
+  ctx.lineWidth = 1;
+  for (var y = 28; y > 6; y -= 6) {
+    ctx.beginPath();
+    ctx.moveTo(5, y);
+    ctx.lineTo(11, y - 5);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(11, y);
+    ctx.lineTo(5, y - 5);
+    ctx.stroke();
+  }
+
+  // Horizontal arm (jib)
+  ctx.strokeStyle = 'rgba(255, 180, 50, 0.6)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(0, 5);
+  ctx.lineTo(16, 5);
+  ctx.stroke();
+
+  // Warning light at top (red glow)
+  var grad = ctx.createRadialGradient(8, 3, 0, 8, 3, 3);
+  grad.addColorStop(0, 'rgba(255, 50, 30, 0.9)');
+  grad.addColorStop(0.5, 'rgba(255, 50, 30, 0.3)');
+  grad.addColorStop(1, 'rgba(255, 50, 30, 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(8, 3, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  return canvas;
+}
+
+function createCraneWarningLight() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 10;
+  canvas.height = 10;
+  var ctx = canvas.getContext('2d');
+  var cx = 5, cy = 5;
+  var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 5);
+  grad.addColorStop(0, 'rgba(255, 80, 30, 0.95)');
+  grad.addColorStop(0.3, 'rgba(255, 60, 20, 0.5)');
+  grad.addColorStop(1, 'rgba(255, 40, 10, 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+  ctx.fill();
+  return canvas;
+}
+
+function addConstructionCranes(viewer) {
+  var towerIcon = createCraneTowerIcon();
+  var lightIcon = createCraneWarningLight();
+  var startTime = Date.now();
+
+  CRANE_SITES.forEach(function(site) {
+    // Static crane tower billboard
+    viewer.entities.add({
+      name: site.name + ' Crane',
+      position: Cesium.Cartesian3.fromDegrees(site.lon, site.lat, site.alt * 0.5),
+      billboard: {
+        image: towerIcon,
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: 1.0,
+        scaleByDistance: new Cesium.NearFarScalar(200, 3.0, 6000, 0.6),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 12000, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+
+    // Orbiting warning light at crane top (simulates rotating jib)
+    (function(s) {
+      var positionCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        var angle = (elapsed / s.rotSec) * Math.PI * 2;
+        var offsetLon = s.lon + Math.cos(angle) * s.armRadius;
+        var offsetLat = s.lat + Math.sin(angle) * s.armRadius;
+        return Cesium.Cartesian3.fromDegrees(offsetLon, offsetLat, s.alt);
+      }, false);
+
+      viewer.entities.add({
+        name: s.name + ' Crane Light',
+        position: positionCallback,
+        billboard: {
+          image: lightIcon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: 1.0,
+          scaleByDistance: new Cesium.NearFarScalar(200, 1.5, 8000, 0.4),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 15000, 0.0),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+    })(site);
+  });
+}
+
 // ── Airport Planes System ──
 // Macau International Airport (MFM) — runway 16/34 on Taipa reclaimed land
 // Approach from south over water, departure climbing north over peninsula
@@ -1996,6 +2125,11 @@ var ATTRACTIONS = {
     { name: "Wynn Palace", chinese: "永利皇宮", icon: "🎰", lat: 22.1478, lon: 113.5630, alt: 300, pitch: -25 },
     { name: "City of Dreams", chinese: "新濠天地", icon: "🎰", lat: 22.1486, lon: 113.5586, alt: 300, pitch: -25 },
   ],
+  development: [
+    { name: "Zone A New Town", chinese: "新城A區", icon: "🏗", lat: 22.2050, lon: 113.5485, alt: 400, pitch: -30 },
+    { name: "Cotai East", chinese: "路氹東", icon: "🏗", lat: 22.1470, lon: 113.5680, alt: 350, pitch: -25 },
+    { name: "Studio City Phase 2", chinese: "新濠影匯二期", icon: "🏗", lat: 22.1445, lon: 113.5645, alt: 300, pitch: -25 },
+  ],
 };
 
 // Macau events calendar — updated by improvement agent
@@ -2063,6 +2197,12 @@ function populateAttractions() {
   var casinosList = document.getElementById('casinos-list');
   ATTRACTIONS.casinos.forEach(function(a) {
     casinosList.appendChild(buildAttractionItem(a));
+  });
+
+  // Development
+  var devList = document.getElementById('development-list');
+  ATTRACTIONS.development.forEach(function(a) {
+    devList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
   });
 
   // Live events

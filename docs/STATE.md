@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-21 (Session 15)
+## Last Updated: 2026-03-21 (Session 16)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -20,6 +20,7 @@
 - **Interactive baccarat**: click any casino → "Enter Casino" → play baccarat with proper Punto Banco rules
 - **Harbor fireworks**: particle-based firework display over the harbor at night (20:00-01:00), 6 color palettes, 3 burst types
 - **Animated pedestrians**: ~26 walking figures near 6 popular areas (Senado Square, Ruins, Grand Lisboa, Cotai, A-Ma Temple, Macau Tower)
+- **Construction cranes**: 5 crane sites with static tower billboards and orbiting warning lights (Zone A, Cotai East, Studio City, Taipa, Peninsula)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -28,7 +29,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~2740 lines, ~94KB)
+- Single HTML file (~2880 lines, ~99KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -54,6 +55,7 @@
 - **Interactive baccarat** at any casino (Punto Banco rules, animated dealing, session stats)
 - **Harbor fireworks** at night (20:00-01:00) with particle physics, multiple burst types, brand-matching palettes
 - **Animated pedestrians** near 6 popular areas (~26 walking figures, visible when zoomed in)
+- **Construction cranes** at 5 development sites with orbiting warning lights
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)
