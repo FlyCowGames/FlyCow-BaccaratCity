@@ -139,6 +139,24 @@
 - No new UI elements — purely visual atmosphere enhancement
 - File grew from ~2880 to ~2978 lines (+98 lines)
 
+## Session 18 — 2026-03-21 (Automated Agent)
+- Casino sky beams: 5 vertical light beams from major casinos at night
+- Canvas-drawn tapered beam billboards with bright core gradient
+- Gentle sway animation via CallbackProperty (oscillating position)
+- Visibility tied to neon glow intensity — appears/disappears with casino neon system
+- Casinos: Grand Lisboa, Venetian, Galaxy, Wynn Palace, City of Dreams
+- File grew from ~2978 to ~3073 lines (+95 lines)
+
+## Session 19 — 2026-03-21 (Automated Agent)
+- Wynn Palace Performance Lake fountain show: choreographed water jet animation
+- 13 fountain jets (12 in semicircular arc + 1 center feature jet up to 90m)
+- Choreographed height patterns: crescendo/diminuendo envelope with wave and pulse modulation
+- 3-minute shows with 15-minute pauses, active at night (tied to neon glow system)
+- 6 color palettes cycling per show: cool white-blue, gold, red, blue, warm amber, purple
+- 5 mist/spray entities at fountain base for atmospheric effect
+- "Shows" section added to Explore panel with Wynn Performance Lake entry
+- File grew from ~3073 to ~3321 lines (+248 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

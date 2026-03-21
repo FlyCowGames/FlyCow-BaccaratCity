@@ -243,6 +243,39 @@
       ],
       "linesAdded": 98,
       "agent": "automated"
+    },
+    {
+      "session": 18,
+      "date": "2026-03-21",
+      "title": "Casino Sky Beams",
+      "domain": "atmosphere",
+      "summary": "Vertical light beams shooting up from 5 major casinos at night with gentle sway animation.",
+      "details": [
+        "5 casino sky beams: Grand Lisboa, Venetian, Galaxy, Wynn Palace, City of Dreams",
+        "Canvas-drawn tapered beam billboards with bright core gradient",
+        "Gentle sway animation via CallbackProperty (oscillating position)",
+        "Visibility tied to neon glow intensity — appears at dusk, disappears at dawn",
+        "Height range 280-400m for dramatic skyline effect"
+      ],
+      "linesAdded": 95,
+      "agent": "automated"
+    },
+    {
+      "session": 19,
+      "date": "2026-03-21",
+      "title": "Wynn Performance Lake Fountain Show",
+      "domain": "animation",
+      "summary": "Choreographed fountain jet animation at Wynn Palace with 13 jets, color-changing lights, and timed 3-minute shows.",
+      "details": [
+        "13 fountain jets: 12 in semicircular arc + 1 tall center feature jet (up to 90m)",
+        "Choreographed height patterns with crescendo/diminuendo envelope, wave, and pulse modulation",
+        "3-minute shows with 15-minute pauses, active at night (tied to neon glow system)",
+        "6 color palettes cycling per show: cool white-blue, gold, red, blue, warm amber, purple",
+        "5 mist/spray entities at fountain base with animated scale for atmospheric depth",
+        "Shows section added to Explore panel with Wynn Performance Lake entry"
+      ],
+      "linesAdded": 248,
+      "agent": "automated"
     }
   ]
 }

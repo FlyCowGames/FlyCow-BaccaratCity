@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 17)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 19)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -55,3 +55,5 @@
 - Animated pedestrians: ~26 walking figures near 6 popular areas, visible at street level (Session 15)
 - Construction cranes: 5 sites with orbiting warning lights, Development section in Explore panel (Session 16)
 - Harbor water shimmer: ~23 animated light reflections on water, day/night intensity modulation (Session 17)
+- Casino sky beams: 5 vertical light beams from major casinos at night with gentle sway (Session 18)
+- Wynn Performance Lake fountain show: 13 choreographed jets, 3-min shows, 6 color palettes (Session 19)

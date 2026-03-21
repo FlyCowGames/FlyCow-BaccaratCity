@@ -15,7 +15,7 @@
 - [ ] Ruins of St. Paul's — iconic facade on a hill
 - [ ] Macau Tower — 338m observation tower with bungee jump
 - [ ] The Venetian — massive, with canal and gondolas
-- [ ] Wynn Palace — fountain show
+- [x] Wynn Palace — fountain show (Session 19: Performance Lake with 13 choreographed jets)
 - [ ] Galaxy Macau — wave pool on roof
 - [ ] Senado Square — Portuguese colonial architecture, wave-pattern pavement
 - [ ] A-Ma Temple — traditional Chinese temple at the harbor

@@ -127,6 +127,14 @@
 - **Lesson:** 23 water shimmer entities is a reasonable count — enough for visual density without performance concerns. Combined with existing entities (ferries, cars, planes, pedestrians, cranes, neon), the total entity count is manageable.
 - **Observation:** During daytime testing, shimmer is intentionally very subtle (scale multiplied by 0.3). The full effect is designed for nighttime when casino reflections would dominate the harbor. This is correct behavior, not a bug.
 
+## Session 19 (2026-03-21) -- Wynn Palace Performance Lake Fountain Show
+- **Lesson:** Choreographed fountain shows are a great visual feature — they combine time-gated activation (like fireworks) with dynamic billboard height animation (like shimmer). The crescendo/diminuendo envelope (`sin(progress * PI)`) creates a natural show arc without complex state machines.
+- **Lesson:** Using `CallbackProperty` for billboard `height` (not just scale or position) enables dynamic jet height effects. Combined with position changes, this creates convincing water jet animation.
+- **Lesson:** The "show/pause" cycle pattern (3-min show, 15-min pause) is a good template for recurring timed events. The state machine is simple: check if show ended → pause, check if pause ended → start new show.
+- **Lesson:** Color palette cycling per show (randomly selecting from 6 palettes at show start and updating billboard images) adds variety without runtime overhead — the icon is created once per show, not per frame.
+- **Lesson:** Fountain mist entities with animated scale provide atmospheric depth. Using IIFE closures to capture per-entity random phase/speed in `CallbackProperty` is the clean pattern for this.
+- **Observation:** Session 18's sky beams were already committed but not documented. Always check for undocumented previous sessions and update CHANGELOG accordingly.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

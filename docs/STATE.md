@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-21 (Session 17)
+## Last Updated: 2026-03-21 (Session 19)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -22,6 +22,8 @@
 - **Animated pedestrians**: ~26 walking figures near 6 popular areas (Senado Square, Ruins, Grand Lisboa, Cotai, A-Ma Temple, Macau Tower)
 - **Construction cranes**: 5 crane sites with static tower billboards and orbiting warning lights (Zone A, Cotai East, Studio City, Taipa, Peninsula)
 - **Harbor water shimmer**: ~23 animated light reflection points on water surfaces, subtle day sparkle / bright night casino reflections
+- **Casino sky beams**: 5 vertical light beams from major casinos at night with gentle sway animation
+- **Wynn Performance Lake**: Choreographed fountain show with 13 jets, 3-min shows every 15 min at night, 6 color palettes
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -30,7 +32,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~2978 lines, ~103KB)
+- Single HTML file (~3321 lines, ~117KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -58,6 +60,8 @@
 - **Animated pedestrians** near 6 popular areas (~26 walking figures, visible when zoomed in)
 - **Construction cranes** at 5 development sites with orbiting warning lights
 - **Harbor water shimmer** — animated light reflections on water surfaces (subtle day, bright night)
+- **Casino sky beams** at night with gentle sway animation (5 major casinos)
+- **Wynn Performance Lake** fountain show at night — 13 choreographed jets with color-changing light shows
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

@@ -674,6 +674,10 @@
       <div class="panel-section-title">Development</div>
       <div id="development-list"></div>
     </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Shows</div>
+      <div id="shows-list"></div>
+    </div>
   </div>
 </div>
 
@@ -963,9 +967,12 @@ async function init() {
     addNeonGlow(viewer);
     addWaterShimmer(viewer);
     addSkyBeams(viewer);
+    addFountainShow(viewer);
+    addFountainMist(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
+    updateFountainShow(); // apply immediately
 
     // Start flythrough
     runFlythrough(viewer);
@@ -2134,6 +2141,9 @@ var ATTRACTIONS = {
     { name: "Cotai East", chinese: "路氹東", icon: "🏗", lat: 22.1470, lon: 113.5680, alt: 350, pitch: -25 },
     { name: "Studio City Phase 2", chinese: "新濠影匯二期", icon: "🏗", lat: 22.1445, lon: 113.5645, alt: 300, pitch: -25 },
   ],
+  shows: [
+    { name: "Wynn Performance Lake", chinese: "永利表演湖", icon: "⛲", lat: 22.1472, lon: 113.5628, alt: 200, pitch: -15 },
+  ],
 };
 
 // Macau events calendar — updated by improvement agent
@@ -2207,6 +2217,12 @@ function populateAttractions() {
   var devList = document.getElementById('development-list');
   ATTRACTIONS.development.forEach(function(a) {
     devList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
+  });
+
+  // Shows
+  var showsList = document.getElementById('shows-list');
+  ATTRACTIONS.shows.forEach(function(a) {
+    showsList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
   });
 
   // Live events
@@ -2799,6 +2815,238 @@ function updateShimmerVisibility() {
   });
 }
 setInterval(updateShimmerVisibility, 10000);
+
+// ── Wynn Palace Performance Lake Fountain Show ──
+// Choreographed fountain jets near Wynn Palace — iconic Macau attraction
+// Real show runs every ~20 minutes; here we simulate continuous performances at night
+var FOUNTAIN_CENTER = { lon: 113.5628, lat: 22.1472 }; // Performance Lake, south of Wynn Palace
+var FOUNTAIN_JETS = [];
+(function() {
+  // Create a semicircular array of fountain jets facing south
+  var numJets = 12;
+  var arcRadius = 0.00035; // ~35m arc radius
+  var arcStart = Math.PI * 0.15;  // slightly past east
+  var arcEnd = Math.PI * 0.85;    // slightly before west
+  for (var i = 0; i < numJets; i++) {
+    var angle = arcStart + (arcEnd - arcStart) * (i / (numJets - 1));
+    FOUNTAIN_JETS.push({
+      lon: FOUNTAIN_CENTER.lon + Math.cos(angle) * arcRadius,
+      lat: FOUNTAIN_CENTER.lat - Math.sin(angle) * arcRadius * 0.6,
+      baseHeight: 15 + Math.random() * 10,   // 15-25m base jet height
+      maxHeight: 40 + Math.random() * 35,    // 40-75m max height (center jets taller)
+      phase: (i / numJets) * Math.PI * 2,     // stagger for wave patterns
+      speed: 0.8 + Math.random() * 0.4,       // oscillation speed variation
+    });
+  }
+  // Add center feature jet (tallest, up to 90m)
+  FOUNTAIN_JETS.push({
+    lon: FOUNTAIN_CENTER.lon,
+    lat: FOUNTAIN_CENTER.lat - 0.00005,
+    baseHeight: 25,
+    maxHeight: 90,
+    phase: 0,
+    speed: 0.5,
+    isCenter: true,
+  });
+})();
+
+var _fountainEntities = [];
+var _fountainActive = false;
+var _fountainShowStart = 0;
+var _fountainShowDuration = 180000; // 3-minute show duration
+var _fountainPauseDuration = 900000; // 15-minute pause between shows
+var _nextFountainCheck = 0;
+
+function createFountainJetIcon(size, color) {
+  var canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size * 3; // tall narrow jet
+  var ctx = canvas.getContext('2d');
+
+  // Vertical water jet gradient — bright at base, misty at top
+  var grad = ctx.createLinearGradient(size / 2, canvas.height, size / 2, 0);
+  grad.addColorStop(0, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.8)');
+  grad.addColorStop(0.3, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.5)');
+  grad.addColorStop(0.6, 'rgba(255, 255, 255, 0.3)');
+  grad.addColorStop(0.85, 'rgba(255, 255, 255, 0.1)');
+  grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+  // Tapered jet shape
+  ctx.beginPath();
+  ctx.moveTo(size * 0.25, canvas.height);
+  ctx.lineTo(size * 0.75, canvas.height);
+  ctx.lineTo(size * 0.55, 0);
+  ctx.lineTo(size * 0.45, 0);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Bright core
+  var coreGrad = ctx.createLinearGradient(size / 2, canvas.height, size / 2, 0);
+  coreGrad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+  coreGrad.addColorStop(0.4, 'rgba(255, 255, 255, 0.2)');
+  coreGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+  ctx.beginPath();
+  ctx.moveTo(size * 0.4, canvas.height);
+  ctx.lineTo(size * 0.6, canvas.height);
+  ctx.lineTo(size * 0.48, 0);
+  ctx.lineTo(size * 0.52, 0);
+  ctx.closePath();
+  ctx.fillStyle = coreGrad;
+  ctx.fill();
+
+  return canvas;
+}
+
+// Color cycling for fountain lights — matches show choreography
+var FOUNTAIN_COLORS = [
+  [200, 220, 255],  // cool white-blue (water)
+  [212, 175, 55],   // gold (brand)
+  [255, 100, 100],  // red (drama)
+  [100, 180, 255],  // blue (calm)
+  [255, 180, 60],   // warm amber (Wynn signature)
+  [180, 140, 255],  // purple (luxury)
+];
+
+function addFountainShow(viewer) {
+  var startTime = Date.now();
+
+  FOUNTAIN_JETS.forEach(function(jet, idx) {
+    // Create initial icon with default color
+    var icon = createFountainJetIcon(16, FOUNTAIN_COLORS[4]); // Wynn amber default
+
+    var entity = viewer.entities.add({
+      name: 'Fountain Jet ' + idx,
+      position: new Cesium.CallbackProperty(function() {
+        if (!_fountainActive) return Cesium.Cartesian3.fromDegrees(jet.lon, jet.lat, 2);
+        var t = (Date.now() - _fountainShowStart) / 1000;
+        // Choreographed height patterns
+        var showProgress = (Date.now() - _fountainShowStart) / _fountainShowDuration;
+        var envelope = Math.sin(showProgress * Math.PI); // crescendo and diminuendo
+        var wave = Math.sin(t * jet.speed + jet.phase);
+        var pulse = Math.sin(t * 0.3) * 0.3; // slow global pulse
+        var height = jet.baseHeight + (jet.maxHeight - jet.baseHeight) * envelope * (0.5 + 0.5 * wave + pulse * 0.3);
+        height = Math.max(jet.baseHeight * 0.5, height);
+        if (jet.isCenter) height *= (0.8 + 0.2 * Math.sin(t * 0.7)); // center jet breathes
+        return Cesium.Cartesian3.fromDegrees(jet.lon, jet.lat, height / 2 + 5);
+      }, false),
+      billboard: {
+        image: icon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: jet.isCenter ? 12 : 8,
+        height: new Cesium.CallbackProperty(function() {
+          if (!_fountainActive) return 0;
+          var t = (Date.now() - _fountainShowStart) / 1000;
+          var showProgress = (Date.now() - _fountainShowStart) / _fountainShowDuration;
+          var envelope = Math.sin(showProgress * Math.PI);
+          var wave = Math.sin(t * jet.speed + jet.phase);
+          var pulse = Math.sin(t * 0.3) * 0.3;
+          var height = jet.baseHeight + (jet.maxHeight - jet.baseHeight) * envelope * (0.5 + 0.5 * wave + pulse * 0.3);
+          height = Math.max(jet.baseHeight * 0.5, height);
+          if (jet.isCenter) height *= (0.8 + 0.2 * Math.sin(t * 0.7));
+          return height;
+        }, false),
+        scaleByDistance: new Cesium.NearFarScalar(200, 1.5, 15000, 0.3),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 0.9, 20000, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+    _fountainEntities.push({ entity: entity, jet: jet, idx: idx });
+  });
+}
+
+// Mist/spray entities at fountain base for atmosphere
+var _fountainMistEntities = [];
+
+function createMistIcon(size) {
+  var canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  var ctx = canvas.getContext('2d');
+  var grad = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  grad.addColorStop(0, 'rgba(200, 220, 255, 0.25)');
+  grad.addColorStop(0.5, 'rgba(200, 220, 255, 0.1)');
+  grad.addColorStop(1, 'rgba(200, 220, 255, 0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, size, size);
+  return canvas;
+}
+
+function addFountainMist(viewer) {
+  var mistIcon = createMistIcon(32);
+  // 5 mist clouds around the fountain base
+  for (var i = 0; i < 5; i++) {
+    var angle = (Math.PI * 2 * i) / 5;
+    var radius = 0.00015;
+    var mistLon = FOUNTAIN_CENTER.lon + Math.cos(angle) * radius;
+    var mistLat = FOUNTAIN_CENTER.lat - 0.00005 + Math.sin(angle) * radius * 0.6;
+    var mistPhase = Math.random() * Math.PI * 2;
+    var mistSpeed = 0.3 + Math.random() * 0.3;
+
+    var entity = viewer.entities.add({
+      name: 'Fountain Mist ' + i,
+      position: Cesium.Cartesian3.fromDegrees(mistLon, mistLat, 8),
+      billboard: {
+        image: mistIcon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 40,
+        height: 20,
+        scale: new Cesium.CallbackProperty(function(mp, ms) {
+          return function() {
+            if (!_fountainActive) return 0;
+            var t = (Date.now() - _fountainShowStart) / 1000;
+            return 0.6 + 0.4 * Math.sin(t * ms + mp);
+          };
+        }(mistPhase, mistSpeed), false),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 0.7, 8000, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+    _fountainMistEntities.push(entity);
+  }
+}
+
+function updateFountainShow() {
+  var now = Date.now();
+  if (now < _nextFountainCheck && _fountainActive && now < _fountainShowStart + _fountainShowDuration) return;
+
+  var hour = getMacauHour();
+  var isNighttime = _currentGlowIntensity > 0.2;
+
+  if (_fountainActive) {
+    // Check if show has ended
+    if (now >= _fountainShowStart + _fountainShowDuration) {
+      _fountainActive = false;
+      _nextFountainCheck = now + _fountainPauseDuration;
+      _fountainEntities.forEach(function(item) { item.entity.show = false; });
+      _fountainMistEntities.forEach(function(e) { e.show = false; });
+    }
+  } else {
+    // Start a new show if it's nighttime and pause is over
+    if (isNighttime && now >= _nextFountainCheck) {
+      _fountainActive = true;
+      _fountainShowStart = now;
+      _nextFountainCheck = 0;
+
+      // Pick a random color scheme for this show
+      var colorIdx = Math.floor(Math.random() * FOUNTAIN_COLORS.length);
+      var showColor = FOUNTAIN_COLORS[colorIdx];
+
+      // Update jet icons with new color
+      _fountainEntities.forEach(function(item) {
+        var newIcon = createFountainJetIcon(16, showColor);
+        item.entity.billboard.image = newIcon;
+        item.entity.show = true;
+      });
+      _fountainMistEntities.forEach(function(e) { e.show = true; });
+    }
+  }
+}
+setInterval(updateFountainShow, 5000);
 
 // ── Casino Sky Beams System ──
 // Vertical light beams shooting up from major casinos at night — signature Macau skyline feature
