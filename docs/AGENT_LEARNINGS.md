@@ -194,6 +194,14 @@
 - **Observation:** This is the first interactivity feature that enhances ALL existing features rather than adding a new one. The time slider makes ~60% of the content (night-only features) accessible to daytime visitors. Meta-features that multiply the value of existing features are high-leverage.
 - **Observation:** The Explore panel observation from Session 29 (10 sections, getting long) is still relevant. Should be addressed in a future session with collapsible sections.
 
+## Session 32 (2026-03-21) -- Floating Sky Lanterns
+- **Lesson:** Ascending animation (rising from low to high altitude, then recycling) is a new variant of the CallbackProperty pattern. The key technique is `t = ((elapsed / duration) + phase) % 1` with quadratic ease-out `altT = 1 - (1 - t) * (1 - t)` for natural deceleration as lanterns rise.
+- **Lesson:** Fade-in at launch (`t < 0.05`) and fade-out at peak (`t > 0.9`) via scale callback prevents the visual "pop" when lanterns reset position. The transition is nearly imperceptible.
+- **Lesson:** Flicker effect via `0.9 + 0.1 * Math.sin(elapsed * 3.5 + phase)` creates a convincing flame-inside-lantern look. Small amplitude (0.1) is key — too much flicker looks like a strobe.
+- **Lesson:** Sky lanterns at 30-220m altitude are visible from both overview and medium zoom. This is a good altitude range for "atmospheric" features — higher than street-level entities but lower than district labels.
+- **Observation:** The 9th entity animation system using CallbackProperty. This one introduces vertical movement (ascent) rather than horizontal path-following, which is a new variant but uses the same core pattern.
+- **Observation:** The Explore panel Heritage section now has 2 entries (Guia Lighthouse + Sky Lanterns). Heritage is a good category for cultural features.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

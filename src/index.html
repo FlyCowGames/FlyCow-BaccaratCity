@@ -1124,6 +1124,7 @@ async function init() {
     addSkyBeams(viewer);
     addGuiaLighthouse(viewer);
     addLRT(viewer);
+    addSkyLanterns(viewer);
     addFountainShow(viewer);
     addFountainMist(viewer);
     updateNeonGlow(); // apply immediately
@@ -2611,6 +2612,7 @@ var ATTRACTIONS = {
   ],
   heritage: [
     { name: "Guia Lighthouse", chinese: "東望洋燈塔", icon: "🗼", lat: 22.1967, lon: 113.5480, alt: 250, pitch: -20 },
+    { name: "Sky Lanterns", chinese: "孔明灯", icon: "🏮", lat: 22.1850, lon: 113.5370, alt: 300, pitch: -20 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -4005,6 +4007,129 @@ function addLRT(viewer) {
         },
       });
     })(phaseOffset, trainIcon);
+  }
+}
+
+// ── Floating Sky Lanterns (Kongming Lanterns) ──
+// Traditional Chinese sky lanterns drifting over the harbour at night
+// Cultural symbol of good fortune — released during festivals and celebrations
+var SKY_LANTERN_ZONE = {
+  // Launch area: Inner Harbour / Nam Van Lake area
+  centerLon: 113.5370,
+  centerLat: 22.1850,
+  spreadLon: 0.005,
+  spreadLat: 0.004,
+  minAlt: 30,
+  maxAlt: 220,
+  count: 12,
+  riseDuration: [45, 75], // seconds to rise from min to max (varies per lantern)
+  driftSpeed: 0.000003, // gentle horizontal drift per second (degrees)
+};
+
+function createSkyLanternIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 28;
+  canvas.height = 28;
+  var ctx = canvas.getContext('2d');
+  var cx = 14, cy = 14;
+
+  // Outer glow
+  var outerGlow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 14);
+  outerGlow.addColorStop(0, 'rgba(255, 180, 60, 0.0)');
+  outerGlow.addColorStop(0.5, 'rgba(255, 160, 40, 0.08)');
+  outerGlow.addColorStop(1, 'rgba(255, 120, 20, 0.15)');
+  ctx.fillStyle = outerGlow;
+  ctx.fillRect(0, 0, 28, 28);
+
+  // Lantern body (warm paper balloon shape)
+  ctx.beginPath();
+  ctx.moveTo(cx, 5);            // top
+  ctx.bezierCurveTo(cx + 7, 6, cx + 8, 14, cx + 5, 20); // right curve
+  ctx.lineTo(cx - 5, 20);       // bottom
+  ctx.bezierCurveTo(cx - 8, 14, cx - 7, 6, cx, 5); // left curve
+  ctx.closePath();
+  var bodyGrad = ctx.createLinearGradient(cx, 5, cx, 20);
+  bodyGrad.addColorStop(0, 'rgba(255, 200, 100, 0.95)');
+  bodyGrad.addColorStop(0.4, 'rgba(255, 160, 50, 0.9)');
+  bodyGrad.addColorStop(1, 'rgba(220, 120, 30, 0.85)');
+  ctx.fillStyle = bodyGrad;
+  ctx.fill();
+
+  // Inner glow (flame inside)
+  var innerGlow = ctx.createRadialGradient(cx, 14, 0, cx, 14, 5);
+  innerGlow.addColorStop(0, 'rgba(255, 240, 180, 0.7)');
+  innerGlow.addColorStop(0.5, 'rgba(255, 200, 100, 0.3)');
+  innerGlow.addColorStop(1, 'rgba(255, 180, 60, 0.0)');
+  ctx.fillStyle = innerGlow;
+  ctx.beginPath();
+  ctx.arc(cx, 14, 5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Bottom opening (dark)
+  ctx.beginPath();
+  ctx.ellipse(cx, 20, 4.5, 1.2, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(80, 40, 10, 0.5)';
+  ctx.fill();
+
+  return canvas;
+}
+
+function addSkyLanterns(viewer) {
+  var zone = SKY_LANTERN_ZONE;
+  var startTime = Date.now();
+  var icon = createSkyLanternIcon();
+
+  for (var i = 0; i < zone.count; i++) {
+    // Each lantern starts at random position and phase
+    var baseLon = zone.centerLon + (Math.random() - 0.5) * 2 * zone.spreadLon;
+    var baseLat = zone.centerLat + (Math.random() - 0.5) * 2 * zone.spreadLat;
+    var riseDur = zone.riseDuration[0] + Math.random() * (zone.riseDuration[1] - zone.riseDuration[0]);
+    var phase = Math.random(); // starting phase in rise cycle (0-1)
+    var driftAngle = Math.random() * Math.PI * 2; // random drift direction
+    var wobblePhase = Math.random() * Math.PI * 2;
+    var wobbleSpeed = 0.3 + Math.random() * 0.4;
+
+    (function(bLon, bLat, dur, ph, dAngle, wPh, wSpd) {
+      var posCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        // Rise cycle: t goes 0 to 1 then resets
+        var t = ((elapsed / dur) + ph) % 1;
+        // Altitude: ease-out rise (fast launch, slow ascent at top)
+        var altT = 1 - (1 - t) * (1 - t); // quadratic ease-out
+        var alt = zone.minAlt + altT * (zone.maxAlt - zone.minAlt);
+        // Gentle horizontal drift
+        var drift = elapsed * zone.driftSpeed;
+        var lon = bLon + Math.cos(dAngle) * drift + Math.sin(elapsed * wSpd + wPh) * 0.00004;
+        var lat = bLat + Math.sin(dAngle) * drift + Math.cos(elapsed * wSpd * 0.7 + wPh) * 0.00003;
+        return Cesium.Cartesian3.fromDegrees(lon, lat, alt);
+      }, false);
+
+      var scaleCallback = new Cesium.CallbackProperty(function() {
+        var glow = _currentGlowIntensity;
+        if (glow < 0.05) return 0; // hidden during day
+        var elapsed = (Date.now() - startTime) / 1000;
+        var t = ((elapsed / dur) + ph) % 1;
+        // Fade in at bottom, full in middle, fade out near top
+        var fade = t < 0.05 ? t / 0.05 : (t > 0.9 ? (1 - t) / 0.1 : 1.0);
+        // Gentle flicker
+        var flicker = 0.9 + 0.1 * Math.sin(elapsed * 3.5 + wPh);
+        return fade * flicker * glow * 1.2;
+      }, false);
+
+      viewer.entities.add({
+        name: 'Sky Lantern ' + i,
+        position: posCallback,
+        billboard: {
+          image: icon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: scaleCallback,
+          scaleByDistance: new Cesium.NearFarScalar(200, 2.0, 12000, 0.5),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 15000, 0.0),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+    })(baseLon, baseLat, riseDur, phase, driftAngle, wobblePhase, wobbleSpeed);
   }
 }
 

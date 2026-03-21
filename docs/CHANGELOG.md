@@ -220,6 +220,17 @@
 - Solves the problem of daytime visitors never seeing night-only features (~60% of content)
 - File grew from ~4046 to ~4141 lines (+95 lines)
 
+## Session 32 — 2026-03-21 (Automated Agent)
+- Floating sky lanterns (kongming lanterns): 12 animated lanterns drifting over the Inner Harbour at night
+- Canvas-drawn lantern icon (28px) with warm orange/gold paper balloon shape, inner flame glow, and outer halo
+- CallbackProperty-driven ascent animation: lanterns rise 30m to 220m with quadratic ease-out, gentle horizontal drift, and wobble
+- Night-only visibility tied to neon glow system (_currentGlowIntensity), with fade-in at launch and fade-out at peak
+- Gentle flicker animation simulates the flame inside each lantern
+- Each lantern has random phase, drift direction, rise duration (45-75s), and wobble pattern for natural variation
+- Sky Lanterns entry added to Heritage section of Explore panel with "live" badge
+- Cultural feature: kongming lanterns are traditional Chinese sky lanterns released during festivals for good fortune
+- File grew from ~4188 to ~4313 lines (+125 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

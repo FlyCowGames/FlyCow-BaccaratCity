@@ -388,6 +388,22 @@
       ],
       "linesAdded": 95,
       "agent": "automated"
+    },
+    {
+      "session": 32,
+      "date": "2026-03-21",
+      "title": "Floating Sky Lanterns",
+      "domain": "atmosphere",
+      "summary": "12 traditional kongming lanterns floating over the Inner Harbour at night, slowly ascending with warm golden glow and flicker.",
+      "details": [
+        "12 sky lantern entities over Inner Harbour / Nam Van Lake area, ascending 30m to 220m",
+        "Canvas-drawn 28px lantern icon with warm orange paper balloon shape, inner flame glow, and outer halo",
+        "Quadratic ease-out ascent animation with gentle horizontal drift and wobble per lantern",
+        "Night-only visibility tied to neon glow system with fade-in at launch and fade-out at peak",
+        "Sky Lanterns entry added to Heritage section in Explore panel with live badge"
+      ],
+      "linesAdded": 125,
+      "agent": "automated"
     }
   ]
 }
