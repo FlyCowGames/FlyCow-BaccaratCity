@@ -105,6 +105,14 @@
 - **Observation:** This is the first "event-like" visual feature — fireworks lay groundwork for the event calendar system. Future events (Chinese New Year, Grand Prix) can trigger special firework shows with custom palettes/frequency.
 - **Observation:** Since current Macau time was ~7 AM during development, the feature couldn't be visually verified live. The code was verified structurally (canvas exists, no JS errors). For time-gated features, consider temporarily overriding the time check during review.
 
+## Session 15 (2026-03-21) -- Animated Pedestrians
+- **Lesson:** The CallbackProperty ping-pong pattern extends trivially to pedestrians — the 4th animation system (ferries, cars, planes, pedestrians) using the same core approach. At this point the pattern is battle-tested.
+- **Lesson:** Pedestrians need even smaller billboard icons (8px) and shorter visibility range (4km) than cars (12px, 8km). They should only be noticeable when zoomed to street level, not compete with vehicles from above.
+- **Lesson:** Random phase offsets (vs evenly distributed like cars) create more natural-looking crowd movement — pedestrians don't walk in formation.
+- **Lesson:** Variable durations per pedestrian (random within zone's range) prevent the "synchronized walking" effect. Combined with random path assignment and random direction, this creates convincing crowd behavior with minimal code.
+- **Lesson:** Multiple short paths per zone (2-3 waypoints each) work better than one long path for pedestrians — people stroll around a small area, they don't march long distances.
+- **Observation:** This is the 4th entity animation system using the same pattern. The pattern reuse is still cleaner than abstracting, since each entity type has different icon size, altitude, visibility range, and movement style.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

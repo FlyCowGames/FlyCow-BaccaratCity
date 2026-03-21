@@ -109,6 +109,16 @@
 - Updated subtitle to include "Harbor Fireworks"
 - File grew from ~2448 to ~2625 lines (+177 lines)
 
+## Session 15 — 2026-03-21 (Automated Agent)
+- Animated pedestrians: ~26 walking figures near 6 popular areas of Macau
+- Zones: Senado Square, Ruins of St. Paul's, Grand Lisboa, Cotai Strip Promenade, A-Ma Temple, Macau Tower Waterfront
+- Reuses proven CallbackProperty ping-pong pattern from ferries/traffic
+- 8px warm-toned radial gradient billboard icons at 2m altitude (street level)
+- Variable walking speeds (15-40s per path) with random phase offsets for natural staggering
+- Only visible when zoomed in (translucencyByDistance fades out at 4km)
+- Fulfills Prime Directive: "People walk" — first item under "Living & Breathing"
+- File grew from ~2625 to ~2740 lines (+115 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

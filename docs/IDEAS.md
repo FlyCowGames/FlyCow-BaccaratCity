@@ -28,6 +28,7 @@
 - [x] Animated road traffic on bridges and main roads (Session 7)
 - [x] Ambient audio soundscape (Session 9: Web Audio API, ocean/wind/city, weather-reactive)
 - [ ] Construction cranes (Macau always has construction)
+- [x] Animated pedestrians near popular areas (Session 15: ~26 walkers in 6 zones)
 - [ ] Street markets and food stalls
 - [ ] Portuguese-style cobblestone patterns in historic district
 

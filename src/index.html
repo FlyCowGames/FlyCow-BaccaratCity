@@ -953,6 +953,7 @@ async function init() {
     addLandmarks(viewer);
     addFerries(viewer);
     addTraffic(viewer);
+    addPedestrians(viewer);
     addAirportPlanes(viewer);
     addNeonGlow(viewer);
     updateNeonGlow(); // apply immediately
@@ -1603,6 +1604,120 @@ function addTraffic(viewer) {
           },
         });
       })(phaseOffset, reverseStart);
+    }
+  });
+}
+
+// ── Pedestrian System ──
+// Animated walking pedestrians near popular areas
+var PEDESTRIAN_ZONES = [
+  {
+    name: 'Senado Square',
+    paths: [
+      [{ lon: 113.5382, lat: 22.1937 }, { lon: 113.5390, lat: 22.1932 }, { lon: 113.5396, lat: 22.1928 }],
+      [{ lon: 113.5388, lat: 22.1940 }, { lon: 113.5394, lat: 22.1935 }, { lon: 113.5386, lat: 22.1930 }],
+    ],
+    count: 5,
+    durationRange: [18, 30],
+  },
+  {
+    name: 'Ruins of St. Paul\'s',
+    paths: [
+      [{ lon: 113.5404, lat: 22.1978 }, { lon: 113.5410, lat: 22.1974 }, { lon: 113.5416, lat: 22.1970 }],
+      [{ lon: 113.5408, lat: 22.1980 }, { lon: 113.5412, lat: 22.1976 }, { lon: 113.5406, lat: 22.1972 }],
+    ],
+    count: 5,
+    durationRange: [20, 35],
+  },
+  {
+    name: 'Grand Lisboa Area',
+    paths: [
+      [{ lon: 113.5384, lat: 22.1897 }, { lon: 113.5390, lat: 22.1893 }, { lon: 113.5396, lat: 22.1889 }],
+      [{ lon: 113.5392, lat: 22.1896 }, { lon: 113.5388, lat: 22.1891 }, { lon: 113.5394, lat: 22.1886 }],
+    ],
+    count: 4,
+    durationRange: [15, 25],
+  },
+  {
+    name: 'Cotai Strip Promenade',
+    paths: [
+      [{ lon: 113.5544, lat: 22.1500 }, { lon: 113.5560, lat: 22.1495 }, { lon: 113.5576, lat: 22.1490 }, { lon: 113.5590, lat: 22.1486 }],
+      [{ lon: 113.5550, lat: 22.1504 }, { lon: 113.5568, lat: 22.1498 }, { lon: 113.5586, lat: 22.1492 }],
+    ],
+    count: 6,
+    durationRange: [25, 40],
+  },
+  {
+    name: 'A-Ma Temple',
+    paths: [
+      [{ lon: 113.5306, lat: 22.1872 }, { lon: 113.5311, lat: 22.1868 }, { lon: 113.5316, lat: 22.1864 }],
+    ],
+    count: 3,
+    durationRange: [22, 32],
+  },
+  {
+    name: 'Macau Tower Waterfront',
+    paths: [
+      [{ lon: 113.5310, lat: 22.1806 }, { lon: 113.5318, lat: 22.1801 }, { lon: 113.5326, lat: 22.1796 }],
+    ],
+    count: 3,
+    durationRange: [20, 30],
+  },
+];
+
+function createPedestrianIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 8;
+  canvas.height = 8;
+  var ctx = canvas.getContext('2d');
+  var cx = 4, cy = 4;
+  var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 4);
+  grad.addColorStop(0, 'rgba(255, 220, 180, 0.85)');
+  grad.addColorStop(0.5, 'rgba(255, 200, 150, 0.35)');
+  grad.addColorStop(1, 'rgba(255, 180, 120, 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+  ctx.fill();
+  return canvas;
+}
+
+function addPedestrians(viewer) {
+  var startTime = Date.now();
+  var pedIcon = createPedestrianIcon();
+
+  PEDESTRIAN_ZONES.forEach(function(zone) {
+    for (var i = 0; i < zone.count; i++) {
+      var pathIdx = i % zone.paths.length;
+      var path = zone.paths[pathIdx];
+      var duration = zone.durationRange[0] + Math.random() * (zone.durationRange[1] - zone.durationRange[0]);
+      var phaseOffset = Math.random();
+      var reverseStart = Math.random() > 0.5;
+
+      (function(p, dur, offset, reverse) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          var rawT = ((elapsed / dur) + offset) % 2;
+          var t = rawT <= 1 ? rawT : 2 - rawT;
+          if (reverse) t = 1 - t;
+          var pos = lerpPosition(p, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 2);
+        }, false);
+
+        viewer.entities.add({
+          name: zone.name + ' Pedestrian',
+          position: positionCallback,
+          billboard: {
+            image: pedIcon,
+            verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scale: 1.0,
+            scaleByDistance: new Cesium.NearFarScalar(50, 1.5, 2000, 0.3),
+            translucencyByDistance: new Cesium.NearFarScalar(50, 1.0, 4000, 0.0),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+      })(path, duration, phaseOffset, reverseStart);
     }
   });
 }

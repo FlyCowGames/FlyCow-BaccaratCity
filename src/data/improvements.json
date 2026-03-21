@@ -193,6 +193,23 @@
       ],
       "linesAdded": 177,
       "agent": "automated"
+    },
+    {
+      "session": 15,
+      "date": "2026-03-21",
+      "title": "Animated Pedestrians",
+      "domain": "animation",
+      "summary": "~26 walking pedestrians near 6 popular areas of Macau, visible at street level with warm-toned glowing dots.",
+      "details": [
+        "6 pedestrian zones: Senado Square, Ruins of St. Paul's, Grand Lisboa, Cotai Strip, A-Ma Temple, Macau Tower",
+        "~26 pedestrian entities with random phase offsets and variable walking speeds",
+        "8px warm-toned radial gradient billboard icons at 2m altitude (street level)",
+        "Only visible when zoomed in (translucencyByDistance fades at 4km)",
+        "Reuses proven CallbackProperty ping-pong animation pattern",
+        "Multiple short paths per zone for natural strolling behavior"
+      ],
+      "linesAdded": 115,
+      "agent": "automated"
     }
   ]
 }
