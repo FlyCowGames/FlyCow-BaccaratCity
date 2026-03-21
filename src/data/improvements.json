@@ -436,6 +436,22 @@
       ],
       "linesAdded": 100,
       "agent": "automated"
+    },
+    {
+      "session": 36,
+      "date": "2026-03-21",
+      "title": "Dragon Boat Racing",
+      "domain": "animation",
+      "summary": "5 colorful dragon boats racing parallel lanes on Nam Van Lake, bringing life to a previously underutilized area.",
+      "details": [
+        "5 dragon boat lanes across Nam Van Lake with team colors: red, blue, green, gold, purple",
+        "Canvas-drawn 36x20px dragon boat icons with dragon head, tail, team stripe, and 6 paddler dots",
+        "Varied race durations (22-26s) create natural overtaking between boats",
+        "Ping-pong animation using proven CallbackProperty pattern at water level (3m altitude)",
+        "Dragon Boat Racing entry added to On the Water section in Explore panel with live badge"
+      ],
+      "linesAdded": 162,
+      "agent": "automated"
     }
   ]
 }

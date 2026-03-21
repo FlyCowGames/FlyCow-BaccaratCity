@@ -218,6 +218,13 @@
 - **Observation:** This is a meta-feature (like the time slider in Session 31) that multiplies the value of all existing attractions. Users who don't explore the panel manually can still discover all 30+ points of interest. Meta-features that showcase existing content are high-leverage.
 - **Observation:** Positioning two buttons side by side requires careful CSS transform offsets. `translateX(calc(-50% - 65px))` and `translateX(calc(-50% + 65px))` with the same `left: 50%` creates a centered pair with a gap.
 
+## Session 36 (2026-03-21) -- Dragon Boat Racing on Nam Van Lake
+- **Lesson:** The 11th entity animation system using CallbackProperty. At this point the pattern is completely formulaic: define lane/route waypoints, create canvas icon, add entities with ping-pong or one-way loop. Implementation took ~10 minutes.
+- **Lesson:** Dragon boat icons at 36x20px (wider than tall) better represent the elongated hull shape. Using a non-square canvas for billboard icons is fine — CesiumJS handles any aspect ratio.
+- **Lesson:** Parallel racing lanes (slightly offset lat/lon coordinates for each lane) create a convincing racing effect. Varied durations per lane (22-26s) mean boats naturally overtake each other without needing complex racing logic.
+- **Lesson:** Nam Van Lake area (around 113.536, 22.185) was previously only used for water shimmer. Adding dragon boats gives the lake proper animated life and makes it a destination in the Explore panel.
+- **Observation:** The ATTRACTIONS.water section now has 7 entries. The "On the Water" section of the Explore panel is getting rich. Dragon boats auto-integrate with the TOUR feature since getAllTourStops() pulls from all ATTRACTIONS categories.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

@@ -1163,6 +1163,7 @@ async function init() {
     addDistrictLabels(viewer);
     addFerries(viewer);
     addJunkBoats(viewer);
+    addDragonBoats(viewer);
     addTraffic(viewer);
     addGuiaCircuit(viewer);
     addPedestrians(viewer);
@@ -2747,6 +2748,7 @@ var ATTRACTIONS = {
     { name: "Inner Harbour", chinese: "內港", icon: "⚓", lat: 22.1870, lon: 113.5340, alt: 250, pitch: -20 },
     { name: "Airport Flights", chinese: "機場航班", icon: "✈️", lat: 22.1490, lon: 113.5900, alt: 600, pitch: -30 },
     { name: "Heritage Junks", chinese: "帆船", icon: "⛵", lat: 22.1860, lon: 113.5310, alt: 300, pitch: -20 },
+    { name: "Dragon Boat Racing", chinese: "龍舟競渡", icon: "🐉", lat: 22.1852, lon: 113.5365, alt: 250, pitch: -20 },
   ],
   casinos: [
     { name: "Grand Lisboa", chinese: "新葡京", icon: "🎰", lat: 22.1893, lon: 113.5390, alt: 300, pitch: -25 },
@@ -2838,7 +2840,7 @@ function populateAttractions() {
   // Water
   var waterList = document.getElementById('water-list');
   ATTRACTIONS.water.forEach(function(a) {
-    var badge = (a.name === 'Ferry Routes' || a.name === 'Bridge Traffic' || a.name === 'Airport Flights' || a.name === 'Heritage Junks') ? '<span class="attraction-badge">live</span>' : '';
+    var badge = (a.name === 'Ferry Routes' || a.name === 'Bridge Traffic' || a.name === 'Airport Flights' || a.name === 'Heritage Junks' || a.name === 'Dragon Boat Racing') ? '<span class="attraction-badge">live</span>' : '';
     waterList.appendChild(buildAttractionItem(a, badge));
   });
 
@@ -4441,6 +4443,166 @@ function addHelicopters(viewer) {
         });
       })(phaseOffset);
     }
+  });
+}
+
+// ── Dragon Boat Racing — Nam Van Lake ──
+// Traditional dragon boat races — a beloved Macau cultural tradition
+var DRAGON_BOAT_LANES = [
+  {
+    name: 'Dragon Boat Lane 1',
+    points: [
+      { lon: 113.5345, lat: 22.1865 },
+      { lon: 113.5355, lat: 22.1855 },
+      { lon: 113.5370, lat: 22.1845 },
+      { lon: 113.5385, lat: 22.1838 },
+    ],
+    durationSec: 22,
+    color: 'rgba(220, 40, 30, 0.95)',  // red team
+  },
+  {
+    name: 'Dragon Boat Lane 2',
+    points: [
+      { lon: 113.5347, lat: 22.1868 },
+      { lon: 113.5357, lat: 22.1858 },
+      { lon: 113.5372, lat: 22.1848 },
+      { lon: 113.5387, lat: 22.1841 },
+    ],
+    durationSec: 24,
+    color: 'rgba(30, 100, 220, 0.95)',  // blue team
+  },
+  {
+    name: 'Dragon Boat Lane 3',
+    points: [
+      { lon: 113.5343, lat: 22.1862 },
+      { lon: 113.5353, lat: 22.1852 },
+      { lon: 113.5368, lat: 22.1842 },
+      { lon: 113.5383, lat: 22.1835 },
+    ],
+    durationSec: 23,
+    color: 'rgba(30, 180, 60, 0.95)',  // green team
+  },
+  {
+    name: 'Dragon Boat Lane 4',
+    points: [
+      { lon: 113.5349, lat: 22.1871 },
+      { lon: 113.5359, lat: 22.1861 },
+      { lon: 113.5374, lat: 22.1851 },
+      { lon: 113.5389, lat: 22.1844 },
+    ],
+    durationSec: 25,
+    color: 'rgba(220, 180, 30, 0.95)',  // gold team
+  },
+  {
+    name: 'Dragon Boat Lane 5',
+    points: [
+      { lon: 113.5341, lat: 22.1859 },
+      { lon: 113.5351, lat: 22.1849 },
+      { lon: 113.5366, lat: 22.1839 },
+      { lon: 113.5381, lat: 22.1832 },
+    ],
+    durationSec: 26,
+    color: 'rgba(200, 50, 200, 0.95)',  // purple team
+  },
+];
+
+function createDragonBoatIcon(teamColor) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 36;
+  canvas.height = 20;
+  var ctx = canvas.getContext('2d');
+
+  // Long narrow hull
+  ctx.fillStyle = 'rgba(80, 50, 20, 0.9)';
+  ctx.beginPath();
+  ctx.moveTo(2, 10);
+  ctx.lineTo(8, 6);
+  ctx.lineTo(28, 5);
+  ctx.lineTo(34, 8);
+  ctx.lineTo(34, 12);
+  ctx.lineTo(28, 15);
+  ctx.lineTo(8, 14);
+  ctx.closePath();
+  ctx.fill();
+
+  // Dragon head at bow (right side)
+  ctx.fillStyle = teamColor;
+  ctx.beginPath();
+  ctx.moveTo(32, 7);
+  ctx.lineTo(36, 6);
+  ctx.lineTo(35, 10);
+  ctx.lineTo(32, 12);
+  ctx.closePath();
+  ctx.fill();
+
+  // Dragon tail at stern (left side)
+  ctx.fillStyle = teamColor;
+  ctx.beginPath();
+  ctx.moveTo(4, 8);
+  ctx.lineTo(0, 4);
+  ctx.lineTo(2, 6);
+  ctx.lineTo(6, 9);
+  ctx.closePath();
+  ctx.fill();
+
+  // Team color stripe along hull
+  ctx.fillStyle = teamColor;
+  ctx.fillRect(10, 8, 18, 4);
+
+  // Paddler dots (6 tiny figures)
+  ctx.fillStyle = 'rgba(240, 220, 180, 0.8)';
+  for (var i = 0; i < 6; i++) {
+    ctx.beginPath();
+    ctx.arc(12 + i * 3, 10, 1.2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Glow halo for distance visibility
+  var grad = ctx.createRadialGradient(18, 10, 4, 18, 10, 18);
+  grad.addColorStop(0, teamColor.replace('0.95', '0.0'));
+  grad.addColorStop(0.6, teamColor.replace('0.95', '0.0'));
+  grad.addColorStop(1, teamColor.replace('0.95', '0.15'));
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 36, 20);
+
+  return canvas;
+}
+
+function addDragonBoats(viewer) {
+  var startTime = Date.now();
+
+  DRAGON_BOAT_LANES.forEach(function(lane) {
+    var icon = createDragonBoatIcon(lane.color);
+
+    (function(laneData, laneIcon) {
+      var positionCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        var cycleDuration = laneData.durationSec;
+        var rawT = ((elapsed / cycleDuration)) % 2;
+        var t;
+        if (rawT <= 1) {
+          t = rawT;
+        } else {
+          t = 2 - rawT;
+        }
+        var pos = lerpPosition(laneData.points, t);
+        return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 3);
+      }, false);
+
+      viewer.entities.add({
+        name: laneData.name,
+        position: positionCallback,
+        billboard: {
+          image: laneIcon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: 1.0,
+          scaleByDistance: new Cesium.NearFarScalar(100, 2.0, 8000, 0.4),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 10000, 0.15),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+    })(lane, icon);
   });
 }
 

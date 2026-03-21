@@ -252,6 +252,17 @@
 - Meta-feature: makes all existing attractions discoverable without manual Explore panel navigation
 - File grew from ~4469 to ~4569 lines (+100 lines)
 
+## Session 36 — 2026-03-21 (Automated Agent)
+- Dragon boat racing on Nam Van Lake: 5 dragon boats racing in parallel lanes
+- 5 team colors: red, blue, green, gold, purple — each with distinctive canvas-drawn dragon boat icon (36x20px)
+- Dragon head at bow, dragon tail at stern, team color stripe, and 6 paddler dots per boat
+- Parallel racing lanes across Nam Van Lake with varied durations (22-26s) creating natural overtaking
+- Ping-pong animation with staggered timing using proven CallbackProperty pattern
+- Dragon Boat Racing entry added to "On the Water" section of Explore panel with "live" badge
+- 11th entity animation system — adds life to the previously underutilized Nam Van Lake area
+- Fulfills Events backlog item: "Dragon Boat Festival — races in Nam Van Lake"
+- File grew from ~4624 to ~4786 lines (+162 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

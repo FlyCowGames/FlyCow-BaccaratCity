@@ -37,7 +37,7 @@
 - [ ] Chinese New Year — fireworks, red lanterns, dragon dance
 - [ ] Mid-Autumn Festival — mooncakes, lantern festival
 - [x] International Fireworks Display Contest (Sept-Oct) (Session 13: harbor fireworks at night)
-- [ ] Dragon Boat Festival — races in Nam Van Lake
+- [x] Dragon Boat Festival — races in Nam Van Lake (Session 36: 5 dragon boats racing on Nam Van Lake)
 
 ## Interactivity
 - [x] Click casino → enter and see baccarat tables (Session 11: interactive Punto Banco game)
