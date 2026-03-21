@@ -263,6 +263,16 @@
 - Fulfills Events backlog item: "Dragon Boat Festival — races in Nam Van Lake"
 - File grew from ~4624 to ~4786 lines (+162 lines)
 
+## Session 37 — 2026-03-21 (Automated Agent)
+- Venetian canal gondola rides: 3 gondola entities gliding along canals near The Venetian Macao
+- Canvas-drawn 28x16px gondola icon with black hull, gold ferro prow ornament, red-shirted gondolier with oar, and seated passenger
+- 3 canal routes around The Venetian's outdoor lagoon area with staggered phase offsets
+- Slow stately ping-pong animation (65-75s per route) matching real gondola pace — much slower than ferries or dragon boats
+- Venetian Gondolas entry added to Shows section of Explore panel with "live" badge
+- 12th entity animation system using proven CallbackProperty pattern
+- Adds iconic tourist experience to the world's largest casino by floor area
+- File grew from ~4786 to ~4902 lines (+116 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

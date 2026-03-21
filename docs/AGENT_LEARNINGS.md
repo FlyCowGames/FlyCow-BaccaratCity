@@ -225,6 +225,13 @@
 - **Lesson:** Nam Van Lake area (around 113.536, 22.185) was previously only used for water shimmer. Adding dragon boats gives the lake proper animated life and makes it a destination in the Explore panel.
 - **Observation:** The ATTRACTIONS.water section now has 7 entries. The "On the Water" section of the Explore panel is getting rich. Dragon boats auto-integrate with the TOUR feature since getAllTourStops() pulls from all ATTRACTIONS categories.
 
+## Session 37 (2026-03-21) -- Venetian Canal Gondolas
+- **Lesson:** The 12th entity animation system using CallbackProperty. At this point adding a new animated entity type is purely mechanical — define route waypoints, create canvas icon, add entities with ping-pong or one-way loop. Implementation took ~5 minutes.
+- **Lesson:** Gondola icons with distinctive features (hull shape, ferro prow, gondolier figure, oar) are recognizable even at 28x16px canvas size due to the iconic silhouette. The black hull + gold accents contrast well with the surrounding 3D tiles.
+- **Lesson:** When verifying small entities at street level via screenshots, the orbit system (post-cinematic) continuously overrides camera position. Must call `stopOrbit(viewer)` before `setView()` — `cancelFlight()` alone is not enough.
+- **Lesson:** The Shows section of the Explore panel is a good fit for entertainment/experience features (fountain show, gondola rides) as distinct from pure transport (Transit) or environmental features (Heritage).
+- **Observation:** At ~172 entities total (3 gondolas + 169 prior), still no performance issues with CesiumJS.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

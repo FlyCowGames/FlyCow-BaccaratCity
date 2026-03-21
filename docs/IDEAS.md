@@ -14,7 +14,7 @@
 - [ ] Grand Lisboa — distinctive lotus/torch shape, tallest building
 - [ ] Ruins of St. Paul's — iconic facade on a hill
 - [ ] Macau Tower — 338m observation tower with bungee jump
-- [ ] The Venetian — massive, with canal and gondolas
+- [x] The Venetian — massive, with canal and gondolas (Session 37: 3 gondolas on outdoor lagoon canals)
 - [x] Wynn Palace — fountain show (Session 19: Performance Lake with 13 choreographed jets)
 - [ ] Galaxy Macau — wave pool on roof
 - [ ] Senado Square — Portuguese colonial architecture, wave-pattern pavement

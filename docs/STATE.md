@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-21 (Session 36)
+## Last Updated: 2026-03-21 (Session 37)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -35,6 +35,7 @@
 - **Helicopter service**: 3 helicopters on routes from Outer Harbour heliport — 2 HK shuttle flights (inbound/outbound) and 1 scenic peninsula tour at 200-350m altitude
 - **Auto-tour mode**: TOUR button that automatically flies camera through all 30+ attractions in random order, with bilingual location labels and 6-second dwell per stop
 - **Dragon boat racing**: 5 colorful dragon boats racing parallel lanes on Nam Van Lake with team colors (red, blue, green, gold, purple)
+- **Venetian canal gondolas**: 3 traditional gondolas gliding along canals near The Venetian Macao with black hulls, gold ferro prows, and gondoliers
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -43,7 +44,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~4786 lines, ~167KB)
+- Single HTML file (~4902 lines, ~170KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -84,6 +85,7 @@
 - **Helicopter service** — 3 helicopters: 2 HK shuttle flights + 1 scenic tour from Outer Harbour heliport
 - **Auto-tour mode** — TOUR button flies camera through all attractions automatically with location labels
 - **Dragon boat racing** — 5 dragon boats racing parallel lanes on Nam Van Lake (red, blue, green, gold, purple teams)
+- **Venetian canal gondolas** — 3 traditional gondolas on canals near The Venetian with gondoliers and passengers
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

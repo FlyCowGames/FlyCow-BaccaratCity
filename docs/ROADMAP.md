@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 36)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 37)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -68,3 +68,4 @@
 - Helicopter service: 3 helicopters on Macau-HK shuttle and scenic tour routes from Outer Harbour heliport (Session 33)
 - Auto-tour mode: TOUR button auto-flies through all 30+ attractions with bilingual labels (Session 34)
 - Dragon boat racing: 5 colorful dragon boats racing parallel lanes on Nam Van Lake (Session 36)
+- Venetian canal gondolas: 3 traditional gondolas on canals near The Venetian Macao (Session 37)
