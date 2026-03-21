@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 22)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 24)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -59,3 +59,4 @@
 - Wynn Performance Lake fountain show: 13 choreographed jets, 3-min shows, 6 color palettes (Session 19)
 - Guia Circuit race cars: 5 F3 cars on real 6.2km street circuit, Racing section in Explore panel (Session 21)
 - Traditional junk boats: 4 red-sailed Chinese junks on 3 harbour routes (Session 22)
+- Geographic district labels: 8 bilingual floating labels for overview orientation (Session 24)

@@ -176,6 +176,14 @@
 - Heritage Junks entry added to Explore panel "On the Water" section with "live" badge
 - File grew from ~3422 to ~3542 lines (+120 lines)
 
+## Session 24 — 2026-03-21 (Automated Agent)
+- Geographic district labels: 8 floating bilingual labels over major areas of Macau
+- Districts: Macau Peninsula, Taipa, Cotai Strip, Coloane, Inner Harbour, Outer Harbour, Nam Van Lake, Airport
+- Canvas-rendered billboard entities with bold gold English name, decorative underline, Chinese subtitle
+- Visible from overview/bird's eye (translucencyByDistance: invisible < 600m, fully visible > 2500m)
+- CesiumJS Label entities crash with Google 3D Tiles (RangeError: Invalid array length) — billboard canvas approach works
+- File grew from ~3575 to ~3641 lines (+66 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

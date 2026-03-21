@@ -308,6 +308,22 @@
       ],
       "linesAdded": 120,
       "agent": "automated"
+    },
+    {
+      "session": 24,
+      "date": "2026-03-21",
+      "title": "Geographic District Labels",
+      "domain": "landmarks",
+      "summary": "Floating bilingual district labels over 8 areas of Macau, visible from bird's-eye view for geographic orientation.",
+      "details": [
+        "8 district labels: Macau Peninsula, Taipa, Cotai Strip, Coloane, Inner Harbour, Outer Harbour, Nam Van Lake, Airport",
+        "Canvas-rendered billboard icons with bold gold English name, decorative line, and Chinese subtitle",
+        "Visible from overview level (translucencyByDistance: invisible below 600m, fully visible above 2500m)",
+        "Opposite visibility to pedestrians/shimmer — helps visitors understand Macau geography from above",
+        "Addresses Session 22 observation about needing overview-level features"
+      ],
+      "linesAdded": 66,
+      "agent": "automated"
     }
   ]
 }

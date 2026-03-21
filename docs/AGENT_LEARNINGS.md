@@ -156,6 +156,13 @@
 - **Observation:** At bird's eye view, small billboard entities are hard to distinguish from each other. The junk boats are most impactful when zoomed to harbour level where the sail shape and red color are visible. Features designed for close-up viewing may not justify the entity count at overview level.
 - **Suggestion for future sessions:** Consider adding cultural/historical features that are visible at overview level (e.g., colored district zones, larger landmark enhancements). Many recent sessions have added small billboard entities that are only visible zoomed in.
 
+## Session 24 (2026-03-21) -- Geographic District Labels
+- **CRITICAL: CesiumJS Label entities (Cesium.LabelGraphics) crash with Google 3D Tiles.** The error is `RangeError: Failed to set the 'length' property on 'Array': Invalid array length`. This is similar to the bloom issue from Session 6-8 — certain CesiumJS features are incompatible with Google 3D Tiles. **Always use canvas-rendered billboard entities for text, never CesiumJS Label entities.**
+- **Lesson:** Canvas-rendered text on billboard entities is the safe, proven approach for all text rendering in this project. The existing landmark billboards use this pattern. For district labels, a 320x56 canvas with `ctx.fillText()` + `ctx.strokeText()` provides clean gold text with dark outlines.
+- **Lesson:** `translucencyByDistance` with near=0.0 (invisible) and far=1.0 (visible) creates "overview-only" entities — the opposite of pedestrians/shimmer which are "close-up-only". This is useful for geographic labels that should orient visitors from above but not clutter the view when zoomed in.
+- **Lesson:** District labels at 300m altitude float above most buildings and are visible from wide angles without being occluded by 3D tiles. Higher than landmarks (80m) but lower than sky beams (280-400m).
+- **Observation:** This is the first feature designed primarily for the overview/bird's eye experience. Previous sessions (pedestrians, shimmer, junk boats) were all close-up features. Mixing visibility ranges creates a richer experience at all zoom levels.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

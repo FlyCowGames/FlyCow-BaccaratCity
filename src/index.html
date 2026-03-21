@@ -963,6 +963,7 @@ async function init() {
 
     // Add landmarks, ferries, traffic, and neon glow
     addLandmarks(viewer);
+    addDistrictLabels(viewer);
     addFerries(viewer);
     addJunkBoats(viewer);
     addTraffic(viewer);
@@ -1052,6 +1053,71 @@ function addLandmarks(viewer) {
       } catch(e) { /* ignore non-landmark clicks */ }
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+}
+
+// ── Geographic District Labels ──
+function createDistrictCanvas(name, chinese) {
+  var canvas = document.createElement('canvas');
+  var w = 320, h = 56;
+  canvas.width = w;
+  canvas.height = h;
+  var ctx = canvas.getContext('2d');
+
+  // English name — bold gold with dark outline
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = '700 20px Cinzel, serif';
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.85)';
+  ctx.strokeStyle = 'rgba(10, 10, 18, 0.9)';
+  ctx.lineWidth = 4;
+  ctx.strokeText(name, w / 2, 18);
+  ctx.fillText(name, w / 2, 18);
+
+  // Decorative line
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  var textW = ctx.measureText(name).width;
+  ctx.moveTo(w / 2 - textW / 2, 30);
+  ctx.lineTo(w / 2 + textW / 2, 30);
+  ctx.stroke();
+
+  // Chinese subtitle
+  ctx.font = '300 13px Noto Sans SC, sans-serif';
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.55)';
+  ctx.strokeStyle = 'rgba(10, 10, 18, 0.7)';
+  ctx.lineWidth = 2;
+  ctx.strokeText(chinese, w / 2, 44);
+  ctx.fillText(chinese, w / 2, 44);
+
+  return canvas;
+}
+
+function addDistrictLabels(viewer) {
+  var districts = [
+    { name: "MACAU PENINSULA", chinese: "\u6FB3\u9580\u534A\u5CF6", lat: 22.1950, lon: 113.5440 },
+    { name: "TAIPA", chinese: "\u6C39\u4ED4", lat: 22.1560, lon: 113.5520 },
+    { name: "COTAI STRIP", chinese: "\u8DEF\u6C39\u91D1\u5149\u5927\u9053", lat: 22.1470, lon: 113.5590 },
+    { name: "COLOANE", chinese: "\u8DEF\u74B0", lat: 22.1250, lon: 113.5600 },
+    { name: "INNER HARBOUR", chinese: "\u5167\u6E2F", lat: 22.1900, lon: 113.5330 },
+    { name: "OUTER HARBOUR", chinese: "\u5916\u6E2F", lat: 22.2020, lon: 113.5520 },
+    { name: "NAM VAN LAKE", chinese: "\u5357\u7063\u6E56", lat: 22.1830, lon: 113.5370 },
+    { name: "AIRPORT", chinese: "\u6FB3\u9580\u570B\u969B\u6A5F\u5834", lat: 22.1500, lon: 113.5910 },
+  ];
+
+  districts.forEach(function(d) {
+    viewer.entities.add({
+      position: Cesium.Cartesian3.fromDegrees(d.lon, d.lat, 300),
+      billboard: {
+        image: createDistrictCanvas(d.name, d.chinese),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scaleByDistance: new Cesium.NearFarScalar(1500, 1.4, 30000, 0.5),
+        translucencyByDistance: new Cesium.NearFarScalar(600, 0.0, 2500, 1.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+  });
 }
 
 // ── Landmark Info Card ──
