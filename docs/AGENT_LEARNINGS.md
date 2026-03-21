@@ -170,6 +170,14 @@
 - **Lesson:** Heritage features (lighthouse, temple details) add cultural depth distinct from the many casino/entertainment features. The Heritage section in the Explore panel provides a category for non-casino, non-gaming cultural landmarks.
 - **Observation:** At 153 entities total, no performance issues observed. The entity count continues to grow but CesiumJS handles it well.
 
+## Session 27 (2026-03-21) -- Macau LRT Light Rail
+- **Lesson:** The 8th entity animation system (after ferries, cars, planes, pedestrians, cranes, race cars, junk boats) using CallbackProperty. The pattern is completely formulaic at this point — define route waypoints, create canvas icon, add entities with one-way loop or ping-pong, done in ~15 minutes.
+- **Lesson:** Elevated transit at 15m altitude sits above road traffic (5m) but below landmarks (80m). This altitude layering (water 2-3m, roads 5m, LRT 15m, landmarks 80m, district labels 300m) creates a natural visual hierarchy.
+- **Lesson:** Canvas `roundRect` is relatively new API — always use feature detection (`if (ctx.roundRect)`) with a `ctx.rect` fallback for browser compatibility.
+- **Lesson:** For closed-loop routes that include a branch (like the LRT airport branch), include the return waypoints explicitly in the route array. The train travels out to the branch and back as part of its full circuit.
+- **Observation:** At 156 entities total, still no performance issues. The entity count continues to scale well with CesiumJS.
+- **Observation:** Playwright browser version mismatches (agent-browser expected 1200, installed 1208) can be fixed with symlinks. Note for future: keep playwright versions aligned.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

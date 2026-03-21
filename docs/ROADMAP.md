@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 26)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 27)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -61,3 +61,4 @@
 - Traditional junk boats: 4 red-sailed Chinese junks on 3 harbour routes (Session 22)
 - Geographic district labels: 8 bilingual floating labels for overview orientation (Session 24)
 - Guia Lighthouse: rotating beam at Guia Hill summit, Heritage section in Explore panel (Session 26)
+- Macau LRT: 3 animated light rail trains on Taipa Line, Transit section in Explore panel (Session 27)

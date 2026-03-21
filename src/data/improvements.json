@@ -340,6 +340,22 @@
       ],
       "linesAdded": 137,
       "agent": "automated"
+    },
+    {
+      "session": 27,
+      "date": "2026-03-21",
+      "title": "Macau LRT Light Rail Trains",
+      "domain": "animation",
+      "summary": "3 animated light rail trains running the real Macau LRT Taipa Line route through Cotai, connecting Galaxy to Airport and Taipa Ferry Terminal.",
+      "details": [
+        "Route follows the actual Macau LRT Taipa Line: Ocean (Galaxy) to Lotus to East Asian Games to Cotai East to Pai Kok to Airport to Taipa Ferry Terminal",
+        "3 green-themed train entities with distinctive canvas icons (windows, headlight, glow halo)",
+        "One-way loop animation at 15m altitude (elevated viaduct) with 2-minute circuit time",
+        "Transit section added to Explore panel with Macau LRT entry and live badge",
+        "8th entity animation system using proven CallbackProperty pattern"
+      ],
+      "linesAdded": 129,
+      "agent": "automated"
     }
   ]
 }

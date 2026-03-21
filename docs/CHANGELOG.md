@@ -193,6 +193,15 @@
 - Heritage section added to Explore panel with Guia Lighthouse entry and "live" badge
 - File grew from ~3641 to ~3778 lines (+137 lines)
 
+## Session 27 — 2026-03-21 (Automated Agent)
+- Macau LRT (Light Rapid Transit): 3 animated trains on the real Taipa Line route
+- Route follows the actual LRT path: Ocean Station (Galaxy) → Lotus → East Asian Games → Cotai East → Pai Kok → Airport → Taipa Ferry Terminal
+- Distinctive 20px green canvas train icons with windows, headlight, and glow halo
+- One-way loop animation at 15m altitude (elevated viaduct), 2-minute circuit time
+- Transit section added to Explore panel with Macau LRT entry and "live" badge
+- 8th entity animation system using proven CallbackProperty pattern
+- File grew from ~3778 to ~3907 lines (+129 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

@@ -686,6 +686,10 @@
       <div class="panel-section-title">Heritage</div>
       <div id="heritage-list"></div>
     </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Transit</div>
+      <div id="transit-list"></div>
+    </div>
   </div>
 </div>
 
@@ -979,6 +983,7 @@ async function init() {
     addWaterShimmer(viewer);
     addSkyBeams(viewer);
     addGuiaLighthouse(viewer);
+    addLRT(viewer);
     addFountainShow(viewer);
     addFountainMist(viewer);
     updateNeonGlow(); // apply immediately
@@ -2467,6 +2472,9 @@ var ATTRACTIONS = {
   heritage: [
     { name: "Guia Lighthouse", chinese: "東望洋燈塔", icon: "🗼", lat: 22.1967, lon: 113.5480, alt: 250, pitch: -20 },
   ],
+  transit: [
+    { name: "Macau LRT", chinese: "澳門輕軌", icon: "🚈", lat: 22.1500, lon: 113.5700, alt: 400, pitch: -25 },
+  ],
 };
 
 // Macau events calendar — updated by improvement agent
@@ -2558,6 +2566,12 @@ function populateAttractions() {
   var heritageList = document.getElementById('heritage-list');
   ATTRACTIONS.heritage.forEach(function(a) {
     heritageList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
+  });
+
+  // Transit
+  var transitList = document.getElementById('transit-list');
+  ATTRACTIONS.transit.forEach(function(a) {
+    transitList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
   });
 
   // Live events
@@ -3597,6 +3611,121 @@ function updateLighthouse() {
   _lighthouseBeamEntity.show = show;
 }
 setInterval(updateLighthouse, 10000);
+
+// ── Macau LRT (Light Rapid Transit) ──
+// Macau's elevated light rail system opened 2019, running through Taipa/Cotai
+// Taipa Line: Ocean → Lotus → East Asian Games → Cotai East → Pai Kok → Airport → Taipa Ferry Terminal
+var LRT_ROUTE = {
+  name: 'Macau LRT Taipa Line',
+  points: [
+    { lon: 113.5558, lat: 22.1502 }, // Ocean Station (near Galaxy)
+    { lon: 113.5580, lat: 22.1498 }, // Cotai area east
+    { lon: 113.5610, lat: 22.1493 }, // Lotus Check Point
+    { lon: 113.5645, lat: 22.1490 }, // Between Lotus and East Asian Games
+    { lon: 113.5685, lat: 22.1500 }, // East Asian Games Station
+    { lon: 113.5720, lat: 22.1515 }, // Cotai East Station
+    { lon: 113.5745, lat: 22.1540 }, // Curve north toward Pai Kok
+    { lon: 113.5760, lat: 22.1565 }, // Pai Kok Station
+    { lon: 113.5780, lat: 22.1590 }, // Toward Taipa Ferry
+    { lon: 113.5785, lat: 22.1610 }, // Taipa Ferry Terminal
+    { lon: 113.5790, lat: 22.1580 }, // Branch south
+    { lon: 113.5830, lat: 22.1540 }, // Toward Airport
+    { lon: 113.5870, lat: 22.1510 }, // Airport approach
+    { lon: 113.5905, lat: 22.1495 }, // Airport Station
+    { lon: 113.5870, lat: 22.1510 }, // Return from Airport
+    { lon: 113.5830, lat: 22.1540 }, // Back to branch
+    { lon: 113.5760, lat: 22.1565 }, // Back to Pai Kok
+    { lon: 113.5745, lat: 22.1540 }, // Return south
+    { lon: 113.5720, lat: 22.1515 }, // Cotai East return
+    { lon: 113.5685, lat: 22.1500 }, // East Asian Games return
+    { lon: 113.5645, lat: 22.1490 }, // Return west
+    { lon: 113.5610, lat: 22.1493 }, // Lotus return
+    { lon: 113.5580, lat: 22.1498 }, // Cotai west return
+    { lon: 113.5558, lat: 22.1502 }, // Back to Ocean (closed loop)
+  ],
+  durationSec: 120, // 2 minutes per full circuit
+  trains: 3,
+  colors: ['#4CAF50', '#66BB6A', '#81C784'], // Macau LRT green theme
+};
+
+function createLRTIcon(color) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 20;
+  canvas.height = 20;
+  var ctx = canvas.getContext('2d');
+  var cx = 10, cy = 10;
+
+  // Train body — rounded rectangle
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  if (ctx.roundRect) {
+    ctx.roundRect(4, 7, 12, 7, 2);
+  } else {
+    ctx.rect(4, 7, 12, 7);
+  }
+  ctx.fill();
+
+  // Roof / top accent
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+  ctx.fillRect(6, 7, 8, 1.5);
+
+  // Windows
+  ctx.fillStyle = 'rgba(200, 240, 255, 0.9)';
+  ctx.fillRect(5.5, 9, 2.5, 2.5);
+  ctx.fillRect(9, 9, 2.5, 2.5);
+  ctx.fillRect(12.5, 9, 2.5, 2.5);
+
+  // Headlight
+  ctx.fillStyle = 'rgba(255, 255, 220, 0.95)';
+  ctx.beginPath();
+  ctx.arc(15, 11, 1, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Glow halo for distance visibility
+  var grad = ctx.createRadialGradient(cx, cy, 3, cx, cy, 10);
+  grad.addColorStop(0, 'rgba(76, 175, 80, 0.0)');
+  grad.addColorStop(0.6, 'rgba(76, 175, 80, 0.0)');
+  grad.addColorStop(1, 'rgba(76, 175, 80, 0.15)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 20, 20);
+
+  return canvas;
+}
+
+function addLRT(viewer) {
+  var startTime = Date.now();
+  var route = LRT_ROUTE;
+
+  for (var i = 0; i < route.trains; i++) {
+    var phaseOffset = i / route.trains;
+    var color = route.colors[i % route.colors.length];
+    var trainIcon = createLRTIcon(color);
+
+    (function(offset, icon) {
+      var positionCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        // One-way loop — trains always go forward along the circuit
+        var t = ((elapsed / route.durationSec) + offset) % 1;
+        var pos = lerpPosition(route.points, t);
+        return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 15); // 15m — elevated viaduct
+      }, false);
+
+      viewer.entities.add({
+        name: 'Macau LRT Train',
+        position: positionCallback,
+        billboard: {
+          image: icon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: 1.0,
+          scaleByDistance: new Cesium.NearFarScalar(100, 1.5, 6000, 0.4),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 10000, 0.0),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+    })(phaseOffset, trainIcon);
+  }
+}
 
 // ── Harbor Fireworks System ──
 (function() {
