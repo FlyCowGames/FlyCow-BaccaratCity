@@ -129,6 +129,16 @@
 - Fulfills Prime Directive: "construction cranes move"
 - File grew from ~2740 to ~2880 lines (+140 lines)
 
+## Session 17 — 2026-03-21 (Automated Agent)
+- Harbor water shimmer: ~23 animated light reflection points on water surfaces around Macau
+- Shimmer points placed across Inner Harbour, Outer Harbour, Nam Van Lake, bridge area, Cotai waterfront, Taipa, Coloane
+- Canvas radial gradient billboard icons (10px) at water level (2m altitude)
+- Animated scale via CallbackProperty with sine-wave oscillation — each point has random phase and speed for independent twinkling
+- Time-of-day intensity: subtle during day (30% — sun sparkle), bright at night (100% — casino reflections) tied to neon glow system
+- Visible when zoomed in (translucencyByDistance fades at 10km)
+- No new UI elements — purely visual atmosphere enhancement
+- File grew from ~2880 to ~2978 lines (+98 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

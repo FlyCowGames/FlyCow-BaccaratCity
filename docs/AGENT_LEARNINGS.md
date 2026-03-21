@@ -120,6 +120,13 @@
 - **Observation:** Adding a new section to the Explore panel (Development) was trivial — just add to the ATTRACTIONS object and populateAttractions function. The panel code is cleanly factored for extension.
 - **Observation:** `armRadius` values of 0.0003-0.0004 degrees produce convincing crane arm radius at Macau's latitude (~30-40m real-world radius). This is a useful reference for future circular animation paths.
 
+## Session 17 (2026-03-21) -- Harbor Water Shimmer
+- **Lesson:** Using `CallbackProperty` for billboard `scale` (not just position) enables animated shimmer/twinkling effects. Each entity gets a random phase and speed for independent oscillation — sine wave produces natural shimmer.
+- **Lesson:** Tying shimmer intensity to `_currentGlowIntensity` (from the neon glow system) creates a unified day/night atmosphere — shimmer is subtle during day (sun sparkle) and bright at night (casino reflections) without needing a separate time calculation.
+- **Lesson:** Water surface billboard entities at 2m altitude sit correctly on the Google 3D Tiles water surface. This is lower than ferries (3m) because shimmer should appear ON the water, not above it.
+- **Lesson:** 23 water shimmer entities is a reasonable count — enough for visual density without performance concerns. Combined with existing entities (ferries, cars, planes, pedestrians, cranes, neon), the total entity count is manageable.
+- **Observation:** During daytime testing, shimmer is intentionally very subtle (scale multiplied by 0.3). The full effect is designed for nighttime when casino reflections would dominate the harbor. This is correct behavior, not a bug.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

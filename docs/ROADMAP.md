@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 16)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 17)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -54,3 +54,4 @@
 - Harbor fireworks: particle-based firework display at night with 6 palettes, 3 burst types (Session 13)
 - Animated pedestrians: ~26 walking figures near 6 popular areas, visible at street level (Session 15)
 - Construction cranes: 5 sites with orbiting warning lights, Development section in Explore panel (Session 16)
+- Harbor water shimmer: ~23 animated light reflections on water, day/night intensity modulation (Session 17)

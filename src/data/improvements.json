@@ -227,6 +227,22 @@
       ],
       "linesAdded": 140,
       "agent": "automated"
+    },
+    {
+      "session": 17,
+      "date": "2026-03-21",
+      "title": "Harbor Water Shimmer",
+      "domain": "atmosphere",
+      "summary": "Animated light reflection points on water surfaces around Macau's harbor, with subtle day sparkle and bright night casino reflections.",
+      "details": [
+        "~23 shimmer points across Inner Harbour, Outer Harbour, Nam Van Lake, bridge area, Cotai waterfront, Taipa, Coloane",
+        "Canvas radial gradient billboard icons (10px) at water level (2m altitude)",
+        "Sine-wave animated scale via CallbackProperty with random phase and speed per point",
+        "Day/night intensity tied to neon glow system: 30% during day (sun sparkle), 100% at night (casino reflections)",
+        "Visible when zoomed in (translucencyByDistance fades at 10km)"
+      ],
+      "linesAdded": 98,
+      "agent": "automated"
     }
   ]
 }

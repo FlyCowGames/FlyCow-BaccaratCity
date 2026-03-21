@@ -961,7 +961,9 @@ async function init() {
     addConstructionCranes(viewer);
     addAirportPlanes(viewer);
     addNeonGlow(viewer);
+    addWaterShimmer(viewer);
     updateNeonGlow(); // apply immediately
+    updateShimmerVisibility(); // apply immediately
 
     // Start flythrough
     runFlythrough(viewer);
@@ -2699,6 +2701,102 @@ document.addEventListener('keydown', function(e) {
     closeBaccarat();
   }
 });
+
+// ── Harbor Water Shimmer System ──
+// Animated light reflections on water surface — city/casino lights reflecting off the harbor
+var SHIMMER_POINTS = [
+  // Inner Harbour waterfront
+  { lon: 113.5320, lat: 22.1900, color: [255, 210, 120] },
+  { lon: 113.5310, lat: 22.1870, color: [255, 200, 100] },
+  { lon: 113.5305, lat: 22.1840, color: [220, 190, 130] },
+  { lon: 113.5340, lat: 22.1930, color: [255, 220, 140] },
+  // Outer Harbour / NAPE waterfront
+  { lon: 113.5500, lat: 22.1940, color: [255, 215, 100] },
+  { lon: 113.5520, lat: 22.1950, color: [255, 200, 80] },
+  { lon: 113.5480, lat: 22.1920, color: [220, 200, 140] },
+  { lon: 113.5540, lat: 22.1930, color: [255, 210, 90] },
+  // Between Peninsula and Taipa (bridge area)
+  { lon: 113.5450, lat: 22.1800, color: [200, 200, 220] },
+  { lon: 113.5470, lat: 22.1780, color: [200, 190, 210] },
+  { lon: 113.5500, lat: 22.1750, color: [200, 200, 230] },
+  { lon: 113.5420, lat: 22.1820, color: [210, 200, 200] },
+  // Cotai waterfront (south of Taipa)
+  { lon: 113.5600, lat: 22.1430, color: [255, 220, 100] },
+  { lon: 113.5640, lat: 22.1420, color: [255, 200, 80] },
+  { lon: 113.5560, lat: 22.1440, color: [220, 195, 110] },
+  // Nam Van Lake area
+  { lon: 113.5350, lat: 22.1840, color: [255, 215, 120] },
+  { lon: 113.5365, lat: 22.1830, color: [255, 200, 100] },
+  // Fisherman's Wharf area
+  { lon: 113.5510, lat: 22.1910, color: [200, 180, 150] },
+  { lon: 113.5530, lat: 22.1905, color: [210, 190, 140] },
+  // Taipa ferry terminal area
+  { lon: 113.5570, lat: 22.1560, color: [255, 210, 110] },
+  { lon: 113.5580, lat: 22.1545, color: [220, 200, 130] },
+  // Coloane waterfront
+  { lon: 113.5620, lat: 22.1280, color: [180, 190, 210] },
+  { lon: 113.5590, lat: 22.1310, color: [190, 200, 220] },
+];
+
+var _shimmerEntities = [];
+
+function createShimmerIcon(color, size) {
+  var canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  var ctx = canvas.getContext('2d');
+  var cx = size / 2, cy = size / 2, r = size / 2;
+  var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+  grad.addColorStop(0, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.6)');
+  grad.addColorStop(0.4, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.15)');
+  grad.addColorStop(1, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fill();
+  return canvas;
+}
+
+function addWaterShimmer(viewer) {
+  var startTime = Date.now();
+  SHIMMER_POINTS.forEach(function(pt, idx) {
+    var phase = Math.random() * Math.PI * 2;
+    var speed = 1.5 + Math.random() * 2.0; // seconds per cycle
+    var icon = createShimmerIcon(pt.color, 10);
+    var entity = viewer.entities.add({
+      name: 'Water Shimmer ' + idx,
+      position: Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, 2),
+      billboard: {
+        image: icon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: new Cesium.CallbackProperty(function() {
+          var t = (Date.now() - startTime) / 1000;
+          var wave = Math.sin(t / speed * Math.PI * 2 + phase);
+          var base = 0.4 + wave * 0.3; // oscillate between 0.1 and 0.7
+          return base * (0.3 + _currentGlowIntensity * 0.7); // brighter at night
+        }, false),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 0.8, 10000, 0.0),
+        scaleByDistance: new Cesium.NearFarScalar(100, 2.0, 8000, 0.3),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    _shimmerEntities.push(entity);
+  });
+}
+
+// Shimmer visibility follows neon glow — always slightly visible (moonlight), brighter at night
+function updateShimmerVisibility() {
+  var hour = getMacauHour();
+  // Always show a subtle shimmer (moonlight/sunlight on water), boost at night
+  var baseVisibility = 0.15; // daytime: subtle sun sparkle
+  var nightBoost = _currentGlowIntensity * 0.85; // night: casino reflections
+  var show = true; // always visible
+  _shimmerEntities.forEach(function(e) {
+    e.show = show;
+  });
+}
+setInterval(updateShimmerVisibility, 10000);
 
 // ── Harbor Fireworks System ──
 (function() {
