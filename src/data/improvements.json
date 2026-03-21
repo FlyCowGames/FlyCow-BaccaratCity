@@ -532,6 +532,22 @@
       ],
       "linesAdded": 101,
       "agent": "automated"
+    },
+    {
+      "session": 44,
+      "date": "2026-03-21",
+      "title": "Casino Rooftop Searchlights",
+      "domain": "atmosphere",
+      "summary": "6 sweeping searchlight beams from casino rooftops at night, creating a premiere-night atmosphere across the Cotai Strip and peninsula.",
+      "details": [
+        "6 casinos: Grand Lisboa, Venetian, Galaxy, Wynn Palace, MGM Cotai, Studio City with distinct beam colors",
+        "Sweeping arc animation — beams oscillate back and forth (not full rotation) for dramatic effect",
+        "Canvas-drawn 320x20px tapered beam icon with bright core at source fading to transparent tip",
+        "Night-only visibility tied to neon glow system with smooth dusk/dawn transitions",
+        "Casino Searchlights entry added to Shows section of Explore panel"
+      ],
+      "linesAdded": 93,
+      "agent": "automated"
     }
   ]
 }

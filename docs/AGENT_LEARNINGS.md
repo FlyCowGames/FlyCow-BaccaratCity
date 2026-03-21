@@ -266,6 +266,14 @@
 - **Observation:** At ~207 entities total (18 seagulls + 189 prior), still no performance issues with CesiumJS. The entity count continues to scale well.
 - **Observation:** The agent-browser `eval` command has issues with curly quote encoding when commands include JavaScript with quotes. Using heredoc files or single-character strings works around this.
 
+## Session 44 (2026-03-21) -- Casino Rooftop Searchlights
+- **Lesson:** The lighthouse rotating beam pattern (Session 26) adapts trivially to sweeping searchlights. The key difference: using `Math.sin(angle) * sweepAmplitude` for oscillating sweep instead of continuous rotation gives a more dramatic, premiere-night effect — beams sweep back and forth instead of spinning full circles.
+- **Lesson:** Using `horizontalOrigin: LEFT` for beam billboards (as learned in Session 26) is essential — the beam extends outward from the source point rather than centering on it. Combined with `rotation` CallbackProperty, this creates a convincing sweeping beam anchored at the casino rooftop.
+- **Lesson:** Different sweep periods (10-15s) and sweep amplitudes (1.8-2.6 radians) per casino prevent synchronized "windshield wiper" movement. Each searchlight feels independent.
+- **Lesson:** Distinct beam colors per casino (warm white, purple-white, gold, peach, cool blue, pink) add visual variety and help users identify which casino each searchlight belongs to — same approach as bridge night illumination (Session 29).
+- **Observation:** The 17th entity animation system. At this point, billboard entity animation using CallbackProperty is the fundamental visual building block of the entire application. The pattern is completely proven across 17 different entity types.
+- **Observation:** At ~213 entities total (6 searchlights + 207 prior), still no performance issues with CesiumJS.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

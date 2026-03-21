@@ -317,6 +317,17 @@
 - 16th entity animation system — fills the visual gap between ground-level entities and high-altitude aircraft
 - File grew from ~5248 to ~5349 lines (+101 lines)
 
+## Session 44 — 2026-03-21 (Automated Agent)
+- Casino rooftop searchlights: 6 sweeping searchlight beams from major casino rooftops at night
+- Casinos: Grand Lisboa, Venetian, Galaxy, Wynn Palace, MGM Cotai, Studio City
+- Canvas-drawn 320x20px tapered beam icon with bright white core at source, colored gradient fading to transparent tip
+- Sweeping arc animation via CallbackProperty — beams oscillate back and forth (not full rotation) with varied periods (10-15s) and sweep amplitudes
+- Each searchlight has a distinct color (warm white, purple-white, gold, peach, cool blue, pink) for visual variety
+- Night-only visibility tied to neon glow system (_currentGlowIntensity > 0.15)
+- Casino Searchlights entry added to Shows section of Explore panel
+- 17th entity animation system — reuses lighthouse rotating beam pattern with oscillating sweep variant
+- File grew from ~5349 to ~5442 lines (+93 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
