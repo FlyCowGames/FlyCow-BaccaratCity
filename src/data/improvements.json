@@ -500,6 +500,22 @@
       ],
       "linesAdded": 125,
       "agent": "automated"
+    },
+    {
+      "session": 41,
+      "date": "2026-03-21",
+      "title": "Cotai Strip LED Facades",
+      "domain": "animation",
+      "summary": "5 animated color-cycling LED screen displays on major Cotai Strip casino buildings, visible at night.",
+      "details": [
+        "LED grid pattern (12x6 cells) on 96x48px canvas with hue-shifting color waves across columns and time",
+        "5 Cotai casinos: Venetian, Galaxy, City of Dreams, MGM Cotai, Studio City",
+        "Night-only visibility tied to neon glow system with smooth dusk/dawn transitions",
+        "Color cycling updates every 500ms for smooth animation without per-frame canvas overhead",
+        "Cotai LED Facades entry added to Shows section of Explore panel"
+      ],
+      "linesAdded": 87,
+      "agent": "automated"
     }
   ]
 }

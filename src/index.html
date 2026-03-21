@@ -1182,6 +1182,7 @@ async function init() {
     addGondolas(viewer);
     addLanternStrings(viewer);
     initSkyJump(viewer);
+    addLEDFacades(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -2769,6 +2770,7 @@ var ATTRACTIONS = {
     { name: "Wynn Performance Lake", chinese: "永利表演湖", icon: "⛲", lat: 22.1472, lon: 113.5628, alt: 200, pitch: -15 },
     { name: "Venetian Gondolas", chinese: "威尼斯人貢多拉", icon: "🛶", lat: 22.1496, lon: 113.5590, alt: 150, pitch: -15 },
     { name: "Tower SkyJump", chinese: "旅遊塔笨豬跳", icon: "🪂", lat: 22.1801, lon: 113.5318, alt: 350, pitch: -15 },
+    { name: "Cotai LED Facades", chinese: "路氹LED幕牆", icon: "📺", lat: 22.1480, lon: 113.5560, alt: 500, pitch: -20 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -5150,6 +5152,91 @@ function initSkyJump(viewer) {
   checkFireworksTime();
   scheduleLaunch();
 })();
+
+// ── Cotai Strip LED Facade Screens ──
+function addLEDFacades(viewer) {
+  // Major Cotai Strip casinos with massive LED facade displays
+  var LED_FACADES = [
+    { name: 'Venetian LED',       lon: 113.5593, lat: 22.1502, alt: 45, width: 80, height: 30, hue: 40 },
+    { name: 'Galaxy LED',         lon: 113.5540, lat: 22.1492, alt: 55, width: 90, height: 35, hue: 200 },
+    { name: 'City of Dreams LED', lon: 113.5582, lat: 22.1475, alt: 50, width: 70, height: 28, hue: 270 },
+    { name: 'MGM Cotai LED',      lon: 113.5558, lat: 22.1460, alt: 42, width: 65, height: 25, hue: 330 },
+    { name: 'Studio City LED',    lon: 113.5520, lat: 22.1435, alt: 48, width: 75, height: 30, hue: 160 },
+  ];
+
+  // Create animated LED screen icon with color cycling
+  function createLEDIcon(hueOffset, time) {
+    var c = document.createElement('canvas');
+    c.width = 96; c.height = 48;
+    var ctx = c.getContext('2d');
+
+    // Animated LED grid pattern
+    var cols = 12, rows = 6;
+    var cellW = c.width / cols, cellH = c.height / rows;
+
+    for (var row = 0; row < rows; row++) {
+      for (var col = 0; col < cols; col++) {
+        // Color wave: hue shifts across columns and over time
+        var hue = (hueOffset + col * 15 + row * 8 + time * 60) % 360;
+        var saturation = 80 + Math.sin(time * 2 + col * 0.5) * 15;
+        var lightness = 45 + Math.sin(time * 1.5 + row * 0.8 + col * 0.3) * 20;
+        var alpha = 0.6 + Math.sin(time * 3 + col * 0.7 + row * 1.2) * 0.25;
+
+        ctx.fillStyle = 'hsla(' + hue + ',' + saturation + '%,' + lightness + '%,' + alpha + ')';
+        ctx.fillRect(col * cellW + 0.5, row * cellH + 0.5, cellW - 1, cellH - 1);
+      }
+    }
+
+    // Bright edge glow
+    var edgeGrad = ctx.createLinearGradient(0, 0, c.width, 0);
+    edgeGrad.addColorStop(0, 'rgba(255,255,255,0.15)');
+    edgeGrad.addColorStop(0.5, 'rgba(255,255,255,0.02)');
+    edgeGrad.addColorStop(1, 'rgba(255,255,255,0.15)');
+    ctx.fillStyle = edgeGrad;
+    ctx.fillRect(0, 0, c.width, c.height);
+
+    return c;
+  }
+
+  LED_FACADES.forEach(function(facade) {
+    (function(f) {
+      var phase = f.hue; // use initial hue as phase offset
+
+      // Create initial icon
+      var currentCanvas = createLEDIcon(f.hue, 0);
+
+      var entity = viewer.entities.add({
+        name: f.name,
+        position: Cesium.Cartesian3.fromDegrees(f.lon, f.lat, f.alt),
+        billboard: {
+          image: new Cesium.CallbackProperty(function() {
+            return currentCanvas;
+          }, false),
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          width: f.width,
+          height: f.height,
+          scaleByDistance: new Cesium.NearFarScalar(300, 1.8, 12000, 0.4),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 15000, 0.1),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          scale: new Cesium.CallbackProperty(function() {
+            // Night-only, tied to neon glow system
+            if (_currentGlowIntensity < 0.05) return 0.0;
+            return _currentGlowIntensity;
+          }, false),
+        },
+      });
+      entity._ledFacade = f;
+
+      // Update icon every 500ms for smooth color cycling
+      var updateInterval = setInterval(function() {
+        if (_currentGlowIntensity < 0.05) return; // skip when hidden
+        var time = performance.now() / 1000 + phase * 0.1;
+        currentCanvas = createLEDIcon(f.hue, time);
+      }, 500);
+    })(facade);
+  });
+}
 
 // ── Initialize ──
 init();

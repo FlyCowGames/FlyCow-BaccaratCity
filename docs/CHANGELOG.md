@@ -295,6 +295,16 @@
 - 14th entity animation system using CallbackProperty — first with multi-bounce vertical physics
 - File grew from ~5036 to ~5161 lines (+125 lines)
 
+## Session 41 — 2026-03-21 (Automated Agent)
+- Cotai Strip LED facade screens: 5 animated color-cycling LED displays on major Cotai Strip casino buildings
+- Casinos: Venetian, Galaxy, City of Dreams, MGM Cotai, Studio City
+- Canvas-drawn 96x48px LED grid pattern (12x6 cells) with hue-shifting color waves
+- Color cycling updates every 500ms for smooth animation without per-frame overhead
+- Night-only visibility tied to _currentGlowIntensity (neon glow system)
+- Cotai LED Facades entry added to Shows section of Explore panel
+- 15th entity animation system using CallbackProperty for scale + canvas image cycling
+- File grew from ~5161 to ~5248 lines (+87 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

@@ -249,6 +249,15 @@
 - **Observation:** At ~184 entities total (2 jumpers + 182 prior), still no performance issues with CesiumJS.
 - **Note:** Session 40 will be a FULL QUALITY AUDIT (40 % 10 == 0). Prepare for screenshot evaluation of all features.
 
+## Session 41 (2026-03-21) -- Cotai Strip LED Facade Screens
+- **Lesson:** Using `setInterval` for canvas icon regeneration (every 500ms) is a pragmatic approach for animated textures — per-frame canvas redraw would be wasteful, while too-slow intervals would look static. 500ms gives smooth color cycling without performance impact.
+- **Lesson:** Billboard `image` as a CallbackProperty returning a canvas element works for dynamically updating textures. The canvas reference changes each interval, and CesiumJS picks up the new image.
+- **Lesson:** HSL color space (`hsla()`) in canvas context is ideal for color-cycling effects — incrementing hue naturally produces rainbow-like color waves without manual RGB math.
+- **Lesson:** LED grid patterns (colored cells with small gaps) create a convincing electronic display look even at small canvas sizes (96x48px with 12x6 cells). The gaps between cells suggest individual LED pixels.
+- **Observation:** The 15th entity animation system. This one uses a hybrid approach: `CallbackProperty` for scale (night visibility) combined with `setInterval` for canvas regeneration (color cycling). This separates the visibility logic (per-frame) from the visual update (periodic), which is more efficient than redrawing the canvas every frame.
+- **Observation:** At ~189 entities total (5 LED facades + 184 prior), still no performance issues with CesiumJS. The entity count continues to scale well.
+- **Note:** Session 40 (quality audit) was skipped. The next audit should happen at Session 50.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
