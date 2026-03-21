@@ -240,6 +240,15 @@
 - **Observation:** At ~182 entities total (10 lantern strings + 172 prior), still no performance issues with CesiumJS. Entity count continues to scale well.
 - **Observation:** Cultural/decorative features (lanterns, cobblestones, temple details) are distinct from the many animation-focused features. They add atmosphere and authenticity at a different visual layer — static but visually rich, complementing the animated entities.
 
+## Session 39 (2026-03-21) -- Macau Tower SkyJump/Bungy
+- **Lesson:** The 14th entity animation system using CallbackProperty — but the first with multi-bounce vertical physics rather than horizontal path-following. The bungy simulation (free fall → 3 damped bounces → winch-back) is a new variant that uses piecewise math functions within the same CallbackProperty pattern.
+- **Lesson:** Bungy physics can be convincingly simulated with piecewise segments: quadratic fall (`ft*ft`), sine bounces with decreasing amplitude (70% → 40% → 15%), and quadratic winch-back up. No need for real physics integration — the visual effect is convincing with 6 segments.
+- **Lesson:** Hiding entities during the "pause" phase (scale=0 when waiting at top) is cleaner than removing/re-adding entities. The scale CallbackProperty returning 0.0 makes the entity invisible without any entity lifecycle management.
+- **Lesson:** For vertical animations near tall structures, `disableDepthTestDistance: Number.POSITIVE_INFINITY` is essential — the jumpers would otherwise clip behind the 3D-tiled tower geometry at many angles.
+- **Observation:** This is the first "thrill attraction" feature — distinct from transport (ferries, cars, planes), cultural (lanterns, junk boats), or ambient (shimmer, sky beams) entity types. It adds a playful, dynamic element that showcases a real Macau attraction.
+- **Observation:** At ~184 entities total (2 jumpers + 182 prior), still no performance issues with CesiumJS.
+- **Note:** Session 40 will be a FULL QUALITY AUDIT (40 % 10 == 0). Prepare for screenshot evaluation of all features.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

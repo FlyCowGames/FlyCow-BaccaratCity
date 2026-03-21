@@ -1181,6 +1181,7 @@ async function init() {
     addFountainMist(viewer);
     addGondolas(viewer);
     addLanternStrings(viewer);
+    initSkyJump(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -2767,6 +2768,7 @@ var ATTRACTIONS = {
   shows: [
     { name: "Wynn Performance Lake", chinese: "永利表演湖", icon: "⛲", lat: 22.1472, lon: 113.5628, alt: 200, pitch: -15 },
     { name: "Venetian Gondolas", chinese: "威尼斯人貢多拉", icon: "🛶", lat: 22.1496, lon: 113.5590, alt: 150, pitch: -15 },
+    { name: "Tower SkyJump", chinese: "旅遊塔笨豬跳", icon: "🪂", lat: 22.1801, lon: 113.5318, alt: 350, pitch: -15 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -4854,6 +4856,129 @@ function addLanternStrings(viewer) {
       },
     });
   });
+}
+
+// ── Macau Tower SkyJump / Bungy Animation ──
+function initSkyJump(viewer) {
+  // Macau Tower observation deck at 233m — world's highest commercial bungy jump
+  var towerLon = 113.5318, towerLat = 22.1801;
+  var jumpHeight = 233; // observation deck altitude
+  var lowestPoint = 40;  // bungy lowest point (~40m above ground)
+  var jumperCount = 2;
+
+  // Create jumper icon — small bright figure with trail
+  function createJumperIcon() {
+    var c = document.createElement('canvas');
+    c.width = 16; c.height = 24;
+    var ctx = c.getContext('2d');
+    // Bright glowing dot (the jumper)
+    var grad = ctx.createRadialGradient(8, 6, 0, 8, 6, 7);
+    grad.addColorStop(0, 'rgba(255,255,100,1)');
+    grad.addColorStop(0.4, 'rgba(255,200,50,0.8)');
+    grad.addColorStop(1, 'rgba(255,150,0,0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(8, 6, 7, 0, Math.PI * 2);
+    ctx.fill();
+    // Bungy cord line trailing above
+    ctx.strokeStyle = 'rgba(212,175,55,0.5)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(8, 0);
+    ctx.lineTo(8, 6);
+    ctx.stroke();
+    return c.toDataURL();
+  }
+
+  var jumperIcon = createJumperIcon();
+
+  for (var j = 0; j < jumperCount; j++) {
+    (function(idx) {
+      var phase = idx / jumperCount;
+      var cycleDuration = 12; // seconds per full jump cycle
+      var pauseDuration = 8;  // seconds pause at top between jumps
+      var totalCycle = cycleDuration + pauseDuration;
+      // Slight offset per jumper around the tower
+      var angleOffset = idx * Math.PI;
+      var offsetDist = 0.00003; // ~3m offset so jumpers don't overlap
+      var jLon = towerLon + Math.cos(angleOffset) * offsetDist;
+      var jLat = towerLat + Math.sin(angleOffset) * offsetDist;
+
+      var posCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (performance.now() / 1000) + phase * totalCycle;
+        var t = (elapsed % totalCycle) / totalCycle;
+        var jumpFraction = cycleDuration / totalCycle;
+
+        var alt;
+        if (t > jumpFraction) {
+          // Pausing at top — waiting to jump
+          alt = jumpHeight;
+        } else {
+          // Jumping: normalize t to 0-1 within the jump phase
+          var jt = t / jumpFraction;
+          // Bungy physics: free fall, then bounce back up with damping
+          // 3 bounces: down-up-down-up-down-settle
+          if (jt < 0.25) {
+            // Free fall: accelerating down
+            var ft = jt / 0.25;
+            alt = jumpHeight - (jumpHeight - lowestPoint) * (ft * ft);
+          } else if (jt < 0.45) {
+            // First bounce back up (70% rebound)
+            var bt = (jt - 0.25) / 0.20;
+            var bounceH = lowestPoint + (jumpHeight - lowestPoint) * 0.45 * Math.sin(bt * Math.PI);
+            alt = bounceH;
+          } else if (jt < 0.60) {
+            // Second drop
+            var d2t = (jt - 0.45) / 0.15;
+            var peak2 = lowestPoint + (jumpHeight - lowestPoint) * 0.45;
+            alt = peak2 - (peak2 - lowestPoint - 10) * Math.sin(d2t * Math.PI * 0.5);
+          } else if (jt < 0.75) {
+            // Second bounce (40% rebound)
+            var b2t = (jt - 0.60) / 0.15;
+            var bounceH2 = lowestPoint + 10 + (jumpHeight - lowestPoint) * 0.18 * Math.sin(b2t * Math.PI);
+            alt = bounceH2;
+          } else if (jt < 0.88) {
+            // Third small bounce and settle
+            var b3t = (jt - 0.75) / 0.13;
+            alt = lowestPoint + 10 + (jumpHeight - lowestPoint) * 0.06 * Math.sin(b3t * Math.PI);
+          } else {
+            // Winch back up to observation deck
+            var wt = (jt - 0.88) / 0.12;
+            alt = lowestPoint + 10 + (jumpHeight - lowestPoint - 10) * (wt * wt);
+          }
+        }
+
+        return Cesium.Cartesian3.fromDegrees(jLon, jLat, alt);
+      }, false);
+
+      var scaleCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (performance.now() / 1000) + phase * totalCycle;
+        var t = (elapsed % totalCycle) / totalCycle;
+        var jumpFraction = cycleDuration / totalCycle;
+        // Hide during pause (at top), show during jump
+        if (t > jumpFraction) return 0.0;
+        // Fade in at start of jump, fade out during winch-up
+        var jt = t / jumpFraction;
+        if (jt < 0.05) return jt / 0.05;
+        if (jt > 0.88) return 1.0 - ((jt - 0.88) / 0.12);
+        return 1.0;
+      }, false);
+
+      viewer.entities.add({
+        name: 'SkyJumper ' + (idx + 1),
+        position: posCallback,
+        billboard: {
+          image: jumperIcon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: scaleCallback,
+          scaleByDistance: new Cesium.NearFarScalar(50, 3.5, 2000, 0.5),
+          translucencyByDistance: new Cesium.NearFarScalar(30, 1.0, 6000, 0.0),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+    })(j);
+  }
 }
 
 // ── Harbor Fireworks System ──

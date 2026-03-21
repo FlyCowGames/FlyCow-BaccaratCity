@@ -285,6 +285,16 @@
 - Visible at medium zoom (translucencyByDistance 100m-5km) — between street-level and overview features
 - File grew from ~4902 to ~5036 lines (+134 lines)
 
+## Session 39 — 2026-03-21 (Automated Agent)
+- Macau Tower SkyJump/Bungy animation: 2 animated jumpers leaping from the 233m observation deck
+- Bungy physics simulation: free fall with quadratic acceleration, 3 damped bounces (70%, 40%, 15% rebound), winch-back up
+- 12-second jump cycle + 8-second pause at top between jumps, 2 jumpers with staggered phases
+- Canvas-drawn 16x24px jumper icon with bright yellow-gold radial gradient glow and bungy cord line
+- Fade-in at jump start, fade-out during winch-back to prevent visual pop on reset
+- Tower SkyJump entry added to Shows section of Explore panel with "live" badge
+- 14th entity animation system using CallbackProperty — first with multi-bounce vertical physics
+- File grew from ~5036 to ~5161 lines (+125 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

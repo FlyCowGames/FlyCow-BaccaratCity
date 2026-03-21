@@ -484,6 +484,22 @@
       ],
       "linesAdded": 134,
       "agent": "automated"
+    },
+    {
+      "session": 39,
+      "date": "2026-03-21",
+      "title": "Macau Tower SkyJump",
+      "domain": "animation",
+      "summary": "2 animated bungy jumpers leaping from Macau Tower's 233m observation deck with multi-bounce physics.",
+      "details": [
+        "Bungy physics simulation: free fall, 3 damped bounces (70%, 40%, 15% rebound), winch-back up to deck",
+        "12-second jump cycle + 8-second pause, 2 staggered jumpers for continuous action",
+        "Canvas-drawn 16x24px jumper icon with bright yellow-gold glow and bungy cord line",
+        "Fade-in/fade-out transitions prevent visual pop on jump start and winch-back reset",
+        "Tower SkyJump entry added to Shows section of Explore panel"
+      ],
+      "linesAdded": 125,
+      "agent": "automated"
     }
   ]
 }

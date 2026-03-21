@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-21 (Session 38)
+## Last Updated: 2026-03-21 (Session 39)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -37,6 +37,7 @@
 - **Dragon boat racing**: 5 colorful dragon boats racing parallel lanes on Nam Van Lake with team colors (red, blue, green, gold, purple)
 - **Venetian canal gondolas**: 3 traditional gondolas gliding along canals near The Venetian Macao with black hulls, gold ferro prows, and gondoliers
 - **Red lantern strings**: 10 traditional Chinese red lantern strings hanging across streets in 4 historic areas (Senado Square, Ruins of St. Paul's, A-Ma Temple, Taipa Village) with gentle sway and night glow
+- **Macau Tower SkyJump**: 2 animated bungy jumpers leaping from 233m observation deck with multi-bounce physics, 12-second jump cycles
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -45,7 +46,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~5036 lines, ~175KB)
+- Single HTML file (~5161 lines, ~180KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -88,6 +89,7 @@
 - **Dragon boat racing** — 5 dragon boats racing parallel lanes on Nam Van Lake (red, blue, green, gold, purple teams)
 - **Venetian canal gondolas** — 3 traditional gondolas on canals near The Venetian with gondoliers and passengers
 - **Red lantern strings** — 10 lantern strings across 4 historic areas with sway animation and night glow boost
+- **Macau Tower SkyJump** — 2 animated bungy jumpers with multi-bounce physics (233m → 40m → bounces → winch-back)
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)
