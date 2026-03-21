@@ -962,8 +962,10 @@ async function init() {
     addAirportPlanes(viewer);
     addNeonGlow(viewer);
     addWaterShimmer(viewer);
+    addSkyBeams(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
+    updateSkyBeams(); // apply immediately
 
     // Start flythrough
     runFlythrough(viewer);
@@ -2797,6 +2799,99 @@ function updateShimmerVisibility() {
   });
 }
 setInterval(updateShimmerVisibility, 10000);
+
+// ── Casino Sky Beams System ──
+// Vertical light beams shooting up from major casinos at night — signature Macau skyline feature
+var SKY_BEAM_CASINOS = [
+  { name: 'Grand Lisboa Beam', lon: 113.5390, lat: 22.1893, color: [255, 215, 0],   height: 400, swaySpeed: 0.07, swayAmp: 0.0002 },
+  { name: 'Venetian Beam',    lon: 113.5590, lat: 22.1494, color: [255, 220, 100], height: 350, swaySpeed: 0.05, swayAmp: 0.00015 },
+  { name: 'Galaxy Beam',      lon: 113.5544, lat: 22.1487, color: [255, 200, 80],  height: 320, swaySpeed: 0.06, swayAmp: 0.00018 },
+  { name: 'Wynn Palace Beam', lon: 113.5630, lat: 22.1478, color: [255, 180, 60],  height: 300, swaySpeed: 0.08, swayAmp: 0.00016 },
+  { name: 'City of Dreams Beam', lon: 113.5586, lat: 22.1486, color: [180, 140, 255], height: 280, swaySpeed: 0.055, swayAmp: 0.00017 },
+];
+
+var _skyBeamEntities = [];
+
+function createSkyBeamIcon(color, width, height) {
+  var canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  var ctx = canvas.getContext('2d');
+
+  // Vertical gradient — bright at bottom, fading to transparent at top
+  var grad = ctx.createLinearGradient(width / 2, height, width / 2, 0);
+  grad.addColorStop(0, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.4)');
+  grad.addColorStop(0.15, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.25)');
+  grad.addColorStop(0.4, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.1)');
+  grad.addColorStop(0.7, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.03)');
+  grad.addColorStop(1, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0)');
+
+  // Draw a tapered beam — wider at bottom, narrower at top
+  ctx.beginPath();
+  ctx.moveTo(width * 0.3, height);           // bottom left
+  ctx.lineTo(width * 0.7, height);           // bottom right
+  ctx.lineTo(width * 0.45, 0);              // top right (narrower)
+  ctx.lineTo(width * 0.55, 0);              // top left (narrower)
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Add a bright core line up the center
+  var coreGrad = ctx.createLinearGradient(width / 2, height, width / 2, 0);
+  coreGrad.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+  coreGrad.addColorStop(0.3, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.15)');
+  coreGrad.addColorStop(0.6, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.03)');
+  coreGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+  ctx.beginPath();
+  ctx.moveTo(width * 0.42, height);
+  ctx.lineTo(width * 0.58, height);
+  ctx.lineTo(width * 0.48, 0);
+  ctx.lineTo(width * 0.52, 0);
+  ctx.closePath();
+  ctx.fillStyle = coreGrad;
+  ctx.fill();
+
+  return canvas;
+}
+
+function addSkyBeams(viewer) {
+  var startTime = Date.now();
+  SKY_BEAM_CASINOS.forEach(function(beam) {
+    var icon = createSkyBeamIcon(beam.color, 32, 128);
+    var phase = Math.random() * Math.PI * 2;
+
+    var entity = viewer.entities.add({
+      name: beam.name,
+      position: new Cesium.CallbackProperty(function() {
+        // Gentle sway — beam origin oscillates slightly
+        var t = (Date.now() - startTime) / 1000;
+        var swayLon = Math.sin(t * beam.swaySpeed * Math.PI * 2 + phase) * beam.swayAmp;
+        var swayLat = Math.cos(t * beam.swaySpeed * 0.7 * Math.PI * 2 + phase + 1.5) * beam.swayAmp * 0.5;
+        return Cesium.Cartesian3.fromDegrees(beam.lon + swayLon, beam.lat + swayLat, beam.height / 2 + 50);
+      }, false),
+      billboard: {
+        image: icon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 30,
+        height: beam.height,
+        scaleByDistance: new Cesium.NearFarScalar(500, 1.2, 25000, 0.4),
+        translucencyByDistance: new Cesium.NearFarScalar(200, 0.8, 30000, 0.1),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false, // start hidden, updateSkyBeams will show at night
+    });
+    _skyBeamEntities.push({ entity: entity, beam: beam });
+  });
+}
+
+function updateSkyBeams() {
+  var show = _currentGlowIntensity > 0.1;
+  _skyBeamEntities.forEach(function(item) {
+    item.entity.show = show;
+  });
+}
+setInterval(updateSkyBeams, 10000);
 
 // ── Harbor Fireworks System ──
 (function() {
