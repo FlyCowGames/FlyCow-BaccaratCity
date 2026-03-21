@@ -324,6 +324,22 @@
       ],
       "linesAdded": 66,
       "agent": "automated"
+    },
+    {
+      "session": 26,
+      "date": "2026-03-21",
+      "title": "Guia Lighthouse Rotating Beam",
+      "domain": "landmarks",
+      "summary": "Animated lighthouse beam sweeping from Guia Hill summit — the oldest lighthouse on the China coast (1865), a UNESCO World Heritage Site.",
+      "details": [
+        "Static lighthouse tower billboard at Guia Hill summit (108m) with white tower, red dome, and lantern room glow",
+        "Rotating beam billboard sweeping 360 degrees via CallbackProperty (8-second rotation period)",
+        "Horizontal tapered beam icon (256x16px canvas) with bright-to-transparent gradient",
+        "Night-only visibility tied to neon glow system (appears at dusk, disappears at dawn)",
+        "Heritage section added to Explore panel with Guia Lighthouse entry and live badge"
+      ],
+      "linesAdded": 137,
+      "agent": "automated"
     }
   ]
 }

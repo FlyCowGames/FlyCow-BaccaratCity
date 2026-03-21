@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 24)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 26)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -60,3 +60,4 @@
 - Guia Circuit race cars: 5 F3 cars on real 6.2km street circuit, Racing section in Explore panel (Session 21)
 - Traditional junk boats: 4 red-sailed Chinese junks on 3 harbour routes (Session 22)
 - Geographic district labels: 8 bilingual floating labels for overview orientation (Session 24)
+- Guia Lighthouse: rotating beam at Guia Hill summit, Heritage section in Explore panel (Session 26)

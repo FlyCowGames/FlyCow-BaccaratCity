@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-21 (Session 24)
+## Last Updated: 2026-03-21 (Session 26)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -27,6 +27,7 @@
 - **Guia Circuit race cars**: 5 F3 cars racing the 6.2km street circuit around Macau Peninsula (15 waypoints, one-way loop, 5 distinct colors)
 - **Traditional junk boats**: 4 red-sailed Chinese junks cruising 3 harbour routes (Inner Harbour, Outer Harbour, A-Ma Temple coast)
 - **Geographic district labels**: 8 floating bilingual labels (English + Chinese) over major areas, visible from bird's eye for geographic orientation
+- **Guia Lighthouse**: Rotating lighthouse beam at Guia Hill summit (oldest lighthouse on China coast, 1865), active at night with 8-second sweep
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -35,7 +36,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~3641 lines, ~128KB)
+- Single HTML file (~3778 lines, ~133KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -68,6 +69,7 @@
 - **Guia Circuit race cars** — 5 F3 cars with distinct colors racing the iconic street circuit (always active)
 - **Traditional junk boats** — 4 red-sailed Chinese junks cruising Inner/Outer Harbour and A-Ma Temple coast
 - **Geographic district labels** — 8 bilingual floating labels visible from overview for geographic orientation
+- **Guia Lighthouse** — rotating beam at Guia Hill summit, active at night with 8-second sweep period
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

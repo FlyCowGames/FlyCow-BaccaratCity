@@ -184,6 +184,15 @@
 - CesiumJS Label entities crash with Google 3D Tiles (RangeError: Invalid array length) — billboard canvas approach works
 - File grew from ~3575 to ~3641 lines (+66 lines)
 
+## Session 26 — 2026-03-21 (Automated Agent)
+- Guia Lighthouse rotating beam: animated lighthouse at Guia Hill summit — oldest lighthouse on China coast (1865)
+- Static lighthouse tower billboard entity (white tower, red dome, lantern room glow) at Guia Hill summit (108m)
+- Rotating beam billboard entity sweeping 360° via CallbackProperty (8s rotation period)
+- Horizontal tapered beam icon (256x16px canvas) with bright-to-transparent gradient
+- Night-only visibility tied to neon glow system (_currentGlowIntensity > 0.1)
+- Heritage section added to Explore panel with Guia Lighthouse entry and "live" badge
+- File grew from ~3641 to ~3778 lines (+137 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

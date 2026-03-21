@@ -163,6 +163,13 @@
 - **Lesson:** District labels at 300m altitude float above most buildings and are visible from wide angles without being occluded by 3D tiles. Higher than landmarks (80m) but lower than sky beams (280-400m).
 - **Observation:** This is the first feature designed primarily for the overview/bird's eye experience. Previous sessions (pedestrians, shimmer, junk boats) were all close-up features. Mixing visibility ranges creates a richer experience at all zoom levels.
 
+## Session 26 (2026-03-21) -- Guia Lighthouse Rotating Beam
+- **Lesson:** Billboard `rotation` can be animated via CallbackProperty, enabling rotating beam effects. The rotation value is in radians, counter-clockwise from up (12 o'clock). Combine with position CallbackProperty for the beam origin to move as well.
+- **Lesson:** Horizontal beam billboards (wide canvas, narrow height) with `horizontalOrigin: LEFT` create convincing lighthouse beams — the left edge stays at the light source position while the beam extends outward.
+- **Lesson:** Real lighthouse rotation periods are ~15 seconds, but 8 seconds looks better in the scene — faster rotation makes the beam more noticeable as a visual feature.
+- **Lesson:** Heritage features (lighthouse, temple details) add cultural depth distinct from the many casino/entertainment features. The Heritage section in the Explore panel provides a category for non-casino, non-gaming cultural landmarks.
+- **Observation:** At 153 entities total, no performance issues observed. The entity count continues to grow but CesiumJS handles it well.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

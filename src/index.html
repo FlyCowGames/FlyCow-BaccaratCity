@@ -682,6 +682,10 @@
       <div class="panel-section-title">Racing</div>
       <div id="racing-list"></div>
     </div>
+    <div class="panel-section">
+      <div class="panel-section-title">Heritage</div>
+      <div id="heritage-list"></div>
+    </div>
   </div>
 </div>
 
@@ -974,11 +978,13 @@ async function init() {
     addNeonGlow(viewer);
     addWaterShimmer(viewer);
     addSkyBeams(viewer);
+    addGuiaLighthouse(viewer);
     addFountainShow(viewer);
     addFountainMist(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
+    updateLighthouse(); // apply immediately
     updateFountainShow(); // apply immediately
 
     // Start flythrough
@@ -2458,6 +2464,9 @@ var ATTRACTIONS = {
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
   ],
+  heritage: [
+    { name: "Guia Lighthouse", chinese: "東望洋燈塔", icon: "🗼", lat: 22.1967, lon: 113.5480, alt: 250, pitch: -20 },
+  ],
 };
 
 // Macau events calendar — updated by improvement agent
@@ -2543,6 +2552,12 @@ function populateAttractions() {
   var racingList = document.getElementById('racing-list');
   ATTRACTIONS.racing.forEach(function(a) {
     racingList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
+  });
+
+  // Heritage
+  var heritageList = document.getElementById('heritage-list');
+  ATTRACTIONS.heritage.forEach(function(a) {
+    heritageList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
   });
 
   // Live events
@@ -3460,6 +3475,128 @@ function updateSkyBeams() {
   });
 }
 setInterval(updateSkyBeams, 10000);
+
+// ── Guia Lighthouse Rotating Beam ──
+// The Guia Lighthouse (1865) atop Guia Hill — oldest lighthouse on the China coast, UNESCO World Heritage
+var GUIA_LIGHTHOUSE = { lon: 113.5480, lat: 22.1967, alt: 108 }; // Guia Hill summit ~91m + lighthouse height
+
+var _lighthouseBeamEntity = null;
+var _lighthouseTowerEntity = null;
+
+function createLighthouseTowerIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 32; canvas.height = 64;
+  var ctx = canvas.getContext('2d');
+  // White cylindrical tower
+  ctx.fillStyle = 'rgba(245, 240, 230, 0.9)';
+  ctx.fillRect(11, 10, 10, 44);
+  // Lantern room (top)
+  ctx.fillStyle = 'rgba(255, 255, 200, 1)';
+  ctx.fillRect(9, 4, 14, 8);
+  // Red dome
+  ctx.fillStyle = 'rgba(180, 50, 30, 0.9)';
+  ctx.beginPath();
+  ctx.arc(16, 4, 7, Math.PI, 0);
+  ctx.fill();
+  // Gallery railing line
+  ctx.strokeStyle = 'rgba(80, 80, 80, 0.6)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(8, 11, 16, 1);
+  // Bright light at lantern center
+  var lightGrad = ctx.createRadialGradient(16, 8, 0, 16, 8, 10);
+  lightGrad.addColorStop(0, 'rgba(255, 255, 220, 0.8)');
+  lightGrad.addColorStop(0.4, 'rgba(255, 255, 180, 0.3)');
+  lightGrad.addColorStop(1, 'rgba(255, 255, 150, 0)');
+  ctx.fillStyle = lightGrad;
+  ctx.fillRect(0, 0, 32, 20);
+  // Base
+  ctx.fillStyle = 'rgba(200, 190, 170, 0.8)';
+  ctx.fillRect(8, 52, 16, 12);
+  return canvas;
+}
+
+function createLighthouseBeamIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 256; canvas.height = 16;
+  var ctx = canvas.getContext('2d');
+  // Horizontal beam — bright at source (left), fading to nothing at end (right)
+  var grad = ctx.createLinearGradient(0, 8, 256, 8);
+  grad.addColorStop(0, 'rgba(255, 255, 220, 0.6)');
+  grad.addColorStop(0.05, 'rgba(255, 255, 200, 0.45)');
+  grad.addColorStop(0.15, 'rgba(255, 255, 180, 0.25)');
+  grad.addColorStop(0.4, 'rgba(255, 255, 160, 0.08)');
+  grad.addColorStop(0.7, 'rgba(255, 255, 150, 0.02)');
+  grad.addColorStop(1, 'rgba(255, 255, 150, 0)');
+  // Tapered shape — wider at source, narrower at far end
+  ctx.beginPath();
+  ctx.moveTo(0, 2);    // top left (near source)
+  ctx.lineTo(256, 6);  // top right (far end, narrower)
+  ctx.lineTo(256, 10); // bottom right
+  ctx.lineTo(0, 14);   // bottom left
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+  return canvas;
+}
+
+function addGuiaLighthouse(viewer) {
+  var towerIcon = createLighthouseTowerIcon();
+  _lighthouseTowerEntity = viewer.entities.add({
+    name: 'Guia Lighthouse',
+    position: Cesium.Cartesian3.fromDegrees(GUIA_LIGHTHOUSE.lon, GUIA_LIGHTHOUSE.lat, GUIA_LIGHTHOUSE.alt),
+    billboard: {
+      image: towerIcon,
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+      width: 16,
+      height: 32,
+      scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 15000, 0.3),
+      translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 20000, 0.2),
+      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    },
+  });
+
+  var beamIcon = createLighthouseBeamIcon();
+  var startTime = Date.now();
+  var beamRadius = 0.004; // ~400m beam reach in degrees
+  var rotationPeriod = 8; // seconds per full rotation (real lighthouse: ~15s, faster for visual effect)
+
+  _lighthouseBeamEntity = viewer.entities.add({
+    name: 'Guia Lighthouse Beam',
+    position: new Cesium.CallbackProperty(function() {
+      var t = (Date.now() - startTime) / 1000;
+      var angle = (t / rotationPeriod) * Math.PI * 2;
+      // Beam center is offset from lighthouse in the direction of rotation
+      var beamCenterLon = GUIA_LIGHTHOUSE.lon + Math.cos(angle) * beamRadius * 0.5;
+      var beamCenterLat = GUIA_LIGHTHOUSE.lat + Math.sin(angle) * beamRadius * 0.5;
+      return Cesium.Cartesian3.fromDegrees(beamCenterLon, beamCenterLat, GUIA_LIGHTHOUSE.alt + 2);
+    }, false),
+    billboard: {
+      image: beamIcon,
+      rotation: new Cesium.CallbackProperty(function() {
+        var t = (Date.now() - startTime) / 1000;
+        var angle = (t / rotationPeriod) * Math.PI * 2;
+        // Billboard rotation is counter-clockwise from up, we want the beam to point outward
+        return -angle + Math.PI / 2;
+      }, false),
+      verticalOrigin: Cesium.VerticalOrigin.CENTER,
+      horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+      width: 500,
+      height: 12,
+      scaleByDistance: new Cesium.NearFarScalar(300, 1.5, 20000, 0.5),
+      translucencyByDistance: new Cesium.NearFarScalar(100, 0.9, 25000, 0.15),
+      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    },
+    show: false, // starts hidden, updateLighthouse will show at night
+  });
+}
+
+function updateLighthouse() {
+  if (!_lighthouseBeamEntity) return;
+  var show = _currentGlowIntensity > 0.1;
+  _lighthouseBeamEntity.show = show;
+}
+setInterval(updateLighthouse, 10000);
 
 // ── Harbor Fireworks System ──
 (function() {
