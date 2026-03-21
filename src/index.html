@@ -91,6 +91,51 @@
     text-shadow: 0 0 20px rgba(212,175,55,0.3);
   }
 
+  /* Time slider */
+  #time-slider-block {
+    margin-top: 8px;
+    display: flex; align-items: center; gap: 8px;
+    justify-content: flex-end;
+  }
+  #time-slider {
+    -webkit-appearance: none; appearance: none;
+    width: 120px; height: 3px;
+    background: rgba(212,175,55,0.25);
+    border-radius: 2px; outline: none;
+    cursor: pointer;
+  }
+  #time-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #d4af37;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(212,175,55,0.5);
+  }
+  #time-slider::-moz-range-thumb {
+    width: 12px; height: 12px;
+    border-radius: 50%; border: none;
+    background: #d4af37;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(212,175,55,0.5);
+  }
+  #time-live-btn {
+    font-family: 'DM Mono', monospace; font-weight: 400;
+    font-size: 0.55rem; color: #d4af37;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 3px; padding: 2px 6px;
+    cursor: pointer; letter-spacing: 0.1em;
+    pointer-events: auto;
+    transition: all 0.3s;
+  }
+  #time-live-btn:hover { background: rgba(212,175,55,0.3); }
+  #time-live-btn.active {
+    background: rgba(212,175,55,0.3);
+    border-color: #d4af37;
+    box-shadow: 0 0 6px rgba(212,175,55,0.3);
+  }
+
   /* Hints - bottom left */
   #hints {
     position: absolute; bottom: 32px; left: 32px;
@@ -260,13 +305,31 @@
     border-bottom: 1px solid rgba(212,175,55,0.12);
   }
   .panel-section {
-    padding: 12px 0;
     border-bottom: 1px solid rgba(212,175,55,0.08);
   }
   .panel-section-title {
-    padding: 0 16px 8px;
+    padding: 10px 16px;
     font-size: 0.65rem; color: rgba(212,175,55,0.5);
     letter-spacing: 0.2em; text-transform: uppercase;
+    cursor: pointer; display: flex; align-items: center;
+    justify-content: space-between;
+    transition: color 0.2s;
+  }
+  .panel-section-title:hover { color: rgba(212,175,55,0.8); }
+  .panel-section-title::after {
+    content: '\25B4'; font-size: 0.7em;
+    transition: transform 0.3s ease;
+  }
+  .panel-section.collapsed .panel-section-title::after {
+    transform: rotate(180deg);
+  }
+  .panel-section-content {
+    max-height: 500px; overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.2s ease;
+    opacity: 1;
+  }
+  .panel-section.collapsed .panel-section-content {
+    max-height: 0; opacity: 0;
   }
   .attraction-item {
     display: flex; align-items: center; gap: 10px;
@@ -574,7 +637,7 @@
   <div id="title-block">
     <div id="title">BACCARAT CITY</div>
     <div id="tagline">百家樂之城 &middot; 澳門風雲</div>
-    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Live Weather &middot; Live Traffic &amp; Flights &middot; Live Baccarat &middot; Harbor Fireworks</div>
+    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Time Preview &middot; Live Weather &middot; Live Traffic &amp; Flights &middot; Live Baccarat</div>
     <div id="title-line"></div>
   </div>
 
@@ -592,12 +655,16 @@
   <div id="clock-block">
     <div id="clock-label">Macau Time (UTC+8)</div>
     <div id="clock"></div>
+    <div id="time-slider-block">
+      <input type="range" id="time-slider" min="0" max="24" step="0.25" value="12" style="pointer-events: auto;">
+      <button id="time-live-btn" class="active">LIVE</button>
+    </div>
   </div>
 
   <button id="audio-toggle">&#9835; Sound Off</button>
 
   <div id="hints">
-    scroll to zoom &middot; drag to orbit<br>
+    scroll to zoom &middot; drag to orbit &middot; slide time to preview day/night<br>
     click landmark for info &middot; enter casino to play baccarat
   </div>
 
@@ -656,43 +723,43 @@
     <div class="panel-header">EXPLORE MACAU</div>
     <div id="live-events-section" class="panel-section" style="display:none;">
       <div class="panel-section-title">Live &amp; Upcoming</div>
-      <div id="live-events-list"></div>
+      <div class="panel-section-content"><div id="live-events-list"></div></div>
     </div>
     <div class="panel-section">
       <div class="panel-section-title">Landmarks</div>
-      <div id="landmarks-list"></div>
+      <div class="panel-section-content"><div id="landmarks-list"></div></div>
     </div>
     <div class="panel-section">
       <div class="panel-section-title">On the Water</div>
-      <div id="water-list"></div>
+      <div class="panel-section-content"><div id="water-list"></div></div>
     </div>
     <div class="panel-section">
       <div class="panel-section-title">Casinos</div>
-      <div id="casinos-list"></div>
+      <div class="panel-section-content"><div id="casinos-list"></div></div>
     </div>
-    <div class="panel-section">
+    <div class="panel-section collapsed">
       <div class="panel-section-title">Development</div>
-      <div id="development-list"></div>
+      <div class="panel-section-content"><div id="development-list"></div></div>
     </div>
-    <div class="panel-section">
+    <div class="panel-section collapsed">
       <div class="panel-section-title">Shows</div>
-      <div id="shows-list"></div>
+      <div class="panel-section-content"><div id="shows-list"></div></div>
     </div>
-    <div class="panel-section">
+    <div class="panel-section collapsed">
       <div class="panel-section-title">Racing</div>
-      <div id="racing-list"></div>
+      <div class="panel-section-content"><div id="racing-list"></div></div>
     </div>
-    <div class="panel-section">
+    <div class="panel-section collapsed">
       <div class="panel-section-title">Bridges</div>
-      <div id="bridges-list"></div>
+      <div class="panel-section-content"><div id="bridges-list"></div></div>
     </div>
-    <div class="panel-section">
+    <div class="panel-section collapsed">
       <div class="panel-section-title">Heritage</div>
-      <div id="heritage-list"></div>
+      <div class="panel-section-content"><div id="heritage-list"></div></div>
     </div>
-    <div class="panel-section">
+    <div class="panel-section collapsed">
       <div class="panel-section-title">Transit</div>
-      <div id="transit-list"></div>
+      <div class="panel-section-content"><div id="transit-list"></div></div>
     </div>
   </div>
 </div>
@@ -743,33 +810,101 @@ const LANDMARKS = [
 ];
 
 // ── Clock & Day/Night UI ──
+var _timeOverride = null; // null = real Macau time, number = overridden hour (0-24)
+
 function getMacauHour() {
+  if (_timeOverride !== null) return _timeOverride;
   var now = new Date();
   var macauStr = now.toLocaleString('en-US', { timeZone: 'Asia/Macau', hour12: false });
   var macau = new Date(macauStr);
   return macau.getHours() + macau.getMinutes() / 60;
 }
 
-function updateClock() {
+function getRealMacauDate() {
   var now = new Date();
   var macauStr = now.toLocaleString('en-US', { timeZone: 'Asia/Macau', hour12: false });
-  var macau = new Date(macauStr);
-  var h = String(macau.getHours()).padStart(2, '0');
-  var m = String(macau.getMinutes()).padStart(2, '0');
-  var s = String(macau.getSeconds()).padStart(2, '0');
+  return new Date(macauStr);
+}
+
+function updateCesiumClock(hour) {
+  if (!_viewer) return;
+  // Build a Date for today in Macau at the specified hour
+  var real = getRealMacauDate();
+  var overrideDate = new Date(real.getFullYear(), real.getMonth(), real.getDate(),
+    Math.floor(hour), Math.round((hour % 1) * 60), 0);
+  // Convert to UTC by adding back the UTC+8 offset
+  var utcMs = overrideDate.getTime() - 8 * 3600000;
+  var utcDate = new Date(utcMs);
+  _viewer.clock.currentTime = Cesium.JulianDate.fromDate(utcDate);
+  _viewer.clock.shouldAnimate = false;
+}
+
+function resetCesiumClock() {
+  if (!_viewer) return;
+  _viewer.clock.currentTime = Cesium.JulianDate.now();
+  _viewer.clock.shouldAnimate = true;
+  _viewer.clock.multiplier = 1;
+}
+
+function updateClock() {
+  var hour = getMacauHour();
+  var mins = Math.floor((hour % 1) * 60);
+  var h = String(Math.floor(hour) % 24).padStart(2, '0');
+  var m = String(mins).padStart(2, '0');
+  var s = _timeOverride !== null ? '00' : String(getRealMacauDate().getSeconds()).padStart(2, '0');
   document.getElementById('clock').textContent = h + ':' + m + ':' + s;
 
   // Update day/night indicator
-  var hour = getMacauHour();
   var isNight = hour < 6.5 || hour > 18.5;
   var isDusk = (hour >= 17.5 && hour <= 18.5) || (hour >= 6 && hour <= 7);
-  var label = isNight ? 'Macau Time (UTC+8) \u00B7 Night' :
-              isDusk ? 'Macau Time (UTC+8) \u00B7 Golden Hour' :
-              'Macau Time (UTC+8) \u00B7 Day';
+  var prefix = _timeOverride !== null ? 'Preview' : 'Macau Time (UTC+8)';
+  var label = isNight ? prefix + ' \u00B7 Night' :
+              isDusk ? prefix + ' \u00B7 Golden Hour' :
+              prefix + ' \u00B7 Day';
   document.getElementById('clock-label').textContent = label;
 }
 setInterval(updateClock, 1000);
 updateClock();
+
+// ── Time Slider ──
+(function() {
+  var slider = document.getElementById('time-slider');
+  var liveBtn = document.getElementById('time-live-btn');
+  var isLive = true;
+
+  // Initialize slider to current Macau hour
+  var initHour = getMacauHour();
+  slider.value = initHour;
+
+  slider.addEventListener('input', function() {
+    var hour = parseFloat(slider.value);
+    _timeOverride = hour;
+    isLive = false;
+    liveBtn.classList.remove('active');
+    updateCesiumClock(hour);
+    updateClock();
+    // Force immediate neon glow + feature updates
+    updateNeonGlow();
+  });
+
+  liveBtn.addEventListener('click', function() {
+    if (isLive) return;
+    isLive = true;
+    _timeOverride = null;
+    liveBtn.classList.add('active');
+    resetCesiumClock();
+    slider.value = getMacauHour();
+    updateClock();
+    updateNeonGlow();
+  });
+
+  // Keep slider in sync with real time when live
+  setInterval(function() {
+    if (isLive) {
+      slider.value = getMacauHour();
+    }
+  }, 5000);
+})();
 
 // ── Weather System ──
 var currentWeather = null;
@@ -2644,7 +2779,14 @@ function updateLiveEvents() {
 document.getElementById('attractions-toggle').addEventListener('click', function() {
   this.classList.toggle('open');
   document.getElementById('attractions-panel').classList.toggle('open');
-  this.textContent = this.classList.contains('open') ? '✕' : 'EXPLORE';
+  this.textContent = this.classList.contains('open') ? '\u2715' : 'EXPLORE';
+});
+
+// Collapsible panel sections
+document.querySelectorAll('.panel-section-title').forEach(function(title) {
+  title.addEventListener('click', function() {
+    this.parentElement.classList.toggle('collapsed');
+  });
 });
 
 // Refresh live events every hour

@@ -42,7 +42,7 @@
 ## Interactivity
 - [x] Click casino → enter and see baccarat tables (Session 11: interactive Punto Banco game)
 - [x] Click landmark → info popup with history (Session 10: rich info cards with description, facts, year, type)
-- [ ] Time slider to preview any time of day
+- [x] Time slider to preview any time of day (Session 31: interactive slider with CesiumJS sun override)
 - [ ] Minimap for navigation
 - [ ] Search for landmarks
 - [ ] Share camera position via URL

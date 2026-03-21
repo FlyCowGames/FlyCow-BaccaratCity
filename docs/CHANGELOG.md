@@ -210,6 +210,16 @@
 - Bridges section added to Explore panel with 3 entries (Ponte de Amizade, Ponte de Sai Van, Ponte Gov. Nobre de Carvalho) with bilingual names and "live" badges
 - File grew from ~3907 to ~4046 lines (+139 lines)
 
+## Session 31 — 2026-03-21 (Automated Agent)
+- Time-of-day slider: interactive range slider in bottom-right clock area for previewing any hour
+- Users can slide between 0h-24h (15-minute increments) to see day, sunset, night, dawn
+- Overrides `getMacauHour()` so all time-gated features respond: neon glow, fireworks, bridge lights, lighthouse, sky beams, fountain shows
+- Updates CesiumJS `viewer.clock.currentTime` for accurate sun/moon position and scene lighting
+- LIVE button returns to real Macau time with animated clock
+- Clock label shows "Preview" when time override is active vs "Macau Time (UTC+8)" when live
+- Solves the problem of daytime visitors never seeing night-only features (~60% of content)
+- File grew from ~4046 to ~4141 lines (+95 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

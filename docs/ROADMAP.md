@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-21 (Session 29)*
+*This document evolves every session. Last updated: 2026-03-21 (Session 31)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -63,3 +63,4 @@
 - Guia Lighthouse: rotating beam at Guia Hill summit, Heritage section in Explore panel (Session 26)
 - Macau LRT: 3 animated light rail trains on Taipa Line, Transit section in Explore panel (Session 27)
 - Bridge night illumination: 50 LED light points across 3 bridges, Bridges section in Explore panel (Session 29)
+- Time-of-day slider: interactive time preview (0-24h) with CesiumJS sun position override, LIVE button (Session 31)

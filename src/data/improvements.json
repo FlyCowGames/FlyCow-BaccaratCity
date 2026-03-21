@@ -372,6 +372,22 @@
       ],
       "linesAdded": 139,
       "agent": "automated"
+    },
+    {
+      "session": 31,
+      "date": "2026-03-21",
+      "title": "Time-of-Day Slider",
+      "domain": "interactivity",
+      "summary": "Interactive time slider lets users preview any hour of the day, showcasing night-only features like neon glow, fireworks, bridge lights, and lighthouse beam.",
+      "details": [
+        "Range slider (0-24h in 15-min steps) in bottom-right clock area with gold theme",
+        "Overrides getMacauHour() for all time-gated features (neon, fireworks, bridge lights, lighthouse, fountain shows)",
+        "Updates CesiumJS viewer clock for accurate sun/moon position and scene lighting",
+        "LIVE button returns to real Macau time and resumes clock animation",
+        "Clock label switches to 'Preview' mode when time override is active"
+      ],
+      "linesAdded": 95,
+      "agent": "automated"
     }
   ]
 }

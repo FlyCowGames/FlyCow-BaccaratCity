@@ -186,6 +186,14 @@
 - **Observation:** The Explore panel now has 10 sections (Landmarks, On the Water, Casinos, Development, Shows, Racing, Bridges, Heritage, Transit, Live Events). It's getting long — future sessions may want to consider collapsible sections or a search/filter feature.
 - **Observation:** At ~166 entities total (50 bridge lights + 156 prior), still no performance issues with CesiumJS. Entity-based billboard approach continues to scale well.
 
+## Session 31 (2026-03-21) -- Time-of-Day Slider
+- **Lesson:** Overriding `getMacauHour()` with a global `_timeOverride` variable is the cleanest way to make ALL time-gated features respond to a time preview. Since every feature already calls `getMacauHour()`, the single override point cascades everywhere — neon glow, fireworks, bridge lights, lighthouse, fountain shows, sky beams, water shimmer.
+- **Lesson:** CesiumJS `viewer.clock.currentTime = Cesium.JulianDate.fromDate(utcDate)` changes the sun/moon position instantly. Set `shouldAnimate = false` during override to prevent the clock from ticking forward, then restore `shouldAnimate = true` when returning to live mode.
+- **Lesson:** Converting a Macau local hour to UTC for CesiumJS requires subtracting 8 hours (UTC+8 offset). Build a local Date first, then subtract `8 * 3600000` ms to get UTC.
+- **Lesson:** The range slider `input` event fires continuously while dragging — perfect for real-time preview. Using `step="0.25"` gives 15-minute increments (96 positions), which is granular enough for smooth transitions without being overwhelming.
+- **Observation:** This is the first interactivity feature that enhances ALL existing features rather than adding a new one. The time slider makes ~60% of the content (night-only features) accessible to daytime visitors. Meta-features that multiply the value of existing features are high-leverage.
+- **Observation:** The Explore panel observation from Session 29 (10 sections, getting long) is still relevant. Should be addressed in a future session with collapsible sections.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

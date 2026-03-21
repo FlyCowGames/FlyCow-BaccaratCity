@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-21 (Session 29)
+## Last Updated: 2026-03-21 (Session 31)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -30,6 +30,7 @@
 - **Guia Lighthouse**: Rotating lighthouse beam at Guia Hill summit (oldest lighthouse on China coast, 1865), active at night with 8-second sweep
 - **Macau LRT**: 3 animated light rail trains on the Taipa Line route (Ocean → Cotai → Airport → Taipa Ferry), elevated at 15m
 - **Bridge night illumination**: 50 LED-style light points along 3 bridges (Amizade=blue-white, Sai Van=gold, Nobre de Carvalho=white), night-only with gentle pulse
+- **Time-of-day slider**: interactive slider to preview any hour (0-24h), overrides sun position and all time-gated features, with LIVE button to return to real time
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -38,7 +39,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~4046 lines, ~143KB)
+- Single HTML file (~4141 lines, ~148KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -74,6 +75,7 @@
 - **Guia Lighthouse** — rotating beam at Guia Hill summit, active at night with 8-second sweep period
 - **Macau LRT** — 3 light rail trains on the Taipa Line (Ocean to Airport to Taipa Ferry), always active
 - **Bridge night illumination** — 50 LED light points across 3 bridges with distinct colors, night-only with pulse animation
+- **Time-of-day slider** — preview any hour with sun/moon position, neon glow, fireworks, bridge lights all responding
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)
