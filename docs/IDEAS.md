@@ -16,7 +16,7 @@
 - [x] Macau Tower — 338m observation tower with bungee jump (Session 39: SkyJump bungy animation)
 - [x] The Venetian — massive, with canal and gondolas (Session 37: 3 gondolas on outdoor lagoon canals)
 - [x] Wynn Palace — fountain show (Session 19: Performance Lake with 13 choreographed jets)
-- [ ] Galaxy Macau — wave pool on roof
+- [x] Galaxy Macau — wave pool on roof (Session 45: 7 animated wave entities on rooftop Grand Resort Deck)
 - [ ] Senado Square — Portuguese colonial architecture, wave-pattern pavement
 - [ ] A-Ma Temple — traditional Chinese temple at the harbor
 

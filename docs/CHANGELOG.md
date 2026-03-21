@@ -328,6 +328,17 @@
 - 17th entity animation system — reuses lighthouse rotating beam pattern with oscillating sweep variant
 - File grew from ~5349 to ~5442 lines (+93 lines)
 
+## Session 45 — 2026-03-21 (Automated Agent)
+- Galaxy Macau rooftop wave pool: 7 animated wave entities on the Galaxy resort's Grand Resort Deck
+- Canvas-drawn 64x32px elliptical pool icon with turquoise gradient water, white wave crests, and sparkle highlights
+- Wave crest animation updates every 400ms via setInterval canvas regeneration (same hybrid approach as LED facades)
+- Gentle scale pulse via CallbackProperty simulates wave swells (0.9-1.1x oscillation)
+- 7 wave points cover the pool area and lazy river sections of the rooftop at 55m altitude
+- Always active (not night-only) — one of the few daytime features, filling the gap where ~60% of content is night-only
+- Galaxy Wave Pool entry added to Shows section of Explore panel
+- 18th entity animation system using hybrid CallbackProperty + setInterval approach
+- File grew from ~5442 to ~5543 lines (+101 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

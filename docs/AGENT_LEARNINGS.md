@@ -274,6 +274,14 @@
 - **Observation:** The 17th entity animation system. At this point, billboard entity animation using CallbackProperty is the fundamental visual building block of the entire application. The pattern is completely proven across 17 different entity types.
 - **Observation:** At ~213 entities total (6 searchlights + 207 prior), still no performance issues with CesiumJS.
 
+## Session 45 (2026-03-21) -- Galaxy Macau Rooftop Wave Pool
+- **Lesson:** The 18th entity animation system using the hybrid CallbackProperty + setInterval approach (same as LED facades, Session 41). The setInterval canvas regeneration (400ms) provides animated wave crests without per-frame canvas redraw overhead.
+- **Lesson:** Elliptical pool shapes via `ctx.ellipse()` on canvas look more natural for water features than rectangular or circular shapes. The turquoise gradient (0,180,220 → 0,100,180) reads clearly as "pool water" even at small billboard sizes.
+- **Lesson:** Always-active features (not night-gated) are valuable because ~60% of content is night-only. Daytime visitors see the wave pool, seagulls, traffic, ferries, and a few others — but most spectacle features are hidden. Adding more daytime features balances the experience.
+- **Lesson:** The Galaxy Macau rooftop at 55m altitude is consistent with the altitude layering system: water 2-3m, roads 5m, LRT 15m, rooftop features 55m, landmarks 80m, district labels 300m.
+- **Observation:** At ~220 entities total (7 wave pool + 213 prior), still no performance issues with CesiumJS. The entity count continues to scale well.
+- **Observation:** This is the first "landmark detail" feature — adding animated elements to a specific real-world landmark feature (Galaxy's famous wave pool). Future candidates: Grand Lisboa lotus shape, Ruins of St. Paul's facade detail, A-Ma Temple incense coils.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

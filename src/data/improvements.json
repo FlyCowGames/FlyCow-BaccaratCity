@@ -548,6 +548,23 @@
       ],
       "linesAdded": 93,
       "agent": "automated"
+    },
+    {
+      "session": 45,
+      "date": "2026-03-21",
+      "title": "Galaxy Macau Rooftop Wave Pool",
+      "domain": "landmarks",
+      "summary": "7 animated wave pool entities on Galaxy Macau's rooftop, simulating the world's largest rooftop wave pool with turquoise water and animated wave crests.",
+      "details": [
+        "7 wave pool billboard entities across Galaxy Macau's Grand Resort Deck rooftop at 55m altitude",
+        "Canvas-drawn 64x32px elliptical pool icon with turquoise gradient water, animated white wave crests, and sparkle highlights",
+        "Wave animation updates every 400ms with shifting crest positions and sparkle movement",
+        "Gentle scale pulse via CallbackProperty simulates wave swells",
+        "Galaxy Wave Pool entry added to Shows section of Explore panel",
+        "Always active (not night-only) — fills the gap where ~60% of features are night-only"
+      ],
+      "linesAdded": 101,
+      "agent": "automated"
     }
   ]
 }
