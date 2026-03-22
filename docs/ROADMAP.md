@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 49)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 51)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -78,3 +78,4 @@
 - A-Ma Temple incense coils: 6 hanging spiral incense coils with rising smoke wisps at temple courtyards (Session 46)
 - Camera position URL sharing: Share View button copies shareable URL, visiting shared URLs skips flythrough (Session 48)
 - Minimap navigation: canvas-drawn minimap with Macau coastline, landmarks, camera position/heading, click-to-fly (Session 49)
+- Explore panel search: real-time search/filter for all 30+ attractions by name (English/Chinese) with auto-expand (Session 51)

@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-22 (Session 49)
+## Last Updated: 2026-03-22 (Session 51)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -52,7 +52,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~6090 lines, ~215KB)
+- Single HTML file (~6249 lines, ~221KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -104,6 +104,7 @@
 
 - **Camera position URL sharing** — Share View button copies URL with camera position; shared URLs skip flythrough
 - **Minimap navigation** — Canvas-drawn minimap in bottom-left showing Macau coastline outlines, landmark dots, camera position with heading/FOV indicator; click anywhere to fly there
+- **Explore panel search** — Search input at top of Explore panel filters all 30+ attractions in real-time by name (English or Chinese), auto-expands matched sections, clear button to reset
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

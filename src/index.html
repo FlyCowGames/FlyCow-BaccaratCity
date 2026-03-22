@@ -412,6 +412,27 @@
     color: #d4af37; letter-spacing: 0.15em;
     border-bottom: 1px solid rgba(212,175,55,0.12);
   }
+  #panel-search-wrap {
+    padding: 10px 16px 8px; position: relative;
+  }
+  #panel-search {
+    width: 100%; padding: 7px 30px 7px 10px;
+    background: rgba(212,175,55,0.06); border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 4px; color: #e8e0d0; font-family: 'DM Mono', monospace;
+    font-size: 0.75rem; letter-spacing: 0.05em; outline: none;
+    transition: border-color 0.2s;
+  }
+  #panel-search::placeholder { color: rgba(212,175,55,0.3); }
+  #panel-search:focus { border-color: rgba(212,175,55,0.5); }
+  #panel-search-clear {
+    position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: rgba(212,175,55,0.4);
+    cursor: pointer; font-size: 0.85rem; padding: 4px; display: none;
+    font-family: 'DM Mono', monospace;
+  }
+  #panel-search-clear:hover { color: #d4af37; }
+  .panel-section.search-hidden { display: none; }
+  .attraction-item.search-hidden { display: none; }
   .panel-section {
     border-bottom: 1px solid rgba(212,175,55,0.08);
   }
@@ -691,6 +712,122 @@
     color: rgba(212,175,55,0.35); letter-spacing: 0.1em; text-transform: uppercase;
   }
 
+  /* ── Mobile Responsive ── */
+  @media (max-width: 600px) {
+    /* Title block — tighter padding */
+    #title-block { padding-top: 16px; padding-bottom: 28px; }
+    #title { letter-spacing: 0.2em; }
+    #tagline { letter-spacing: 0.2em; font-size: clamp(0.7rem, 3vw, 1rem); }
+    #subtitle { display: none; } /* Too long for mobile — hide subtitle */
+    #title-line { margin-top: 10px; }
+
+    /* Weather — smaller, tighter */
+    #weather-block { top: 16px; right: 16px; }
+    #weather-icon { font-size: 1.2rem; }
+    #weather-temp { font-size: 0.95rem; }
+    #weather-desc { font-size: 0.6rem; }
+    #weather-details { font-size: 0.55rem; }
+
+    /* Clock — smaller, repositioned */
+    #clock-block { bottom: 16px; right: 16px; }
+    #clock { font-size: 1.1rem; }
+    #clock-label { font-size: 0.6rem; }
+    #time-slider { width: 80px; }
+    #time-live-btn { font-size: 0.5rem; padding: 2px 5px; }
+
+    /* Bottom buttons — stack vertically or wrap */
+    #replay-btn, #tour-btn, #share-btn {
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      padding: 8px 16px;
+    }
+    #replay-btn {
+      transform: translateX(calc(-50% - 52px));
+    }
+    #tour-btn {
+      transform: translateX(calc(-50% + 52px));
+    }
+    #share-btn {
+      bottom: 62px;
+      transform: translateX(-50%);
+    }
+
+    /* Tour label */
+    #tour-label { font-size: 0.7rem; bottom: 100px; }
+    #tour-label .tour-chinese { font-size: 0.55rem; }
+
+    /* Hints — hide on mobile (not useful for touch) */
+    #hints { display: none; }
+
+    /* Minimap — smaller */
+    #minimap-container {
+      bottom: 60px; left: 12px;
+      width: 100px; height: 110px;
+    }
+    #minimap-canvas { width: 92px; height: 100px; }
+    #minimap-label { font-size: 0.45rem; }
+
+    /* Audio toggle — repositioned */
+    #audio-toggle {
+      bottom: 60px; left: auto; right: 16px;
+      font-size: 0.6rem; padding: 5px 10px;
+    }
+
+    /* Glow indicator */
+    #glow-indicator { font-size: 0.5rem; top: 16px; left: 12px; }
+
+    /* Attractions panel — full width on mobile */
+    #attractions-panel { width: 260px; right: -260px; }
+    #attractions-panel.open { right: 0; }
+    #attractions-toggle { width: 28px; height: 60px; font-size: 0.6rem; }
+    #attractions-toggle.open { right: 260px; }
+    .panel-header { font-size: 0.8em; padding: 14px 12px 10px; }
+    #panel-search-wrap { padding: 8px 12px 6px; }
+    #panel-search { font-size: 0.7rem; padding: 6px 28px 6px 8px; }
+    .panel-section-title { font-size: 0.6rem; padding: 8px 12px; }
+    .attraction-item { padding: 6px 12px; font-size: 0.75em; }
+    .attraction-icon { font-size: 1em; width: 18px; }
+
+    /* Landmark info card */
+    .lm-card { width: min(340px, 92vw); }
+    .lm-card-header { padding: 16px 16px 10px; gap: 10px; }
+    .lm-card-emoji { font-size: 1.6rem; }
+    .lm-card-name { font-size: 0.95rem; }
+    .lm-card-chinese { font-size: 0.75rem; }
+    .lm-card-meta { padding: 0 16px 10px; font-size: 0.55rem; }
+    .lm-card-body { padding: 10px 16px 6px; font-size: 0.7rem; }
+    .lm-card-facts { padding: 6px 16px 16px; }
+    .lm-card-facts li { font-size: 0.62rem; }
+    .lm-card-enter-casino { margin: 4px 16px 16px; font-size: 0.7rem; padding: 10px 0; }
+    .lm-card-divider { margin: 0 16px; }
+
+    /* Baccarat table — smaller */
+    .bacc-table { width: min(360px, 94vw); padding: 16px 14px 14px; border-radius: 120px 120px 10px 10px; }
+    .bacc-table::before { border-radius: 116px 116px 6px 6px; }
+    .bacc-casino-name { font-size: 0.9rem; margin-bottom: 14px; }
+    .bacc-hands { gap: 10px; }
+    .bacc-hand-label { font-size: 0.6rem; }
+    .bacc-card { width: 36px; height: 52px; }
+    .bacc-card-rank { font-size: 0.75rem; }
+    .bacc-card-suit { font-size: 0.6rem; }
+    .bacc-score { font-size: 1.2rem; }
+    .bacc-result { font-size: 0.75rem; }
+    .bacc-deal-btn { font-size: 0.7rem; padding: 10px 0; }
+    .bacc-stats { font-size: 0.5rem; gap: 12px; }
+    .bacc-close { font-size: 1.2rem; top: 10px; right: 14px; }
+    .bacc-title { font-size: 0.6rem; }
+
+    /* Stage label — flythrough */
+    #stage-label { font-size: clamp(0.7rem, 3vw, 0.9rem); letter-spacing: 0.2em; }
+
+    /* Loading screen */
+    #loading-title { font-size: 1.8rem; letter-spacing: 0.25em; }
+    #loading-bar-bg { width: 160px; }
+    #loading-text { font-size: 0.6rem; }
+
+    /* Share toast */
+    #share-toast { font-size: 0.65rem; bottom: 110px; }
+  }
+
   /* Vignette */
   #vignette {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -838,6 +975,10 @@
   <div id="attractions-toggle">EXPLORE</div>
   <div id="attractions-panel">
     <div class="panel-header">EXPLORE MACAU</div>
+    <div id="panel-search-wrap">
+      <input type="text" id="panel-search" placeholder="Search landmarks..." autocomplete="off" />
+      <button id="panel-search-clear">&times;</button>
+    </div>
     <div id="live-events-section" class="panel-section" style="display:none;">
       <div class="panel-section-title">Live &amp; Upcoming</div>
       <div class="panel-section-content"><div id="live-events-list"></div></div>
@@ -3080,6 +3221,37 @@ document.querySelectorAll('.panel-section-title').forEach(function(title) {
     this.parentElement.classList.toggle('collapsed');
   });
 });
+
+// Explore panel search
+(function() {
+  var searchInput = document.getElementById('panel-search');
+  var clearBtn = document.getElementById('panel-search-clear');
+  function doSearch() {
+    var q = searchInput.value.trim().toLowerCase();
+    clearBtn.style.display = q ? 'block' : 'none';
+    var panel = document.getElementById('attractions-panel');
+    var sections = panel.querySelectorAll('.panel-section');
+    sections.forEach(function(sec) {
+      if (sec.id === 'live-events-section') return;
+      var items = sec.querySelectorAll('.attraction-item');
+      var anyVisible = false;
+      items.forEach(function(item) {
+        var text = item.textContent.toLowerCase();
+        var hidden = q && text.indexOf(q) === -1;
+        item.classList.toggle('search-hidden', hidden);
+        if (!hidden) anyVisible = true;
+      });
+      sec.classList.toggle('search-hidden', q && !anyVisible);
+      if (q && anyVisible) sec.classList.remove('collapsed');
+    });
+  }
+  searchInput.addEventListener('input', doSearch);
+  clearBtn.addEventListener('click', function() {
+    searchInput.value = '';
+    doSearch();
+    searchInput.focus();
+  });
+})();
 
 // Refresh live events every hour
 setInterval(updateLiveEvents, 60 * 60 * 1000);

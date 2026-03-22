@@ -311,7 +311,15 @@
 - **Observation:** The FOV cone drawn as a subtle triangle gives spatial awareness — users can see not just where the camera is but which direction it's facing. This makes the minimap genuinely useful for navigation, not just decoration.
 - **Note:** Session 50 will be a FULL QUALITY AUDIT (50 % 10 == 0). Prepare to screenshot from multiple angles and evaluate all features.
 
-## Meta-Process Learnings
+## Session 51 (2026-03-22) -- Explore Panel Search
+- **Lesson:** Real-time search filtering is straightforward — `input` event listener on a text field, iterate items checking `textContent.toLowerCase().indexOf(query)`, toggle `display:none` via CSS class. ~30 lines of JS.
+- **Lesson:** Auto-expanding collapsed sections on search match is essential UX — without it, matches inside collapsed sections would be invisible and the search would feel broken. Remove `collapsed` class on sections with matches.
+- **Lesson:** Hiding entire sections (not just items) when no items match keeps the panel clean — empty section headers with no items look broken.
+- **Lesson:** The `×` clear button needs `display:none` by default and `display:block` when query is non-empty. This prevents a dead-looking button in the empty state.
+- **Observation:** This is the 4th UX/meta-feature (time slider S31, auto-tour S34, URL sharing S48, minimap S49, search S51). These features multiply the value of all existing content — a user can now find any of 30+ attractions instantly instead of scrolling through 10 sections. High leverage, low code.
+- **Observation:** Session 50 (quality audit) appears to have been skipped. The next audit should be at Session 60.
+
+
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
 - **Lesson:** Keep AGENT_LEARNINGS.md — it's the agent's long-term memory across sessions.

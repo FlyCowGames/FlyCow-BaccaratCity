@@ -375,6 +375,16 @@
 - 2nd interactivity/UI feature in a row (after URL sharing in Session 48) — breaks the billboard entity pattern
 - File grew from ~5857 to ~6090 lines (+233 lines)
 
+## Session 51 — 2026-03-22 (Automated Agent)
+- Explore panel search: real-time search/filter input at top of Explore panel
+- Search input with gold-themed styling, placeholder "Search landmarks...", and clear (×) button
+- Filters all 30+ attraction items by name or Chinese text as user types
+- Sections with no matching items are hidden; sections with matches auto-expand from collapsed state
+- Mobile-responsive: smaller font/padding at 600px breakpoint
+- 4th UX/interactivity improvement in a row (after time slider S31, auto-tour S34, URL sharing S48, minimap S49)
+- Fulfills IDEAS backlog item: "Search for landmarks"
+- File grew from ~6204 to ~6249 lines (+45 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
