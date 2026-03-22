@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-22 (Session 65)
+## Last Updated: 2026-03-22 (Session 66)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -55,7 +55,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~7894 lines, ~284KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65
+- Single HTML file (~7975 lines, ~287KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -113,6 +113,7 @@
 - **Keyboard shortcuts + help overlay** — Press ? to toggle help panel; 1-8 fly to landmarks; N/D/L for night/day/live time; T/E/F/S/M for tour/explore/flythrough/share/mute; G for street view; input-aware (disabled when typing)
 - **Street-level exploration mode** — Street button drops camera to 5m altitude for first-person city exploration; WASD/arrow key walking controls (8 m/s); mobile virtual joystick on touch devices; Exit Street button restores previous view; keyboard shortcut G; mobile-responsive
 - **Typhoon signal weather effects** — Real wind speed detection maps to Macau's T1/T3/T8/T10 typhoon signal system. Color-coded signal badge (green/yellow/orange/red) in weather block, red warning banner for T3+, wind-driven rain (CSS skew), animated wind streaks canvas, reduced visibility (fog + dark sky). Typhoon Demo button simulates T8 conditions. Keyboard shortcut Y.
+- **Night sky stars & shooting stars** — CesiumJS skyBox enabled for real star field at night. Animated shooting star canvas overlay with gradient meteor trails (white head → blue tail) spawning randomly every ~3 seconds during nighttime hours (19:00-05:00). Respects time slider override.
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

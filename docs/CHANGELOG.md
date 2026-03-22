@@ -518,6 +518,18 @@
 - Fulfills roadmap item: "Typhoon signal weather effects"
 - File grew from ~7620 to ~7894 lines (+274 lines)
 
+## Session 66 — 2026-03-22 (Automated Agent)
+- Night sky stars: enabled CesiumJS skyBox for real star field at night
+- Shooting star canvas animation: occasional animated meteors streak across the night sky (19:00-05:00)
+- Meteor trails use linear gradient (white head → blue tail) with bright glow dot at head
+- Shooting stars spawn randomly (~every 3 seconds) with varied angles (0.5-1.1 rad), speeds (4-12px/frame), and trail lengths (40-140px)
+- Fade-in/fade-out lifecycle: quick fade-in over first 20% of life, gradual fade-out over remaining 80%
+- Canvas overlay at z-index 45 (behind wind streaks z48 and rain z50, in front of 3D scene)
+- Respects time slider override — shooting stars appear when previewing nighttime hours
+- No new billboard entities — uses proven canvas overlay pattern (like fireworks S13, wind streaks S65)
+- Atmospheric improvement addressing "daytime/nighttime experience" feedback from S60 audit
+- File grew from ~7894 to ~7975 lines (+81 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
