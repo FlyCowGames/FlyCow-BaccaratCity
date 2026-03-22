@@ -247,6 +247,38 @@
     background: rgba(212,175,55,0.95);
   }
 
+  /* Share view button */
+  #share-btn {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(calc(-50% + 195px));
+    pointer-events: auto; cursor: pointer;
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: #d4af37; background: rgba(10,10,18,0.7);
+    border: 1px solid rgba(212,175,55,0.3);
+    padding: 10px 20px; border-radius: 2px;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    opacity: 0; visibility: hidden;
+  }
+  #share-btn:hover {
+    background: rgba(212,175,55,0.15);
+    border-color: #d4af37;
+    box-shadow: 0 0 20px rgba(212,175,55,0.2);
+  }
+  #share-btn.visible { opacity: 1; visibility: visible; }
+
+  /* Share toast notification */
+  #share-toast {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+    font-family: 'DM Mono', monospace; font-size: 0.75rem;
+    color: #0a0a12; background: rgba(212,175,55,0.9);
+    padding: 8px 24px; border-radius: 2px;
+    pointer-events: none; z-index: 200;
+    opacity: 0; transition: opacity 0.3s ease;
+    letter-spacing: 0.1em;
+  }
+  #share-toast.show { opacity: 1; }
+
   /* Tour location label */
   #tour-label {
     position: absolute; bottom: 72px; left: 50%; transform: translateX(-50%);
@@ -713,12 +745,14 @@
 
   <div id="hints">
     scroll to zoom &middot; drag to orbit &middot; slide time to preview day/night<br>
-    click landmark for info &middot; enter casino to play baccarat &middot; tour to explore
+    click landmark for info &middot; enter casino to play baccarat &middot; tour to explore &middot; share your view
   </div>
 
   <button id="replay-btn">&#9654; Replay Flythrough</button>
   <button id="tour-btn">&#9654; Tour</button>
+  <button id="share-btn">&#128279; Share View</button>
   <div id="tour-label"></div>
+  <div id="share-toast">Link copied to clipboard</div>
 
   <div id="landmark-card">
     <div id="landmark-card-backdrop"></div>
@@ -1198,8 +1232,33 @@ async function init() {
     updateLighthouse(); // apply immediately
     updateFountainShow(); // apply immediately
 
-    // Start flythrough
-    runFlythrough(viewer);
+    // Check for shared camera position in URL hash
+    var sharedPos = getSharedCameraPosition();
+    if (sharedPos) {
+      // Skip flythrough, go directly to shared view
+      flythroughRunning = false;
+      viewer.scene.screenSpaceCameraController.enableInputs = true;
+      viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(sharedPos.lon, sharedPos.lat, sharedPos.alt),
+        orientation: {
+          heading: Cesium.Math.toRadians(sharedPos.heading),
+          pitch: Cesium.Math.toRadians(sharedPos.pitch),
+          roll: 0.0,
+        },
+        duration: 2.0,
+        complete: function() {
+          document.getElementById('replay-btn').classList.add('visible');
+          document.getElementById('tour-btn').classList.add('visible');
+          document.getElementById('share-btn').classList.add('visible');
+        },
+      });
+    } else {
+      // Normal flythrough
+      runFlythrough(viewer);
+    }
+
+    // Init camera sharing (URL hash tracking)
+    initCameraSharing();
 
     // Init tour interaction stop handler
     initTourInteractionStop();
@@ -1514,6 +1573,7 @@ async function runFlythrough(viewer) {
 
   document.getElementById('replay-btn').classList.remove('visible');
   document.getElementById('tour-btn').classList.remove('visible');
+  document.getElementById('share-btn').classList.remove('visible');
   viewer.scene.screenSpaceCameraController.enableInputs = false;
 
   // Stage 1: Bird's eye — slow pan across all Macau
@@ -1596,6 +1656,7 @@ async function runFlythrough(viewer) {
   flythroughRunning = false;
   document.getElementById('replay-btn').classList.add('visible');
   document.getElementById('tour-btn').classList.add('visible');
+  document.getElementById('share-btn').classList.add('visible');
 
   // Start slow orbit
   startOrbit(viewer);
@@ -1708,6 +1769,7 @@ function startTour() {
   document.getElementById('tour-btn').classList.add('active');
   document.getElementById('tour-btn').innerHTML = '&#9724; Stop Tour';
   document.getElementById('replay-btn').classList.remove('visible');
+  document.getElementById('share-btn').classList.remove('visible');
   tourNext();
 }
 
@@ -1719,6 +1781,7 @@ function stopTour() {
   document.getElementById('tour-label').style.opacity = '0';
   if (!flythroughRunning) {
     document.getElementById('replay-btn').classList.add('visible');
+    document.getElementById('share-btn').classList.add('visible');
   }
 }
 
@@ -5702,6 +5765,86 @@ function initIncenseCoils(viewer) {
       },
     });
   });
+}
+
+// ── Camera Position URL Sharing ──
+var _shareHashUpdateTimeout = null;
+
+function encodeCameraHash() {
+  if (!_viewer) return '';
+  var cam = _viewer.camera;
+  var carto = Cesium.Cartographic.fromCartesian(cam.positionWC);
+  var lon = Cesium.Math.toDegrees(carto.longitude).toFixed(5);
+  var lat = Cesium.Math.toDegrees(carto.latitude).toFixed(5);
+  var alt = Math.round(carto.height);
+  var heading = Math.round(Cesium.Math.toDegrees(cam.heading));
+  var pitch = Math.round(Cesium.Math.toDegrees(cam.pitch));
+  return 'v=' + lon + ',' + lat + ',' + alt + ',' + heading + ',' + pitch;
+}
+
+function decodeCameraHash(hash) {
+  if (!hash || hash.indexOf('v=') !== 0) return null;
+  var parts = hash.substring(2).split(',');
+  if (parts.length < 5) return null;
+  var lon = parseFloat(parts[0]);
+  var lat = parseFloat(parts[1]);
+  var alt = parseInt(parts[2], 10);
+  var heading = parseInt(parts[3], 10);
+  var pitch = parseInt(parts[4], 10);
+  if (isNaN(lon) || isNaN(lat) || isNaN(alt) || isNaN(heading) || isNaN(pitch)) return null;
+  // Basic sanity checks
+  if (lon < 113.4 || lon > 113.7 || lat < 22.0 || lat > 22.3) return null;
+  if (alt < 0 || alt > 50000) return null;
+  return { lon: lon, lat: lat, alt: alt, heading: heading, pitch: pitch };
+}
+
+function updateHashFromCamera() {
+  if (!_viewer || flythroughRunning || _tourRunning) return;
+  if (_shareHashUpdateTimeout) clearTimeout(_shareHashUpdateTimeout);
+  _shareHashUpdateTimeout = setTimeout(function() {
+    var hash = encodeCameraHash();
+    if (hash) {
+      history.replaceState(null, '', '#' + hash);
+    }
+  }, 500);
+}
+
+function initCameraSharing() {
+  if (!_viewer) return;
+
+  // Update URL hash on camera movement (debounced)
+  _viewer.camera.percentageChanged = 0.01;
+  _viewer.camera.changed.addEventListener(updateHashFromCamera);
+  _viewer.camera.moveEnd.addEventListener(updateHashFromCamera);
+
+  // Share button click
+  document.getElementById('share-btn').addEventListener('click', function() {
+    var hash = encodeCameraHash();
+    if (!hash) return;
+    var url = window.location.origin + window.location.pathname + '#' + hash;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function() {
+        showShareToast();
+      }, function() {
+        showShareToast('URL updated in address bar');
+      });
+    } else {
+      showShareToast('URL updated in address bar');
+    }
+  });
+}
+
+function showShareToast(msg) {
+  var toast = document.getElementById('share-toast');
+  if (msg) toast.textContent = msg;
+  else toast.textContent = 'Link copied to clipboard';
+  toast.classList.add('show');
+  setTimeout(function() { toast.classList.remove('show'); }, 2000);
+}
+
+function getSharedCameraPosition() {
+  var hash = window.location.hash.substring(1);
+  return decodeCameraHash(hash);
 }
 
 // ── Initialize ──

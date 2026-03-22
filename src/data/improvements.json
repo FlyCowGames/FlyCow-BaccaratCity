@@ -583,6 +583,24 @@
       ],
       "linesAdded": 171,
       "agent": "automated"
+    },
+    {
+      "session": 48,
+      "date": "2026-03-22",
+      "title": "Camera Position URL Sharing",
+      "domain": "interactivity",
+      "summary": "Share View button copies a URL with camera position, and visiting shared URLs skips flythrough to go directly to the shared view.",
+      "details": [
+        "Share View button added alongside Replay and Tour at bottom center",
+        "URL hash encodes camera lon/lat/alt/heading/pitch (e.g. #v=113.55,22.17,1600,211,-30)",
+        "Camera movement updates URL hash in real-time (debounced 500ms)",
+        "Clicking Share View copies the full URL to clipboard with toast notification",
+        "Visiting a shared URL skips the flythrough and flies directly to the shared camera position",
+        "Sanity checks on URL parameters prevent invalid/out-of-range camera positions",
+        "First UX/interactivity feature since auto-tour (Session 34)"
+      ],
+      "linesAdded": 143,
+      "agent": "automated"
     }
   ]
 }

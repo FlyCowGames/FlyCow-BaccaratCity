@@ -290,6 +290,17 @@
 - **Observation:** This is the 2nd "landmark detail" feature after Galaxy wave pool. Good candidates for future sessions: Grand Lisboa lotus/torch shape, Ruins of St. Paul's facade illumination, Senado Square cobblestone pattern.
 - **Observation:** Always-active (daytime) features continue to be valuable. With this addition, daytime-visible features include: traffic, ferries, planes, pedestrians, cranes, race cars, junk boats, LRT, helicopters, seagulls, dragon boats, gondolas, wave pool, and now incense coils.
 
+## Session 48 (2026-03-22) -- Camera Position URL Sharing
+- **Lesson:** `history.replaceState(null, '', '#' + hash)` is the right way to update URL hash without triggering a page reload or creating navigation history entries. `window.location.hash = ...` would work but adds history entries.
+- **Lesson:** CesiumJS `camera.changed` event fires frequently during interaction. Setting `camera.percentageChanged = 0.01` (1%) reduces spurious events. Combined with 500ms debounce, this prevents hammering `history.replaceState`.
+- **Lesson:** `camera.moveEnd` fires after all camera movement completes (including flyTo animations), while `camera.changed` fires during movement. Using both ensures the hash is always up-to-date.
+- **Lesson:** URL hash format `v=lon,lat,alt,heading,pitch` is compact and human-readable. Rounding lon/lat to 5 decimal places (~1m precision) and heading/pitch to integers is sufficient for view sharing.
+- **Lesson:** Sanity checks on decoded URL parameters (lon 113.4-113.7, lat 22.0-22.3 for Macau) prevent users from being teleported to invalid locations via malformed URLs.
+- **Lesson:** `navigator.clipboard.writeText()` requires HTTPS and returns a Promise — always provide a fallback message for contexts where clipboard access fails (e.g., HTTP, iframe restrictions).
+- **Observation:** After 19 sessions of billboard entity features (Sessions 15-46), switching to a UX/interactivity improvement was a good change of pace. The project benefits from variety in improvement types — not just "more animated dots on the map."
+- **Observation:** This is a "meta-feature" like the time slider (Session 31) and auto-tour (Session 34) — it multiplies the value of all existing features by making them shareable and directly linkable.
+- **Suggestion for future sessions:** Consider more UX improvements: minimap for navigation, search for landmarks, keyboard shortcuts (1-8 for landmarks, N for night, D for day). These foundational features multiply the value of existing content.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

@@ -46,7 +46,7 @@
 - [x] Time slider to preview any time of day (Session 31: interactive slider with CesiumJS sun override)
 - [ ] Minimap for navigation
 - [ ] Search for landmarks
-- [ ] Share camera position via URL
+- [x] Share camera position via URL (Session 48: Share View button + URL hash encoding)
 
 ## Technical
 - [ ] Level-of-detail system (LOD) — more detail when zoomed in

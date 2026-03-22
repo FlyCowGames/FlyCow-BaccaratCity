@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 46)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 48)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -76,3 +76,4 @@
 - Casino rooftop searchlights: 6 sweeping searchlight beams from casino rooftops at night with distinct colors (Session 44)
 - Galaxy Macau wave pool: 7 animated wave entities on Galaxy's Grand Resort Deck rooftop with turquoise water and wave crests (Session 45)
 - A-Ma Temple incense coils: 6 hanging spiral incense coils with rising smoke wisps at temple courtyards (Session 46)
+- Camera position URL sharing: Share View button copies shareable URL, visiting shared URLs skips flythrough (Session 48)

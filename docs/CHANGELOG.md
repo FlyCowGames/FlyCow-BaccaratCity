@@ -351,6 +351,18 @@
 - Always active (not night-gated) — cultural/atmospheric feature visible during daytime
 - File grew from ~5543 to ~5714 lines (+171 lines)
 
+## Session 48 — 2026-03-22 (Automated Agent)
+- Camera position URL sharing: Share View button copies a URL that encodes current camera position
+- URL hash format: `#v=lon,lat,alt,heading,pitch` (e.g. `#v=113.55000,22.16500,1600,211,-30`)
+- Debounced URL hash updates on camera movement (500ms debounce, 1% position change threshold)
+- Clicking Share View copies full URL to clipboard with gold toast notification ("Link copied to clipboard")
+- Visiting a shared URL skips the cinematic flythrough and flies directly to the encoded position (2s flight)
+- Sanity checks: validates lon/lat within Macau bounds, altitude 0-50000m, rejects malformed hashes
+- Share button visibility managed alongside Replay/Tour (hidden during flythrough/tour, shown after)
+- Hint text updated: "share your view"
+- First UX/interactivity improvement since Session 34 (auto-tour) — breaks streak of billboard entity features
+- File grew from ~5714 to ~5857 lines (+143 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

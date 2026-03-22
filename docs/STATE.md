@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-22 (Session 46)
+## Last Updated: 2026-03-22 (Session 48)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -43,6 +43,7 @@
 - **Casino rooftop searchlights**: 6 sweeping searchlight beams from major casino rooftops at night (Grand Lisboa, Venetian, Galaxy, Wynn, MGM Cotai, Studio City) with distinct colored beams oscillating back and forth
 - **Galaxy Macau wave pool**: 7 animated wave entities on Galaxy's Grand Resort Deck rooftop (55m altitude) with turquoise water, animated wave crests, and sparkle highlights — always active (daytime feature)
 - **A-Ma Temple incense coils**: 6 hanging spiral incense coils at A-Ma Temple courtyards with rising smoke wisps — canvas-drawn spiral coils with red prayer tags, ascending smoke animation, always active (cultural/daytime feature)
+- **Camera position URL sharing**: Share View button copies a URL encoding camera lon/lat/alt/heading/pitch; visiting shared URLs skips flythrough and flies directly to the shared view; URL hash updates in real-time as users orbit
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -51,7 +52,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~5714 lines, ~202KB)
+- Single HTML file (~5857 lines, ~207KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -100,6 +101,8 @@
 - **Casino rooftop searchlights** — 6 sweeping searchlight beams from casino rooftops at night with distinct colors per casino
 - **Galaxy Macau wave pool** — 7 animated wave entities on Galaxy's Grand Resort Deck rooftop with turquoise water and animated crests
 - **A-Ma Temple incense coils** — 6 hanging spiral incense coils with rising smoke wisps at A-Ma Temple courtyards (always active)
+
+- **Camera position URL sharing** — Share View button copies URL with camera position; shared URLs skip flythrough
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)
