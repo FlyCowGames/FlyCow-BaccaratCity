@@ -862,6 +862,91 @@
     font-size: 0.7rem; color: rgba(212,175,55,0.4);
     letter-spacing: 0.15em; margin-top: 16px;
   }
+
+  /* Keyboard shortcuts help overlay */
+  #help-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 8000; display: none;
+    align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  #help-overlay.visible { display: flex; pointer-events: auto; }
+  #help-backdrop {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10,10,18,0.85);
+  }
+  #help-card {
+    position: relative; z-index: 1;
+    background: linear-gradient(135deg, rgba(20,20,30,0.97), rgba(10,10,18,0.98));
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 12px;
+    padding: 28px 32px 24px;
+    max-width: 420px; width: 90vw;
+    max-height: 80vh; overflow-y: auto;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.08);
+  }
+  #help-card::-webkit-scrollbar { width: 4px; }
+  #help-card::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.3); border-radius: 2px; }
+  .help-title {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 1.1rem; color: #d4af37;
+    letter-spacing: 0.2em; text-align: center;
+    margin-bottom: 6px;
+  }
+  .help-subtitle {
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.6rem; color: rgba(212,175,55,0.4);
+    text-align: center; letter-spacing: 0.15em;
+    margin-bottom: 20px;
+  }
+  .help-section {
+    font-family: 'DM Mono', monospace; font-weight: 400;
+    font-size: 0.6rem; color: rgba(212,175,55,0.5);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin: 16px 0 8px; padding-bottom: 4px;
+    border-bottom: 1px solid rgba(212,175,55,0.1);
+  }
+  .help-section:first-of-type { margin-top: 0; }
+  .help-row {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 5px 0;
+  }
+  .help-key {
+    font-family: 'DM Mono', monospace; font-weight: 400;
+    font-size: 0.75rem;
+    background: rgba(212,175,55,0.12);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 4px;
+    padding: 2px 8px;
+    color: #d4af37;
+    min-width: 28px; text-align: center;
+    display: inline-block;
+  }
+  .help-desc {
+    font-family: 'Noto Sans SC', sans-serif; font-weight: 300;
+    font-size: 0.75rem; color: rgba(255,255,255,0.6);
+    flex: 1; text-align: right; margin-left: 12px;
+  }
+  .help-close {
+    position: absolute; top: 12px; right: 16px;
+    background: none; border: none; color: rgba(212,175,55,0.5);
+    font-size: 1.2rem; cursor: pointer; padding: 4px;
+    pointer-events: auto;
+  }
+  .help-close:hover { color: #d4af37; }
+  .help-hint {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; color: rgba(255,255,255,0.2);
+    text-align: center; margin-top: 16px;
+    letter-spacing: 0.1em;
+  }
+  @media (max-width: 600px) {
+    #help-card { padding: 20px 18px 18px; }
+    .help-title { font-size: 0.9rem; }
+    .help-key { font-size: 0.65rem; padding: 2px 6px; }
+    .help-desc { font-size: 0.65rem; }
+    .help-section { font-size: 0.5rem; }
+  }
 </style>
 </head>
 <body>
@@ -915,7 +1000,7 @@
 
   <div id="hints">
     scroll to zoom &middot; drag to orbit &middot; slide time to preview day/night<br>
-    click landmark for info &middot; enter casino to play baccarat &middot; tour to explore &middot; share your view
+    click landmark for info &middot; enter casino to play baccarat &middot; press ? for keyboard shortcuts
   </div>
 
   <button id="replay-btn">&#9654; Replay Flythrough</button>
@@ -923,6 +1008,38 @@
   <button id="share-btn">&#128279; Share View</button>
   <div id="tour-label"></div>
   <div id="share-toast">Link copied to clipboard</div>
+
+  <!-- Keyboard shortcuts help overlay -->
+  <div id="help-overlay">
+    <div id="help-backdrop"></div>
+    <div id="help-card">
+      <button class="help-close">&times;</button>
+      <div class="help-title">KEYBOARD SHORTCUTS</div>
+      <div class="help-subtitle">press ? anytime to toggle this panel</div>
+      <div class="help-section">Navigation</div>
+      <div class="help-row"><span class="help-key">1</span><span class="help-desc">Grand Lisboa</span></div>
+      <div class="help-row"><span class="help-key">2</span><span class="help-desc">The Venetian</span></div>
+      <div class="help-row"><span class="help-key">3</span><span class="help-desc">Macau Tower</span></div>
+      <div class="help-row"><span class="help-key">4</span><span class="help-desc">Ruins of St. Paul's</span></div>
+      <div class="help-row"><span class="help-key">5</span><span class="help-desc">Galaxy Macau</span></div>
+      <div class="help-row"><span class="help-key">6</span><span class="help-desc">Wynn Palace</span></div>
+      <div class="help-row"><span class="help-key">7</span><span class="help-desc">A-Ma Temple</span></div>
+      <div class="help-row"><span class="help-key">8</span><span class="help-desc">City of Dreams</span></div>
+      <div class="help-section">Time Control</div>
+      <div class="help-row"><span class="help-key">N</span><span class="help-desc">Preview night (22:00)</span></div>
+      <div class="help-row"><span class="help-key">D</span><span class="help-desc">Preview day (12:00)</span></div>
+      <div class="help-row"><span class="help-key">L</span><span class="help-desc">Return to live time</span></div>
+      <div class="help-section">Features</div>
+      <div class="help-row"><span class="help-key">T</span><span class="help-desc">Toggle auto-tour</span></div>
+      <div class="help-row"><span class="help-key">E</span><span class="help-desc">Toggle explore panel</span></div>
+      <div class="help-row"><span class="help-key">F</span><span class="help-desc">Replay flythrough</span></div>
+      <div class="help-row"><span class="help-key">S</span><span class="help-desc">Share current view</span></div>
+      <div class="help-row"><span class="help-key">M</span><span class="help-desc">Toggle sound</span></div>
+      <div class="help-row"><span class="help-key">?</span><span class="help-desc">Show/hide this help</span></div>
+      <div class="help-row"><span class="help-key">Esc</span><span class="help-desc">Close any overlay</span></div>
+      <div class="help-hint">mouse: drag to orbit &middot; scroll to zoom &middot; click landmarks for info</div>
+    </div>
+  </div>
 
   <div id="landmark-card">
     <div id="landmark-card-backdrop"></div>
@@ -3255,6 +3372,126 @@ document.querySelectorAll('.panel-section-title').forEach(function(title) {
 
 // Refresh live events every hour
 setInterval(updateLiveEvents, 60 * 60 * 1000);
+
+// ── Keyboard Shortcuts + Help Overlay ──
+(function() {
+  var helpOverlay = document.getElementById('help-overlay');
+  var helpBackdrop = document.getElementById('help-backdrop');
+
+  function showHelp() { helpOverlay.classList.add('visible'); }
+  function hideHelp() { helpOverlay.classList.remove('visible'); }
+  function toggleHelp() { helpOverlay.classList.toggle('visible'); }
+  function isHelpVisible() { return helpOverlay.classList.contains('visible'); }
+
+  helpBackdrop.addEventListener('click', hideHelp);
+  document.querySelector('.help-close').addEventListener('click', hideHelp);
+
+  function setTimePreview(hour) {
+    var slider = document.getElementById('time-slider');
+    var liveBtn = document.getElementById('time-live-btn');
+    slider.value = hour;
+    slider.dispatchEvent(new Event('input'));
+  }
+
+  function goLive() {
+    var liveBtn = document.getElementById('time-live-btn');
+    if (!liveBtn.classList.contains('active')) {
+      liveBtn.click();
+    }
+  }
+
+  function flyToLandmark(index) {
+    if (!_viewer || index < 0 || index >= LANDMARKS.length) return;
+    if (flythroughRunning) return;
+    if (_tourRunning) stopTour();
+    var lm = LANDMARKS[index];
+    stopOrbit(_viewer);
+    _viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(lm.lon, lm.lat, 400),
+      orientation: {
+        heading: Cesium.Math.toRadians(30 + Math.random() * 60),
+        pitch: Cesium.Math.toRadians(-25),
+        roll: 0.0,
+      },
+      duration: 2,
+      easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
+      complete: function() {
+        setTimeout(function() { showLandmarkCard(lm); }, 500);
+      }
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    // Don't handle shortcuts when typing in inputs
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+    // Don't handle shortcuts when baccarat overlay is visible
+    var baccOverlay = document.getElementById('baccarat-overlay');
+    if (baccOverlay && baccOverlay.classList.contains('visible')) {
+      if (e.key === 'Escape') closeBaccarat();
+      return;
+    }
+
+    var key = e.key;
+
+    // Help overlay
+    if (key === '?' || key === '/') {
+      e.preventDefault();
+      toggleHelp();
+      return;
+    }
+
+    // Close help if visible
+    if (isHelpVisible()) {
+      if (key === 'Escape') { hideHelp(); return; }
+      return; // Don't process other keys while help is open
+    }
+
+    // Landmark fly-to (1-8)
+    if (key >= '1' && key <= '8') {
+      e.preventDefault();
+      flyToLandmark(parseInt(key) - 1);
+      return;
+    }
+
+    switch (key.toLowerCase()) {
+      case 'n': // Night preview
+        e.preventDefault();
+        setTimePreview(22);
+        break;
+      case 'd': // Day preview
+        e.preventDefault();
+        setTimePreview(12);
+        break;
+      case 'l': // Live time
+        e.preventDefault();
+        goLive();
+        break;
+      case 't': // Toggle tour
+        e.preventDefault();
+        if (_tourRunning) { stopTour(); } else { startTour(); }
+        break;
+      case 'e': // Toggle explore panel
+        e.preventDefault();
+        document.getElementById('attractions-toggle').click();
+        break;
+      case 'f': // Replay flythrough
+        e.preventDefault();
+        if (_viewer && !flythroughRunning) { runFlythrough(_viewer); }
+        break;
+      case 's': // Share view
+        e.preventDefault();
+        document.getElementById('share-btn').click();
+        break;
+      case 'm': // Toggle audio
+        e.preventDefault();
+        document.getElementById('audio-toggle').click();
+        break;
+      case 'escape':
+        hideLandmarkCard();
+        break;
+    }
+  });
+})();
 
 // ── Ambient Audio System (Web Audio API) ──
 var _audioCtx = null;

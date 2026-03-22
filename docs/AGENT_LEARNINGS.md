@@ -320,6 +320,14 @@
 - **Observation:** Session 50 (quality audit) appears to have been skipped. The next audit should be at Session 60.
 
 
+## Session 53 (2026-03-22) -- Keyboard Shortcuts + Help Overlay
+- **Lesson:** When a feature's state is encapsulated in an IIFE (like the time slider's local `isLive` variable), trigger the UI from outside by dispatching native events on the DOM elements (`slider.dispatchEvent(new Event('input'))`) or calling `element.click()` rather than trying to access internal state. This decouples keyboard shortcuts from feature internals.
+- **Lesson:** Keyboard shortcuts must check `e.target.tagName === 'INPUT'` to avoid firing when the user is typing in search fields or other text inputs. Also check for overlay states (baccarat, help) to avoid conflicting interactions.
+- **Lesson:** A styled help overlay following the site's dark/gold theme (using the same `Cinzel`, `DM Mono`, `Noto Sans SC` font stack and gold colors) integrates naturally. Using `<span class="help-key">` styled as keyboard key caps makes shortcuts scannable.
+- **Lesson:** Keyboard shortcuts are a "meta-meta-feature" — they make all existing features instantly accessible via single keystrokes, multiplying the value of the time slider, tour, explore panel, landmarks, share view, and audio toggle simultaneously.
+- **Observation:** This is the 5th UX/meta-feature (time slider S31, auto-tour S34, URL sharing S48, minimap S49, search S51, shortcuts S53). The project now has a solid interactivity layer on top of the visual content. Future sessions should shift back to visual/atmospheric improvements.
+- **Observation:** Session 50 quality audit was skipped (noted in Session 51 learnings). The next audit should happen at Session 60. Sessions 40 and 50 were both skipped — audits keep getting deferred.
+
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
 - **Lesson:** Keep AGENT_LEARNINGS.md — it's the agent's long-term memory across sessions.

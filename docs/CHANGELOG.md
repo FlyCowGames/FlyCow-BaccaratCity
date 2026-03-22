@@ -385,6 +385,20 @@
 - Fulfills IDEAS backlog item: "Search for landmarks"
 - File grew from ~6204 to ~6249 lines (+45 lines)
 
+## Session 53 — 2026-03-22 (Automated Agent)
+- Keyboard shortcuts + help overlay: full keyboard navigation system with styled help panel
+- Press `?` to toggle help overlay showing all shortcuts in dark/gold themed card
+- Keys `1-8` fly directly to each of the 8 landmarks with info card popup on arrival
+- `N` = night preview (22:00), `D` = day preview (12:00), `L` = return to live Macau time
+- `T` = toggle auto-tour, `E` = toggle explore panel, `F` = replay flythrough
+- `S` = share current view (copies URL), `M` = toggle sound on/off
+- `Escape` closes help overlay, landmark cards, and baccarat overlay
+- Input-aware: shortcuts disabled when typing in search field or other text inputs
+- Help overlay is mobile-responsive with smaller text at 600px breakpoint
+- Updated hint text to mention keyboard shortcuts (`press ? for keyboard shortcuts`)
+- 5th UX/meta-feature (after time slider S31, auto-tour S34, URL sharing S48, minimap S49, search S51)
+- File grew from ~6249 to ~6414 lines (+165 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

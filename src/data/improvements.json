@@ -637,6 +637,24 @@
       ],
       "linesAdded": 45,
       "agent": "automated"
+    },
+    {
+      "session": 53,
+      "date": "2026-03-22",
+      "title": "Keyboard Shortcuts + Help Overlay",
+      "domain": "interactivity",
+      "summary": "Full keyboard shortcut system with ? help overlay: 1-8 fly to landmarks, N/D/L for time control, T/E/F/S/M for features.",
+      "details": [
+        "Press ? to toggle styled help overlay showing all keyboard shortcuts",
+        "Keys 1-8 fly directly to each landmark with info card popup",
+        "N = night preview (22:00), D = day preview (12:00), L = return to live time",
+        "T = toggle auto-tour, E = toggle explore panel, F = replay flythrough",
+        "S = share current view, M = toggle sound",
+        "Input-aware: shortcuts disabled when typing in search or other inputs",
+        "Dark/gold themed help card matching site design, mobile-responsive"
+      ],
+      "linesAdded": 165,
+      "agent": "automated"
     }
   ]
 }
