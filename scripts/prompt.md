@@ -47,6 +47,15 @@ Pick the single highest-impact improvement:
 - All landmark positions must match their real-world locations. If you're unsure, look up the coordinates. Don't guess — inaccurate placement breaks the "digital twin" promise.
 - When adding new landmarks, verify coordinates against Google Maps before placing them.
 
+**INTERACTION RULES:**
+- **Any hotkey press or menu/attraction click MUST interrupt whatever sequence is running** (flythrough, tour, orbit). The user is in control — if they press a key or click something, that action takes priority immediately. Use `stopFlythrough()` to cancel running sequences.
+- Escape key should stop the flythrough/tour/orbit before closing overlays.
+- Never block user actions because a sequence is running. Never `return` early from a handler just because `flythroughRunning` is true — cancel the flythrough and proceed with the user's action.
+
+**UPCOMING FEATURES (see ROADMAP.md):**
+- **Street-level guided tour** — Not the same as free-roam street mode (G key). This is a curated, cinematic walking tour at 5-10m altitude that visits landmarks sequentially, pausing at each to show photos/video. Think: travel documentary camera.
+- **Landmark photo/video gallery** — Each landmark info card should include real photos (3-5 per landmark) from Wikimedia Commons or similar freely-licensed sources. Swipeable gallery on mobile. Embedded video where available (fountain shows, races, etc).
+
 ### Phase 4: QUALITY CHECK (MANDATORY — do this AFTER every deploy)
 **You MUST verify the site works after every change. Broken deploys are unacceptable.**
 **A deploy that works on desktop but breaks on mobile is a BROKEN DEPLOY.**

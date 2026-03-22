@@ -1437,7 +1437,7 @@
       <div class="help-row"><span class="help-key">Y</span><span class="help-desc">Toggle typhoon demo</span></div>
       <div class="help-row"><span class="help-key">W</span><span class="help-key">A</span><span class="help-key">S</span><span class="help-key">D</span><span class="help-desc">Walk in street mode</span></div>
       <div class="help-row"><span class="help-key">?</span><span class="help-desc">Show/hide this help</span></div>
-      <div class="help-row"><span class="help-key">Esc</span><span class="help-desc">Close any overlay</span></div>
+      <div class="help-row"><span class="help-key">Esc</span><span class="help-desc">Stop sequence / close overlay</span></div>
       <div class="help-hint">mouse: drag to orbit &middot; scroll to zoom &middot; click landmarks for info</div>
     </div>
   </div>
@@ -2121,6 +2121,7 @@ Cesium.Ion.defaultAccessToken = '';
 
 var _viewer = null;
 var flythroughRunning = false;
+var _flythroughAbort = false;
 var orbitHandle = null;
 
 async function init() {
@@ -2560,15 +2561,47 @@ function showStageLabel(text, duration) {
   setTimeout(function() { el.classList.remove('show'); }, duration || 3000);
 }
 
-// ── Sleep helper ──
+// ── Sleep helper (abortable) ──
 function sleep(ms) {
-  return new Promise(function(resolve) { setTimeout(resolve, ms); });
+  return new Promise(function(resolve) {
+    var id = setTimeout(resolve, ms);
+    // Check abort every 100ms for fast interruption
+    var check = setInterval(function() {
+      if (_flythroughAbort) { clearTimeout(id); clearInterval(check); resolve(); }
+    }, 100);
+    setTimeout(function() { clearInterval(check); }, ms + 50);
+  });
+}
+
+// ── Stop any running flythrough/tour/orbit ──
+function stopFlythrough() {
+  if (flythroughRunning && _viewer) {
+    _flythroughAbort = true;
+    _viewer.camera.cancelFlight();
+  }
+  if (_tourRunning) stopTour();
+  if (_viewer) stopOrbit(_viewer);
+  // Hide stage label
+  var stageLabel = document.getElementById('stage-label');
+  if (stageLabel) stageLabel.classList.remove('show');
+}
+
+function _flythroughCleanup(viewer) {
+  flythroughRunning = false;
+  _flythroughAbort = false;
+  viewer.scene.screenSpaceCameraController.enableInputs = true;
+  document.getElementById('replay-btn').classList.add('visible');
+  document.getElementById('tour-btn').classList.add('visible');
+  document.getElementById('share-btn').classList.add('visible');
+  document.getElementById('street-btn').classList.add('visible');
+  showMinimap();
 }
 
 // ── Flythrough ──
 async function runFlythrough(viewer) {
   if (flythroughRunning) return;
   flythroughRunning = true;
+  _flythroughAbort = false;
   stopOrbit(viewer);
 
   document.getElementById('replay-btn').classList.remove('visible');
@@ -2584,86 +2617,95 @@ async function runFlythrough(viewer) {
     lon: 113.5439, lat: 22.1987, alt: 3200,
     heading: 20, pitch: -55, duration: 7
   });
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   await sleep(1500);
 
   // Stage 2: Descend toward Cotai Strip
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   showStageLabel('COTAI STRIP', 5000);
   await flyCamera(viewer, {
     lon: 113.5570, lat: 22.1520, alt: 900,
     heading: -15, pitch: -28, duration: 7
   });
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   await sleep(1200);
 
   // Stage 3a: Glide street-level past Venetian
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   showStageLabel('THE VENETIAN', 4000);
   await flyCamera(viewer, {
     lon: 113.5595, lat: 22.1500, alt: 160,
     heading: 65, pitch: -8, duration: 5
   });
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   await sleep(800);
 
   // Stage 3b: Drift past City of Dreams to Galaxy
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   showStageLabel('CITY OF DREAMS \u00B7 GALAXY', 4500);
   await flyCamera(viewer, {
     lon: 113.5544, lat: 22.1490, alt: 200,
     heading: 130, pitch: -10, duration: 5
   });
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   await sleep(800);
 
   // Stage 3c: Cruise past Wynn Palace
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   showStageLabel('WYNN PALACE', 4000);
   await flyCamera(viewer, {
     lon: 113.5635, lat: 22.1480, alt: 180,
     heading: 210, pitch: -12, duration: 5
   });
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   await sleep(1200);
 
   // Stage 4: Cross the harbor — show ferries
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   showStageLabel('MACAU HARBOUR', 4000);
   await flyCamera(viewer, {
     lon: 113.5460, lat: 22.1780, alt: 350,
     heading: 340, pitch: -18, duration: 6
   });
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   await sleep(1000);
 
   // Stage 5: Rise and orbit Grand Lisboa
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   showStageLabel('GRAND LISBOA', 5000);
   await flyCamera(viewer, {
     lon: 113.5410, lat: 22.1900, alt: 450,
     heading: 0, pitch: -22, duration: 6
   });
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   await flyCamera(viewer, {
     lon: 113.5365, lat: 22.1878, alt: 350,
     heading: 180, pitch: -18, duration: 5
   });
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   await sleep(1200);
 
   // Stage 6: Ruins of St. Paul's — heritage district
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   showStageLabel('RUINS OF ST. PAUL\'S', 4000);
   await flyCamera(viewer, {
     lon: 113.5410, lat: 22.1974, alt: 200,
     heading: 150, pitch: -15, duration: 5
   });
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   await sleep(1000);
 
   // Stage 7: Pull back to cinematic overview
+  if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
   showStageLabel('BACCARAT CITY', 5000);
   await flyCamera(viewer, {
     lon: 113.5500, lat: 22.1700, alt: 1500,
     heading: 30, pitch: -32, duration: 7
   });
 
-  // Done - enable controls, show replay
-  viewer.scene.screenSpaceCameraController.enableInputs = true;
-  flythroughRunning = false;
-  document.getElementById('replay-btn').classList.add('visible');
-  document.getElementById('tour-btn').classList.add('visible');
-  document.getElementById('share-btn').classList.add('visible');
-  document.getElementById('street-btn').classList.add('visible');
-  showMinimap();
-
-  // Start slow orbit
-  startOrbit(viewer);
+  // Done
+  _flythroughCleanup(viewer);
+  if (!_flythroughAbort) startOrbit(viewer);
 }
 
 function flyCamera(viewer, opts) {
@@ -2766,7 +2808,8 @@ function getAllTourStops() {
 var _tourStops = [];
 
 function startTour() {
-  if (!_viewer || flythroughRunning) return;
+  if (!_viewer) return;
+  stopFlythrough(); // interrupt any running sequence
   _tourRunning = true;
   _tourStops = getAllTourStops();
   _tourIndex = -1;
@@ -2851,9 +2894,9 @@ var _streetMode = false;
 var _streetSavedCamera = null;
 
 function enterStreetMode() {
-  if (!_viewer || _streetMode || flythroughRunning || _tourRunning) return;
+  if (!_viewer || _streetMode) return;
+  stopFlythrough(); // interrupt any running sequence
   _streetMode = true;
-  stopOrbit(_viewer);
 
   // Save current camera state
   var cam = _viewer.camera;
@@ -4167,7 +4210,7 @@ var _eventBannerDismissed = false;
 
 function flyToAttraction(item) {
   if (!_viewer) return;
-  stopOrbit(_viewer);
+  stopFlythrough(); // interrupt any running sequence
   _viewer.camera.flyTo({
     destination: Cesium.Cartesian3.fromDegrees(item.lon, item.lat, item.alt || 300),
     orientation: {
@@ -4434,10 +4477,8 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
 
   function flyToLandmark(index) {
     if (!_viewer || index < 0 || index >= LANDMARKS.length) return;
-    if (flythroughRunning) return;
-    if (_tourRunning) stopTour();
+    stopFlythrough(); // interrupt any running sequence
     var lm = LANDMARKS[index];
-    stopOrbit(_viewer);
     _viewer.camera.flyTo({
       destination: Cesium.Cartesian3.fromDegrees(lm.lon, lm.lat, 400),
       orientation: {
@@ -4517,7 +4558,7 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
         break;
       case 'f': // Replay flythrough
         e.preventDefault();
-        if (_viewer && !flythroughRunning) { runFlythrough(_viewer); }
+        if (_viewer) { stopFlythrough(); setTimeout(function() { runFlythrough(_viewer); }, 100); }
         break;
       case 's': // Share view
         e.preventDefault();
@@ -4536,6 +4577,7 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
         document.getElementById('typhoon-sim-btn').click();
         break;
       case 'escape':
+        if (flythroughRunning) { stopFlythrough(); return; }
         if (_streetMode) { exitStreetMode(); return; }
         hideLandmarkCard();
         break;
@@ -7628,6 +7670,7 @@ function initIncenseCoils(viewer) {
 var _minimapCanvas = null;
 var _minimapCtx = null;
 var _minimapVisible = false;
+var _minimapEntityStart = Date.now();
 
 // Macau geographic bounds for minimap projection
 var MINIMAP_BOUNDS = {
@@ -7769,6 +7812,102 @@ function drawMinimap() {
     ctx.closePath();
     ctx.fill();
   }
+
+  // ── Live transport entity tracking ──
+  var elapsed = (Date.now() - _minimapEntityStart) / 1000;
+
+  // Helper: draw a transport dot with glow
+  function drawTransportDot(lon, lat, color, radius) {
+    var xy = minimapProject(lon, lat);
+    // Check bounds
+    if (xy[0] < 0 || xy[0] > w || xy[1] < 0 || xy[1] > h) return;
+    // Glow halo
+    ctx.fillStyle = color.replace(/[\d.]+\)$/, '0.25)');
+    ctx.beginPath();
+    ctx.arc(xy[0], xy[1], radius + 3, 0, Math.PI * 2);
+    ctx.fill();
+    // Core dot
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(xy[0], xy[1], radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Ferries — cyan dots (ping-pong animation)
+  FERRY_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.ferries; i++) {
+      var offset = i / route.ferries;
+      var reverse = i % 2 === 1;
+      var rawT = ((elapsed / route.durationSec) + offset) % 2;
+      var t = rawT <= 1 ? rawT : 2 - rawT;
+      if (reverse) t = 1 - t;
+      var pos = lerpPosition(route.points, t);
+      drawTransportDot(pos.lon, pos.lat, 'rgba(80, 200, 255, 0.9)', 3);
+    }
+  });
+
+  // Junk boats — red-orange dots (ping-pong animation)
+  JUNK_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.junks; i++) {
+      var offset = i / route.junks;
+      var reverse = i % 2 === 1;
+      var rawT = ((elapsed / route.durationSec) + offset) % 2;
+      var t = rawT <= 1 ? rawT : 2 - rawT;
+      if (reverse) t = 1 - t;
+      var pos = lerpPosition(route.points, t);
+      drawTransportDot(pos.lon, pos.lat, 'rgba(220, 80, 60, 0.85)', 3);
+    }
+  });
+
+  // Planes — white dots (one-way loop)
+  FLIGHT_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.planes; i++) {
+      var offset = i / route.planes;
+      var t = ((elapsed / route.durationSec) + offset) % 1;
+      var pos = lerpPositionWithAlt(route.points, t);
+      drawTransportDot(pos.lon, pos.lat, 'rgba(255, 255, 255, 0.9)', 3.5);
+    }
+  });
+
+  // LRT trains — green dots (one-way loop)
+  var lrtRoute = LRT_ROUTE;
+  for (var li = 0; li < lrtRoute.trains; li++) {
+    var lrtOffset = li / lrtRoute.trains;
+    var lrtT = ((elapsed / lrtRoute.durationSec) + lrtOffset) % 1;
+    var lrtPos = lerpPosition(lrtRoute.points, lrtT);
+    drawTransportDot(lrtPos.lon, lrtPos.lat, 'rgba(76, 175, 80, 0.9)', 3);
+  }
+
+  // Helicopters — yellow dots (one-way loop)
+  HELI_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var offset = i / route.count;
+      var t = ((elapsed / route.durationSec) + offset) % 1;
+      var pos = lerpPositionWithAlt(route.points, t);
+      drawTransportDot(pos.lon, pos.lat, 'rgba(255, 220, 80, 0.85)', 3);
+    }
+  });
+
+  // Transport legend at bottom
+  var legendY = h - 12;
+  var legendItems = [
+    { color: 'rgba(80, 200, 255, 0.9)', label: 'Ferry' },
+    { color: 'rgba(220, 80, 60, 0.85)', label: 'Junk' },
+    { color: 'rgba(255, 255, 255, 0.9)', label: 'Air' },
+    { color: 'rgba(76, 175, 80, 0.9)', label: 'LRT' },
+  ];
+  ctx.font = '11px DM Mono, monospace';
+  ctx.textAlign = 'left';
+  var legendX = 8;
+  legendItems.forEach(function(item) {
+    ctx.fillStyle = item.color;
+    ctx.beginPath();
+    ctx.arc(legendX, legendY, 3, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(212,175,55,0.5)';
+    ctx.fillText(item.label, legendX + 6, legendY + 4);
+    legendX += ctx.measureText(item.label).width + 16;
+  });
 }
 
 function initMinimap() {
@@ -8132,7 +8271,7 @@ function addSkyCabs(viewer) {
     { icon: '⏰', text: 'Slide the time control to preview day, sunset, or night' },
     { icon: '🌧️', text: 'Weather is live — rain, fog, and typhoons are real-time' },
     { icon: '🎆', text: 'Watch for fireworks over the harbor after 8pm Macau time' },
-    { icon: '🗺️', text: isTouch ? 'Tap the minimap to fly anywhere' : 'Click the minimap to fly anywhere in Macau' },
+    { icon: '🗺️', text: isTouch ? 'Tap the minimap to fly anywhere — watch live ferries, planes & trains' : 'Click the minimap to fly anywhere — live transport dots show ferries, planes & trains' },
     { icon: '🔗', text: isTouch ? 'Tap Share to copy a link to your current view' : 'Press S to share your exact camera view as a URL' },
     { icon: '⌨️', text: isTouch ? 'Explore panel has 30+ landmarks to visit' : 'Press ? to see all keyboard shortcuts' },
     { icon: '🏃', text: isTouch ? 'Use the joystick in street mode to walk around' : 'Use WASD keys to walk around in street mode' },

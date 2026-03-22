@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 68)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 69)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -19,12 +19,12 @@
 - ~~Ambient audio system~~ — Done (Session 9: Web Audio API, 3-layer procedural soundscape)
 - ~~Bridge traffic animations~~ — Done (Session 7: traffic, Session 29: night illumination)
 
-### Medium-Term (Sessions 30-100)
-- ~~Full event calendar system with live triggers~~ — Done (Session 56: 7 events, banner, enhanced effects)
-- ~~Typhoon signal weather effects~~ — Done (Session 65: T1/T3/T8/T10 signals, wind-driven rain, wind streaks, visibility reduction, demo mode)
-- ~~Street-level exploration mode~~ — Done (Session 62: Street button with camera save/restore)
+### High Priority (Next Sessions)
+- **Street-level guided tour** — A curated walking tour that visits major landmarks at street level (5-10m altitude), pausing at each to show a photo/video gallery. Different from auto-tour (which is aerial). Should feel like walking through Macau. Include: Grand Lisboa, Ruins of St. Paul's, Senado Square, A-Ma Temple, Venetian interior approach, Macau Tower base.
+- **Landmark photo/video gallery** — Expand landmark info cards with real photos and embedded video. Each landmark should have 3-5 curated images showing the real building/site. Use Wikimedia Commons or similar freely-licensed sources. Gallery should be swipeable on mobile. Videos where available (e.g. Wynn fountain show, SkyJump, F3 race footage).
+
+### Medium-Term
 - Real-time flight data (ADS-B) for airport
-- ~~Construction cranes and ongoing development~~ — Done (Session 16)
 - Portuguese colonial district detail (Senado Square cobblestones)
 - Community features
 
@@ -32,7 +32,6 @@
 - Mobile optimization
 - VR/AR support
 - Live data dashboard
-- Possible game mechanics (baccarat play)
 - User accounts and saved views
 
 ## Completed
@@ -90,3 +89,4 @@
 - Night sky stars & shooting stars: CesiumJS skyBox star field + animated shooting star canvas effect (Session 66)
 - Feature tips discovery system: rotating device-aware tip overlay for feature discoverability (Session 67)
 - Golden hour & cinematic color grading: time-of-day CSS color overlay with 8 atmospheric phases (Session 68)
+- Live minimap transport tracking: animated color-coded dots for ferries, junk boats, planes, LRT, helicopters (Session 69)
