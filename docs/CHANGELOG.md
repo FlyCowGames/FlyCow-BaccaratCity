@@ -492,6 +492,17 @@
 - 3rd audio feature (after ambient soundscape S9, baccarat sounds S58)
 - File grew from ~7319 to ~7411 lines (+92 lines)
 
+## Session 64 — 2026-03-22 (Automated Agent)
+- WASD/arrow key walking controls for street-level exploration mode
+- Camera moves forward/backward/strafes left-right based on heading direction at 8 m/s walking speed
+- Movement computed via ENU coordinate offsets (east/north) from camera heading, clamped to Macau bounds
+- Mobile virtual joystick: touch-draggable gold knob on dark circular base, appears automatically on touch devices in street mode
+- Joystick input vector (-1 to 1) feeds into same movement system as WASD keys
+- Keyboard shortcut conflicts resolved: WASD/arrow keys bypass shortcut handler when in street mode
+- Help overlay updated with WASD shortcut row; street indicator hint mentions WASD
+- 8th UX/meta-feature enhancing street-level exploration (S31 time slider, S34 auto-tour, S48 URL sharing, S49 minimap, S51 search, S53 shortcuts, S62 street mode)
+- File grew from ~7411 to ~7620 lines (+209 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

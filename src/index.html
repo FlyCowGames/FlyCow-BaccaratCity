@@ -295,6 +295,37 @@
   }
 
   /* Street level indicator */
+  /* Virtual joystick for mobile street mode */
+  #street-joystick {
+    display: none;
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    z-index: 120;
+    touch-action: none;
+  }
+  #street-joystick .joystick-base {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(10,10,18,0.5);
+    border: 2px solid rgba(212,175,55,0.4);
+    position: relative;
+  }
+  #street-joystick .joystick-knob {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(212,175,55,0.6);
+    border: 2px solid rgba(212,175,55,0.8);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    transition: none;
+  }
+  #street-joystick.visible { display: block; }
+
   #street-indicator {
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
     pointer-events: none; z-index: 150;
@@ -1229,7 +1260,8 @@
   <button id="tour-btn">&#9654; Tour</button>
   <button id="share-btn">&#128279; Share View</button>
   <button id="street-btn">&#128694; Street</button>
-  <div id="street-indicator"><div class="street-text">STREET LEVEL</div><div class="street-hint">drag to look around &middot; scroll to move</div></div>
+  <div id="street-indicator"><div class="street-text">STREET LEVEL</div><div class="street-hint">WASD to walk &middot; drag to look &middot; scroll to move</div></div>
+  <div id="street-joystick"><div class="joystick-base"><div class="joystick-knob"></div></div></div>
   <div id="tour-label"></div>
   <div id="share-toast">Link copied to clipboard</div>
 
@@ -1260,6 +1292,7 @@
       <div class="help-row"><span class="help-key">S</span><span class="help-desc">Share current view</span></div>
       <div class="help-row"><span class="help-key">M</span><span class="help-desc">Toggle sound</span></div>
       <div class="help-row"><span class="help-key">G</span><span class="help-desc">Street-level view</span></div>
+      <div class="help-row"><span class="help-key">W</span><span class="help-key">A</span><span class="help-key">S</span><span class="help-key">D</span><span class="help-desc">Walk in street mode</span></div>
       <div class="help-row"><span class="help-key">?</span><span class="help-desc">Show/hide this help</span></div>
       <div class="help-row"><span class="help-key">Esc</span><span class="help-desc">Close any overlay</span></div>
       <div class="help-hint">mouse: drag to orbit &middot; scroll to zoom &middot; click landmarks for info</div>
@@ -2444,6 +2477,13 @@ function enterStreetMode() {
     },
   });
 
+  // Start WASD walking
+  startWalkTick();
+  // Show mobile joystick on touch devices
+  if ('ontouchstart' in window) {
+    document.getElementById('street-joystick').classList.add('visible');
+  }
+
   // Update button state
   var btn = document.getElementById('street-btn');
   btn.classList.add('active');
@@ -2475,6 +2515,11 @@ function exitStreetMode() {
     _streetSavedCamera = null;
   }
 
+  // Stop WASD walking
+  stopWalkTick();
+  // Hide mobile joystick
+  document.getElementById('street-joystick').classList.remove('visible');
+
   // Restore button state
   var btn = document.getElementById('street-btn');
   btn.classList.remove('active');
@@ -2490,6 +2535,161 @@ function toggleStreetMode() {
 }
 
 document.getElementById('street-btn').addEventListener('click', toggleStreetMode);
+
+// ── WASD Walking Controls for Street Mode ──
+var _walkKeys = { w: false, a: false, s: false, d: false };
+var _walkSpeed = 8; // meters per second
+var _walkTickHandler = null;
+var _joystickVec = { x: 0, y: 0 }; // mobile joystick input (-1 to 1)
+
+document.addEventListener('keydown', function(e) {
+  if (!_streetMode) return;
+  var k = e.key.toLowerCase();
+  if (k === 'w' || k === 'arrowup') { _walkKeys.w = true; e.preventDefault(); }
+  if (k === 'a' || k === 'arrowleft') { _walkKeys.a = true; e.preventDefault(); }
+  if (k === 's' || k === 'arrowdown') { _walkKeys.s = true; e.preventDefault(); }
+  if (k === 'd' || k === 'arrowright') { _walkKeys.d = true; e.preventDefault(); }
+});
+
+document.addEventListener('keyup', function(e) {
+  var k = e.key.toLowerCase();
+  if (k === 'w' || k === 'arrowup') _walkKeys.w = false;
+  if (k === 'a' || k === 'arrowleft') _walkKeys.a = false;
+  if (k === 's' || k === 'arrowdown') _walkKeys.s = false;
+  if (k === 'd' || k === 'arrowright') _walkKeys.d = false;
+});
+
+function startWalkTick() {
+  if (_walkTickHandler || !_viewer) return;
+  var lastTime = Date.now();
+  _walkTickHandler = function() {
+    if (!_streetMode || !_viewer) return;
+    var now = Date.now();
+    var dt = (now - lastTime) / 1000;
+    lastTime = now;
+    if (dt > 0.1) dt = 0.1; // cap delta
+
+    // Compute movement vector from keys and joystick
+    var fwd = 0, right = 0;
+    if (_walkKeys.w) fwd += 1;
+    if (_walkKeys.s) fwd -= 1;
+    if (_walkKeys.d) right += 1;
+    if (_walkKeys.a) right -= 1;
+    // Add joystick input
+    fwd += -_joystickVec.y; // joystick Y is inverted (up = negative in screen coords)
+    right += _joystickVec.x;
+
+    // Clamp magnitude
+    var mag = Math.sqrt(fwd * fwd + right * right);
+    if (mag > 1) { fwd /= mag; right /= mag; }
+
+    if (Math.abs(fwd) > 0.01 || Math.abs(right) > 0.01) {
+      var dist = _walkSpeed * dt;
+      var cam = _viewer.camera;
+      // Get horizontal heading direction (ignore pitch for walking)
+      var heading = cam.heading;
+      var cosH = Math.cos(heading);
+      var sinH = Math.sin(heading);
+
+      // Forward is along heading, right is perpendicular
+      // In CesiumJS: heading 0 = north, increases clockwise
+      // north = (0,1,0) in ENU, east = (1,0,0)
+      var moveEast = (sinH * fwd + cosH * right) * dist;
+      var moveNorth = (cosH * fwd - sinH * right) * dist;
+
+      // Convert to lon/lat offset (approximate: 1 deg lat ≈ 111320m, 1 deg lon ≈ 111320m * cos(lat))
+      var pos = cam.positionCartographic;
+      var lat = pos.latitude; // radians
+      var dLon = moveEast / (6378137 * Math.cos(lat));
+      var dLat = moveNorth / 6378137;
+
+      var newLon = Cesium.Math.toDegrees(pos.longitude) + Cesium.Math.toDegrees(dLon);
+      var newLat = Cesium.Math.toDegrees(pos.latitude) + Cesium.Math.toDegrees(dLat);
+
+      // Clamp to Macau bounds
+      newLon = Math.max(113.52, Math.min(113.60, newLon));
+      newLat = Math.max(22.11, Math.min(22.22, newLat));
+
+      cam.setView({
+        destination: Cesium.Cartesian3.fromDegrees(newLon, newLat, pos.height),
+        orientation: {
+          heading: cam.heading,
+          pitch: cam.pitch,
+          roll: cam.roll,
+        },
+      });
+    }
+  };
+  _viewer.clock.onTick.addEventListener(_walkTickHandler);
+}
+
+function stopWalkTick() {
+  if (_walkTickHandler && _viewer) {
+    _viewer.clock.onTick.removeEventListener(_walkTickHandler);
+  }
+  _walkTickHandler = null;
+  _walkKeys = { w: false, a: false, s: false, d: false };
+  _joystickVec = { x: 0, y: 0 };
+}
+
+// ── Mobile Virtual Joystick ──
+(function() {
+  var joystickEl = document.getElementById('street-joystick');
+  var knob = joystickEl.querySelector('.joystick-knob');
+  var baseRect = null;
+  var activeTouchId = null;
+  var maxDist = 38; // max knob displacement in px
+
+  joystickEl.addEventListener('touchstart', function(e) {
+    if (activeTouchId !== null) return;
+    var touch = e.changedTouches[0];
+    activeTouchId = touch.identifier;
+    baseRect = joystickEl.querySelector('.joystick-base').getBoundingClientRect();
+    updateKnob(touch.clientX, touch.clientY);
+    e.preventDefault();
+  }, { passive: false });
+
+  joystickEl.addEventListener('touchmove', function(e) {
+    for (var i = 0; i < e.changedTouches.length; i++) {
+      if (e.changedTouches[i].identifier === activeTouchId) {
+        updateKnob(e.changedTouches[i].clientX, e.changedTouches[i].clientY);
+        break;
+      }
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  function endTouch() {
+    activeTouchId = null;
+    knob.style.transform = 'translate(-50%, -50%)';
+    _joystickVec.x = 0;
+    _joystickVec.y = 0;
+  }
+
+  joystickEl.addEventListener('touchend', function(e) {
+    for (var i = 0; i < e.changedTouches.length; i++) {
+      if (e.changedTouches[i].identifier === activeTouchId) { endTouch(); break; }
+    }
+  });
+  joystickEl.addEventListener('touchcancel', endTouch);
+
+  function updateKnob(cx, cy) {
+    if (!baseRect) return;
+    var centerX = baseRect.left + baseRect.width / 2;
+    var centerY = baseRect.top + baseRect.height / 2;
+    var dx = cx - centerX;
+    var dy = cy - centerY;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist > maxDist) {
+      dx = dx / dist * maxDist;
+      dy = dy / dist * maxDist;
+      dist = maxDist;
+    }
+    knob.style.transform = 'translate(calc(-50% + ' + dx + 'px), calc(-50% + ' + dy + 'px))';
+    _joystickVec.x = dx / maxDist;
+    _joystickVec.y = dy / maxDist;
+  }
+})();
 
 // ── Ferry Boats ──
 var FERRY_ROUTES = [
@@ -3851,6 +4051,15 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
     }
 
     var key = e.key;
+
+    // In street mode, WASD and arrow keys are for walking — don't process as shortcuts
+    if (_streetMode) {
+      var wk = key.toLowerCase();
+      if (wk === 'w' || wk === 'a' || wk === 's' || wk === 'd' ||
+          wk === 'arrowup' || wk === 'arrowleft' || wk === 'arrowdown' || wk === 'arrowright') {
+        return; // handled by walk keydown listener
+      }
+    }
 
     // Help overlay
     if (key === '?' || key === '/') {

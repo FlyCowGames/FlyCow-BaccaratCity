@@ -788,6 +788,24 @@
       ],
       "linesAdded": 92,
       "agent": "automated"
+    },
+    {
+      "session": 64,
+      "date": "2026-03-22",
+      "title": "WASD Walking & Mobile Joystick",
+      "domain": "interactivity",
+      "summary": "WASD/arrow key walking controls for street-level mode plus mobile virtual joystick for touch-based movement.",
+      "details": [
+        "WASD and arrow keys move camera forward/backward/strafe in street mode",
+        "Movement uses camera heading for direction-aware walking at 8 m/s",
+        "Mobile virtual joystick appears on touch devices in street mode",
+        "Touch-draggable gold knob on dark base with smooth vector input",
+        "Keyboard shortcuts (S for share, D for day) bypassed in street mode to avoid conflicts",
+        "Help overlay updated with WASD walking shortcut",
+        "Street indicator hint updated to mention WASD controls"
+      ],
+      "linesAdded": 209,
+      "agent": "automated"
     }
   ]
 }

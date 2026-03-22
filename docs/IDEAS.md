@@ -52,6 +52,6 @@
 - [ ] Level-of-detail system (LOD) — more detail when zoomed in
 - [ ] Texture maps on key buildings for realism
 - [ ] Shadow quality improvements
-- [ ] Mobile touch controls
+- [x] Mobile touch controls (Session 64: virtual joystick for street-mode walking)
 - [ ] Loading screen with progress bar
 - [ ] FPS counter / performance monitoring
