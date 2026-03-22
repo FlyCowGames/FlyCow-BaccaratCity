@@ -1533,7 +1533,7 @@ const MACAU_LON = 113.5439;
 // Landmarks (with info card data)
 const LANDMARKS = [
   { name: "Grand Lisboa", chinese: "\u65B0\u8461\u4EAC", emoji: "\uD83C\uDFB0",
-    lat: 22.1893, lon: 113.5390, type: "Casino & Hotel", year: "2008",
+    lat: 22.1893, lon: 113.5399, type: "Casino & Hotel", year: "2008",
     desc: "The Grand Lisboa is Macau's most iconic building \u2014 a 258-metre lotus-shaped tower that dominates the peninsula skyline. Designed by Dennis Lau & Ng Chun Man Architects, it houses the world's largest casino floor and holds the famous Star of Stanley Ho, a 218.08-carat diamond.",
     facts: ["258m tall \u2014 tallest building in Macau", "Shaped like a blooming lotus flower", "Houses the 218-carat Star of Stanley Ho diamond", "Over 800 gaming tables across multiple floors"] },
   { name: "The Venetian", chinese: "\u5A01\u5C3C\u65AF\u4EBA", emoji: "\uD83C\uDFB0",
@@ -2015,12 +2015,12 @@ async function init() {
   viewer.scene.globe.enableLighting = true;
   viewer.scene.light = new Cesium.SunLight({ intensity: 2.0 });
 
-  // Initial camera position while loading
+  // Initial camera position — Grand Lisboa is the hero landmark, must be in view
   viewer.camera.setView({
-    destination: Cesium.Cartesian3.fromDegrees(MACAU_LON, MACAU_LAT, 3500),
+    destination: Cesium.Cartesian3.fromDegrees(113.5380, 22.1860, 1200),
     orientation: {
-      heading: Cesium.Math.toRadians(20),
-      pitch: Cesium.Math.toRadians(-60),
+      heading: Cesium.Math.toRadians(10),
+      pitch: Cesium.Math.toRadians(-35),
       roll: 0.0,
     },
   });
@@ -3806,7 +3806,7 @@ var NEON_ZONES = [
   { name: 'Cotai East',         lon: 113.5610, lat: 22.1505, color: [255, 210, 90],  intensity: 0.6 },
   { name: 'Cotai West',         lon: 113.5555, lat: 22.1500, color: [220, 180, 100], intensity: 0.5 },
   // Peninsula
-  { name: 'Grand Lisboa Glow',  lon: 113.5390, lat: 22.1893, color: [255, 215, 0],   intensity: 1.0 },
+  { name: 'Grand Lisboa Glow',  lon: 113.5399, lat: 22.1893, color: [255, 215, 0],   intensity: 1.0 },
   { name: 'Lisboa Area',        lon: 113.5400, lat: 22.1905, color: [255, 190, 70],  intensity: 0.7 },
   { name: 'Wynn Macau Glow',    lon: 113.5410, lat: 22.1930, color: [255, 200, 100], intensity: 0.7 },
   // Waterfront
@@ -3948,7 +3948,7 @@ var ATTRACTIONS = {
     { name: "Dragon Boat Racing", chinese: "龍舟競渡", icon: "🐉", lat: 22.1852, lon: 113.5365, alt: 250, pitch: -20 },
   ],
   casinos: [
-    { name: "Grand Lisboa", chinese: "新葡京", icon: "🎰", lat: 22.1893, lon: 113.5390, alt: 300, pitch: -25 },
+    { name: "Grand Lisboa", chinese: "新葡京", icon: "🎰", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
     { name: "The Venetian", chinese: "威尼斯人", icon: "🎰", lat: 22.1494, lon: 113.5590, alt: 350, pitch: -25 },
     { name: "Galaxy Macau", chinese: "銀河", icon: "🎰", lat: 22.1487, lon: 113.5544, alt: 350, pitch: -25 },
     { name: "Wynn Palace", chinese: "永利皇宮", icon: "🎰", lat: 22.1478, lon: 113.5630, alt: 300, pitch: -25 },
@@ -5587,7 +5587,7 @@ setInterval(updateFountainShow, 5000);
 // ── Casino Sky Beams System ──
 // Vertical light beams shooting up from major casinos at night — signature Macau skyline feature
 var SKY_BEAM_CASINOS = [
-  { name: 'Grand Lisboa Beam', lon: 113.5390, lat: 22.1893, color: [255, 215, 0],   height: 400, swaySpeed: 0.07, swayAmp: 0.0002 },
+  { name: 'Grand Lisboa Beam', lon: 113.5399, lat: 22.1893, color: [255, 215, 0],   height: 400, swaySpeed: 0.07, swayAmp: 0.0002 },
   { name: 'Venetian Beam',    lon: 113.5590, lat: 22.1494, color: [255, 220, 100], height: 350, swaySpeed: 0.05, swayAmp: 0.00015 },
   { name: 'Galaxy Beam',      lon: 113.5544, lat: 22.1487, color: [255, 200, 80],  height: 320, swaySpeed: 0.06, swayAmp: 0.00018 },
   { name: 'Wynn Palace Beam', lon: 113.5630, lat: 22.1478, color: [255, 180, 60],  height: 300, swaySpeed: 0.08, swayAmp: 0.00016 },

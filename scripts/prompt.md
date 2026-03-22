@@ -41,6 +41,12 @@ Pick the single highest-impact improvement:
 - Keep changes focused — one improvement per session
 - Spawn subagents for parallel work if it helps
 
+**LANDMARK ACCURACY:**
+- **Grand Lisboa is the hero landmark.** It MUST be visible and prominent in the initial camera view when the site loads. The opening shot should frame the Grand Lisboa tower — it's the most iconic building in Macau and the first thing visitors should see.
+- Grand Lisboa real coordinates: **22.1893°N, 113.5399°E**. All markers, glow effects, beams, and labels for Grand Lisboa must use these coordinates.
+- All landmark positions must match their real-world locations. If you're unsure, look up the coordinates. Don't guess — inaccurate placement breaks the "digital twin" promise.
+- When adding new landmarks, verify coordinates against Google Maps before placing them.
+
 ### Phase 4: QUALITY CHECK (MANDATORY — do this AFTER every deploy)
 **You MUST verify the site works after every change. Broken deploys are unacceptable.**
 **A deploy that works on desktop but breaks on mobile is a BROKEN DEPLOY.**
