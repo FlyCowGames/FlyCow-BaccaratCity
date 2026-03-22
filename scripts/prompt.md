@@ -43,13 +43,36 @@ Pick the single highest-impact improvement:
 
 ### Phase 4: QUALITY CHECK (MANDATORY — do this AFTER every deploy)
 **You MUST verify the site works after every change. Broken deploys are unacceptable.**
-1. Use agent-browser to open https://baccaratcity.com and wait 10 seconds for 3D to load
-2. Run `agent-browser errors` — if ANY JavaScript errors appear, you MUST fix them before continuing
-3. Screenshot desktop (1280x800) — check: 3D scene renders, UI visible, no visual glitches, no black screen
-4. `agent-browser set viewport 390 844` — screenshot mobile — check: scene loads, UI readable, controls work
-5. If ANYTHING is broken (errors, black screen, missing UI, broken on mobile), fix it and re-deploy. Do NOT proceed to Phase 7 with a broken site.
-6. Check for: oversaturation, color balance, UI readability, visual quality
-7. Check code: syntax errors, pattern consistency
+**A deploy that works on desktop but breaks on mobile is a BROKEN DEPLOY.**
+
+#### 4a: JavaScript errors (blocking)
+1. `agent-browser open https://baccaratcity.com` — wait 10 seconds for 3D to load
+2. `agent-browser errors` — if ANY JavaScript errors appear, STOP. Fix them and re-deploy before continuing.
+
+#### 4b: Desktop check
+3. `agent-browser set viewport 1280 800`
+4. `agent-browser screenshot` — verify: 3D scene renders, UI visible, no visual glitches, no black screen
+5. Check: oversaturation, color balance, UI readability, visual quality
+
+#### 4c: Mobile check (BLOCKING — cannot skip, cannot defer)
+6. `agent-browser set viewport 390 844`
+7. `agent-browser screenshot` — this screenshot is your PASS/FAIL gate
+8. Run through this checklist — ALL must pass or you go back to Phase 3:
+
+**Mobile checklist (every item is mandatory):**
+- [ ] Scene loads and renders (no black screen, no WebGL errors)
+- [ ] All text is readable without zooming (minimum ~14px effective size)
+- [ ] No horizontal scroll — nothing overflows the 390px viewport
+- [ ] UI controls (buttons, panels, menus) are tap-friendly (minimum 44x44px touch targets)
+- [ ] No UI elements are cut off or hidden behind other elements
+- [ ] Panels/overlays don't cover the entire scene — user can still see the 3D city
+- [ ] Font sizes are not desktop-sized crammed into mobile — they must be intentionally sized for small screens
+- [ ] Any new UI you added this session is visible AND usable at 390px
+
+**If ANY item fails:** Fix it. Re-deploy. Re-run Phase 4 from the top. Do NOT proceed.
+
+#### 4d: Code review
+9. Check code: syntax errors, pattern consistency, no console.log left in
 
 ### Phase 5: REVISE
 Fix issues from quality check. Re-deploy and re-check if needed. **The site must be working before you finish.**
@@ -102,6 +125,21 @@ Reflect and improve the system itself:
 - Fix broken things before adding new features.
 - **Every 10 sessions: full quality audit. Fix the worst feature instead of building new ones.**
 - **Features that look crappy should be improved, not left to rot. Quality > quantity.**
-- **MOBILE-FIRST: The site MUST work on phones (390px width). Test with `agent-browser set viewport 390 844`. No tiny text, no broken layouts, no controls that don't work on touch. If it doesn't work on mobile, it's not done — even if it means double the work.**
 - You MUST deploy to S3 and git commit+push before finishing.
 - You have full autonomy to spawn subagents, use tools, and self-organize.
+
+### MOBILE-FIRST (non-negotiable)
+- The site MUST work on phones (390px width). This is not optional. This is not "nice to have."
+- **Every feature you build must work at 390px.** If you add a panel, overlay, HUD element, or any UI — build the mobile version IN THE SAME SESSION. Do not leave it for a future session.
+- **Test with `agent-browser set viewport 390 844` EVERY session.** The mobile screenshot in Phase 4c is a blocking gate — you cannot ship without it passing.
+- Common mobile failures to watch for:
+  - Text too small (below ~14px)
+  - Panels wider than viewport causing horizontal scroll
+  - Touch targets too small (buttons/controls must be at least 44x44px)
+  - Desktop font sizes crammed into mobile without adjustment
+  - Overlays/panels covering the entire screen so the 3D scene is invisible
+  - Position: absolute elements that overlap or get cut off at narrow widths
+- **If it doesn't work on mobile, it is not done.** Even if it means double the work. Even if the desktop version looks amazing. A desktop-only feature is a broken feature.
+- Use CSS media queries: `@media (max-width: 768px)` for tablet, `@media (max-width: 480px)` for phone
+- Prefer `rem`/`em`/`vw` units over fixed `px` for responsive sizing
+- Test touch interactions — hover effects don't work on mobile, provide tap alternatives
