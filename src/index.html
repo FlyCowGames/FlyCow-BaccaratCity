@@ -249,6 +249,14 @@
   #typhoon-sim-btn:hover { color: #d4af37; background: rgba(212,175,55,0.15); border-color: rgba(212,175,55,0.4); }
   #typhoon-sim-btn.active { color: #ff6644; background: rgba(255,80,40,0.15); border-color: rgba(255,80,40,0.4); }
 
+  /* Color grading overlay */
+  #color-grading {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 42;
+    opacity: 0; transition: opacity 4s ease;
+  }
+  #color-grading.active { opacity: 1; }
+
   /* Shooting star canvas */
   #shootingstar-canvas {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -1330,6 +1338,7 @@
 </div>
 
 <div id="cesiumContainer"></div>
+<div id="color-grading"></div>
 <div id="rain-overlay"></div>
 <canvas id="shootingstar-canvas"></canvas>
 <canvas id="wind-canvas"></canvas>
@@ -8017,6 +8026,101 @@ function addSkyCabs(viewer) {
     })(route);
   });
 }
+
+// ── Golden Hour & Cinematic Color Grading ──
+(function() {
+  var el = document.getElementById('color-grading');
+  if (!el) return;
+
+  // Color grading presets for each phase of day
+  // Returns {color, opacity} based on current hour
+  function getGrading(hour) {
+    // Night: 20-4 — subtle deep blue tint
+    if (hour >= 21 || hour < 4) {
+      return { color: 'rgba(15, 20, 50, 0.12)', opacity: 1 };
+    }
+    // Dawn: 4-5:30 — transition from blue to pink
+    if (hour >= 4 && hour < 5.5) {
+      var t = (hour - 4) / 1.5;
+      var r = Math.round(15 + t * 185); // 15 → 200
+      var g = Math.round(20 + t * 50);  // 20 → 70
+      var b = Math.round(50 + t * 30);  // 50 → 80
+      var a = 0.12 + t * 0.06;          // 0.12 → 0.18
+      return { color: 'rgba(' + r + ',' + g + ',' + b + ',' + a.toFixed(3) + ')', opacity: 1 };
+    }
+    // Sunrise: 5:30-7 — warm pink/amber glow
+    if (hour >= 5.5 && hour < 7) {
+      var t = (hour - 5.5) / 1.5;
+      var r = Math.round(200 + t * 55);  // 200 → 255
+      var g = Math.round(70 + t * 100);  // 70 → 170
+      var b = Math.round(80 - t * 30);   // 80 → 50
+      var a = 0.18 - t * 0.08;           // 0.18 → 0.10
+      return { color: 'rgba(' + r + ',' + g + ',' + b + ',' + a.toFixed(3) + ')', opacity: 1 };
+    }
+    // Morning: 7-9 — fade to clear
+    if (hour >= 7 && hour < 9) {
+      var t = (hour - 7) / 2;
+      var a = 0.10 * (1 - t);            // 0.10 → 0
+      if (a < 0.01) return { color: 'transparent', opacity: 0 };
+      return { color: 'rgba(255, 170, 50, ' + a.toFixed(3) + ')', opacity: 1 };
+    }
+    // Midday: 9-15 — clear (no grading)
+    if (hour >= 9 && hour < 15) {
+      return { color: 'transparent', opacity: 0 };
+    }
+    // Afternoon: 15-17 — subtle warm up
+    if (hour >= 15 && hour < 17) {
+      var t = (hour - 15) / 2;
+      var a = t * 0.08;                   // 0 → 0.08
+      if (a < 0.01) return { color: 'transparent', opacity: 0 };
+      return { color: 'rgba(255, 180, 60, ' + a.toFixed(3) + ')', opacity: 1 };
+    }
+    // Golden hour: 17-18:30 — rich warm golden
+    if (hour >= 17 && hour < 18.5) {
+      var t = (hour - 17) / 1.5;
+      var r = 255;
+      var g = Math.round(180 - t * 60);  // 180 → 120
+      var b = Math.round(60 - t * 30);   // 60 → 30
+      var a = 0.08 + t * 0.14;           // 0.08 → 0.22
+      return { color: 'rgba(' + r + ',' + g + ',' + b + ',' + a.toFixed(3) + ')', opacity: 1 };
+    }
+    // Dusk: 18:30-20 — transition golden to purple-blue
+    if (hour >= 18.5 && hour < 20) {
+      var t = (hour - 18.5) / 1.5;
+      var r = Math.round(255 - t * 150);  // 255 → 105
+      var g = Math.round(120 - t * 70);   // 120 → 50
+      var b = Math.round(30 + t * 90);    // 30 → 120
+      var a = 0.22 - t * 0.06;            // 0.22 → 0.16
+      return { color: 'rgba(' + r + ',' + g + ',' + b + ',' + a.toFixed(3) + ')', opacity: 1 };
+    }
+    // Late dusk: 20-21 — settle into night blue
+    if (hour >= 20 && hour < 21) {
+      var t = hour - 20;
+      var r = Math.round(105 - t * 90);   // 105 → 15
+      var g = Math.round(50 - t * 30);    // 50 → 20
+      var b = Math.round(120 - t * 70);   // 120 → 50
+      var a = 0.16 - t * 0.04;            // 0.16 → 0.12
+      return { color: 'rgba(' + r + ',' + g + ',' + b + ',' + a.toFixed(3) + ')', opacity: 1 };
+    }
+    return { color: 'transparent', opacity: 0 };
+  }
+
+  function updateColorGrading() {
+    var hour = getMacauHour();
+    var grade = getGrading(hour);
+    if (grade.opacity < 0.01) {
+      el.classList.remove('active');
+    } else {
+      el.style.background = grade.color;
+      el.classList.add('active');
+    }
+  }
+
+  // Update every 5 seconds (smooth enough for gradual transitions)
+  setInterval(updateColorGrading, 5000);
+  // Initial update after short delay
+  setTimeout(updateColorGrading, 2000);
+})();
 
 // ── Feature Tips (rotating discovery system) ──
 (function() {

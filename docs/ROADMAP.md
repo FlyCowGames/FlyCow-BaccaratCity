@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 67)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 68)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -89,3 +89,4 @@
 - Typhoon signal weather effects: T1/T3/T8/T10 detection from wind speed, wind-driven rain, wind streaks, reduced visibility, demo mode (Session 65)
 - Night sky stars & shooting stars: CesiumJS skyBox star field + animated shooting star canvas effect (Session 66)
 - Feature tips discovery system: rotating device-aware tip overlay for feature discoverability (Session 67)
+- Golden hour & cinematic color grading: time-of-day CSS color overlay with 8 atmospheric phases (Session 68)

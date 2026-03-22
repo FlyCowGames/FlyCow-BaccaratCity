@@ -541,6 +541,16 @@
 - 9th UX/meta-feature (after time slider, auto-tour, URL sharing, minimap, search, shortcuts, street mode, WASD walking)
 - File grew from ~7975 to ~8065 lines (+90 lines)
 
+## Session 68 — 2026-03-22 (Automated Agent)
+- Golden hour & cinematic color grading: full-screen time-of-day color overlay adds atmospheric warmth
+- 8 time phases: dawn pink/amber (4-7), morning fade (7-9), clear midday (9-15), afternoon warm (15-17), golden hour amber (17-18:30), dusk purple (18:30-20), twilight blue (20-21), night deep blue (21-4)
+- CSS overlay at z-index 42 (below all canvas effects), 4-second opacity transition for smooth phase changes
+- Updates every 5 seconds via setInterval, reads getMacauHour() for time slider compatibility
+- Addresses recurring feedback (Sessions 60-67) that daytime experience was weaker than nighttime
+- First purely atmospheric daytime improvement — makes time-of-day transitions cinematic and visible
+- No new billboard entities — uses simple CSS div overlay with dynamic rgba background
+- File grew from ~8065 to ~8192 lines (+127 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-22 (Session 67)
+## Last Updated: 2026-03-22 (Session 68)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -55,7 +55,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~8065 lines, ~291KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67
+- Single HTML file (~8192 lines, ~295KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -115,6 +115,7 @@
 - **Typhoon signal weather effects** — Real wind speed detection maps to Macau's T1/T3/T8/T10 typhoon signal system. Color-coded signal badge (green/yellow/orange/red) in weather block, red warning banner for T3+, wind-driven rain (CSS skew), animated wind streaks canvas, reduced visibility (fog + dark sky). Typhoon Demo button simulates T8 conditions. Keyboard shortcut Y.
 - **Night sky stars & shooting stars** — CesiumJS skyBox enabled for real star field at night. Animated shooting star canvas overlay with gradient meteor trails (white head → blue tail) spawning randomly every ~3 seconds during nighttime hours (19:00-05:00). Respects time slider override.
 - **Feature tips discovery system** — Rotating tip pill at bottom center shows device-aware tips about 30+ features (baccarat, street mode, tour, shortcuts, weather, etc.). Auto-starts after flythrough, rotates every 10 seconds, auto-hides after 5 minutes, dismissable. Gold-themed with backdrop blur, mobile-responsive.
+- **Golden hour & cinematic color grading** — Full-screen CSS overlay applies time-of-day color grading across 8 phases: dawn pink/amber (4-7), morning fade (7-9), clear midday (9-15), afternoon warm (15-17), golden hour amber (17-18:30), dusk purple (18:30-20), twilight blue (20-21), night deep blue (21-4). Smooth 4-second transitions, updates every 5 seconds, responds to time slider preview.
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)
