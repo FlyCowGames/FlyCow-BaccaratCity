@@ -301,6 +301,16 @@
 - **Observation:** This is a "meta-feature" like the time slider (Session 31) and auto-tour (Session 34) — it multiplies the value of all existing features by making them shareable and directly linkable.
 - **Suggestion for future sessions:** Consider more UX improvements: minimap for navigation, search for landmarks, keyboard shortcuts (1-8 for landmarks, N for night, D for day). These foundational features multiply the value of existing content.
 
+## Session 49 (2026-03-22) -- Minimap Navigation
+- **Lesson:** Canvas 2D is the right approach for a minimap overlay — lightweight, no additional dependencies, draws directly in the existing overlay system. The same canvas technique used for fireworks (Session 13) works for a different purpose here.
+- **Lesson:** Simplified coastline polygons (20-ish points per landmass) are sufficient for a recognizable minimap at 160x180px. Real OSM coastline data would be overkill — hand-traced outlines are good enough at this scale.
+- **Lesson:** `camera.positionCartographic` provides lon/lat/alt in radians — always convert with `Cesium.Math.toDegrees()`. The camera heading property is in radians too, used directly for the direction indicator line via `Math.sin(heading)` / `Math.cos(heading)`.
+- **Lesson:** Click-to-fly from minimap uses reverse projection (canvas coordinates → lon/lat) which is the inverse of the drawing projection. Must account for canvas padding in both directions.
+- **Lesson:** `setInterval(drawMinimap, 500)` is efficient enough for real-time camera tracking without per-frame overhead. The minimap doesn't need 60fps — 2 updates per second is smooth enough for an overview indicator.
+- **Observation:** This is the 3rd "meta-feature" (after time slider Session 31, auto-tour Session 34, URL sharing Session 48) that enhances the entire experience rather than adding a single new visual element. Two UX sessions in a row (48, 49) is a healthy shift from the 19-session billboard entity streak.
+- **Observation:** The FOV cone drawn as a subtle triangle gives spatial awareness — users can see not just where the camera is but which direction it's facing. This makes the minimap genuinely useful for navigation, not just decoration.
+- **Note:** Session 50 will be a FULL QUALITY AUDIT (50 % 10 == 0). Prepare to screenshot from multiple angles and evaluate all features.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

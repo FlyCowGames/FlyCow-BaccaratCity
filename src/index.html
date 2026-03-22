@@ -322,6 +322,34 @@
   }
   #glow-indicator.visible { opacity: 1; }
 
+  /* Minimap */
+  #minimap-container {
+    position: absolute; bottom: 130px; left: 32px;
+    width: 160px; height: 180px;
+    background: rgba(10,10,18,0.8);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 4px;
+    backdrop-filter: blur(6px);
+    pointer-events: auto; cursor: crosshair;
+    z-index: 101;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    overflow: hidden;
+  }
+  #minimap-container.visible { opacity: 1; visibility: visible; }
+  #minimap-container:hover { border-color: rgba(212,175,55,0.5); }
+  #minimap-label {
+    position: absolute; top: 4px; left: 0; width: 100%;
+    text-align: center;
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.5rem; color: rgba(212,175,55,0.4);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    pointer-events: none;
+  }
+  #minimap-canvas {
+    width: 100%; height: 100%;
+  }
+
   /* Audio toggle button */
   #audio-toggle {
     position: absolute; bottom: 80px; left: 32px;
@@ -739,6 +767,11 @@
       <input type="range" id="time-slider" min="0" max="24" step="0.25" value="12" style="pointer-events: auto;">
       <button id="time-live-btn" class="active">LIVE</button>
     </div>
+  </div>
+
+  <div id="minimap-container">
+    <div id="minimap-label">MAP</div>
+    <canvas id="minimap-canvas" width="320" height="360"></canvas>
   </div>
 
   <button id="audio-toggle">&#9835; Sound Off</button>
@@ -1250,12 +1283,16 @@ async function init() {
           document.getElementById('replay-btn').classList.add('visible');
           document.getElementById('tour-btn').classList.add('visible');
           document.getElementById('share-btn').classList.add('visible');
+          showMinimap();
         },
       });
     } else {
       // Normal flythrough
       runFlythrough(viewer);
     }
+
+    // Init minimap navigation
+    initMinimap();
 
     // Init camera sharing (URL hash tracking)
     initCameraSharing();
@@ -1574,6 +1611,7 @@ async function runFlythrough(viewer) {
   document.getElementById('replay-btn').classList.remove('visible');
   document.getElementById('tour-btn').classList.remove('visible');
   document.getElementById('share-btn').classList.remove('visible');
+  document.getElementById('minimap-container').classList.remove('visible');
   viewer.scene.screenSpaceCameraController.enableInputs = false;
 
   // Stage 1: Bird's eye — slow pan across all Macau
@@ -1657,6 +1695,7 @@ async function runFlythrough(viewer) {
   document.getElementById('replay-btn').classList.add('visible');
   document.getElementById('tour-btn').classList.add('visible');
   document.getElementById('share-btn').classList.add('visible');
+  showMinimap();
 
   // Start slow orbit
   startOrbit(viewer);
@@ -5765,6 +5804,200 @@ function initIncenseCoils(viewer) {
       },
     });
   });
+}
+
+// ── Minimap Navigation ──
+var _minimapCanvas = null;
+var _minimapCtx = null;
+var _minimapVisible = false;
+
+// Macau geographic bounds for minimap projection
+var MINIMAP_BOUNDS = {
+  minLon: 113.517, maxLon: 113.598,
+  minLat: 22.109, maxLat: 22.217
+};
+
+// Simplified Macau coastline outlines (arrays of [lon, lat] pairs)
+var MACAU_PENINSULA = [
+  [113.5310,22.2145],[113.5325,22.2100],[113.5340,22.2060],[113.5360,22.2020],
+  [113.5370,22.1960],[113.5380,22.1930],[113.5395,22.1890],[113.5410,22.1850],
+  [113.5420,22.1810],[113.5420,22.1780],[113.5395,22.1770],[113.5350,22.1780],
+  [113.5310,22.1800],[113.5280,22.1830],[113.5260,22.1870],[113.5260,22.1920],
+  [113.5270,22.1960],[113.5280,22.2000],[113.5290,22.2050],[113.5295,22.2100],
+  [113.5310,22.2145]
+];
+
+var TAIPA_COTAI = [
+  [113.5370,22.1660],[113.5420,22.1640],[113.5480,22.1630],[113.5530,22.1610],
+  [113.5590,22.1550],[113.5640,22.1510],[113.5680,22.1460],[113.5700,22.1410],
+  [113.5690,22.1360],[113.5650,22.1340],[113.5590,22.1320],[113.5530,22.1310],
+  [113.5460,22.1320],[113.5400,22.1360],[113.5370,22.1400],[113.5350,22.1450],
+  [113.5340,22.1510],[113.5340,22.1560],[113.5350,22.1610],[113.5370,22.1660]
+];
+
+var COLOANE = [
+  [113.5540,22.1290],[113.5600,22.1240],[113.5640,22.1190],[113.5680,22.1140],
+  [113.5690,22.1170],[113.5670,22.1220],[113.5630,22.1250],[113.5580,22.1280],
+  [113.5540,22.1290]
+];
+
+// Bridge outlines (simple 2-point lines)
+var BRIDGES = [
+  [[113.5395,22.1770],[113.5400,22.1660]], // Ponte de Amizade
+  [[113.5340,22.1780],[113.5340,22.1660]], // Ponte Gov. Nobre de Carvalho
+  [[113.5310,22.1800],[113.5340,22.1610]], // Ponte de Sai Van
+];
+
+function minimapProject(lon, lat) {
+  var canvas = _minimapCanvas;
+  var b = MINIMAP_BOUNDS;
+  var padding = 15;
+  var x = padding + ((lon - b.minLon) / (b.maxLon - b.minLon)) * (canvas.width - padding * 2);
+  var y = padding + ((b.maxLat - lat) / (b.maxLat - b.minLat)) * (canvas.height - padding * 2);
+  return [x, y];
+}
+
+function drawMinimapOutline(ctx, points, fill, stroke) {
+  ctx.beginPath();
+  points.forEach(function(p, i) {
+    var xy = minimapProject(p[0], p[1]);
+    if (i === 0) ctx.moveTo(xy[0], xy[1]);
+    else ctx.lineTo(xy[0], xy[1]);
+  });
+  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 1; ctx.stroke(); }
+}
+
+function drawMinimap() {
+  if (!_minimapCanvas || !_minimapCtx || !_viewer) return;
+
+  var ctx = _minimapCtx;
+  var w = _minimapCanvas.width;
+  var h = _minimapCanvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  // Water background
+  ctx.fillStyle = 'rgba(10, 30, 60, 0.5)';
+  ctx.fillRect(0, 0, w, h);
+
+  // Draw land masses
+  drawMinimapOutline(ctx, MACAU_PENINSULA, 'rgba(40, 40, 60, 0.8)', 'rgba(212,175,55,0.3)');
+  drawMinimapOutline(ctx, TAIPA_COTAI, 'rgba(40, 40, 60, 0.8)', 'rgba(212,175,55,0.3)');
+  drawMinimapOutline(ctx, COLOANE, 'rgba(40, 40, 60, 0.8)', 'rgba(212,175,55,0.3)');
+
+  // Draw bridges
+  ctx.strokeStyle = 'rgba(212,175,55,0.2)';
+  ctx.lineWidth = 1;
+  BRIDGES.forEach(function(br) {
+    var a = minimapProject(br[0][0], br[0][1]);
+    var b = minimapProject(br[1][0], br[1][1]);
+    ctx.beginPath();
+    ctx.moveTo(a[0], a[1]);
+    ctx.lineTo(b[0], b[1]);
+    ctx.stroke();
+  });
+
+  // Draw landmark dots
+  ctx.fillStyle = 'rgba(212,175,55,0.5)';
+  LANDMARKS.forEach(function(lm) {
+    var xy = minimapProject(lm.lon, lm.lat);
+    ctx.beginPath();
+    ctx.arc(xy[0], xy[1], 3, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Draw camera position
+  var cam = _viewer.camera;
+  var camPos = cam.positionCartographic;
+  if (camPos) {
+    var camLon = Cesium.Math.toDegrees(camPos.longitude);
+    var camLat = Cesium.Math.toDegrees(camPos.latitude);
+    var xy = minimapProject(camLon, camLat);
+
+    // Camera viewing direction indicator
+    var heading = cam.heading;
+    var dirLen = 12;
+    var dx = Math.sin(heading) * dirLen;
+    var dy = -Math.cos(heading) * dirLen;
+
+    // Direction line
+    ctx.strokeStyle = 'rgba(212,175,55,0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(xy[0], xy[1]);
+    ctx.lineTo(xy[0] + dx, xy[1] + dy);
+    ctx.stroke();
+
+    // Camera dot (bright gold with glow)
+    ctx.shadowColor = 'rgba(212,175,55,0.8)';
+    ctx.shadowBlur = 8;
+    ctx.fillStyle = '#d4af37';
+    ctx.beginPath();
+    ctx.arc(xy[0], xy[1], 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // FOV cone (subtle)
+    var fov = cam.frustum.fov || 1.0;
+    var coneLen = 20;
+    var halfFov = fov * 0.3;
+    var leftAngle = heading - halfFov;
+    var rightAngle = heading + halfFov;
+    ctx.fillStyle = 'rgba(212,175,55,0.08)';
+    ctx.beginPath();
+    ctx.moveTo(xy[0], xy[1]);
+    ctx.lineTo(xy[0] + Math.sin(leftAngle) * coneLen, xy[1] - Math.cos(leftAngle) * coneLen);
+    ctx.lineTo(xy[0] + Math.sin(rightAngle) * coneLen, xy[1] - Math.cos(rightAngle) * coneLen);
+    ctx.closePath();
+    ctx.fill();
+  }
+}
+
+function initMinimap() {
+  _minimapCanvas = document.getElementById('minimap-canvas');
+  if (!_minimapCanvas) return;
+  _minimapCtx = _minimapCanvas.getContext('2d');
+
+  // Click to fly to location
+  var container = document.getElementById('minimap-container');
+  container.addEventListener('click', function(e) {
+    if (!_viewer) return;
+    var rect = _minimapCanvas.getBoundingClientRect();
+    var scaleX = _minimapCanvas.width / rect.width;
+    var scaleY = _minimapCanvas.height / rect.height;
+    var cx = (e.clientX - rect.left) * scaleX;
+    var cy = (e.clientY - rect.top) * scaleY;
+
+    // Reverse project from canvas to lon/lat
+    var b = MINIMAP_BOUNDS;
+    var padding = 15;
+    var lon = b.minLon + ((cx - padding) / (_minimapCanvas.width - padding * 2)) * (b.maxLon - b.minLon);
+    var lat = b.maxLat - ((cy - padding) / (_minimapCanvas.height - padding * 2)) * (b.maxLat - b.minLat);
+
+    // Clamp to Macau area
+    lon = Math.max(b.minLon, Math.min(b.maxLon, lon));
+    lat = Math.max(b.minLat, Math.min(b.maxLat, lat));
+
+    _viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(lon, lat, 800),
+      orientation: {
+        heading: _viewer.camera.heading,
+        pitch: Cesium.Math.toRadians(-40),
+        roll: 0.0,
+      },
+      duration: 1.5,
+      easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
+    });
+  });
+
+  // Update minimap every 500ms
+  setInterval(drawMinimap, 500);
+  drawMinimap();
+}
+
+function showMinimap() {
+  var el = document.getElementById('minimap-container');
+  if (el) el.classList.add('visible');
 }
 
 // ── Camera Position URL Sharing ──

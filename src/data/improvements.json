@@ -601,6 +601,25 @@
       ],
       "linesAdded": 143,
       "agent": "automated"
+    },
+    {
+      "session": 49,
+      "date": "2026-03-22",
+      "title": "Minimap Navigation",
+      "domain": "interactivity",
+      "summary": "Canvas-drawn minimap in bottom-left showing Macau coastline, landmarks, camera position with heading indicator, and click-to-fly navigation.",
+      "details": [
+        "160x180px minimap overlay in bottom-left corner with dark/gold theme",
+        "Simplified Macau coastline outlines (Peninsula, Taipa/Cotai, Coloane) drawn on canvas",
+        "Three bridge lines connecting Peninsula to Taipa",
+        "Gold dots for all 8 landmark positions",
+        "Camera position shown as bright gold dot with heading direction line and FOV cone",
+        "Click anywhere on minimap to fly camera to that location",
+        "Updates every 500ms to track camera movement in real-time",
+        "Hidden during flythrough, visible after completion"
+      ],
+      "linesAdded": 233,
+      "agent": "automated"
     }
   ]
 }

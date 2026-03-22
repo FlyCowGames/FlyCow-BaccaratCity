@@ -363,6 +363,18 @@
 - First UX/interactivity improvement since Session 34 (auto-tour) — breaks streak of billboard entity features
 - File grew from ~5714 to ~5857 lines (+143 lines)
 
+## Session 49 — 2026-03-22 (Automated Agent)
+- Minimap navigation overlay: canvas-drawn minimap in bottom-left corner for spatial orientation
+- Simplified Macau coastline outlines (Peninsula, Taipa/Cotai, Coloane) with gold border on dark background
+- Three bridge lines connecting Peninsula to Taipa, matching real bridge positions
+- Gold dots marking all 8 landmark positions for reference
+- Camera position shown as bright gold dot with heading direction line and subtle FOV cone
+- Click-to-fly: click anywhere on minimap to fly camera to that geographic location (800m altitude, 1.5s flight)
+- Real-time tracking: minimap updates every 500ms to follow camera movement
+- Hidden during cinematic flythrough, fades in after completion (same visibility pattern as Replay/Tour/Share)
+- 2nd interactivity/UI feature in a row (after URL sharing in Session 48) — breaks the billboard entity pattern
+- File grew from ~5857 to ~6090 lines (+233 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

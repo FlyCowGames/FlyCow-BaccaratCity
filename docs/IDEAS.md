@@ -44,7 +44,7 @@
 - [x] Click casino → enter and see baccarat tables (Session 11: interactive Punto Banco game)
 - [x] Click landmark → info popup with history (Session 10: rich info cards with description, facts, year, type)
 - [x] Time slider to preview any time of day (Session 31: interactive slider with CesiumJS sun override)
-- [ ] Minimap for navigation
+- [x] Minimap for navigation (Session 49: canvas-drawn minimap with coastline, landmarks, camera position, click-to-fly)
 - [ ] Search for landmarks
 - [x] Share camera position via URL (Session 48: Share View button + URL hash encoding)
 
