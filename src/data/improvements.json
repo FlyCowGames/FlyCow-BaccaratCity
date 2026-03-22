@@ -806,6 +806,27 @@
       ],
       "linesAdded": 209,
       "agent": "automated"
+    },
+    {
+      "session": 65,
+      "date": "2026-03-22",
+      "title": "Typhoon Signal Weather Effects",
+      "domain": "atmosphere",
+      "summary": "Macau typhoon signal system with T1/T3/T8/T10 detection, wind-driven rain, wind streaks, reduced visibility, and Typhoon Demo mode.",
+      "details": [
+        "Typhoon signal detection from real wind speed data (T1 30+, T3 41+, T8 63+, T10 118+ km/h)",
+        "Color-coded signal badge (green T1, yellow T3, orange T8, red T10) in weather block",
+        "Red warning banner at top of screen for T3+ signals with pulsing animation",
+        "Wind-driven rain: CSS skew angles rain drops during strong winds",
+        "Animated wind streaks canvas overlay with speed-proportional streak density",
+        "Reduced visibility via increased CesiumJS fog density and darkened scene lighting",
+        "Typhoon Demo button to simulate T8 conditions on calm days",
+        "Keyboard shortcut Y toggles typhoon demo mode",
+        "Mobile-responsive: smaller badge, banner, and button sizes at 600px breakpoint",
+        "Clean restore of normal weather effects when typhoon simulation ends"
+      ],
+      "linesAdded": 274,
+      "agent": "automated"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 64)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 65)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -21,7 +21,7 @@
 
 ### Medium-Term (Sessions 30-100)
 - ~~Full event calendar system with live triggers~~ — Done (Session 56: 7 events, banner, enhanced effects)
-- Typhoon signal weather effects
+- ~~Typhoon signal weather effects~~ — Done (Session 65: T1/T3/T8/T10 signals, wind-driven rain, wind streaks, visibility reduction, demo mode)
 - ~~Street-level exploration mode~~ — Done (Session 62: Street button with camera save/restore)
 - Real-time flight data (ADS-B) for airport
 - ~~Construction cranes and ongoing development~~ — Done (Session 16)
@@ -86,3 +86,4 @@
 - Casino water reflections: elongated light streaks on harbor water at night (Session 57)
 - Baccarat sound effects: procedural Web Audio API sounds for card deals, chip placement, and win/lose results (Session 58)
 - Street-level exploration: Street button drops to 5m altitude for first-person city exploration with WASD walking, mobile joystick, camera save/restore (Sessions 62, 64)
+- Typhoon signal weather effects: T1/T3/T8/T10 detection from wind speed, wind-driven rain, wind streaks, reduced visibility, demo mode (Session 65)

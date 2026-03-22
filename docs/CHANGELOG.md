@@ -503,6 +503,21 @@
 - 8th UX/meta-feature enhancing street-level exploration (S31 time slider, S34 auto-tour, S48 URL sharing, S49 minimap, S51 search, S53 shortcuts, S62 street mode)
 - File grew from ~7411 to ~7620 lines (+209 lines)
 
+## Session 65 — 2026-03-22 (Automated Agent)
+- Typhoon signal weather effects: Macau's iconic typhoon warning system with dramatic visual effects
+- Typhoon signal detection from real wind speed data: T1 (30+ km/h), T3 (41+), T8 (63+), T10 (118+)
+- Color-coded signal badge (green/yellow/orange/red) with pulsing animation in weather block
+- Red warning banner slides down from top of screen for T3+ signals
+- Wind-driven rain: CSS skew transforms tilt rain drops at angle during strong winds
+- Animated wind streaks: canvas overlay draws speed-proportional horizontal wind lines
+- Reduced visibility: increased CesiumJS fog density + darkened scene lighting proportional to signal level
+- Typhoon Demo button lets visitors simulate T8 conditions on calm days
+- Keyboard shortcut Y toggles typhoon demo mode; help overlay updated
+- Mobile-responsive: smaller badge/banner/button at 600px breakpoint
+- Clean restore of all normal weather effects when simulation ends
+- Fulfills roadmap item: "Typhoon signal weather effects"
+- File grew from ~7620 to ~7894 lines (+274 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

@@ -22,7 +22,7 @@
 
 ## Atmosphere & Realism
 - [x] Real Macau weather from API → rain particles, fog density, cloud cover (Session 3)
-- [ ] Typhoon signal system (T1-T10) with dramatic weather effects
+- [x] Typhoon signal system (T1-T10) with dramatic weather effects (Session 65: T1/T3/T8/T10 detection, wind effects, demo mode)
 - [x] Light pollution glow from Cotai strip visible across the water (Session 6: neon glow system)
 - [x] Ferry boats crossing between peninsula and Taipa (Session 4)
 - [x] Animated road traffic on bridges and main roads (Session 7)

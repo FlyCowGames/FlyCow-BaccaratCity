@@ -176,6 +176,87 @@
     line-height: 1.6;
   }
 
+  /* Typhoon signal badge */
+  #typhoon-signal {
+    display: none;
+    margin-top: 6px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-align: center;
+    animation: typhoonPulse 2s ease-in-out infinite;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+  #typhoon-signal.t1 { background: rgba(0,128,0,0.7); color: #fff; border: 1px solid rgba(0,200,0,0.5); }
+  #typhoon-signal.t3 { background: rgba(200,180,0,0.7); color: #fff; border: 1px solid rgba(255,220,0,0.5); }
+  #typhoon-signal.t8 { background: rgba(220,120,0,0.8); color: #fff; border: 1px solid rgba(255,160,0,0.5); }
+  #typhoon-signal.t10 { background: rgba(200,0,0,0.85); color: #fff; border: 1px solid rgba(255,60,60,0.5); }
+  @keyframes typhoonPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Typhoon simulate button */
+  #typhoon-sim-btn {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: rgba(212,175,55,0.4);
+    background: rgba(212,175,55,0.08);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 3px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+  #typhoon-sim-btn:hover { color: #d4af37; background: rgba(212,175,55,0.15); border-color: rgba(212,175,55,0.4); }
+  #typhoon-sim-btn.active { color: #ff6644; background: rgba(255,80,40,0.15); border-color: rgba(255,80,40,0.4); }
+
+  /* Wind streaks canvas */
+  #wind-canvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 48;
+    opacity: 0; transition: opacity 1.5s ease;
+  }
+  #wind-canvas.active { opacity: 1; }
+
+  /* Typhoon warning banner */
+  #typhoon-banner {
+    position: fixed; top: 0; left: 0; width: 100%;
+    z-index: 200;
+    background: linear-gradient(90deg, rgba(180,0,0,0.9), rgba(200,60,0,0.9), rgba(180,0,0,0.9));
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-align: center;
+    padding: 6px 16px;
+    transform: translateY(-100%);
+    transition: transform 0.5s ease;
+    pointer-events: none;
+  }
+  #typhoon-banner.visible { transform: translateY(0); }
+  #typhoon-banner .typhoon-icon { margin: 0 8px; }
+
+  /* Wind-driven rain angle */
+  #rain-overlay.windy .rain-drop {
+    transform-origin: top center;
+  }
+  #rain-overlay.windy {
+    transform: skewX(-15deg);
+  }
+  #rain-overlay.very-windy {
+    transform: skewX(-25deg);
+  }
+
   /* Rain overlay */
   #rain-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -898,6 +979,9 @@
     #weather-temp { font-size: 0.95rem; }
     #weather-desc { font-size: 0.6rem; }
     #weather-details { font-size: 0.55rem; }
+    #typhoon-signal { font-size: 0.55rem; padding: 2px 8px; }
+    #typhoon-sim-btn { font-size: 0.5rem; }
+    #typhoon-banner { font-size: 0.6rem; padding: 4px 10px; }
 
     /* Clock — smaller, repositioned */
     #clock-block { bottom: 16px; right: 16px; }
@@ -1205,7 +1289,9 @@
 
 <div id="cesiumContainer"></div>
 <div id="rain-overlay"></div>
+<canvas id="wind-canvas"></canvas>
 <canvas id="fireworks-canvas"></canvas>
+<div id="typhoon-banner"></div>
 
 <div id="overlay">
   <div id="vignette"></div>
@@ -1233,6 +1319,8 @@
     <div id="weather-temp"></div>
     <div id="weather-desc"></div>
     <div id="weather-details"></div>
+    <div id="typhoon-signal"></div>
+    <button id="typhoon-sim-btn">Typhoon Demo</button>
   </div>
 
   <div id="clock-block">
@@ -1292,6 +1380,7 @@
       <div class="help-row"><span class="help-key">S</span><span class="help-desc">Share current view</span></div>
       <div class="help-row"><span class="help-key">M</span><span class="help-desc">Toggle sound</span></div>
       <div class="help-row"><span class="help-key">G</span><span class="help-desc">Street-level view</span></div>
+      <div class="help-row"><span class="help-key">Y</span><span class="help-desc">Toggle typhoon demo</span></div>
       <div class="help-row"><span class="help-key">W</span><span class="help-key">A</span><span class="help-key">S</span><span class="help-key">D</span><span class="help-desc">Walk in street mode</span></div>
       <div class="help-row"><span class="help-key">?</span><span class="help-desc">Show/hide this help</span></div>
       <div class="help-row"><span class="help-key">Esc</span><span class="help-desc">Close any overlay</span></div>
@@ -1659,6 +1748,9 @@ function updateWeatherUI(w) {
     'Humidity ' + w.relative_humidity_2m + '% &middot; Wind ' + Math.round(w.wind_speed_10m) + ' km/h'
     + '<br>Cloud cover ' + w.cloud_cover + '%';
   document.getElementById('weather-block').classList.add('visible');
+
+  // Check for typhoon signals
+  updateTyphoonSignal(w.wind_speed_10m);
 }
 
 function applyWeatherEffects(w) {
@@ -1691,6 +1783,184 @@ function applyWeatherEffects(w) {
     }
   }
 }
+
+// ── Typhoon Signal System ──
+var _typhoonSimActive = false;
+var _typhoonSignalLevel = 0; // 0=none, 1=T1, 3=T3, 8=T8, 10=T10
+var _windStreakAnimId = null;
+
+// Macau typhoon signal thresholds (approximate from wind speed in km/h)
+function getTyphoonSignal(windSpeed) {
+  if (windSpeed >= 118) return 10;
+  if (windSpeed >= 63) return 8;
+  if (windSpeed >= 41) return 3;
+  if (windSpeed >= 30) return 1;
+  return 0;
+}
+
+function getTyphoonSignalName(level) {
+  var names = { 1: 'T1 STANDBY', 3: 'T3 STRONG WIND', 8: 'T8 GALE', 10: 'T10 HURRICANE' };
+  return names[level] || '';
+}
+
+function getTyphoonSignalClass(level) {
+  var cls = { 1: 't1', 3: 't3', 8: 't8', 10: 't10' };
+  return cls[level] || '';
+}
+
+function updateTyphoonSignal(windSpeed) {
+  var effectiveWind = _typhoonSimActive ? 90 : windSpeed;
+  _typhoonSignalLevel = getTyphoonSignal(effectiveWind);
+
+  var badge = document.getElementById('typhoon-signal');
+  var banner = document.getElementById('typhoon-banner');
+  var rainOverlay = document.getElementById('rain-overlay');
+
+  if (_typhoonSignalLevel > 0) {
+    // Show signal badge
+    badge.textContent = getTyphoonSignalName(_typhoonSignalLevel);
+    badge.className = getTyphoonSignalClass(_typhoonSignalLevel);
+    badge.style.display = 'block';
+
+    // Show warning banner for T3+
+    if (_typhoonSignalLevel >= 3) {
+      var icon = _typhoonSignalLevel >= 8 ? '\u26A0\uFE0F' : '\u{1F300}';
+      banner.innerHTML = icon + ' TYPHOON SIGNAL ' + getTyphoonSignalName(_typhoonSignalLevel) + ' ' + icon;
+      banner.classList.add('visible');
+    } else {
+      banner.classList.remove('visible');
+    }
+
+    // Wind-driven rain
+    rainOverlay.classList.remove('windy', 'very-windy');
+    if (_typhoonSignalLevel >= 8) {
+      rainOverlay.classList.add('very-windy');
+    } else if (_typhoonSignalLevel >= 3) {
+      rainOverlay.classList.add('windy');
+    }
+
+    // Typhoon rain — force heavy rain for T3+
+    if (_typhoonSimActive || _typhoonSignalLevel >= 3) {
+      var intensity = _typhoonSignalLevel >= 8 ? 'heavy' : 'moderate';
+      createRainDrops(_typhoonSignalLevel >= 8 ? 'heavy' : 'moderate');
+      rainOverlay.classList.add('active');
+      // More rain drops for typhoon
+      if (_typhoonSignalLevel >= 8) {
+        createRainDrops('heavy');
+      }
+    }
+
+    // Typhoon atmosphere effects
+    applyTyphoonAtmosphere(_typhoonSignalLevel);
+
+    // Wind streaks canvas for T3+
+    if (_typhoonSignalLevel >= 3) {
+      startWindStreaks(effectiveWind);
+    } else {
+      stopWindStreaks();
+    }
+  } else {
+    badge.style.display = 'none';
+    badge.className = '';
+    banner.classList.remove('visible');
+    rainOverlay.classList.remove('windy', 'very-windy');
+    stopWindStreaks();
+    // Restore normal atmosphere if sim was just turned off
+    if (currentWeather) {
+      applyWeatherEffects(currentWeather);
+    }
+  }
+}
+
+function applyTyphoonAtmosphere(level) {
+  if (!_viewer) return;
+  // Darker scene
+  if (_viewer.scene.light) {
+    var dimFactor = level >= 10 ? 0.3 : level >= 8 ? 0.5 : level >= 3 ? 0.7 : 0.85;
+    _viewer.scene.light.intensity = 2.0 * dimFactor;
+  }
+  // Dense fog for reduced visibility
+  _viewer.scene.fog.enabled = true;
+  _viewer.scene.fog.density = level >= 10 ? 0.003 : level >= 8 ? 0.002 : level >= 3 ? 0.001 : 0.0005;
+  _viewer.scene.fog.minimumBrightness = 0.02;
+}
+
+// Wind streaks canvas animation
+function startWindStreaks(windSpeed) {
+  var canvas = document.getElementById('wind-canvas');
+  canvas.classList.add('active');
+  if (_windStreakAnimId) return; // already running
+
+  var ctx = canvas.getContext('2d');
+  var streaks = [];
+  var streakCount = windSpeed >= 90 ? 60 : windSpeed >= 63 ? 40 : 20;
+
+  for (var i = 0; i < streakCount; i++) {
+    streaks.push({
+      x: Math.random() * window.innerWidth * 1.5,
+      y: Math.random() * window.innerHeight,
+      length: 30 + Math.random() * 80,
+      speed: 8 + Math.random() * 12 + (windSpeed / 10),
+      opacity: 0.05 + Math.random() * 0.12,
+      angle: -0.15 - Math.random() * 0.1
+    });
+  }
+
+  function animateStreaks() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (var i = 0; i < streaks.length; i++) {
+      var s = streaks[i];
+      ctx.save();
+      ctx.globalAlpha = s.opacity;
+      ctx.strokeStyle = 'rgba(200,210,230,0.6)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(s.x, s.y);
+      ctx.lineTo(s.x - s.length * Math.cos(s.angle), s.y - s.length * Math.sin(s.angle));
+      ctx.stroke();
+      ctx.restore();
+
+      s.x -= s.speed;
+      s.y += s.speed * 0.15;
+      if (s.x < -s.length) {
+        s.x = canvas.width + Math.random() * 200;
+        s.y = Math.random() * canvas.height;
+      }
+      if (s.y > canvas.height) {
+        s.y = -20;
+        s.x = Math.random() * canvas.width * 1.5;
+      }
+    }
+    _windStreakAnimId = requestAnimationFrame(animateStreaks);
+  }
+  animateStreaks();
+}
+
+function stopWindStreaks() {
+  var canvas = document.getElementById('wind-canvas');
+  canvas.classList.remove('active');
+  if (_windStreakAnimId) {
+    cancelAnimationFrame(_windStreakAnimId);
+    _windStreakAnimId = null;
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+}
+
+// Typhoon simulation toggle
+(function() {
+  var btn = document.getElementById('typhoon-sim-btn');
+  btn.addEventListener('click', function() {
+    _typhoonSimActive = !_typhoonSimActive;
+    btn.textContent = _typhoonSimActive ? 'Stop Typhoon' : 'Typhoon Demo';
+    btn.classList.toggle('active', _typhoonSimActive);
+    var windSpeed = currentWeather ? currentWeather.wind_speed_10m : 10;
+    updateTyphoonSignal(windSpeed);
+  });
+})();
 
 // Fetch weather immediately, then every 15 minutes
 fetchWeather();
@@ -4117,6 +4387,10 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
       case 'g': // Street-level view
         e.preventDefault();
         toggleStreetMode();
+        break;
+      case 'y': // Toggle typhoon demo
+        e.preventDefault();
+        document.getElementById('typhoon-sim-btn').click();
         break;
       case 'escape':
         if (_streetMode) { exitStreetMode(); return; }
