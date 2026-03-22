@@ -4069,6 +4069,7 @@ function placeBaccBet(type) {
   var amount = Math.min(_baccSelectedChip, _baccBankroll - _baccBets.player - _baccBets.tie - _baccBets.banker);
   if (amount <= 0) return;
   _baccBets[type] += amount;
+  playBaccSound('chip');
   updateBaccBetDisplay();
 }
 
@@ -4128,6 +4129,7 @@ function dealBaccarat() {
   steps.push(function() {
     playerCards.push(p1);
     playerCardsEl.appendChild(createCardEl(p1, true));
+    playBaccSound('deal');
   });
   delay += CARD_DELAY;
 
@@ -4135,6 +4137,7 @@ function dealBaccarat() {
   steps.push(function() {
     bankerCards.push(b1);
     bankerCardsEl.appendChild(createCardEl(b1, true));
+    playBaccSound('deal');
   });
   delay += CARD_DELAY;
 
@@ -4142,6 +4145,7 @@ function dealBaccarat() {
   steps.push(function() {
     playerCards.push(p2);
     playerCardsEl.appendChild(createCardEl(p2, true));
+    playBaccSound('deal');
   });
   delay += CARD_DELAY;
 
@@ -4149,6 +4153,7 @@ function dealBaccarat() {
   steps.push(function() {
     bankerCards.push(b2);
     bankerCardsEl.appendChild(createCardEl(b2, true));
+    playBaccSound('deal');
   });
   delay += CARD_DELAY;
 
@@ -4158,6 +4163,7 @@ function dealBaccarat() {
     playerCardsEl.appendChild(createCardEl(p1, false));
     playerCardsEl.appendChild(createCardEl(p2, false));
     playerScoreEl.textContent = baccScore(playerCards);
+    playBaccSound('flip');
   });
   delay += 500;
 
@@ -4167,6 +4173,7 @@ function dealBaccarat() {
     bankerCardsEl.appendChild(createCardEl(b1, false));
     bankerCardsEl.appendChild(createCardEl(b2, false));
     bankerScoreEl.textContent = baccScore(bankerCards);
+    playBaccSound('flip');
   });
   delay += 600;
 
@@ -4187,6 +4194,7 @@ function dealBaccarat() {
         playerCardsEl.appendChild(createCardEl(playerThird, false));
         pScore = baccScore(playerCards);
         playerScoreEl.textContent = pScore;
+        playBaccSound('flip');
       }
 
       // Banker third card rule
@@ -4198,6 +4206,7 @@ function dealBaccarat() {
           bankerCardsEl.appendChild(createCardEl(bankerThird, false));
           bScore = baccScore(bankerCards);
           bankerScoreEl.textContent = bScore;
+          playBaccSound('flip');
         }
       } else {
         // Banker draws based on player's third card value
@@ -4215,6 +4224,7 @@ function dealBaccarat() {
           bankerCardsEl.appendChild(createCardEl(bankerThird, false));
           bScore = baccScore(bankerCards);
           bankerScoreEl.textContent = bScore;
+          playBaccSound('flip');
         }
       }
     }
@@ -4232,11 +4242,13 @@ function dealBaccarat() {
       resultEl.className = 'bacc-result player-wins';
       _baccStats.p++;
       payout += _baccBets.player * 2;  // 1:1 + original bet
+      playBaccSound(_baccBets.player > 0 ? 'win' : 'lose');
     } else if (bFinal > pFinal) {
       resultEl.textContent = 'Banker Wins';
       resultEl.className = 'bacc-result banker-wins';
       _baccStats.b++;
       payout += Math.floor(_baccBets.banker * 1.95);  // 0.95:1 (5% commission) + original bet
+      playBaccSound(_baccBets.banker > 0 ? 'win' : 'lose');
     } else {
       resultEl.textContent = 'Tie';
       resultEl.className = 'bacc-result tie';
@@ -4244,6 +4256,7 @@ function dealBaccarat() {
       payout += _baccBets.tie * 9;  // 8:1 + original bet
       // Tie returns Player/Banker bets (push)
       payout += _baccBets.player + _baccBets.banker;
+      playBaccSound(_baccBets.tie > 0 ? 'win' : 'tie');
     }
 
     _baccBankroll += payout;
@@ -4316,6 +4329,73 @@ document.querySelectorAll('.bacc-chip').forEach(function(chip) {
 
 // Betting: clear bets button
 document.getElementById('bacc-clear-bet').addEventListener('click', clearBaccBets);
+
+// ── Baccarat Sound Effects ──
+// Procedural sounds via Web Audio API — no external files
+function playBaccSound(type) {
+  if (!_audioCtx || _audioCtx.state !== 'running') return;
+  var t = _audioCtx.currentTime;
+
+  if (type === 'deal') {
+    // Card deal — short noise burst with bandpass for papery thwap
+    var len = Math.floor(_audioCtx.sampleRate * 0.08);
+    var buf = _audioCtx.createBuffer(1, len, _audioCtx.sampleRate);
+    var d = buf.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (len * 0.15));
+    var src = _audioCtx.createBufferSource(); src.buffer = buf;
+    var flt = _audioCtx.createBiquadFilter(); flt.type = 'bandpass'; flt.frequency.value = 2200; flt.Q.value = 1.5;
+    var g = _audioCtx.createGain(); g.gain.setValueAtTime(0.3, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+    src.connect(flt); flt.connect(g); g.connect(_audioCtx.destination);
+    src.start(t); src.stop(t + 0.09);
+  }
+  else if (type === 'flip') {
+    // Card reveal — higher pitched snap
+    var len = Math.floor(_audioCtx.sampleRate * 0.1);
+    var buf = _audioCtx.createBuffer(1, len, _audioCtx.sampleRate);
+    var d = buf.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (len * 0.1));
+    var src = _audioCtx.createBufferSource(); src.buffer = buf;
+    var flt = _audioCtx.createBiquadFilter(); flt.type = 'bandpass'; flt.frequency.value = 4500; flt.Q.value = 2;
+    var g = _audioCtx.createGain(); g.gain.setValueAtTime(0.25, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+    src.connect(flt); flt.connect(g); g.connect(_audioCtx.destination);
+    src.start(t); src.stop(t + 0.11);
+  }
+  else if (type === 'chip') {
+    // Chip clink — metallic sine with harmonic
+    var o1 = _audioCtx.createOscillator(); o1.type = 'sine';
+    o1.frequency.setValueAtTime(3200, t); o1.frequency.exponentialRampToValueAtTime(1800, t + 0.06);
+    var g1 = _audioCtx.createGain(); g1.gain.setValueAtTime(0.15, t); g1.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+    o1.connect(g1); g1.connect(_audioCtx.destination); o1.start(t); o1.stop(t + 0.11);
+    var o2 = _audioCtx.createOscillator(); o2.type = 'sine';
+    o2.frequency.setValueAtTime(5500, t); o2.frequency.exponentialRampToValueAtTime(3000, t + 0.05);
+    var g2 = _audioCtx.createGain(); g2.gain.setValueAtTime(0.08, t); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
+    o2.connect(g2); g2.connect(_audioCtx.destination); o2.start(t); o2.stop(t + 0.08);
+  }
+  else if (type === 'win') {
+    // Ascending two-tone chime — celebratory
+    var o1 = _audioCtx.createOscillator(); o1.type = 'sine'; o1.frequency.value = 880;
+    var g1 = _audioCtx.createGain(); g1.gain.setValueAtTime(0.2, t); g1.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+    o1.connect(g1); g1.connect(_audioCtx.destination); o1.start(t); o1.stop(t + 0.31);
+    var o2 = _audioCtx.createOscillator(); o2.type = 'sine'; o2.frequency.value = 1320;
+    var g2 = _audioCtx.createGain(); g2.gain.setValueAtTime(0.25, t + 0.15); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+    o2.connect(g2); g2.connect(_audioCtx.destination); o2.start(t + 0.15); o2.stop(t + 0.51);
+  }
+  else if (type === 'lose') {
+    // Low descending tone — subtle disappointment
+    var o = _audioCtx.createOscillator(); o.type = 'sine';
+    o.frequency.setValueAtTime(440, t); o.frequency.exponentialRampToValueAtTime(220, t + 0.4);
+    var g = _audioCtx.createGain(); g.gain.setValueAtTime(0.15, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+    o.connect(g); g.connect(_audioCtx.destination); o.start(t); o.stop(t + 0.41);
+  }
+  else if (type === 'tie') {
+    // Neutral double-tap tone
+    var o = _audioCtx.createOscillator(); o.type = 'sine'; o.frequency.value = 660;
+    var g = _audioCtx.createGain();
+    g.gain.setValueAtTime(0.15, t); g.gain.exponentialRampToValueAtTime(0.05, t + 0.15);
+    g.gain.setValueAtTime(0.15, t + 0.2); g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+    o.connect(g); g.connect(_audioCtx.destination); o.start(t); o.stop(t + 0.36);
+  }
+}
 
 // Betting: reset bankroll button
 document.getElementById('bacc-reset-btn').addEventListener('click', function() {

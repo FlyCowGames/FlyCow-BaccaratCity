@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 57)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 58)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -84,3 +84,4 @@
 - Wynn Palace SkyCab cable cars: 4 animated gondolas over the Performance Lake with altitude arc and sway animation (Session 55)
 - Event calendar with banner: 7 real Macau events, notification banner, enhanced fireworks during festivals (Session 56)
 - Casino water reflections: elongated light streaks on harbor water at night (Session 57)
+- Baccarat sound effects: procedural Web Audio API sounds for card deals, chip placement, and win/lose results (Session 58)

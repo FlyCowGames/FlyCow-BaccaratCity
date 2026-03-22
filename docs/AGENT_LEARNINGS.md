@@ -364,6 +364,16 @@
 - **Observation:** This is the 2nd atmosphere/rendering enhancement (after water shimmer S17) that modifies the water surface appearance. The reflection streaks complement the existing shimmer dots — shimmer provides sparkle, reflections provide elongated color streaks.
 - **Note:** Session 60 will be a FULL QUALITY AUDIT (60 % 10 == 0). Must not skip — sessions 40 and 50 audits were already skipped.
 
+## Session 58 (2026-03-22) -- Baccarat Sound Effects
+- **Lesson:** Enhancing an existing feature with sound is higher-impact than adding the 22nd billboard entity. The baccarat game went from silent to multi-sensory, directly serving the Prime Directive ("Baccarat is the Soul"). Deep > wide.
+- **Lesson:** Procedural Web Audio API sound effects are simple to implement: noise bursts with bandpass filters for percussive sounds (card deal/flip), sine oscillators with frequency sweeps for tonal sounds (chip clink, win/lose chimes). Each sound is ~10 lines of code.
+- **Lesson:** Context-aware result sounds (win vs lose based on which side the player bet on, not which side won) make the audio feedback meaningful. `_baccBets.player > 0 ? 'win' : 'lose'` is the simple check.
+- **Lesson:** `exponentialRampToValueAtTime` requires the target value to be > 0 (not exactly 0). Use 0.001 as the effective "silent" target to avoid WebAudio errors.
+- **Lesson:** Sound nodes (oscillators, buffer sources) auto-garbage-collect after `stop()` is called, so creating new nodes per sound effect is fine — no need for pooling or reuse.
+- **Observation:** This is the 2nd audio feature (after ambient soundscape S9). Sound effects for interactive elements (baccarat) are a different category from ambient background audio — they provide direct feedback, making the interaction feel responsive and real.
+- **Observation:** Session 60 will be a FULL QUALITY AUDIT (60 % 10 == 0). Must not skip — sessions 40 and 50 audits were already skipped.
+- **Suggestion for future sessions:** Other interactive features could benefit from sound: firework launch/burst sounds, camera flythrough whoosh, explore panel click feedback. But prioritize visual/atmospheric improvements next for variety.
+
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
 - **Lesson:** Keep AGENT_LEARNINGS.md — it's the agent's long-term memory across sessions.

@@ -447,6 +447,16 @@
 - Enhances nighttime harbor atmosphere — creates classic "city lights mirrored in water" effect
 - File grew from ~7035 to ~7124 lines (+89 lines)
 
+## Session 58 — 2026-03-22 (Automated Agent)
+- Baccarat sound effects: 6 procedural sound types via Web Audio API for the baccarat game
+- Sounds: deal (papery noise burst), flip (high-pitched snap), chip (metallic clink with harmonic), win (ascending two-tone chime), lose (descending tone), tie (neutral double-tap)
+- 13 sound trigger points: chip placement on bet, 4 face-down card deals, 2 initial card reveals, up to 3 third-card draws, and 1 result announcement
+- Context-aware result sounds: win chime plays only if user bet on the winning side; lose tone otherwise
+- Uses existing `_audioCtx` from Session 9's ambient audio system — requires sound to be enabled via toggle button
+- All sounds procedurally generated using oscillators and noise buffers — no external audio files
+- Directly enhances Prime Directive #8 ("Baccarat is the Soul") — transforms signature feature from visual-only to multi-sensory
+- File grew from ~7124 to ~7204 lines (+80 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

@@ -724,6 +724,21 @@
       ],
       "linesAdded": 89,
       "agent": "automated"
+    },
+    {
+      "session": 58,
+      "date": "2026-03-22",
+      "title": "Baccarat Sound Effects",
+      "domain": "audio",
+      "summary": "Procedural sound effects for the baccarat game using Web Audio API — card deals, chip clicks, win/lose chimes.",
+      "details": [
+        "6 procedural sound types: deal (papery thwap), flip (snap), chip (metallic clink), win (ascending chime), lose (descending tone), tie (neutral double-tap)",
+        "13 sound trigger points across the dealing sequence: chip placement, 4 face-down deals, card reveals, third-card draws, and result announcement",
+        "Context-aware result sounds: plays 'win' chime only if you bet on the winning side, 'lose' otherwise",
+        "Uses existing Web Audio API infrastructure — requires sound to be enabled via toggle"
+      ],
+      "linesAdded": 80,
+      "agent": "automated"
     }
   ]
 }
