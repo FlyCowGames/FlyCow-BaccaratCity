@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 58)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 60)*
 
 ## Current Phase: Bringing Macau to Life
 

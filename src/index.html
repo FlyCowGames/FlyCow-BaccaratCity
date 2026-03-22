@@ -5054,32 +5054,32 @@ var _searchlightEntities = [];
 
 function createSearchlightBeamIcon(color) {
   var canvas = document.createElement('canvas');
-  canvas.width = 320; canvas.height = 20;
+  canvas.width = 256; canvas.height = 12;
   var ctx = canvas.getContext('2d');
-  // Horizontal beam — bright at source (left), fading to transparent at tip
-  var grad = ctx.createLinearGradient(0, 10, 320, 10);
-  grad.addColorStop(0, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.5)');
-  grad.addColorStop(0.03, 'rgba(255, 255, 255, 0.35)');
-  grad.addColorStop(0.08, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.3)');
-  grad.addColorStop(0.25, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.12)');
-  grad.addColorStop(0.5, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.04)');
+  // Horizontal beam — soft glow at source fading to transparent at tip
+  var grad = ctx.createLinearGradient(0, 6, 256, 6);
+  grad.addColorStop(0, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.25)');
+  grad.addColorStop(0.03, 'rgba(255, 255, 255, 0.18)');
+  grad.addColorStop(0.08, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.12)');
+  grad.addColorStop(0.25, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.05)');
+  grad.addColorStop(0.5, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.015)');
   grad.addColorStop(1, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0)');
-  // Tapered beam shape — wider at source, narrower at tip
+  // Tapered beam shape
   ctx.beginPath();
-  ctx.moveTo(0, 3);     // top left (source, wide)
-  ctx.lineTo(320, 8);   // top right (tip, narrow)
-  ctx.lineTo(320, 12);  // bottom right (tip)
-  ctx.lineTo(0, 17);    // bottom left (source, wide)
+  ctx.moveTo(0, 2);
+  ctx.lineTo(256, 5);
+  ctx.lineTo(256, 7);
+  ctx.lineTo(0, 10);
   ctx.closePath();
   ctx.fillStyle = grad;
   ctx.fill();
-  // Bright core at source
-  var coreGrad = ctx.createRadialGradient(4, 10, 0, 4, 10, 12);
-  coreGrad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
-  coreGrad.addColorStop(0.5, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.2)');
+  // Soft core glow at source
+  var coreGrad = ctx.createRadialGradient(3, 6, 0, 3, 6, 8);
+  coreGrad.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+  coreGrad.addColorStop(0.5, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.1)');
   coreGrad.addColorStop(1, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0)');
   ctx.fillStyle = coreGrad;
-  ctx.fillRect(0, 0, 24, 20);
+  ctx.fillRect(0, 0, 16, 12);
   return canvas;
 }
 
@@ -5106,15 +5106,14 @@ function addSearchlights(viewer) {
           var t = (Date.now() - startTime) / 1000;
           var angle = spot.phase + (t / spot.period) * Math.PI * 2;
           var sweepAngle = Math.sin(angle) * spot.sweep;
-          // Tilt beam upward at ~30-45deg from horizontal and sweep horizontally
           return -sweepAngle + Math.PI / 2;
         }, false),
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
-        width: 600,
-        height: 15,
-        scaleByDistance: new Cesium.NearFarScalar(500, 1.3, 25000, 0.4),
-        translucencyByDistance: new Cesium.NearFarScalar(200, 0.85, 30000, 0.1),
+        width: 250,
+        height: 6,
+        scaleByDistance: new Cesium.NearFarScalar(500, 1.0, 20000, 0.3),
+        translucencyByDistance: new Cesium.NearFarScalar(200, 0.6, 25000, 0.05),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
       },
       show: false, // night-only
@@ -6398,39 +6397,37 @@ function addLEDFacades(viewer) {
 
   LED_FACADES.forEach(function(facade) {
     (function(f) {
-      var phase = f.hue; // use initial hue as phase offset
+      var phase = f.hue;
 
-      // Create initial icon
-      var currentCanvas = createLEDIcon(f.hue, 0);
+      // Create initial icon as data URL (CallbackProperty for image causes black rectangles)
+      var initialCanvas = createLEDIcon(f.hue, 0);
+      var initialImage = initialCanvas.toDataURL();
 
       var entity = viewer.entities.add({
         name: f.name,
         position: Cesium.Cartesian3.fromDegrees(f.lon, f.lat, f.alt),
         billboard: {
-          image: new Cesium.CallbackProperty(function() {
-            return currentCanvas;
-          }, false),
+          image: initialImage,
           verticalOrigin: Cesium.VerticalOrigin.CENTER,
           horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
           width: f.width,
           height: f.height,
-          scaleByDistance: new Cesium.NearFarScalar(300, 1.8, 12000, 0.4),
+          scaleByDistance: new Cesium.NearFarScalar(300, 1.5, 12000, 0.3),
           translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 15000, 0.1),
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
-          scale: new Cesium.CallbackProperty(function() {
-            // Night-only, tied to neon glow system
-            if (_currentGlowIntensity < 0.05) return 0.0;
-            return _currentGlowIntensity;
-          }, false),
         },
+        show: false,
       });
       entity._ledFacade = f;
 
-      // Update icon every 500ms for smooth color cycling
-      var updateInterval = setInterval(function() {
-        if (_currentGlowIntensity < 0.05) return; // skip when hidden
+      // Update icon every 500ms for smooth color cycling — set image directly, not via CallbackProperty
+      setInterval(function() {
+        var shouldShow = _currentGlowIntensity > 0.05;
+        entity.show = shouldShow;
+        if (!shouldShow) return;
         var time = performance.now() / 1000 + phase * 0.1;
-        currentCanvas = createLEDIcon(f.hue, time);
+        var c = createLEDIcon(f.hue, time);
+        entity.billboard.image = c.toDataURL();
       }, 500);
     })(facade);
   });
@@ -6580,38 +6577,23 @@ function initWavePool(viewer) {
   ];
 
   var startTime = performance.now() / 1000;
-  var waveCanvases = [];
-
-  // Pre-create initial icons
-  WAVE_POINTS.forEach(function(pt, i) {
-    waveCanvases.push(createWaveIcon(i * 0.8));
-  });
-
-  // Update wave icons every 400ms for animation
-  setInterval(function() {
-    var elapsed = performance.now() / 1000 - startTime;
-    WAVE_POINTS.forEach(function(pt, i) {
-      waveCanvases[i] = createWaveIcon(elapsed * 1.5 + i * 0.8);
-    });
-  }, 400);
+  var waveEntities = [];
 
   WAVE_POINTS.forEach(function(pt, i) {
     var phase = i * 0.8 + Math.random() * 0.5;
+    var initialIcon = createWaveIcon(i * 0.8);
 
-    viewer.entities.add({
+    var entity = viewer.entities.add({
       name: 'Galaxy Wave Pool ' + i,
       position: Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, pt.alt),
       billboard: {
-        image: new Cesium.CallbackProperty(function() {
-          return waveCanvases[i];
-        }, false),
+        image: initialIcon.toDataURL(),
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         width: 64,
         height: 32,
         scale: new Cesium.CallbackProperty(function() {
           var elapsed = performance.now() / 1000 - startTime;
-          // Gentle scale pulse simulating wave swells
           return 0.9 + Math.sin(elapsed * 2.0 + phase) * 0.1;
         }, false),
         scaleByDistance: new Cesium.NearFarScalar(100, 2.0, 5000, 0.4),
@@ -6619,7 +6601,17 @@ function initWavePool(viewer) {
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
       },
     });
+    waveEntities.push(entity);
   });
+
+  // Update wave icons every 400ms — set image directly, not via CallbackProperty
+  setInterval(function() {
+    var elapsed = performance.now() / 1000 - startTime;
+    waveEntities.forEach(function(entity, i) {
+      var c = createWaveIcon(elapsed * 1.5 + i * 0.8);
+      entity.billboard.image = c.toDataURL();
+    });
+  }, 400);
 }
 
 // ── A-Ma Temple Incense Coils ──
@@ -6737,40 +6729,26 @@ function initIncenseCoils(viewer) {
   });
 
   // Add rising smoke wisps above each coil — ascending animation like sky lanterns
-  var smokeCanvases = [];
-  COIL_POINTS.forEach(function(pt, i) {
-    smokeCanvases.push(createSmokeIcon(i * 0.7));
-  });
-
-  // Update smoke icons periodically for drift animation
-  setInterval(function() {
-    var elapsed = performance.now() / 1000 - startTime;
-    COIL_POINTS.forEach(function(pt, i) {
-      smokeCanvases[i] = createSmokeIcon(elapsed + i * 0.7);
-    });
-  }, 500);
+  var smokeEntities = [];
 
   COIL_POINTS.forEach(function(pt, i) {
     var phase = Math.random();
-    var riseDuration = 20 + Math.random() * 15; // 20-35 seconds to rise
-    var maxRise = 15 + Math.random() * 10;      // rise 15-25m above coil
+    var riseDuration = 20 + Math.random() * 15;
+    var maxRise = 15 + Math.random() * 10;
+    var initialSmoke = createSmokeIcon(i * 0.7);
 
-    viewer.entities.add({
+    var entity = viewer.entities.add({
       name: 'Incense Smoke ' + i,
       position: new Cesium.CallbackProperty(function() {
         var elapsed = performance.now() / 1000 - startTime;
         var t = ((elapsed / riseDuration) + phase) % 1;
-        // Quadratic ease-out for natural deceleration
         var altT = 1 - (1 - t) * (1 - t);
         var alt = pt.alt + 2 + altT * maxRise;
-        // Gentle horizontal drift
         var drift = Math.sin(elapsed * 0.3 + i * 2.0) * 0.00003;
         return Cesium.Cartesian3.fromDegrees(pt.lon + drift, pt.lat, alt);
       }, false),
       billboard: {
-        image: new Cesium.CallbackProperty(function() {
-          return smokeCanvases[i];
-        }, false),
+        image: initialSmoke.toDataURL(),
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         width: 20,
@@ -6778,17 +6756,26 @@ function initIncenseCoils(viewer) {
         scale: new Cesium.CallbackProperty(function() {
           var elapsed = performance.now() / 1000 - startTime;
           var t = ((elapsed / riseDuration) + phase) % 1;
-          // Fade in at start, expand and fade out at peak
           if (t < 0.05) return t / 0.05 * 0.6;
           if (t > 0.85) return (1 - t) / 0.15 * 1.2;
-          return 0.6 + t * 0.6; // gradually expand as smoke rises
+          return 0.6 + t * 0.6;
         }, false),
         scaleByDistance: new Cesium.NearFarScalar(50, 2.0, 3000, 0.3),
         translucencyByDistance: new Cesium.NearFarScalar(30, 1.0, 4000, 0.0),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
       },
     });
+    smokeEntities.push(entity);
   });
+
+  // Update smoke icons periodically — set image directly, not via CallbackProperty
+  setInterval(function() {
+    var elapsed = performance.now() / 1000 - startTime;
+    smokeEntities.forEach(function(entity, i) {
+      var c = createSmokeIcon(elapsed + i * 0.7);
+      entity.billboard.image = c.toDataURL();
+    });
+  }, 500);
 }
 
 // ── Minimap Navigation ──

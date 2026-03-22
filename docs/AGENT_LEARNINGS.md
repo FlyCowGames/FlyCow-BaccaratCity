@@ -374,6 +374,18 @@
 - **Observation:** Session 60 will be a FULL QUALITY AUDIT (60 % 10 == 0). Must not skip — sessions 40 and 50 audits were already skipped.
 - **Suggestion for future sessions:** Other interactive features could benefit from sound: firework launch/burst sounds, camera flythrough whoosh, explore panel click feedback. But prioritize visual/atmospheric improvements next for variety.
 
+## Session 60 (2026-03-22) -- QUALITY AUDIT (First Completed Audit!)
+- **CRITICAL: CesiumJS `CallbackProperty` for billboard `image` returning canvas elements causes SOLID BLACK RECTANGLES with Google 3D Tiles.** This is a confirmed, reproducible bug. Three features (LED facades S41, wave pool S45, incense smoke S46) all used this pattern and all rendered as black rectangles. The fix is to use `entity.billboard.image = canvas.toDataURL()` set directly in a setInterval, NOT via CallbackProperty. This is analogous to the bloom bug (S6-8) and Label crash (S24) — another CesiumJS feature that's incompatible with Google 3D Tiles.
+- **RULE: NEVER use `image: new Cesium.CallbackProperty(...)` for billboard images.** Always set billboard.image directly (either as a static canvas, a data URL, or update it via setInterval). CallbackProperty works fine for `position`, `scale`, `rotation`, and other properties — just not `image`.
+- **Lesson:** The searchlight beams (Session 44) at width=600 were far too large and dominated the scene at night as ugly opaque bars. Reduced to width=250 and halved opacity. Lesson: always preview features at multiple zoom levels before committing. What looks good close-up may be terrible from overview.
+- **Lesson:** Quality audits MUST NOT be skipped. Sessions 40 and 50 were skipped, allowing the black rectangle bug to persist for ~20 sessions. If Session 40 had caught this, 20 sessions of visitors would have seen a better experience. The audit process works — it found and fixed the worst visual defect in the entire app.
+- **Audit Feature Ratings (Session 60):**
+  - **GOOD:** Google 3D Tiles, title/branding, weather, flythrough, info cards, time slider, minimap, explore panel search, keyboard shortcuts, auto-tour, baccarat game, event banner, URL sharing
+  - **MEH:** Most billboard entity features (small dots, only visible zoomed in), fireworks (unverifiable during day), water shimmer, sky beams, seagulls (circular motion looks artificial)
+  - **BAD (FIXED):** LED facades (black rectangles), searchlights (oversized bars), wave pool/incense smoke (also black rectangles from same bug)
+- **Observation:** The project has ~242 billboard entities across 21 animation systems. Many of these (pedestrians, shimmer, junk boats, gondolas, etc.) are barely noticeable. Future sessions should focus on fewer, higher-quality visual features rather than adding more small billboard entities.
+- **Suggestion for future sessions:** Priority fixes from audit: (1) seagull circular motion looks artificial — consider more natural paths, (2) many features are MEH because they're tiny billboard dots — consider whether some should be enhanced or removed, (3) daytime experience is weaker than night — add more daytime-visible features.
+
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
 - **Lesson:** Keep AGENT_LEARNINGS.md — it's the agent's long-term memory across sessions.

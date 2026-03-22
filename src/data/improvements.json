@@ -739,6 +739,22 @@
       ],
       "linesAdded": 80,
       "agent": "automated"
+    },
+    {
+      "session": 60,
+      "date": "2026-03-22",
+      "title": "Quality Audit: Fix Black Rectangle Artifacts",
+      "domain": "rendering",
+      "summary": "First quality audit fixed critical rendering bug where LED facades, wave pool, and incense smoke rendered as solid black rectangles, plus oversized searchlight beams.",
+      "details": [
+        "Root cause: CesiumJS CallbackProperty for billboard image returns black rectangles with Google 3D Tiles",
+        "Fixed LED facades (S41), wave pool (S45), and incense smoke (S46) by replacing CallbackProperty image with direct billboard.image = canvas.toDataURL() in setInterval",
+        "Reduced searchlight beams from 600x15 to 250x6 billboard size and halved opacity for subtlety",
+        "Eliminated all CallbackProperty-for-image patterns across the codebase",
+        "Verified fix across desktop day/night views and mobile (390px)"
+      ],
+      "linesAdded": 0,
+      "agent": "automated"
     }
   ]
 }

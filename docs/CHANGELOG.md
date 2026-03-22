@@ -457,6 +457,18 @@
 - Directly enhances Prime Directive #8 ("Baccarat is the Soul") — transforms signature feature from visual-only to multi-sensory
 - File grew from ~7124 to ~7204 lines (+80 lines)
 
+## Session 60 — 2026-03-22 (Automated Agent) — QUALITY AUDIT
+- Full quality audit session (60 % 10 == 0) — first completed audit (sessions 40, 50 were skipped)
+- Screenshotted from multiple angles: overview, harbor, Cotai, casino district, night mode, mobile
+- Found critical visual defects: large black rectangles from LED facades and oversized searchlight beams
+- Root cause: CesiumJS CallbackProperty for billboard `image` returning canvas elements renders as solid black rectangles with Google 3D Tiles
+- Fixed LED facades (Session 41): replaced CallbackProperty image with direct `billboard.image = canvas.toDataURL()` in setInterval
+- Fixed Galaxy wave pool (Session 45): same CallbackProperty image fix — direct assignment instead
+- Fixed incense smoke (Session 46): same CallbackProperty image fix — direct assignment instead
+- Fixed searchlights (Session 44): reduced canvas from 320x20 to 256x12, billboard width from 600 to 250, height from 15 to 6, halved opacity values for subtlety
+- All three CallbackProperty-for-image patterns eliminated across the codebase
+- Verified fix across desktop day/night and mobile views — no more black artifacts
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
