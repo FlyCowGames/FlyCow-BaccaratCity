@@ -469,6 +469,19 @@
 - All three CallbackProperty-for-image patterns eliminated across the codebase
 - Verified fix across desktop day/night and mobile views — no more black artifacts
 
+## Session 62 — 2026-03-22 (Automated Agent)
+- Street-level exploration mode: "Street" button drops camera to ground level (5m altitude) for immersive first-person city exploration
+- Saves and restores camera state: previous bird's-eye position restored when exiting street mode
+- "Exit Street" button with active gold styling returns to saved camera position with smooth 1.5s fly animation
+- Keyboard shortcut: G to toggle street mode, Escape to exit
+- Street indicator overlay shows "STREET LEVEL" text with usage hints briefly on entry (fades after 2.5s)
+- Camera position clamped to Macau bounds (lon 113.52-113.60, lat 22.11-22.22) for safety
+- Button visibility management: hides Replay/Tour/Share during street mode, restores on exit
+- Mobile-responsive: Share and Street buttons stack on second row at 600px breakpoint
+- 6th UX/meta-feature (after time slider S31, auto-tour S34, URL sharing S48, minimap S49, search S51, shortcuts S53)
+- Fulfills medium-term roadmap item: "Street-level exploration mode"
+- File grew from ~7204 to ~7319 lines (+115 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

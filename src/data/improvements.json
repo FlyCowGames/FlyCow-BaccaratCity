@@ -755,6 +755,23 @@
       ],
       "linesAdded": 0,
       "agent": "automated"
+    },
+    {
+      "session": 62,
+      "date": "2026-03-22",
+      "title": "Street-Level Exploration Mode",
+      "domain": "interactivity",
+      "summary": "New Street button drops camera to ground level for immersive first-person exploration of Macau streets, with Exit button to restore previous view.",
+      "details": [
+        "Street button at bottom alongside Replay/Tour/Share buttons",
+        "Saves camera state, flies to 5m altitude at current position looking forward",
+        "Exit Street button restores previous bird's-eye camera position",
+        "Keyboard shortcut G to toggle street mode, Escape to exit",
+        "Mobile-responsive button layout with stacked rows at 600px breakpoint",
+        "Street indicator overlay with hints shown briefly on entry"
+      ],
+      "linesAdded": 115,
+      "agent": "automated"
     }
   ]
 }

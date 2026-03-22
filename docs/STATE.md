@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-22 (Session 60)
+## Last Updated: 2026-03-22 (Session 62)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -54,7 +54,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~7204 lines, ~260KB) — quality-audited Session 60
+- Single HTML file (~7319 lines, ~265KB) — quality-audited Session 60, street mode Session 62
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -109,7 +109,8 @@
 - **Camera position URL sharing** — Share View button copies URL with camera position; shared URLs skip flythrough
 - **Minimap navigation** — Canvas-drawn minimap in bottom-left showing Macau coastline outlines, landmark dots, camera position with heading/FOV indicator; click anywhere to fly there
 - **Explore panel search** — Search input at top of Explore panel filters all 30+ attractions in real-time by name (English or Chinese), auto-expands matched sections, clear button to reset
-- **Keyboard shortcuts + help overlay** — Press ? to toggle help panel; 1-8 fly to landmarks; N/D/L for night/day/live time; T/E/F/S/M for tour/explore/flythrough/share/mute; input-aware (disabled when typing)
+- **Keyboard shortcuts + help overlay** — Press ? to toggle help panel; 1-8 fly to landmarks; N/D/L for night/day/live time; T/E/F/S/M for tour/explore/flythrough/share/mute; G for street view; input-aware (disabled when typing)
+- **Street-level exploration mode** — Street button drops camera to 5m altitude for first-person city exploration; Exit Street button restores previous view; keyboard shortcut G; mobile-responsive
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

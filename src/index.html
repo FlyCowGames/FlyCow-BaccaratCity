@@ -267,6 +267,53 @@
   }
   #share-btn.visible { opacity: 1; visibility: visible; }
 
+  /* Street view button */
+  #street-btn {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(calc(-50% + 325px));
+    pointer-events: auto; cursor: pointer;
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: #d4af37; background: rgba(10,10,18,0.7);
+    border: 1px solid rgba(212,175,55,0.3);
+    padding: 10px 20px; border-radius: 2px;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    opacity: 0; visibility: hidden;
+  }
+  #street-btn:hover {
+    background: rgba(212,175,55,0.15);
+    border-color: #d4af37;
+    box-shadow: 0 0 20px rgba(212,175,55,0.2);
+  }
+  #street-btn.visible { opacity: 1; visibility: visible; }
+  #street-btn.active {
+    color: #0a0a12; background: rgba(212,175,55,0.8);
+    border-color: #d4af37;
+  }
+  #street-btn.active:hover {
+    background: rgba(212,175,55,0.95);
+  }
+
+  /* Street level indicator */
+  #street-indicator {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    pointer-events: none; z-index: 150;
+    opacity: 0; transition: opacity 0.6s ease;
+  }
+  #street-indicator.visible { opacity: 1; }
+  #street-indicator .street-text {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: clamp(1.2rem, 3vw, 2rem); letter-spacing: 0.3em;
+    color: #d4af37; text-align: center;
+    text-shadow: 0 0 30px rgba(212,175,55,0.5), 0 2px 8px rgba(0,0,0,0.8);
+  }
+  #street-indicator .street-hint {
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: clamp(0.55rem, 1vw, 0.7rem); letter-spacing: 0.15em;
+    color: rgba(212,175,55,0.5); text-align: center;
+    margin-top: 8px;
+  }
+
   /* Share toast notification */
   #share-toast {
     position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
@@ -829,7 +876,7 @@
     #time-live-btn { font-size: 0.5rem; padding: 2px 5px; }
 
     /* Bottom buttons — stack vertically or wrap */
-    #replay-btn, #tour-btn, #share-btn {
+    #replay-btn, #tour-btn, #share-btn, #street-btn {
       font-size: 0.65rem; letter-spacing: 0.15em;
       padding: 8px 16px;
     }
@@ -841,7 +888,11 @@
     }
     #share-btn {
       bottom: 62px;
-      transform: translateX(-50%);
+      transform: translateX(calc(-50% - 52px));
+    }
+    #street-btn {
+      bottom: 62px;
+      transform: translateX(calc(-50% + 52px));
     }
 
     /* Tour label */
@@ -1171,12 +1222,14 @@
 
   <div id="hints">
     scroll to zoom &middot; drag to orbit &middot; slide time to preview day/night<br>
-    click landmark for info &middot; enter casino to play baccarat &middot; press ? for keyboard shortcuts
+    click landmark for info &middot; enter casino to play baccarat &middot; press G for street view &middot; press ? for help
   </div>
 
   <button id="replay-btn">&#9654; Replay Flythrough</button>
   <button id="tour-btn">&#9654; Tour</button>
   <button id="share-btn">&#128279; Share View</button>
+  <button id="street-btn">&#128694; Street</button>
+  <div id="street-indicator"><div class="street-text">STREET LEVEL</div><div class="street-hint">drag to look around &middot; scroll to move</div></div>
   <div id="tour-label"></div>
   <div id="share-toast">Link copied to clipboard</div>
 
@@ -1206,6 +1259,7 @@
       <div class="help-row"><span class="help-key">F</span><span class="help-desc">Replay flythrough</span></div>
       <div class="help-row"><span class="help-key">S</span><span class="help-desc">Share current view</span></div>
       <div class="help-row"><span class="help-key">M</span><span class="help-desc">Toggle sound</span></div>
+      <div class="help-row"><span class="help-key">G</span><span class="help-desc">Street-level view</span></div>
       <div class="help-row"><span class="help-key">?</span><span class="help-desc">Show/hide this help</span></div>
       <div class="help-row"><span class="help-key">Esc</span><span class="help-desc">Close any overlay</span></div>
       <div class="help-hint">mouse: drag to orbit &middot; scroll to zoom &middot; click landmarks for info</div>
@@ -1745,6 +1799,7 @@ async function init() {
           document.getElementById('replay-btn').classList.add('visible');
           document.getElementById('tour-btn').classList.add('visible');
           document.getElementById('share-btn').classList.add('visible');
+          document.getElementById('street-btn').classList.add('visible');
           showMinimap();
         },
       });
@@ -2073,6 +2128,7 @@ async function runFlythrough(viewer) {
   document.getElementById('replay-btn').classList.remove('visible');
   document.getElementById('tour-btn').classList.remove('visible');
   document.getElementById('share-btn').classList.remove('visible');
+  document.getElementById('street-btn').classList.remove('visible');
   document.getElementById('minimap-container').classList.remove('visible');
   viewer.scene.screenSpaceCameraController.enableInputs = false;
 
@@ -2157,6 +2213,7 @@ async function runFlythrough(viewer) {
   document.getElementById('replay-btn').classList.add('visible');
   document.getElementById('tour-btn').classList.add('visible');
   document.getElementById('share-btn').classList.add('visible');
+  document.getElementById('street-btn').classList.add('visible');
   showMinimap();
 
   // Start slow orbit
@@ -2271,6 +2328,7 @@ function startTour() {
   document.getElementById('tour-btn').innerHTML = '&#9724; Stop Tour';
   document.getElementById('replay-btn').classList.remove('visible');
   document.getElementById('share-btn').classList.remove('visible');
+  document.getElementById('street-btn').classList.remove('visible');
   tourNext();
 }
 
@@ -2283,6 +2341,7 @@ function stopTour() {
   if (!flythroughRunning) {
     document.getElementById('replay-btn').classList.add('visible');
     document.getElementById('share-btn').classList.add('visible');
+    document.getElementById('street-btn').classList.add('visible');
   }
 }
 
@@ -2340,6 +2399,97 @@ function initTourInteractionStop() {
     if (_tourRunning) stopTour();
   }, Cesium.ScreenSpaceEventType.RIGHT_DOWN);
 }
+
+// ── Street-Level Exploration Mode ──
+var _streetMode = false;
+var _streetSavedCamera = null;
+
+function enterStreetMode() {
+  if (!_viewer || _streetMode || flythroughRunning || _tourRunning) return;
+  _streetMode = true;
+  stopOrbit(_viewer);
+
+  // Save current camera state
+  var cam = _viewer.camera;
+  var pos = cam.positionCartographic;
+  _streetSavedCamera = {
+    lon: Cesium.Math.toDegrees(pos.longitude),
+    lat: Cesium.Math.toDegrees(pos.latitude),
+    alt: pos.height,
+    heading: Cesium.Math.toDegrees(cam.heading),
+    pitch: Cesium.Math.toDegrees(cam.pitch),
+  };
+
+  // Fly to street level at current lon/lat
+  var targetLon = _streetSavedCamera.lon;
+  var targetLat = _streetSavedCamera.lat;
+  // Clamp to Macau bounds
+  targetLon = Math.max(113.52, Math.min(113.60, targetLon));
+  targetLat = Math.max(22.11, Math.min(22.22, targetLat));
+
+  _viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(targetLon, targetLat, 5),
+    orientation: {
+      heading: Cesium.Math.toRadians(_streetSavedCamera.heading),
+      pitch: Cesium.Math.toRadians(-5),
+      roll: 0.0,
+    },
+    duration: 1.5,
+    easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
+    complete: function() {
+      // Show street indicator briefly
+      var indicator = document.getElementById('street-indicator');
+      indicator.classList.add('visible');
+      setTimeout(function() { indicator.classList.remove('visible'); }, 2500);
+    },
+  });
+
+  // Update button state
+  var btn = document.getElementById('street-btn');
+  btn.classList.add('active');
+  btn.innerHTML = '&#8679; Exit Street';
+  // Hide other nav buttons
+  document.getElementById('replay-btn').classList.remove('visible');
+  document.getElementById('tour-btn').classList.remove('visible');
+  document.getElementById('share-btn').classList.remove('visible');
+}
+
+function exitStreetMode() {
+  if (!_viewer || !_streetMode) return;
+  _streetMode = false;
+
+  // Fly back to saved camera position
+  if (_streetSavedCamera) {
+    _viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(
+        _streetSavedCamera.lon, _streetSavedCamera.lat, _streetSavedCamera.alt
+      ),
+      orientation: {
+        heading: Cesium.Math.toRadians(_streetSavedCamera.heading),
+        pitch: Cesium.Math.toRadians(_streetSavedCamera.pitch),
+        roll: 0.0,
+      },
+      duration: 1.5,
+      easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
+    });
+    _streetSavedCamera = null;
+  }
+
+  // Restore button state
+  var btn = document.getElementById('street-btn');
+  btn.classList.remove('active');
+  btn.innerHTML = '&#128694; Street';
+  // Show nav buttons
+  document.getElementById('replay-btn').classList.add('visible');
+  document.getElementById('tour-btn').classList.add('visible');
+  document.getElementById('share-btn').classList.add('visible');
+}
+
+function toggleStreetMode() {
+  if (_streetMode) { exitStreetMode(); } else { enterStreetMode(); }
+}
+
+document.getElementById('street-btn').addEventListener('click', toggleStreetMode);
 
 // ── Ferry Boats ──
 var FERRY_ROUTES = [
@@ -3755,7 +3905,12 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
         e.preventDefault();
         document.getElementById('audio-toggle').click();
         break;
+      case 'g': // Street-level view
+        e.preventDefault();
+        toggleStreetMode();
+        break;
       case 'escape':
+        if (_streetMode) { exitStreetMode(); return; }
         hideLandmarkCard();
         break;
     }

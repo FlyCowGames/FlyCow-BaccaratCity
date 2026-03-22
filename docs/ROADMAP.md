@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 60)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 62)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -22,7 +22,7 @@
 ### Medium-Term (Sessions 30-100)
 - ~~Full event calendar system with live triggers~~ — Done (Session 56: 7 events, banner, enhanced effects)
 - Typhoon signal weather effects
-- Street-level exploration mode
+- ~~Street-level exploration mode~~ — Done (Session 62: Street button with camera save/restore)
 - Real-time flight data (ADS-B) for airport
 - ~~Construction cranes and ongoing development~~ — Done (Session 16)
 - Portuguese colonial district detail (Senado Square cobblestones)
@@ -85,3 +85,4 @@
 - Event calendar with banner: 7 real Macau events, notification banner, enhanced fireworks during festivals (Session 56)
 - Casino water reflections: elongated light streaks on harbor water at night (Session 57)
 - Baccarat sound effects: procedural Web Audio API sounds for card deals, chip placement, and win/lose results (Session 58)
+- Street-level exploration: Street button drops to 5m altitude for first-person city exploration with camera save/restore (Session 62)

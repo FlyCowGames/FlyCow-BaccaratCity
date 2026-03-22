@@ -389,3 +389,13 @@
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
 - **Lesson:** Keep AGENT_LEARNINGS.md — it's the agent's long-term memory across sessions.
+
+## Session 62 (2026-03-22) -- Street-Level Exploration Mode
+- **Lesson:** Street-level mode is a "meta-feature" that multiplies the value of all ground-level entities (pedestrians, traffic, lanterns, etc.) by giving users a first-person perspective. Like the time slider (S31) and auto-tour (S34), meta-features that enhance all existing content are high-leverage improvements.
+- **Lesson:** CesiumJS default mouse/touch controls work reasonably well at street level without custom WASD controls. Left-drag orbits (becomes "look around" at ground level), scroll zooms (becomes "walk forward/back"). No need for a custom first-person controller.
+- **Lesson:** Saving camera state as lon/lat/alt/heading/pitch (Cartographic) and restoring via `flyTo` is the clean approach. The `positionCartographic` getter gives direct access to these values.
+- **Lesson:** Clamping street-level coordinates to Macau bounds (lon 113.52-113.60, lat 22.11-22.22) prevents the camera from dropping to street level in the ocean or outside the 3D tiles coverage area.
+- **Lesson:** When over water, dropping to 5m altitude puts the camera at water surface — this is technically correct but visually odd. Future enhancement: detect if position is over water and shift to nearest land, or use a minimum altitude above terrain.
+- **Observation:** The button bar at bottom now has 4 buttons (Replay, Tour, Share, Street). On mobile at 600px breakpoint, they stack into 2 rows of 2. If more buttons are added, the mobile layout will need a different approach (hamburger menu, or icon-only buttons).
+- **Observation:** The project now has 7 UX/meta-features (time slider, auto-tour, URL sharing, minimap, search, shortcuts, street mode). The interactivity layer is very strong. Future sessions should balance between more interactivity and visual/atmospheric improvements.
+- **Suggestion for future sessions:** Street mode would benefit from: (1) terrain-aware altitude (clamp above Google 3D Tiles surface), (2) WASD keyboard walking controls for desktop, (3) on-screen virtual joystick for mobile touch walking. These are enhancements for future sessions, not this one.
