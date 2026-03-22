@@ -772,6 +772,22 @@
       ],
       "linesAdded": 115,
       "agent": "automated"
+    },
+    {
+      "session": 63,
+      "date": "2026-03-22",
+      "title": "Firework Sound Effects",
+      "domain": "audio",
+      "summary": "Procedural Web Audio API sounds for firework launches (rising whistle) and burst explosions (pop + crackle tail).",
+      "details": [
+        "Launch whoosh: rising sine sweep (200-1200Hz) with highpass-filtered noise",
+        "Burst pop: short noise burst with lowpass filter for explosive thump",
+        "Crackle tail: delayed sparse random pops through bandpass filter",
+        "Randomized frequency ranges and timing per firework for natural variation",
+        "Uses shared _audioCtx from ambient audio system"
+      ],
+      "linesAdded": 92,
+      "agent": "automated"
     }
   ]
 }

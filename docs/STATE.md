@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-22 (Session 62)
+## Last Updated: 2026-03-22 (Session 63)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -18,6 +18,7 @@
 - **Ambient audio**: 3-layer procedural soundscape (ocean, wind, city hum) via Web Audio API, time-of-day + weather reactive
 - **Landmark info cards**: click any landmark to see a rich popup with description, history, facts, type, and year
 - **Interactive baccarat with betting + sound**: click any casino → "Enter Casino" → play baccarat with HK$10,000 virtual bankroll, chip selection ($100-$10K), bet on Player/Banker/Tie with authentic payouts, procedural sound effects (deal, flip, chip, win/lose/tie chimes)
+- **Firework sound effects**: procedural Web Audio API launch whoosh (rising sine sweep + noise) and burst pop (explosive thump + crackle tail) synchronized with visual fireworks, randomized per firework for natural variation
 - **Harbor fireworks**: particle-based firework display over the harbor at night (20:00-01:00), 6 color palettes, 3 burst types
 - **Animated pedestrians**: ~26 walking figures near 6 popular areas (Senado Square, Ruins, Grand Lisboa, Cotai, A-Ma Temple, Macau Tower)
 - **Construction cranes**: 5 crane sites with static tower billboards and orbiting warning lights (Zone A, Cotai East, Studio City, Taipa, Peninsula)
@@ -54,7 +55,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~7319 lines, ~265KB) — quality-audited Session 60, street mode Session 62
+- Single HTML file (~7411 lines, ~268KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 

@@ -6356,6 +6356,69 @@ function initSkyJump(viewer) {
     return palettes[Math.floor(Math.random() * palettes.length)];
   }
 
+  // Firework sound effects (uses shared _audioCtx from ambient audio)
+  function playFireworkSound(type) {
+    if (!_audioCtx || _audioCtx.state !== 'running') return;
+    var t = _audioCtx.currentTime;
+
+    if (type === 'launch') {
+      // Rising whistle — sine sweep low to high with noise
+      var o = _audioCtx.createOscillator(); o.type = 'sine';
+      o.frequency.setValueAtTime(200 + Math.random() * 100, t);
+      o.frequency.exponentialRampToValueAtTime(1200 + Math.random() * 800, t + 0.6);
+      var g = _audioCtx.createGain();
+      g.gain.setValueAtTime(0.06, t);
+      g.gain.linearRampToValueAtTime(0.1, t + 0.3);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
+      o.connect(g); g.connect(_audioCtx.destination);
+      o.start(t); o.stop(t + 0.71);
+
+      // Add noise whoosh alongside whistle
+      var nLen = Math.floor(_audioCtx.sampleRate * 0.6);
+      var nBuf = _audioCtx.createBuffer(1, nLen, _audioCtx.sampleRate);
+      var nData = nBuf.getChannelData(0);
+      for (var i = 0; i < nLen; i++) nData[i] = (Math.random() * 2 - 1) * (i / nLen);
+      var nSrc = _audioCtx.createBufferSource(); nSrc.buffer = nBuf;
+      var nFlt = _audioCtx.createBiquadFilter(); nFlt.type = 'highpass'; nFlt.frequency.value = 800;
+      var nGain = _audioCtx.createGain();
+      nGain.gain.setValueAtTime(0.04, t);
+      nGain.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
+      nSrc.connect(nFlt); nFlt.connect(nGain); nGain.connect(_audioCtx.destination);
+      nSrc.start(t); nSrc.stop(t + 0.61);
+    }
+    else if (type === 'burst') {
+      // Explosive pop — short noise burst with low resonance
+      var bLen = Math.floor(_audioCtx.sampleRate * 0.25);
+      var bBuf = _audioCtx.createBuffer(1, bLen, _audioCtx.sampleRate);
+      var bData = bBuf.getChannelData(0);
+      for (var i = 0; i < bLen; i++) bData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bLen * 0.08));
+      var bSrc = _audioCtx.createBufferSource(); bSrc.buffer = bBuf;
+      var bFlt = _audioCtx.createBiquadFilter(); bFlt.type = 'lowpass';
+      bFlt.frequency.value = 600 + Math.random() * 400; bFlt.Q.value = 0.8;
+      var bGain = _audioCtx.createGain();
+      bGain.gain.setValueAtTime(0.18 + Math.random() * 0.07, t);
+      bGain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+      bSrc.connect(bFlt); bFlt.connect(bGain); bGain.connect(_audioCtx.destination);
+      bSrc.start(t); bSrc.stop(t + 0.26);
+
+      // Crackle tail — delayed sparse pops
+      var cDelay = 0.15 + Math.random() * 0.1;
+      var cLen = Math.floor(_audioCtx.sampleRate * 0.4);
+      var cBuf = _audioCtx.createBuffer(1, cLen, _audioCtx.sampleRate);
+      var cData = cBuf.getChannelData(0);
+      for (var i = 0; i < cLen; i++) {
+        cData[i] = Math.random() < 0.02 ? (Math.random() * 2 - 1) * Math.exp(-i / (cLen * 0.3)) : 0;
+      }
+      var cSrc = _audioCtx.createBufferSource(); cSrc.buffer = cBuf;
+      var cFlt = _audioCtx.createBiquadFilter(); cFlt.type = 'bandpass'; cFlt.frequency.value = 3000; cFlt.Q.value = 0.5;
+      var cGain = _audioCtx.createGain();
+      cGain.gain.setValueAtTime(0.12, t + cDelay);
+      cGain.gain.exponentialRampToValueAtTime(0.001, t + cDelay + 0.4);
+      cSrc.connect(cFlt); cFlt.connect(cGain); cGain.connect(_audioCtx.destination);
+      cSrc.start(t + cDelay); cSrc.stop(t + cDelay + 0.41);
+    }
+  }
+
   // Launch a rocket from bottom toward a burst point
   function launchRocket() {
     var x = fwCanvas.width * (0.2 + Math.random() * 0.6);
@@ -6368,6 +6431,7 @@ function initSkyJump(viewer) {
       palette: randomPalette(),
       trail: []
     });
+    playFireworkSound('launch');
   }
 
   // Create burst particles at a point
@@ -6428,6 +6492,7 @@ function initSkyJump(viewer) {
 
       if (rk.y <= rk.targetY) {
         burst(rk.x, rk.y, rk.palette);
+        playFireworkSound('burst');
         rockets.splice(r, 1);
       }
     }

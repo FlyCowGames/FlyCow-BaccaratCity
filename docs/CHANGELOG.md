@@ -482,6 +482,16 @@
 - Fulfills medium-term roadmap item: "Street-level exploration mode"
 - File grew from ~7204 to ~7319 lines (+115 lines)
 
+## Session 63 — 2026-03-22 (Automated Agent)
+- Firework sound effects: procedural Web Audio API sounds for rocket launches and burst explosions
+- Launch whoosh: rising sine sweep (200-1200Hz) combined with highpass-filtered noise for realistic rocket ascent sound
+- Burst pop: short noise burst with lowpass filter for explosive thump, followed by delayed crackle tail (sparse random pops through bandpass filter)
+- Randomized parameters: frequency ranges, gain levels, and crackle delays vary per firework for natural variation
+- Uses shared _audioCtx from ambient audio system — only plays when audio is enabled (Sound On)
+- Called from launchRocket() and burst handler inside fireworks IIFE
+- 3rd audio feature (after ambient soundscape S9, baccarat sounds S58)
+- File grew from ~7319 to ~7411 lines (+92 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
