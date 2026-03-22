@@ -712,6 +712,99 @@
     color: rgba(212,175,55,0.35); letter-spacing: 0.1em; text-transform: uppercase;
   }
 
+  /* Baccarat Betting System */
+  .bacc-bankroll {
+    text-align: center; margin-bottom: 14px;
+    font-family: 'DM Mono', monospace;
+  }
+  .bacc-bankroll-label {
+    font-size: 0.55rem; color: rgba(212,175,55,0.4);
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .bacc-bankroll-amount {
+    font-size: 1.3rem; color: #d4af37; font-weight: 400;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 15px rgba(212,175,55,0.3);
+    transition: color 0.3s;
+  }
+  .bacc-bankroll-amount.win-flash { color: #4cff4c; }
+  .bacc-bankroll-amount.lose-flash { color: #ff4c4c; }
+  .bacc-bet-areas {
+    display: flex; gap: 8px; justify-content: center; margin-bottom: 12px;
+  }
+  .bacc-bet-area {
+    flex: 1; max-width: 140px; text-align: center; padding: 10px 6px 8px;
+    border: 2px solid rgba(255,255,255,0.1); border-radius: 8px;
+    cursor: pointer; transition: all 0.3s ease;
+    position: relative;
+  }
+  .bacc-bet-area:hover { border-color: rgba(212,175,55,0.4); }
+  .bacc-bet-area.selected { border-color: rgba(212,175,55,0.7); box-shadow: 0 0 12px rgba(212,175,55,0.2); }
+  .bacc-bet-area.player-area { background: rgba(60,100,200,0.12); }
+  .bacc-bet-area.tie-area { background: rgba(212,175,55,0.08); }
+  .bacc-bet-area.banker-area { background: rgba(200,60,60,0.12); }
+  .bacc-bet-area-label {
+    font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.6rem;
+    letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2px;
+  }
+  .bacc-bet-area.player-area .bacc-bet-area-label { color: rgba(100,160,255,0.8); }
+  .bacc-bet-area.tie-area .bacc-bet-area-label { color: rgba(212,175,55,0.7); }
+  .bacc-bet-area.banker-area .bacc-bet-area-label { color: rgba(255,100,100,0.8); }
+  .bacc-bet-area-payout {
+    font-family: 'DM Mono', monospace; font-size: 0.5rem;
+    color: rgba(255,255,255,0.25); letter-spacing: 0.05em;
+  }
+  .bacc-bet-area-amount {
+    font-family: 'DM Mono', monospace; font-size: 0.75rem;
+    color: #d4af37; margin-top: 4px; min-height: 1.1em;
+  }
+  .bacc-chips {
+    display: flex; gap: 6px; justify-content: center; margin-bottom: 12px;
+  }
+  .bacc-chip {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace; font-weight: 700;
+    font-size: 0.5rem; cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.3);
+    transition: all 0.2s ease; position: relative;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    color: #fff;
+  }
+  .bacc-chip:hover { transform: scale(1.15); }
+  .bacc-chip.selected { transform: scale(1.15); border-color: #d4af37; box-shadow: 0 0 12px rgba(212,175,55,0.5); }
+  .bacc-chip.chip-100 { background: radial-gradient(circle at 35% 35%, #4a90d9, #2a5a9a); }
+  .bacc-chip.chip-500 { background: radial-gradient(circle at 35% 35%, #d94a4a, #9a2a2a); }
+  .bacc-chip.chip-1k { background: radial-gradient(circle at 35% 35%, #49b849, #2a7a2a); }
+  .bacc-chip.chip-5k { background: radial-gradient(circle at 35% 35%, #1a1a1a, #333); }
+  .bacc-chip.chip-10k { background: radial-gradient(circle at 35% 35%, #d4af37, #8a6f1a); }
+  .bacc-clear-bet {
+    font-family: 'DM Mono', monospace; font-size: 0.5rem;
+    color: rgba(255,255,255,0.3); background: none; border: none;
+    cursor: pointer; padding: 2px 8px; letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+  .bacc-clear-bet:hover { color: rgba(255,255,255,0.6); }
+  .bacc-payout-msg {
+    text-align: center; min-height: 1.2em; margin-bottom: 6px;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.05em; transition: opacity 0.3s;
+  }
+  .bacc-payout-msg.win { color: #4cff4c; }
+  .bacc-payout-msg.lose { color: #ff4c4c; }
+  .bacc-deal-btn:disabled {
+    opacity: 0.4; cursor: not-allowed;
+  }
+  .bacc-reset-btn {
+    display: none; width: 100%; padding: 10px 0; margin-top: 8px;
+    background: linear-gradient(135deg, rgba(200,60,60,0.25), rgba(200,60,60,0.15));
+    border: 1px solid rgba(200,60,60,0.4); border-radius: 4px;
+    color: rgba(255,100,100,0.8); font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s ease;
+  }
+  .bacc-reset-btn:hover { background: linear-gradient(135deg, rgba(200,60,60,0.4), rgba(200,60,60,0.25)); }
+
   /* ── Mobile Responsive ── */
   @media (max-width: 600px) {
     /* Title block — tighter padding */
@@ -815,6 +908,19 @@
     .bacc-stats { font-size: 0.5rem; gap: 12px; }
     .bacc-close { font-size: 1.2rem; top: 10px; right: 14px; }
     .bacc-title { font-size: 0.6rem; }
+    .bacc-bankroll { margin-bottom: 8px; }
+    .bacc-bankroll-amount { font-size: 1rem; }
+    .bacc-bankroll-label { font-size: 0.5rem; }
+    .bacc-bet-areas { gap: 4px; margin-bottom: 8px; }
+    .bacc-bet-area { padding: 6px 4px 5px; }
+    .bacc-bet-area-label { font-size: 0.5rem; }
+    .bacc-bet-area-payout { font-size: 0.45rem; }
+    .bacc-bet-area-amount { font-size: 0.6rem; }
+    .bacc-chips { gap: 4px; margin-bottom: 8px; }
+    .bacc-chip { width: 36px; height: 36px; font-size: 0.45rem; }
+    .bacc-clear-bet { font-size: 0.45rem; }
+    .bacc-payout-msg { font-size: 0.55rem; }
+    .bacc-reset-btn { font-size: 0.6rem; }
 
     /* Stage label — flythrough */
     #stage-label { font-size: clamp(0.7rem, 3vw, 0.9rem); letter-spacing: 0.2em; }
@@ -1069,6 +1175,35 @@
       <button class="bacc-close">&times;</button>
       <div class="bacc-title">Baccarat Punto Banco</div>
       <div class="bacc-casino-name" id="bacc-casino-name">Grand Lisboa</div>
+      <div class="bacc-bankroll">
+        <div class="bacc-bankroll-label">Bankroll</div>
+        <div class="bacc-bankroll-amount" id="bacc-bankroll">HK$10,000</div>
+      </div>
+      <div class="bacc-bet-areas" id="bacc-bet-areas">
+        <div class="bacc-bet-area player-area" data-bet="player">
+          <div class="bacc-bet-area-label">Player</div>
+          <div class="bacc-bet-area-payout">1:1</div>
+          <div class="bacc-bet-area-amount" id="bacc-bet-player"></div>
+        </div>
+        <div class="bacc-bet-area tie-area" data-bet="tie">
+          <div class="bacc-bet-area-label">Tie</div>
+          <div class="bacc-bet-area-payout">8:1</div>
+          <div class="bacc-bet-area-amount" id="bacc-bet-tie"></div>
+        </div>
+        <div class="bacc-bet-area banker-area" data-bet="banker">
+          <div class="bacc-bet-area-label">Banker</div>
+          <div class="bacc-bet-area-payout">0.95:1</div>
+          <div class="bacc-bet-area-amount" id="bacc-bet-banker"></div>
+        </div>
+      </div>
+      <div class="bacc-chips" id="bacc-chips">
+        <div class="bacc-chip chip-100 selected" data-value="100">100</div>
+        <div class="bacc-chip chip-500" data-value="500">500</div>
+        <div class="bacc-chip chip-1k" data-value="1000">1K</div>
+        <div class="bacc-chip chip-5k" data-value="5000">5K</div>
+        <div class="bacc-chip chip-10k" data-value="10000">10K</div>
+        <button class="bacc-clear-bet" id="bacc-clear-bet">Clear</button>
+      </div>
       <div class="bacc-hands">
         <div class="bacc-hand player">
           <div class="bacc-hand-label">Player</div>
@@ -1082,7 +1217,9 @@
         </div>
       </div>
       <div class="bacc-result" id="bacc-result"></div>
-      <button class="bacc-deal-btn" id="bacc-deal-btn">Deal</button>
+      <div class="bacc-payout-msg" id="bacc-payout-msg"></div>
+      <button class="bacc-deal-btn" id="bacc-deal-btn" disabled>Place Your Bet</button>
+      <button class="bacc-reset-btn" id="bacc-reset-btn">New Bankroll (HK$10,000)</button>
       <div class="bacc-stats" id="bacc-stats">
         <span>Player: <b id="bacc-stat-p">0</b></span>
         <span>Banker: <b id="bacc-stat-b">0</b></span>
@@ -3682,6 +3819,10 @@ document.getElementById('audio-toggle').addEventListener('click', function() {
 
 // ── Baccarat Game ──
 var _baccStats = { p: 0, b: 0, t: 0 };
+var _baccBankroll = 10000;
+var _baccBets = { player: 0, tie: 0, banker: 0 };
+var _baccSelectedChip = 100;
+var _baccDealing = false;
 
 var SUITS = ['\u2660', '\u2665', '\u2666', '\u2663']; // spade, heart, diamond, club
 var RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
@@ -3745,8 +3886,16 @@ function openBaccarat(casinoName) {
   document.getElementById('bacc-banker-score').textContent = '-';
   document.getElementById('bacc-result').textContent = '';
   document.getElementById('bacc-result').className = 'bacc-result';
-  document.getElementById('bacc-deal-btn').textContent = 'Deal';
-  document.getElementById('bacc-deal-btn').disabled = false;
+  document.getElementById('bacc-payout-msg').textContent = '';
+  document.getElementById('bacc-payout-msg').className = 'bacc-payout-msg';
+  _baccBets = { player: 0, tie: 0, banker: 0 };
+  _baccDealing = false;
+  updateBaccBetDisplay();
+  updateBaccBankrollDisplay();
+  var dealBtn = document.getElementById('bacc-deal-btn');
+  dealBtn.textContent = 'Place Your Bet';
+  dealBtn.disabled = true;
+  document.getElementById('bacc-reset-btn').style.display = _baccBankroll <= 0 ? 'block' : 'none';
   document.getElementById('baccarat-overlay').classList.add('visible');
   updateBaccStats();
 }
@@ -3761,13 +3910,66 @@ function updateBaccStats() {
   document.getElementById('bacc-stat-t').textContent = _baccStats.t;
 }
 
+function updateBaccBankrollDisplay() {
+  var el = document.getElementById('bacc-bankroll');
+  el.textContent = 'HK$' + _baccBankroll.toLocaleString();
+}
+
+function updateBaccBetDisplay() {
+  document.getElementById('bacc-bet-player').textContent = _baccBets.player ? '$' + _baccBets.player.toLocaleString() : '';
+  document.getElementById('bacc-bet-tie').textContent = _baccBets.tie ? '$' + _baccBets.tie.toLocaleString() : '';
+  document.getElementById('bacc-bet-banker').textContent = _baccBets.banker ? '$' + _baccBets.banker.toLocaleString() : '';
+  // Highlight areas with bets
+  document.querySelectorAll('.bacc-bet-area').forEach(function(area) {
+    var type = area.getAttribute('data-bet');
+    area.classList.toggle('selected', _baccBets[type] > 0);
+  });
+  // Enable deal button if any bet placed
+  var totalBet = _baccBets.player + _baccBets.tie + _baccBets.banker;
+  var dealBtn = document.getElementById('bacc-deal-btn');
+  if (!_baccDealing) {
+    dealBtn.disabled = totalBet === 0;
+    dealBtn.textContent = totalBet > 0 ? 'Deal' : 'Place Your Bet';
+  }
+}
+
+function placeBaccBet(type) {
+  if (_baccDealing) return;
+  if (_baccBankroll <= 0) return;
+  var amount = Math.min(_baccSelectedChip, _baccBankroll - _baccBets.player - _baccBets.tie - _baccBets.banker);
+  if (amount <= 0) return;
+  _baccBets[type] += amount;
+  updateBaccBetDisplay();
+}
+
+function clearBaccBets() {
+  if (_baccDealing) return;
+  _baccBets = { player: 0, tie: 0, banker: 0 };
+  updateBaccBetDisplay();
+}
+
+function flashBankroll(isWin) {
+  var el = document.getElementById('bacc-bankroll');
+  el.classList.add(isWin ? 'win-flash' : 'lose-flash');
+  setTimeout(function() { el.classList.remove('win-flash', 'lose-flash'); }, 800);
+}
+
 function dealBaccarat() {
+  var totalBet = _baccBets.player + _baccBets.tie + _baccBets.banker;
+  if (totalBet === 0) return;
+
   var dealBtn = document.getElementById('bacc-deal-btn');
   var playerCardsEl = document.getElementById('bacc-player-cards');
   var bankerCardsEl = document.getElementById('bacc-banker-cards');
   var playerScoreEl = document.getElementById('bacc-player-score');
   var bankerScoreEl = document.getElementById('bacc-banker-score');
   var resultEl = document.getElementById('bacc-result');
+  var payoutEl = document.getElementById('bacc-payout-msg');
+
+  // Deduct bets from bankroll
+  _baccBankroll -= totalBet;
+  updateBaccBankrollDisplay();
+  _baccDealing = true;
 
   // Reset
   playerCardsEl.innerHTML = '';
@@ -3776,6 +3978,8 @@ function dealBaccarat() {
   bankerScoreEl.textContent = '-';
   resultEl.textContent = '';
   resultEl.className = 'bacc-result';
+  payoutEl.textContent = '';
+  payoutEl.className = 'bacc-payout-msg';
   dealBtn.disabled = true;
   dealBtn.textContent = 'Dealing...';
 
@@ -3891,23 +4095,57 @@ function dealBaccarat() {
     playerScoreEl.textContent = pFinal;
     bankerScoreEl.textContent = bFinal;
 
+    // Calculate payouts
+    var payout = 0;
     if (pFinal > bFinal) {
       resultEl.textContent = 'Player Wins';
       resultEl.className = 'bacc-result player-wins';
       _baccStats.p++;
+      payout += _baccBets.player * 2;  // 1:1 + original bet
     } else if (bFinal > pFinal) {
       resultEl.textContent = 'Banker Wins';
       resultEl.className = 'bacc-result banker-wins';
       _baccStats.b++;
+      payout += Math.floor(_baccBets.banker * 1.95);  // 0.95:1 (5% commission) + original bet
     } else {
       resultEl.textContent = 'Tie';
       resultEl.className = 'bacc-result tie';
       _baccStats.t++;
+      payout += _baccBets.tie * 9;  // 8:1 + original bet
+      // Tie returns Player/Banker bets (push)
+      payout += _baccBets.player + _baccBets.banker;
+    }
+
+    _baccBankroll += payout;
+    updateBaccBankrollDisplay();
+
+    var totalBetNow = _baccBets.player + _baccBets.tie + _baccBets.banker;
+    var net = payout - totalBetNow;
+    if (net > 0) {
+      payoutEl.textContent = '+HK$' + net.toLocaleString();
+      payoutEl.className = 'bacc-payout-msg win';
+      flashBankroll(true);
+    } else if (net < 0) {
+      payoutEl.textContent = '-HK$' + Math.abs(net).toLocaleString();
+      payoutEl.className = 'bacc-payout-msg lose';
+      flashBankroll(false);
+    } else {
+      payoutEl.textContent = 'Push';
+      payoutEl.className = 'bacc-payout-msg';
     }
 
     updateBaccStats();
-    dealBtn.textContent = 'Deal Again';
-    dealBtn.disabled = false;
+    _baccDealing = false;
+    _baccBets = { player: 0, tie: 0, banker: 0 };
+    updateBaccBetDisplay();
+    if (_baccBankroll <= 0) {
+      dealBtn.textContent = 'Bankrupt';
+      dealBtn.disabled = true;
+      document.getElementById('bacc-reset-btn').style.display = 'block';
+    } else {
+      dealBtn.textContent = 'Place Your Bet';
+      dealBtn.disabled = true;
+    }
   });
 
   // Execute steps with delays
@@ -3928,6 +4166,36 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && document.getElementById('baccarat-overlay').classList.contains('visible')) {
     closeBaccarat();
   }
+});
+
+// Betting: click bet areas to place bets
+document.querySelectorAll('.bacc-bet-area').forEach(function(area) {
+  area.addEventListener('click', function() {
+    placeBaccBet(area.getAttribute('data-bet'));
+  });
+});
+
+// Betting: click chips to select denomination
+document.querySelectorAll('.bacc-chip').forEach(function(chip) {
+  chip.addEventListener('click', function() {
+    _baccSelectedChip = parseInt(chip.getAttribute('data-value'));
+    document.querySelectorAll('.bacc-chip').forEach(function(c) { c.classList.remove('selected'); });
+    chip.classList.add('selected');
+  });
+});
+
+// Betting: clear bets button
+document.getElementById('bacc-clear-bet').addEventListener('click', clearBaccBets);
+
+// Betting: reset bankroll button
+document.getElementById('bacc-reset-btn').addEventListener('click', function() {
+  _baccBankroll = 10000;
+  _baccBets = { player: 0, tie: 0, banker: 0 };
+  _baccDealing = false;
+  updateBaccBankrollDisplay();
+  updateBaccBetDisplay();
+  document.getElementById('bacc-reset-btn').style.display = 'none';
+  document.getElementById('bacc-payout-msg').textContent = '';
 });
 
 // ── Harbor Water Shimmer System ──

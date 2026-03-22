@@ -41,7 +41,7 @@
 - [x] Dragon Boat Festival — races in Nam Van Lake (Session 36: 5 dragon boats racing on Nam Van Lake)
 
 ## Interactivity
-- [x] Click casino → enter and see baccarat tables (Session 11: interactive Punto Banco game)
+- [x] Click casino → enter and see baccarat tables (Session 11: interactive Punto Banco game, Session 54: betting system with virtual bankroll)
 - [x] Click landmark → info popup with history (Session 10: rich info cards with description, facts, year, type)
 - [x] Time slider to preview any time of day (Session 31: interactive slider with CesiumJS sun override)
 - [x] Minimap for navigation (Session 49: canvas-drawn minimap with coastline, landmarks, camera position, click-to-fly)

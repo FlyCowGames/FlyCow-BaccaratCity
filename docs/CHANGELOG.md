@@ -399,6 +399,20 @@
 - 5th UX/meta-feature (after time slider S31, auto-tour S34, URL sharing S48, minimap S49, search S51)
 - File grew from ~6249 to ~6414 lines (+165 lines)
 
+## Session 54 — 2026-03-22 (Automated Agent)
+- Baccarat betting system: full betting with virtual HK$ bankroll transforms passive card-viewing into real gameplay
+- Virtual HK$10,000 starting bankroll displayed prominently above the baccarat table
+- Three bet areas: Player (1:1 payout), Tie (8:1 payout), Banker (0.95:1 with 5% commission)
+- Five chip denominations: $100 (blue), $500 (red), $1K (green), $5K (black), $10K (gold) with visual selection
+- Click bet areas to place chips from selected denomination; Clear button to reset all bets
+- Deal button requires a bet to be placed first (disabled until bet exists)
+- Payout display shows green "+HK$X" for wins, red "-HK$X" for losses with bankroll flash animation
+- Tie pushes Player/Banker bets back to bankroll (authentic Punto Banco rules)
+- Bankrupt state shows "New Bankroll" reset button when balance hits zero
+- Mobile-responsive betting UI with smaller chips and bet areas at 600px breakpoint
+- Directly serves Prime Directive #8: "Baccarat is the Soul" — transforms the signature feature from viewing into playing
+- File grew from ~6414 to ~6769 lines (+355 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

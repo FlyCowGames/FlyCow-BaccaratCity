@@ -328,6 +328,16 @@
 - **Observation:** This is the 5th UX/meta-feature (time slider S31, auto-tour S34, URL sharing S48, minimap S49, search S51, shortcuts S53). The project now has a solid interactivity layer on top of the visual content. Future sessions should shift back to visual/atmospheric improvements.
 - **Observation:** Session 50 quality audit was skipped (noted in Session 51 learnings). The next audit should happen at Session 60. Sessions 40 and 50 were both skipped — audits keep getting deferred.
 
+## Session 54 (2026-03-22) -- Baccarat Betting System
+- **Lesson:** Enhancing an existing feature (baccarat game → betting system) is higher-impact than adding yet another billboard entity. The baccarat game went from passive card-viewing to real gameplay, directly serving the Prime Directive's "Baccarat is the Soul."
+- **Lesson:** Betting logic for Punto Banco is simple: Player 1:1, Banker 0.95:1 (5% commission via `Math.floor(bet * 1.95)`), Tie 8:1. On tie, Player/Banker bets push (return to player). This matches real casino rules.
+- **Lesson:** State management for betting (bankroll, selected chip, current bets, dealing flag) uses simple module-level variables. No need for a state machine — the `_baccDealing` flag prevents mid-deal interactions.
+- **Lesson:** `Math.min(_baccSelectedChip, _baccBankroll - totalBets)` prevents over-betting beyond available bankroll. Simple boundary check that ensures integrity.
+- **Lesson:** Bankroll flash animation (green for win, red for loss) using CSS class toggle + setTimeout removal is a lightweight but effective visual feedback mechanism.
+- **Observation:** After 5 consecutive UX/meta-features (S48-S53), enhancing an existing core feature is a good change of pace. The project benefits from deepening existing features, not just adding breadth.
+- **Observation:** The baccarat betting system adds ~355 lines, making it one of the larger single-session additions. Complex UI features (bet areas, chips, bankroll, payouts, reset) require more CSS than billboard entity features.
+- **Suggestion for future sessions:** The baccarat game could be further enhanced with: Big Road scoreboard (traditional tracking grid), card flip animations (CSS 3D transforms), sound effects on deal/win, bet history. But next session should return to visual/atmospheric improvements for variety.
+
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
 - **Lesson:** Keep AGENT_LEARNINGS.md — it's the agent's long-term memory across sessions.

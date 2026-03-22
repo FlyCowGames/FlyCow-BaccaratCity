@@ -655,6 +655,26 @@
       ],
       "linesAdded": 165,
       "agent": "automated"
+    },
+    {
+      "session": 54,
+      "date": "2026-03-22",
+      "title": "Baccarat Betting System",
+      "domain": "interactivity",
+      "summary": "Full betting system for baccarat with virtual HK$ bankroll, chip selection, bet placement on Player/Banker/Tie, and authentic payouts.",
+      "details": [
+        "Virtual HK$10,000 starting bankroll displayed above the table",
+        "Three bet areas: Player (1:1), Tie (8:1), Banker (0.95:1 with 5% commission)",
+        "Five chip denominations: $100, $500, $1K, $5K, $10K with visual selection",
+        "Click bet areas to place chips, Clear button to reset bets",
+        "Deal button only enabled after placing a bet",
+        "Win/loss payout display with green/red flash on bankroll",
+        "Tie pushes Player/Banker bets back (authentic casino rules)",
+        "Bankrupt state with New Bankroll reset button",
+        "Mobile-responsive betting UI at 390px width"
+      ],
+      "linesAdded": 355,
+      "agent": "automated"
     }
   ]
 }
