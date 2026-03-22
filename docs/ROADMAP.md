@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 55)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 56)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -20,7 +20,7 @@
 - ~~Bridge traffic animations~~ — Done (Session 7: traffic, Session 29: night illumination)
 
 ### Medium-Term (Sessions 30-100)
-- Full event calendar system with live triggers
+- ~~Full event calendar system with live triggers~~ — Done (Session 56: 7 events, banner, enhanced effects)
 - Typhoon signal weather effects
 - Street-level exploration mode
 - Real-time flight data (ADS-B) for airport
@@ -82,3 +82,4 @@
 - Keyboard shortcuts + help overlay: press ? for help; 1-8 landmarks, N/D/L time control, T/E/F/S/M features (Session 53)
 - Baccarat betting system: HK$10K virtual bankroll, chip selection, Player/Banker/Tie bets with authentic payouts (Session 54)
 - Wynn Palace SkyCab cable cars: 4 animated gondolas over the Performance Lake with altitude arc and sway animation (Session 55)
+- Event calendar with banner: 7 real Macau events, notification banner, enhanced fireworks during festivals (Session 56)

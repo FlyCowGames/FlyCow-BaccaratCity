@@ -934,6 +934,62 @@
     #share-toast { font-size: 0.65rem; bottom: 110px; }
   }
 
+  /* Event banner */
+  #event-banner {
+    position: absolute; top: 0; left: 0; width: 100%;
+    display: none; /* hidden when no event */
+    justify-content: center; align-items: center;
+    padding: 6px 16px;
+    background: linear-gradient(90deg, rgba(180,40,20,0.85) 0%, rgba(212,60,30,0.9) 30%, rgba(212,175,55,0.9) 50%, rgba(212,60,30,0.9) 70%, rgba(180,40,20,0.85) 100%);
+    pointer-events: auto; cursor: pointer;
+    z-index: 150;
+    font-family: 'DM Mono', monospace;
+    animation: eventBannerShimmer 6s ease-in-out infinite;
+    border-bottom: 1px solid rgba(212,175,55,0.4);
+    box-shadow: 0 2px 16px rgba(212,175,55,0.3);
+  }
+  #event-banner.visible { display: flex; }
+  @keyframes eventBannerShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  #event-banner-icon {
+    font-size: 1.1rem; margin-right: 8px;
+  }
+  #event-banner-text {
+    font-size: 0.7rem; color: #fff;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 400; text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+  #event-banner-text .event-chinese {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 0.65rem; opacity: 0.85;
+    margin-left: 8px; letter-spacing: 0.05em;
+    text-transform: none;
+  }
+  #event-banner-status {
+    font-size: 0.55rem; color: rgba(255,255,255,0.8);
+    margin-left: 10px; letter-spacing: 0.08em;
+    padding: 2px 8px;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 3px;
+  }
+  #event-banner-dismiss {
+    margin-left: 12px; font-size: 0.8rem;
+    color: rgba(255,255,255,0.6); cursor: pointer;
+    pointer-events: auto;
+  }
+  #event-banner-dismiss:hover { color: #fff; }
+
+  @media (max-width: 600px) {
+    #event-banner { padding: 5px 10px; }
+    #event-banner-icon { font-size: 0.9rem; margin-right: 5px; }
+    #event-banner-text { font-size: 0.55rem; letter-spacing: 0.08em; }
+    #event-banner-text .event-chinese { display: none; }
+    #event-banner-status { font-size: 0.45rem; margin-left: 6px; padding: 1px 5px; }
+    #event-banner-dismiss { margin-left: 8px; font-size: 0.7rem; }
+  }
+
   /* Vignette */
   #vignette {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -1072,10 +1128,17 @@
 <div id="overlay">
   <div id="vignette"></div>
 
+  <div id="event-banner">
+    <span id="event-banner-icon"></span>
+    <span id="event-banner-text"></span>
+    <span id="event-banner-status"></span>
+    <span id="event-banner-dismiss">&times;</span>
+  </div>
+
   <div id="title-block">
     <div id="title">BACCARAT CITY</div>
     <div id="tagline">百家樂之城 &middot; 澳門風雲</div>
-    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Time Preview &middot; Live Weather &middot; Live Traffic &amp; Flights &middot; Live Baccarat</div>
+    <div id="subtitle">Photorealistic Macau &middot; Real-Time Day &amp; Night &middot; Time Preview &middot; Live Weather &middot; Live Events &middot; Live Baccarat</div>
     <div id="title-line"></div>
   </div>
 
@@ -3308,20 +3371,34 @@ var ATTRACTIONS = {
 };
 
 // Macau events calendar — updated by improvement agent
+// Dates are approximate for 2026; lunar dates shift each year
 var MACAU_EVENTS = [
-  { name: "Macau Grand Prix", chinese: "澳門格蘭披治大賽車", icon: "🏎️", month: 11, day: 13, endDay: 16,
-    lat: 22.1950, lon: 113.5440, alt: 400, pitch: -30, desc: "F3 & touring cars on the Guia Circuit" },
-  { name: "Chinese New Year", chinese: "農曆新年", icon: "🧧", month: 2, day: 17, endDay: 20,
-    lat: 22.1937, lon: 113.5390, alt: 300, pitch: -25, desc: "Fireworks, dragon dance, red lanterns" },
-  { name: "Fireworks Contest", chinese: "國際煙花匯演", icon: "🎆", month: 9, day: 13, endDay: 10,
-    lat: 22.1801, lon: 113.5318, alt: 500, pitch: -20, desc: "International fireworks at Macau Tower" },
+  { name: "Chinese New Year", chinese: "農曆新年", icon: "🧧", month: 2, day: 17, endDay: 23,
+    lat: 22.1937, lon: 113.5390, alt: 300, pitch: -25, desc: "Fireworks, dragon dance, red lanterns across Macau",
+    effects: 'fireworks' },
+  { name: "Ching Ming Festival", chinese: "清明節", icon: "🪷", month: 4, day: 4, endDay: 6,
+    lat: 22.1868, lon: 113.5311, alt: 250, pitch: -20, desc: "Tomb-sweeping day — incense and offerings at temples",
+    effects: 'cultural' },
   { name: "Dragon Boat Festival", chinese: "龍舟節", icon: "🐉", month: 6, day: 7, endDay: 9,
-    lat: 22.1870, lon: 113.5380, alt: 300, pitch: -25, desc: "Dragon boat races in Nam Van Lake" },
+    lat: 22.1852, lon: 113.5365, alt: 300, pitch: -25, desc: "Dragon boat races in Nam Van Lake",
+    effects: 'cultural' },
+  { name: "Fireworks Contest", chinese: "國際煙花匯演", icon: "🎆", month: 9, day: 5, endDay: 10,
+    lat: 22.1870, lon: 113.5380, alt: 500, pitch: -20, desc: "International fireworks display contest over the harbour",
+    effects: 'fireworks' },
   { name: "Mid-Autumn Festival", chinese: "中秋節", icon: "🏮", month: 10, day: 6, endDay: 8,
-    lat: 22.1937, lon: 113.5390, alt: 250, pitch: -20, desc: "Lanterns and mooncakes at Senado Square" },
+    lat: 22.1937, lon: 113.5390, alt: 250, pitch: -20, desc: "Lanterns and mooncakes at Senado Square",
+    effects: 'lanterns' },
+  { name: "Macau Grand Prix", chinese: "澳門格蘭披治大賽車", icon: "🏎️", month: 11, day: 12, endDay: 15,
+    lat: 22.1950, lon: 113.5440, alt: 400, pitch: -30, desc: "F3 & touring cars on the iconic Guia Circuit",
+    effects: 'racing' },
   { name: "Macao Light Festival", chinese: "澳門光影節", icon: "✨", month: 12, day: 1, endDay: 31,
-    lat: 22.1974, lon: 113.5410, alt: 300, pitch: -20, desc: "Light installations across historic centre" },
+    lat: 22.1974, lon: 113.5410, alt: 300, pitch: -20, desc: "Light installations across the historic centre",
+    effects: 'lights' },
 ];
+
+// Global active event state — read by fireworks and other systems
+var _activeEvent = null;
+var _eventBannerDismissed = false;
 
 function flyToAttraction(item) {
   if (!_viewer) return;
@@ -3447,6 +3524,12 @@ function updateLiveEvents() {
 
   var allEvents = activeEvents.concat(upcomingEvents);
 
+  // Update global active event state
+  _activeEvent = activeEvents.length > 0 ? activeEvents[0].event : null;
+
+  // Update event banner
+  updateEventBanner(allEvents);
+
   if (allEvents.length > 0) {
     section.style.display = '';
     allEvents.forEach(function(item) {
@@ -3465,6 +3548,49 @@ function updateLiveEvents() {
     section.style.display = 'none';
   }
 }
+
+// Event banner management
+function updateEventBanner(allEvents) {
+  var banner = document.getElementById('event-banner');
+  if (!banner || _eventBannerDismissed || allEvents.length === 0) {
+    if (banner) banner.classList.remove('visible');
+    return;
+  }
+
+  // Show the most important event (active first, then soonest upcoming)
+  var top = allEvents[0];
+  var evt = top.event;
+
+  document.getElementById('event-banner-icon').textContent = evt.icon;
+  var textEl = document.getElementById('event-banner-text');
+  textEl.innerHTML = evt.name + '<span class="event-chinese">' + evt.chinese + '</span>';
+  var statusEl = document.getElementById('event-banner-status');
+  if (top.status === 'now') {
+    statusEl.textContent = 'HAPPENING NOW';
+    statusEl.style.borderColor = 'rgba(255,255,255,0.6)';
+    statusEl.style.color = '#fff';
+  } else {
+    statusEl.textContent = 'IN ' + top.daysUntil + ' DAYS';
+    statusEl.style.borderColor = 'rgba(255,255,255,0.3)';
+    statusEl.style.color = 'rgba(255,255,255,0.7)';
+  }
+
+  banner.classList.add('visible');
+  banner.onclick = function(e) {
+    if (e.target.id === 'event-banner-dismiss') return;
+    flyToAttraction(evt);
+  };
+}
+
+// Event banner dismiss
+document.getElementById('event-banner-dismiss').addEventListener('click', function(e) {
+  e.stopPropagation();
+  _eventBannerDismissed = true;
+  document.getElementById('event-banner').classList.remove('visible');
+});
+
+// Refresh events every 5 minutes
+setInterval(updateLiveEvents, 300000);
 
 // Panel toggle
 document.getElementById('attractions-toggle').addEventListener('click', function() {
@@ -6021,21 +6147,30 @@ function initSkyJump(viewer) {
       setTimeout(scheduleLaunch, 1000);
       return;
     }
-    // 1-3 rockets in quick succession
-    var count = Math.random() < 0.4 ? Math.floor(2 + Math.random() * 2) : 1;
+    // 1-3 rockets in quick succession (more during firework events)
+    var isFireworkEvent = _activeEvent && _activeEvent.effects === 'fireworks';
+    var count = isFireworkEvent
+      ? Math.floor(2 + Math.random() * 3)  // 2-4 rockets during events
+      : (Math.random() < 0.4 ? Math.floor(2 + Math.random() * 2) : 1);
     for (var c = 0; c < count; c++) {
       setTimeout(launchRocket, c * 300);
     }
     lastLaunch = now;
-    // Next launch in 4-10 seconds
-    var delay = 4000 + Math.random() * 6000;
+    // Next launch: faster during events (2-5s vs 4-10s)
+    var delay = isFireworkEvent
+      ? 2000 + Math.random() * 3000
+      : 4000 + Math.random() * 6000;
     setTimeout(scheduleLaunch, delay);
   }
 
-  // Check Macau time — fireworks active 20:00-01:00
+  // Check Macau time — fireworks active 20:00-01:00 (extended during firework events)
   function checkFireworksTime() {
     var hour = getMacauHour();
-    var shouldBeActive = (hour >= 20 || hour < 1);
+    var isFireworkEvent = _activeEvent && _activeEvent.effects === 'fireworks';
+    // During firework events: extend hours (19:00-02:00) and allow afternoon shows (14:00-16:00)
+    var shouldBeActive = isFireworkEvent
+      ? (hour >= 14 && hour < 16) || (hour >= 19 || hour < 2)
+      : (hour >= 20 || hour < 1);
     if (shouldBeActive !== fwActive) {
       fwActive = shouldBeActive;
     }

@@ -692,6 +692,23 @@
       ],
       "linesAdded": 131,
       "agent": "automated"
+    },
+    {
+      "session": 56,
+      "date": "2026-03-22",
+      "title": "Event Banner & Enhanced Festival Effects",
+      "domain": "events",
+      "summary": "Visible event notification banner with upcoming/active Macau festivals and enhanced fireworks during festival events.",
+      "details": [
+        "Event banner at top of screen shows current/upcoming Macau festivals with icon, name, Chinese text, and countdown",
+        "7 real Macau events with 2026 dates: CNY, Ching Ming, Dragon Boat, Fireworks Contest, Mid-Autumn, Grand Prix, Light Festival",
+        "Banner is clickable to fly to event location, dismissable with X button",
+        "Enhanced fireworks during firework events: 2-4x launch frequency, extended hours (14:00-16:00 + 19:00-02:00)",
+        "Mobile-responsive banner with smaller text and hidden Chinese at 600px breakpoint",
+        "Events refresh every 5 minutes, global _activeEvent state readable by all visual systems"
+      ],
+      "linesAdded": 134,
+      "agent": "automated"
     }
   ]
 }

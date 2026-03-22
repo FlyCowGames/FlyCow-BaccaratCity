@@ -424,6 +424,18 @@
 - Complements existing Wynn Performance Lake fountain show (Session 19) — cable cars pass over the fountain area
 - File grew from ~6769 to ~6900 lines (+131 lines)
 
+## Session 56 — 2026-03-22 (Automated Agent)
+- Event notification banner: visible red/gold gradient banner at top of screen showing current/upcoming Macau festivals
+- 7 real Macau events with 2026 dates: Chinese New Year, Ching Ming, Dragon Boat, Fireworks Contest, Mid-Autumn, Grand Prix, Light Festival
+- Banner shows event icon, name (English + Chinese), and countdown status ("HAPPENING NOW" or "IN X DAYS")
+- Clickable banner flies camera to event location; dismissable with × button
+- Enhanced fireworks during firework events: 2-4x launch frequency, extended hours (afternoon 14-16h + evening 19-02h)
+- Global `_activeEvent` state allows all visual systems to respond to active festivals
+- Events auto-refresh every 5 minutes; 30-day lookahead for upcoming events
+- Mobile-responsive: smaller text, hidden Chinese at 600px breakpoint
+- Updated subtitle to "Live Events"
+- File grew from ~6900 to ~7035 lines (+134 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

@@ -347,6 +347,14 @@
 - **Observation:** Quality audits at sessions 40 and 50 were both skipped. Session 60 should be the next audit. THREE skipped audits — this is becoming a pattern that should be corrected.
 - **Suggestion for future sessions:** Consider a quality audit even before session 60. Also consider features that enhance the daytime experience — many features are night-only, leaving daytime visitors with less to see. Street-level exploration mode or Portuguese colonial district detail from the roadmap would be good medium-term targets.
 
+## Session 56 (2026-03-22) -- Event Banner & Festival Effects
+- **Lesson:** The event calendar infrastructure (MACAU_EVENTS array, updateLiveEvents function, Explore panel section) was already built in a previous session but had no visual presence on the main view. Enhancing existing hidden features with visible UI (the banner) is higher-impact than building something new — it makes existing work discoverable.
+- **Lesson:** A global `_activeEvent` variable is a clean way to let independent systems (fireworks, future decorations) respond to event state. Each system reads the variable on its own schedule rather than needing event listeners or callbacks.
+- **Lesson:** The `daysUntil` calculation using `(evt.month - month) * 30 + (evt.day - day)` is approximate but sufficient for a 30-day lookahead display. For exact days, would need full date arithmetic, but the approximation is good enough for "IN 12 DAYS" display.
+- **Lesson:** Event banner dismiss state (`_eventBannerDismissed`) is session-only (resets on reload). This is intentional — returning visitors should see event notifications again. Persistent dismissal would require localStorage.
+- **Observation:** Quality audits at sessions 40, 50 were skipped. Session 60 must be an audit. Four skipped audits is too many — the audit rule exists for good reason.
+- **Suggestion for future sessions:** The `_activeEvent.effects` field enables future sessions to add event-specific visual effects beyond fireworks: 'racing' could increase F3 car count, 'lanterns' could add more sky lanterns during Mid-Autumn, 'lights' could enhance neon during Light Festival. Each enhancement is a small, focused session.
+
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
 - **Lesson:** Keep AGENT_LEARNINGS.md — it's the agent's long-term memory across sessions.

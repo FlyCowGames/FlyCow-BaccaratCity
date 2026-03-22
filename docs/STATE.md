@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-22 (Session 55)
+## Last Updated: 2026-03-22 (Session 56)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -44,6 +44,7 @@
 - **Galaxy Macau wave pool**: 7 animated wave entities on Galaxy's Grand Resort Deck rooftop (55m altitude) with turquoise water, animated wave crests, and sparkle highlights — always active (daytime feature)
 - **A-Ma Temple incense coils**: 6 hanging spiral incense coils at A-Ma Temple courtyards with rising smoke wisps — canvas-drawn spiral coils with red prayer tags, ascending smoke animation, always active (cultural/daytime feature)
 - **Camera position URL sharing**: Share View button copies a URL encoding camera lon/lat/alt/heading/pitch; visiting shared URLs skips flythrough and flies directly to the shared view; URL hash updates in real-time as users orbit
+- **Event notification banner**: Red/gold gradient banner at top of screen showing current or upcoming Macau festivals (7 events: CNY, Ching Ming, Dragon Boat, Fireworks Contest, Mid-Autumn, Grand Prix, Light Festival). Clickable to fly to event location, dismissable. Shows countdown ("IN X DAYS") or "HAPPENING NOW" status. Enhanced fireworks during festival events (2-4x frequency, extended hours). Auto-refreshes every 5 minutes.
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -52,7 +53,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~6900 lines, ~246KB)
+- Single HTML file (~7035 lines, ~251KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
