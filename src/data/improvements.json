@@ -565,6 +565,24 @@
       ],
       "linesAdded": 101,
       "agent": "automated"
+    },
+    {
+      "session": 46,
+      "date": "2026-03-22",
+      "title": "A-Ma Temple Incense Coils",
+      "domain": "landmarks",
+      "summary": "6 hanging spiral incense coils at A-Ma Temple with rising smoke wisps, adding cultural authenticity to Macau's oldest temple.",
+      "details": [
+        "6 incense coil billboard entities across A-Ma Temple courtyards at 10-15m altitude",
+        "Canvas-drawn 32x40px spiral coil icon with brown rings, red prayer tag, amber ember glow",
+        "6 rising smoke wisp entities with ascending animation (20-35s rise cycle) and horizontal drift",
+        "Smoke wisps fade in at launch and expand/fade at peak, recycling continuously",
+        "Canvas smoke icons regenerated every 500ms for drift animation",
+        "Temple Incense entry added to Heritage section of Explore panel with live badge",
+        "Always active (daytime feature) — adds to the minority of non-night-only content"
+      ],
+      "linesAdded": 171,
+      "agent": "automated"
     }
   ]
 }

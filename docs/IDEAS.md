@@ -18,7 +18,7 @@
 - [x] Wynn Palace — fountain show (Session 19: Performance Lake with 13 choreographed jets)
 - [x] Galaxy Macau — wave pool on roof (Session 45: 7 animated wave entities on rooftop Grand Resort Deck)
 - [ ] Senado Square — Portuguese colonial architecture, wave-pattern pavement
-- [ ] A-Ma Temple — traditional Chinese temple at the harbor
+- [x] A-Ma Temple — traditional Chinese temple at the harbor (Session 46: incense coils with rising smoke)
 
 ## Atmosphere & Realism
 - [x] Real Macau weather from API → rain particles, fog density, cloud cover (Session 3)

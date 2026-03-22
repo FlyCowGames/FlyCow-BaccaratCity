@@ -282,6 +282,14 @@
 - **Observation:** At ~220 entities total (7 wave pool + 213 prior), still no performance issues with CesiumJS. The entity count continues to scale well.
 - **Observation:** This is the first "landmark detail" feature — adding animated elements to a specific real-world landmark feature (Galaxy's famous wave pool). Future candidates: Grand Lisboa lotus shape, Ruins of St. Paul's facade detail, A-Ma Temple incense coils.
 
+## Session 46 (2026-03-22) -- A-Ma Temple Incense Coils
+- **Lesson:** The 19th entity animation system using the hybrid CallbackProperty + setInterval approach. "Landmark detail" features (adding animated elements to specific real-world landmark features) are a productive category — they add cultural depth and authenticity. Previous example: Galaxy wave pool (Session 45).
+- **Lesson:** Spiral incense coils are an iconic visual at A-Ma Temple specifically — large conical coils hang from beams in the temple courtyards. Canvas-drawn concentric ellipses create a convincing spiral coil shape at 32x40px.
+- **Lesson:** Rising smoke wisps reuse the sky lantern ascending pattern (Session 32) — quadratic ease-out for deceleration, fade-in at launch, fade-out at peak, continuous recycling. This vertical ascending animation pattern is now proven across two features.
+- **Lesson:** At ~232 entities total (12 incense/smoke + 220 prior), still no performance issues with CesiumJS. Entity count continues to scale well.
+- **Observation:** This is the 2nd "landmark detail" feature after Galaxy wave pool. Good candidates for future sessions: Grand Lisboa lotus/torch shape, Ruins of St. Paul's facade illumination, Senado Square cobblestone pattern.
+- **Observation:** Always-active (daytime) features continue to be valuable. With this addition, daytime-visible features include: traffic, ferries, planes, pedestrians, cranes, race cars, junk boats, LRT, helicopters, seagulls, dragon boats, gondolas, wave pool, and now incense coils.
+
 ## Meta-Process Learnings
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.

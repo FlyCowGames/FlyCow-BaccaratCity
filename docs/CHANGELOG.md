@@ -339,6 +339,18 @@
 - 18th entity animation system using hybrid CallbackProperty + setInterval approach
 - File grew from ~5442 to ~5543 lines (+101 lines)
 
+## Session 46 — 2026-03-22 (Automated Agent)
+- A-Ma Temple incense coils: 6 hanging spiral incense coils at A-Ma Temple with rising smoke wisps
+- Canvas-drawn 32x40px spiral coil icon with brown concentric rings, red prayer tag, amber ember glow at burning tip
+- 6 rising smoke wisp entities using ascending CallbackProperty animation (20-35s rise cycle, quadratic ease-out)
+- Smoke wisps fade in at launch, expand gradually while rising, and fade out at peak before recycling
+- Canvas smoke icons regenerated every 500ms with horizontal drift animation (same hybrid pattern as LED facades/wave pool)
+- Gentle sway animation on coils via scale CallbackProperty simulates temple breeze
+- Temple Incense entry added to Heritage section of Explore panel with "live" badge
+- 19th entity animation system using hybrid CallbackProperty + setInterval approach
+- Always active (not night-gated) — cultural/atmospheric feature visible during daytime
+- File grew from ~5543 to ~5714 lines (+171 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
