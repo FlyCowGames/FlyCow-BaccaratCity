@@ -338,6 +338,15 @@
 - **Observation:** The baccarat betting system adds ~355 lines, making it one of the larger single-session additions. Complex UI features (bet areas, chips, bankroll, payouts, reset) require more CSS than billboard entity features.
 - **Suggestion for future sessions:** The baccarat game could be further enhanced with: Big Road scoreboard (traditional tracking grid), card flip animations (CSS 3D transforms), sound effects on deal/win, bet history. But next session should return to visual/atmospheric improvements for variety.
 
+## Session 55 (2026-03-22) -- Wynn Palace SkyCab Cable Cars
+- **Lesson:** The 20th entity animation system using CallbackProperty. At this point adding animated billboard entities is completely mechanical. The `lerpPositionWithAlt` function from airport planes works for any elevated path — cable cars, drones, etc.
+- **Lesson:** Adding entities that complement existing features (cable cars over the fountain show) is more impactful than standalone entities. It deepens a location rather than spreading thin across the map.
+- **Lesson:** Cable car altitude arc (38m → 45m → 38m at center) creates a convincing cable sag effect. The peak in the middle of the route simulates the natural catenary curve of a real cable car system.
+- **Lesson:** Gentle billboard rotation sway via `Math.sin(elapsed * 0.8)` with small amplitude (0.03 radians ≈ 1.7°) simulates wind/cable movement without looking erratic.
+- **Observation:** At ~236 entities total (4 SkyCabs + 232 prior), still no performance issues with CesiumJS. Entity count scales well.
+- **Observation:** Quality audits at sessions 40 and 50 were both skipped. Session 60 should be the next audit. THREE skipped audits — this is becoming a pattern that should be corrected.
+- **Suggestion for future sessions:** Consider a quality audit even before session 60. Also consider features that enhance the daytime experience — many features are night-only, leaving daytime visitors with less to see. Street-level exploration mode or Portuguese colonial district detail from the roadmap would be good medium-term targets.
+
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
 - **Lesson:** Keep AGENT_LEARNINGS.md — it's the agent's long-term memory across sessions.

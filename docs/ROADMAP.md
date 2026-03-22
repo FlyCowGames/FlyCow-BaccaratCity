@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 54)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 55)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -81,3 +81,4 @@
 - Explore panel search: real-time search/filter for all 30+ attractions by name (English/Chinese) with auto-expand (Session 51)
 - Keyboard shortcuts + help overlay: press ? for help; 1-8 landmarks, N/D/L time control, T/E/F/S/M features (Session 53)
 - Baccarat betting system: HK$10K virtual bankroll, chip selection, Player/Banker/Tie bets with authentic payouts (Session 54)
+- Wynn Palace SkyCab cable cars: 4 animated gondolas over the Performance Lake with altitude arc and sway animation (Session 55)

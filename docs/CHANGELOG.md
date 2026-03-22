@@ -413,6 +413,17 @@
 - Directly serves Prime Directive #8: "Baccarat is the Soul" — transforms the signature feature from viewing into playing
 - File grew from ~6414 to ~6769 lines (+355 lines)
 
+## Session 55 — 2026-03-22 (Automated Agent)
+- Wynn Palace SkyCab cable cars: 4 animated cable car gondolas traveling over the Performance Lake
+- Canvas-drawn 24x28px gondola icon with cable line, hanger arm, gold cabin body, roof, 3 windows, bottom edge
+- 5 waypoints over the lake with altitude arc (38m → 45m → 38m) simulating the real cable trajectory
+- Ping-pong animation with staggered phases (0.00, 0.25, 0.50, 0.75) for even distribution along the route
+- Gentle sway animation via rotation CallbackProperty simulates wind/cable movement
+- SkyCab entry added to Shows section of Explore panel with bilingual name (永利觀光纜車)
+- 20th entity animation system using proven CallbackProperty + lerpPositionWithAlt pattern
+- Complements existing Wynn Performance Lake fountain show (Session 19) — cable cars pass over the fountain area
+- File grew from ~6769 to ~6900 lines (+131 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

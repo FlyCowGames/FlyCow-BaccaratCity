@@ -1649,6 +1649,7 @@ async function init() {
     addFountainShow(viewer);
     addFountainMist(viewer);
     addGondolas(viewer);
+    addSkyCabs(viewer);
     addLanternStrings(viewer);
     initSkyJump(viewer);
     addLEDFacades(viewer);
@@ -3281,6 +3282,7 @@ var ATTRACTIONS = {
     { name: "Cotai LED Facades", chinese: "路氹LED幕牆", icon: "📺", lat: 22.1480, lon: 113.5560, alt: 500, pitch: -20 },
     { name: "Casino Searchlights", chinese: "賭場探照燈", icon: "🔦", lat: 22.1490, lon: 113.5560, alt: 600, pitch: -25 },
     { name: "Galaxy Wave Pool", chinese: "銀河天浪淘園", icon: "🌊", lat: 22.1489, lon: 113.5544, alt: 200, pitch: -15 },
+    { name: "Wynn SkyCab", chinese: "永利觀光纜車", icon: "🚡", lat: 22.1478, lon: 113.5628, alt: 200, pitch: -15 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -6757,6 +6759,135 @@ function showShareToast(msg) {
 function getSharedCameraPosition() {
   var hash = window.location.hash.substring(1);
   return decodeCameraHash(hash);
+}
+
+// ── Wynn Palace SkyCab Cable Cars ──
+// Real cable car ride over the Performance Lake — iconic Wynn Palace attraction
+// 4 gondolas travel from main entrance, over the lake, and back at ~40m altitude
+var SKYCAB_ROUTES = [
+  { name: 'SkyCab 1', points: [
+    { lon: 113.5618, lat: 22.1485, alt: 38 },
+    { lon: 113.5622, lat: 22.1480, alt: 42 },
+    { lon: 113.5628, lat: 22.1474, alt: 45 },
+    { lon: 113.5634, lat: 22.1470, alt: 42 },
+    { lon: 113.5638, lat: 22.1466, alt: 38 },
+  ], durationSec: 55, phase: 0.0 },
+  { name: 'SkyCab 2', points: [
+    { lon: 113.5618, lat: 22.1485, alt: 38 },
+    { lon: 113.5622, lat: 22.1480, alt: 42 },
+    { lon: 113.5628, lat: 22.1474, alt: 45 },
+    { lon: 113.5634, lat: 22.1470, alt: 42 },
+    { lon: 113.5638, lat: 22.1466, alt: 38 },
+  ], durationSec: 55, phase: 0.25 },
+  { name: 'SkyCab 3', points: [
+    { lon: 113.5618, lat: 22.1485, alt: 38 },
+    { lon: 113.5622, lat: 22.1480, alt: 42 },
+    { lon: 113.5628, lat: 22.1474, alt: 45 },
+    { lon: 113.5634, lat: 22.1470, alt: 42 },
+    { lon: 113.5638, lat: 22.1466, alt: 38 },
+  ], durationSec: 55, phase: 0.50 },
+  { name: 'SkyCab 4', points: [
+    { lon: 113.5618, lat: 22.1485, alt: 38 },
+    { lon: 113.5622, lat: 22.1480, alt: 42 },
+    { lon: 113.5628, lat: 22.1474, alt: 45 },
+    { lon: 113.5634, lat: 22.1470, alt: 42 },
+    { lon: 113.5638, lat: 22.1466, alt: 38 },
+  ], durationSec: 55, phase: 0.75 },
+];
+
+function createSkyCabIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 24;
+  canvas.height = 28;
+  var ctx = canvas.getContext('2d');
+
+  // Cable line above gondola
+  ctx.strokeStyle = 'rgba(150, 150, 150, 0.6)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, 4);
+  ctx.lineTo(24, 4);
+  ctx.stroke();
+
+  // Cable attachment / hanger
+  ctx.strokeStyle = 'rgba(180, 180, 180, 0.8)';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(12, 4);
+  ctx.lineTo(12, 10);
+  ctx.stroke();
+
+  // Gondola cabin body — rounded rectangle
+  ctx.fillStyle = '#d4af37';
+  ctx.beginPath();
+  if (ctx.roundRect) {
+    ctx.roundRect(4, 10, 16, 12, 2);
+  } else {
+    ctx.rect(4, 10, 16, 12);
+  }
+  ctx.fill();
+
+  // Cabin roof
+  ctx.fillStyle = '#a67c00';
+  ctx.fillRect(3, 9, 18, 3);
+
+  // Windows — 3 small dark rectangles
+  ctx.fillStyle = 'rgba(10, 10, 18, 0.7)';
+  ctx.fillRect(6, 13, 3, 4);
+  ctx.fillRect(10.5, 13, 3, 4);
+  ctx.fillRect(15, 13, 3, 4);
+
+  // Cabin bottom edge
+  ctx.fillStyle = '#8a6600';
+  ctx.fillRect(4, 21, 16, 1);
+
+  // Warm glow halo
+  var grad = ctx.createRadialGradient(12, 16, 4, 12, 16, 14);
+  grad.addColorStop(0, 'rgba(212, 175, 55, 0.0)');
+  grad.addColorStop(0.6, 'rgba(212, 175, 55, 0.0)');
+  grad.addColorStop(1, 'rgba(212, 175, 55, 0.1)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 24, 28);
+
+  return canvas;
+}
+
+function addSkyCabs(viewer) {
+  var startTime = Date.now();
+  var icon = createSkyCabIcon();
+
+  SKYCAB_ROUTES.forEach(function(route) {
+    (function(routeData) {
+      var positionCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        var rawT = ((elapsed / routeData.durationSec) + routeData.phase) % 2;
+        var t = rawT <= 1 ? rawT : 2 - rawT;
+        var pos = lerpPositionWithAlt(routeData.points, t);
+        return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, pos.alt);
+      }, false);
+
+      // Gentle sway animation
+      var swayCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        return Math.sin(elapsed * 0.8 + routeData.phase * Math.PI * 2) * 0.03;
+      }, false);
+
+      viewer.entities.add({
+        name: routeData.name,
+        position: positionCallback,
+        billboard: {
+          image: icon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: 1.0,
+          rotation: swayCallback,
+          scaleByDistance: new Cesium.NearFarScalar(50, 2.5, 5000, 0.3),
+          translucencyByDistance: new Cesium.NearFarScalar(50, 1.0, 6000, 0.0),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+    })(route);
+  });
 }
 
 // ── Initialize ──

@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-22 (Session 54)
+## Last Updated: 2026-03-22 (Session 55)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -52,7 +52,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~6769 lines, ~242KB)
+- Single HTML file (~6900 lines, ~246KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -101,6 +101,7 @@
 - **Casino rooftop searchlights** — 6 sweeping searchlight beams from casino rooftops at night with distinct colors per casino
 - **Galaxy Macau wave pool** — 7 animated wave entities on Galaxy's Grand Resort Deck rooftop with turquoise water and animated crests
 - **A-Ma Temple incense coils** — 6 hanging spiral incense coils with rising smoke wisps at A-Ma Temple courtyards (always active)
+- **Wynn SkyCab cable cars** — 4 animated cable car gondolas traveling over the Performance Lake at 38-45m altitude with gentle sway (always active)
 
 - **Camera position URL sharing** — Share View button copies URL with camera position; shared URLs skip flythrough
 - **Minimap navigation** — Canvas-drawn minimap in bottom-left showing Macau coastline outlines, landmark dots, camera position with heading/FOV indicator; click anywhere to fly there
