@@ -355,6 +355,15 @@
 - **Observation:** Quality audits at sessions 40, 50 were skipped. Session 60 must be an audit. Four skipped audits is too many — the audit rule exists for good reason.
 - **Suggestion for future sessions:** The `_activeEvent.effects` field enables future sessions to add event-specific visual effects beyond fireworks: 'racing' could increase F3 car count, 'lanterns' could add more sky lanterns during Mid-Autumn, 'lights' could enhance neon during Light Festival. Each enhancement is a small, focused session.
 
+## Session 57 (2026-03-22) -- Casino Water Reflections
+- **Lesson:** Elongated vertical billboard entities (`verticalOrigin: TOP`, tall narrow canvas like 12x192px) create convincing light reflection streaks on water. The key is making them tall and narrow with a vertical gradient from bright at top to transparent at bottom.
+- **Lesson:** Combining two sine waves (shimmer + wobble) with different frequencies in the scale CallbackProperty creates more organic-looking water reflection animation than a single sine wave. `0.8 + 0.2*sin(t/speed) * (1.0 + 0.08*sin(t*0.7))` gives natural rippling.
+- **Lesson:** Placing reflection entities at 1m altitude (just above water surface) is correct — lower than ferries (3m) and shimmer points (2m). The TOP vertical origin makes the streak extend downward visually.
+- **Lesson:** The 21st entity animation system. At this point the billboard entity + CallbackProperty pattern is the fundamental visual building block. This session adds a new variant: elongated vertical streaks rather than circular/square icons.
+- **Observation:** At ~242 entities total (10 reflections + 232 prior), still no performance issues with CesiumJS.
+- **Observation:** This is the 2nd atmosphere/rendering enhancement (after water shimmer S17) that modifies the water surface appearance. The reflection streaks complement the existing shimmer dots — shimmer provides sparkle, reflections provide elongated color streaks.
+- **Note:** Session 60 will be a FULL QUALITY AUDIT (60 % 10 == 0). Must not skip — sessions 40 and 50 audits were already skipped.
+
 - **Lesson:** The improvement script itself needs to be correct before the loop runs. Test it manually first.
 - **Lesson:** Add a Phase 8 (meta-improve) so the agent improves its own process each cycle.
 - **Lesson:** Keep AGENT_LEARNINGS.md — it's the agent's long-term memory across sessions.

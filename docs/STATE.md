@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-22 (Session 56)
+## Last Updated: 2026-03-22 (Session 57)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -45,6 +45,7 @@
 - **A-Ma Temple incense coils**: 6 hanging spiral incense coils at A-Ma Temple courtyards with rising smoke wisps — canvas-drawn spiral coils with red prayer tags, ascending smoke animation, always active (cultural/daytime feature)
 - **Camera position URL sharing**: Share View button copies a URL encoding camera lon/lat/alt/heading/pitch; visiting shared URLs skips flythrough and flies directly to the shared view; URL hash updates in real-time as users orbit
 - **Event notification banner**: Red/gold gradient banner at top of screen showing current or upcoming Macau festivals (7 events: CNY, Ching Ming, Dragon Boat, Fireworks Contest, Mid-Autumn, Grand Prix, Light Festival). Clickable to fly to event location, dismissable. Shows countdown ("IN X DAYS") or "HAPPENING NOW" status. Enhanced fireworks during festival events (2-4x frequency, extended hours). Auto-refreshes every 5 minutes.
+- **Casino water reflections**: 10 elongated vertical light streaks on harbor water below waterfront casinos at night (Grand Lisboa, Wynn Macau, NAPE, Fisherman's Wharf, Nam Van Lake, Outer Harbour) with shimmer animation and casino-matched colors — creates classic "city lights mirrored in water" effect
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -53,7 +54,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~7035 lines, ~251KB)
+- Single HTML file (~7124 lines, ~256KB)
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -104,6 +105,7 @@
 - **A-Ma Temple incense coils** — 6 hanging spiral incense coils with rising smoke wisps at A-Ma Temple courtyards (always active)
 - **Wynn SkyCab cable cars** — 4 animated cable car gondolas traveling over the Performance Lake at 38-45m altitude with gentle sway (always active)
 
+- **Casino water reflections** — 10 elongated light streaks on harbor water below waterfront casinos at night with shimmer + wobble animation, casino-matched colors
 - **Camera position URL sharing** — Share View button copies URL with camera position; shared URLs skip flythrough
 - **Minimap navigation** — Canvas-drawn minimap in bottom-left showing Macau coastline outlines, landmark dots, camera position with heading/FOV indicator; click anywhere to fly there
 - **Explore panel search** — Search input at top of Explore panel filters all 30+ attractions in real-time by name (English or Chinese), auto-expands matched sections, clear button to reset

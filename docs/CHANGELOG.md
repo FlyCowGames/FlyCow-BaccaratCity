@@ -436,6 +436,17 @@
 - Updated subtitle to "Live Events"
 - File grew from ~6900 to ~7035 lines (+134 lines)
 
+## Session 57 — 2026-03-22 (Automated Agent)
+- Casino water reflections: 10 elongated vertical light streaks on harbor water below waterfront casinos at night
+- Reflection positions: Grand Lisboa bay, Wynn Macau, NAPE waterfront, Fisherman's Wharf, Nam Van Lake, Outer Harbour
+- Canvas-drawn vertical streak icons (12x64-192px) with bright core gradient matching nearby casino colors
+- Night-only visibility tied to `_currentGlowIntensity` with shimmer and wobble animation via CallbackProperty
+- `verticalOrigin: TOP` makes streaks extend downward from water surface for natural reflection appearance
+- Harbor Reflections entry added to Shows section of Explore panel with bilingual name (海港倒影)
+- 21st entity animation system using proven CallbackProperty pattern
+- Enhances nighttime harbor atmosphere — creates classic "city lights mirrored in water" effect
+- File grew from ~7035 to ~7124 lines (+89 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

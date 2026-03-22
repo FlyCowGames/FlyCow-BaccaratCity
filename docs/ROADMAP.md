@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 56)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 57)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -83,3 +83,4 @@
 - Baccarat betting system: HK$10K virtual bankroll, chip selection, Player/Banker/Tie bets with authentic payouts (Session 54)
 - Wynn Palace SkyCab cable cars: 4 animated gondolas over the Performance Lake with altitude arc and sway animation (Session 55)
 - Event calendar with banner: 7 real Macau events, notification banner, enhanced fireworks during festivals (Session 56)
+- Casino water reflections: elongated light streaks on harbor water at night (Session 57)

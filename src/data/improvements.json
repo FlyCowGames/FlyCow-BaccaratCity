@@ -709,6 +709,21 @@
       ],
       "linesAdded": 134,
       "agent": "automated"
+    },
+    {
+      "session": 57,
+      "date": "2026-03-22",
+      "title": "Casino Water Reflections on Harbor",
+      "domain": "atmosphere",
+      "summary": "Elongated vertical light streaks on harbor water below waterfront casinos at night for classic city-lights-on-water effect.",
+      "details": [
+        "10 reflection entities on water surface below Grand Lisboa, Wynn Macau, NAPE, Fisherman's Wharf, Nam Van Lake, Outer Harbour",
+        "Canvas-drawn vertical streak icons with bright core gradient matching nearby casino colors",
+        "Night-only visibility tied to neon glow system with shimmer and wobble CallbackProperty animation",
+        "Harbor Reflections entry added to Shows section of Explore panel"
+      ],
+      "linesAdded": 89,
+      "agent": "automated"
     }
   ]
 }
