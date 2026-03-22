@@ -56,6 +56,10 @@ Fix issues from quality check. Re-deploy and re-check if needed. **The site must
 
 ### Phase 6: DEPLOY
 ```bash
+# Archive this version before deploying
+aws s3 cp src/index.html "s3://baccaratcity-site/archive/session-{{SESSION}}.html" --content-type "text/html"
+
+# Deploy
 aws s3 cp src/index.html s3://baccaratcity-site/index.html --content-type "text/html" --cache-control "no-cache"
 aws s3 cp src/improvements.html s3://baccaratcity-site/improvements.html --content-type "text/html" --cache-control "no-cache"
 aws s3 cp src/data/improvements.json s3://baccaratcity-site/data/improvements.json --content-type "application/json" --cache-control "no-cache"
