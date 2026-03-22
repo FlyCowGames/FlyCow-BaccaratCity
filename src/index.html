@@ -144,6 +144,35 @@
     letter-spacing: 0.1em; line-height: 1.8;
   }
 
+  /* Feature tips */
+  #feature-tips {
+    position: absolute; bottom: 130px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.75rem; color: rgba(212,175,55,0.7);
+    letter-spacing: 0.08em;
+    text-align: center;
+    pointer-events: auto;
+    padding: 8px 20px;
+    background: rgba(10,10,18,0.6);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    cursor: pointer;
+    max-width: 90vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #feature-tips.visible { opacity: 1; }
+  #feature-tips:hover { color: rgba(212,175,55,0.95); border-color: rgba(212,175,55,0.3); }
+  #feature-tips .tip-icon { margin-right: 6px; opacity: 0.6; }
+  #feature-tips .tip-dismiss { margin-left: 10px; opacity: 0.4; font-size: 0.65rem; }
+  #feature-tips .tip-dismiss:hover { opacity: 0.8; }
+
   /* Weather display - top right */
   #weather-block {
     position: absolute; top: 32px; right: 32px;
@@ -1023,6 +1052,13 @@
     /* Hints — hide on mobile (not useful for touch) */
     #hints { display: none; }
 
+    /* Feature tips — mobile sizing */
+    #feature-tips {
+      bottom: 110px; font-size: 0.65rem;
+      padding: 7px 14px; border-radius: 16px;
+      max-width: 88vw;
+    }
+
     /* Minimap — smaller */
     #minimap-container {
       bottom: 60px; left: 12px;
@@ -1350,6 +1386,8 @@
     scroll to zoom &middot; drag to orbit &middot; slide time to preview day/night<br>
     click landmark for info &middot; enter casino to play baccarat &middot; press G for street view &middot; press ? for help
   </div>
+
+  <div id="feature-tips"></div>
 
   <button id="replay-btn">&#9654; Replay Flythrough</button>
   <button id="tour-btn">&#9654; Tour</button>
@@ -7979,6 +8017,66 @@ function addSkyCabs(viewer) {
     })(route);
   });
 }
+
+// ── Feature Tips (rotating discovery system) ──
+(function() {
+  var isTouch = 'ontouchstart' in window;
+  var tips = [
+    { icon: '🎰', text: 'Click any casino to play live Baccarat' },
+    { icon: '🏙️', text: isTouch ? 'Tap Street button for first-person view' : 'Press G for street-level exploration' },
+    { icon: '🎬', text: isTouch ? 'Tap Tour to auto-fly through all landmarks' : 'Press T for an automatic guided tour' },
+    { icon: '⏰', text: 'Slide the time control to preview day, sunset, or night' },
+    { icon: '🌧️', text: 'Weather is live — rain, fog, and typhoons are real-time' },
+    { icon: '🎆', text: 'Watch for fireworks over the harbor after 8pm Macau time' },
+    { icon: '🗺️', text: isTouch ? 'Tap the minimap to fly anywhere' : 'Click the minimap to fly anywhere in Macau' },
+    { icon: '🔗', text: isTouch ? 'Tap Share to copy a link to your current view' : 'Press S to share your exact camera view as a URL' },
+    { icon: '⌨️', text: isTouch ? 'Explore panel has 30+ landmarks to visit' : 'Press ? to see all keyboard shortcuts' },
+    { icon: '🏃', text: isTouch ? 'Use the joystick in street mode to walk around' : 'Use WASD keys to walk around in street mode' },
+    { icon: '🌊', text: 'Try Typhoon Demo to see T8 signal storm effects' },
+    { icon: '🌠', text: 'Look up at night for shooting stars across the sky' },
+    { icon: '📍', text: isTouch ? 'Tap any landmark billboard to learn its history' : 'Click any landmark for photos, facts, and history' },
+  ];
+  var el = document.getElementById('feature-tips');
+  if (!el) return;
+  var idx = 0;
+  var dismissed = false;
+  var showStart = 0;
+  var DISPLAY_DURATION = 5 * 60 * 1000; // Show tips for 5 minutes
+
+  function showTip() {
+    if (dismissed) return;
+    if (showStart && Date.now() - showStart > DISPLAY_DURATION) {
+      el.classList.remove('visible');
+      return;
+    }
+    el.innerHTML = '<span class="tip-icon">' + tips[idx].icon + '</span>' +
+      tips[idx].text +
+      '<span class="tip-dismiss">✕</span>';
+    el.classList.add('visible');
+    idx = (idx + 1) % tips.length;
+  }
+
+  // Start tips after flythrough ends (delay 25s for cinematic)
+  setTimeout(function() {
+    showStart = Date.now();
+    showTip();
+    setInterval(function() {
+      el.style.opacity = '0';
+      setTimeout(function() {
+        showTip();
+        if (!dismissed) el.style.opacity = '';
+      }, 600);
+    }, 10000);
+  }, 25000);
+
+  el.addEventListener('click', function(e) {
+    if (e.target.classList.contains('tip-dismiss')) {
+      dismissed = true;
+      el.classList.remove('visible');
+      el.style.opacity = '0';
+    }
+  });
+})();
 
 // ── Initialize ──
 init();

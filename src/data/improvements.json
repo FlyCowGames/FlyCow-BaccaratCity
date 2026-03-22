@@ -844,6 +844,23 @@
       ],
       "linesAdded": 80,
       "agent": "automated"
+    },
+    {
+      "session": 67,
+      "date": "2026-03-22",
+      "title": "Feature Tips Discovery System",
+      "domain": "interactivity",
+      "summary": "Rotating feature tips overlay that helps users discover the site's 30+ hidden features with device-aware hints.",
+      "details": [
+        "Rotating tip pill at bottom center shows one feature tip at a time with fade transitions",
+        "13 tips covering baccarat, street mode, tour, time slider, weather, fireworks, minimap, sharing, shortcuts, walking, typhoon demo, shooting stars, and landmark info",
+        "Device-aware: shows touch instructions on mobile, keyboard shortcuts on desktop",
+        "Auto-starts 25 seconds after page load (after flythrough), rotates every 10 seconds",
+        "Auto-hides after 5 minutes, dismissable by clicking X",
+        "Gold-themed pill with backdrop blur, responsive sizing for mobile"
+      ],
+      "linesAdded": 75,
+      "agent": "automated"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 66)*
+*This document evolves every session. Last updated: 2026-03-22 (Session 67)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -88,3 +88,4 @@
 - Street-level exploration: Street button drops to 5m altitude for first-person city exploration with WASD walking, mobile joystick, camera save/restore (Sessions 62, 64)
 - Typhoon signal weather effects: T1/T3/T8/T10 detection from wind speed, wind-driven rain, wind streaks, reduced visibility, demo mode (Session 65)
 - Night sky stars & shooting stars: CesiumJS skyBox star field + animated shooting star canvas effect (Session 66)
+- Feature tips discovery system: rotating device-aware tip overlay for feature discoverability (Session 67)

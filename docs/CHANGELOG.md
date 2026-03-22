@@ -530,6 +530,17 @@
 - Atmospheric improvement addressing "daytime/nighttime experience" feedback from S60 audit
 - File grew from ~7894 to ~7975 lines (+81 lines)
 
+## Session 67 — 2026-03-22 (Automated Agent)
+- Feature tips discovery system: rotating tip overlay helps users discover 30+ hidden features
+- 13 device-aware tips covering baccarat, street mode, tour, time slider, weather, fireworks, minimap, sharing, shortcuts, walking, typhoon demo, shooting stars, and landmarks
+- Gold pill-shaped overlay at bottom center with backdrop blur, fade transitions every 10 seconds
+- Touch-aware: shows tap instructions on mobile, keyboard shortcuts on desktop
+- Auto-starts after cinematic flythrough (25s delay), auto-hides after 5 minutes
+- Dismissable via X button; uses proven IIFE pattern
+- Mobile-responsive: adjusted font size (0.65rem), padding, and positioning at 600px breakpoint
+- 9th UX/meta-feature (after time slider, auto-tour, URL sharing, minimap, search, shortcuts, street mode, WASD walking)
+- File grew from ~7975 to ~8065 lines (+90 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
