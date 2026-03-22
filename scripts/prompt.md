@@ -41,15 +41,18 @@ Pick the single highest-impact improvement:
 - Keep changes focused — one improvement per session
 - Spawn subagents for parallel work if it helps
 
-### Phase 4: REVIEW (with screenshots)
-After deploying, take screenshots to evaluate visual quality:
-1. Use /agent-browser to open https://baccaratcity.com
-2. Wait for tiles to load, then screenshot
-3. Check for: oversaturation, color balance, UI readability, visual quality
-4. Check code: syntax errors, pattern consistency
+### Phase 4: QUALITY CHECK (MANDATORY — do this AFTER every deploy)
+**You MUST verify the site works after every change. Broken deploys are unacceptable.**
+1. Use agent-browser to open https://baccaratcity.com and wait 10 seconds for 3D to load
+2. Run `agent-browser errors` — if ANY JavaScript errors appear, you MUST fix them before continuing
+3. Screenshot desktop (1280x800) — check: 3D scene renders, UI visible, no visual glitches, no black screen
+4. `agent-browser set viewport 390 844` — screenshot mobile — check: scene loads, UI readable, controls work
+5. If ANYTHING is broken (errors, black screen, missing UI, broken on mobile), fix it and re-deploy. Do NOT proceed to Phase 7 with a broken site.
+6. Check for: oversaturation, color balance, UI readability, visual quality
+7. Check code: syntax errors, pattern consistency
 
 ### Phase 5: REVISE
-Fix issues found in review. Re-deploy and re-screenshot if you made visual changes.
+Fix issues from quality check. Re-deploy and re-check if needed. **The site must be working before you finish.**
 
 ### Phase 6: DEPLOY
 ```bash
