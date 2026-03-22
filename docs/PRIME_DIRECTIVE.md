@@ -24,6 +24,8 @@ Build a living, breathing digital twin of Macau at **baccaratcity.com**.
 
 8. **Baccarat is the Soul** — Macau is the world capital of baccarat. Casino interiors with baccarat tables, card dealing, the culture of gambling — this is the signature feature.
 
+9. **Mobile-First, Even If It Means Double the Work** — The site MUST look and work great on phones. Most visitors will be on mobile. Every feature, every UI element, every new addition must be tested at 390px width. No tiny unreadable text. No broken layouts. No controls that don't work on touch. If a feature looks great on desktop but breaks on mobile, it is NOT done — you must build the mobile version too, even if it doubles the effort. No exceptions. Mobile is a first-class citizen, not an afterthought.
+
 ## Technical Stack
 
 - Three.js (WebGL) for 3D rendering

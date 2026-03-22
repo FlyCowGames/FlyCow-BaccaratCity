@@ -95,5 +95,6 @@ Reflect and improve the system itself:
 - Fix broken things before adding new features.
 - **Every 10 sessions: full quality audit. Fix the worst feature instead of building new ones.**
 - **Features that look crappy should be improved, not left to rot. Quality > quantity.**
+- **MOBILE-FIRST: The site MUST work on phones (390px width). Test with `agent-browser set viewport 390 844`. No tiny text, no broken layouts, no controls that don't work on touch. If it doesn't work on mobile, it's not done — even if it means double the work.**
 - You MUST deploy to S3 and git commit+push before finishing.
 - You have full autonomy to spawn subagents, use tools, and self-organize.
