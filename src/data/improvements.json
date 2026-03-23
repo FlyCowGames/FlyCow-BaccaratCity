@@ -1071,6 +1071,23 @@
       ],
       "linesAdded": 143,
       "agent": "automated"
+    },
+    {
+      "session": 91,
+      "date": "2026-03-23",
+      "title": "Morning Tai Chi Exercise Groups",
+      "domain": "animation",
+      "summary": "5 traditional Chinese tai chi exercise groups in parks and waterfront areas, visible during morning hours (5-9 AM Macau time).",
+      "details": [
+        "5 tai chi spots: Nam Van Lake, NAPE Waterfront, Lou Lim Ioc Garden, Taipa Central Park, Camoes Garden",
+        "Canvas-drawn groups of 5 animated figures in flowing tai chi poses with arm/leg movement",
+        "Morning-only visibility (5:00-9:00 Macau time) with smooth fade in/out at edges",
+        "Traditional white/cream clothing colors, warm morning glow effect around groups",
+        "Morning Tai Chi entry added to Heritage section of Explore panel",
+        "New feature tip: 'Look for morning tai chi groups in parks between 5-9 AM Macau time'"
+      ],
+      "linesAdded": 110,
+      "agent": "automated"
     }
   ]
 }

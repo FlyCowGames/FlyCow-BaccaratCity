@@ -2507,6 +2507,7 @@ async function init() {
     initAzulejoTiles(viewer);
     addTriiciclos(viewer);
     addPromenadeLights(viewer);
+    addTaiChiGroups(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -4712,6 +4713,7 @@ var ATTRACTIONS = {
     { name: "Street Food Stalls", chinese: "街頭美食", icon: "🥟", lat: 22.1560, lon: 113.5581, alt: 100, pitch: -25 },
     { name: "Azulejo Tiles", chinese: "葡式瓷磚", icon: "🔷", lat: 22.1933, lon: 113.5389, alt: 150, pitch: -20 },
     { name: "Lotus Flowers", chinese: "蓮花", icon: "🪷", lat: 22.1855, lon: 113.5355, alt: 150, pitch: -25 },
+    { name: "Morning Tai Chi", chinese: "太極晨練", icon: "🧘", lat: 22.1830, lon: 113.5360, alt: 120, pitch: -20 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -9116,6 +9118,138 @@ function addPromenadeLights(viewer) {
   });
 }
 
+// ── Morning Tai Chi Groups ──
+// Traditional Chinese morning exercise in parks and waterfront areas (5:00-9:00 Macau time)
+var TAI_CHI_SPOTS = [
+  { name: 'Nam Van Lake', lon: 113.5360, lat: 22.1830, heading: 45 },
+  { name: 'NAPE Waterfront', lon: 113.5475, lat: 22.1848, heading: 90 },
+  { name: 'Lou Lim Ioc Garden', lon: 113.5440, lat: 22.1952, heading: 0 },
+  { name: 'Taipa Central Park', lon: 113.5580, lat: 22.1555, heading: 135 },
+  { name: 'Camoes Garden', lon: 113.5385, lat: 22.1970, heading: 270 },
+];
+
+var _taiChiEntities = [];
+var _taiChiInterval = null;
+
+function createTaiChiCanvas(spotIdx) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 96;
+  canvas.height = 64;
+  var ctx = canvas.getContext('2d');
+  var t = Date.now() / 1000;
+
+  // Soft ground shadow
+  ctx.fillStyle = 'rgba(80, 120, 80, 0.15)';
+  ctx.beginPath();
+  ctx.ellipse(48, 58, 42, 6, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Draw 4-5 tai chi practitioners in a staggered group
+  var figures = [
+    { x: 18, y: 52, phase: 0 },
+    { x: 36, y: 48, phase: 0.8 },
+    { x: 54, y: 50, phase: 1.6 },
+    { x: 72, y: 52, phase: 2.4 },
+    { x: 45, y: 44, phase: 3.2 },
+  ];
+
+  figures.forEach(function(fig, i) {
+    var sway = Math.sin(t * 0.4 + fig.phase + spotIdx) * 2;
+    var armAngle = Math.sin(t * 0.3 + fig.phase + spotIdx * 0.5) * 0.4;
+    var legSpread = 3 + Math.sin(t * 0.25 + fig.phase) * 1.5;
+
+    // Warm morning colors - traditional white/light clothing
+    var bodyColor = i % 2 === 0 ? 'rgba(240, 235, 220, 0.9)' : 'rgba(220, 210, 190, 0.9)';
+    var headColor = 'rgba(210, 180, 140, 0.9)';
+
+    ctx.save();
+    ctx.translate(fig.x + sway * 0.3, fig.y);
+
+    // Legs - wide stance
+    ctx.strokeStyle = bodyColor;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, -8);
+    ctx.lineTo(-legSpread, 0);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, -8);
+    ctx.lineTo(legSpread, 0);
+    ctx.stroke();
+
+    // Body
+    ctx.beginPath();
+    ctx.moveTo(0, -8);
+    ctx.lineTo(0, -22);
+    ctx.stroke();
+
+    // Arms - flowing tai chi poses
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.moveTo(0, -18);
+    ctx.lineTo(-8 * Math.cos(armAngle), -18 + 8 * Math.sin(armAngle) + sway);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, -18);
+    ctx.lineTo(8 * Math.cos(armAngle + 1.2), -18 + 8 * Math.sin(armAngle + 1.2) - sway * 0.5);
+    ctx.stroke();
+
+    // Head
+    ctx.fillStyle = headColor;
+    ctx.beginPath();
+    ctx.arc(0, -25, 3, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+  });
+
+  // Subtle warm morning glow around the group
+  ctx.fillStyle = 'rgba(255, 220, 160, 0.06)';
+  ctx.beginPath();
+  ctx.ellipse(48, 46, 44, 20, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  return canvas;
+}
+
+function addTaiChiGroups(viewer) {
+  TAI_CHI_SPOTS.forEach(function(spot, idx) {
+    var entity = viewer.entities.add({
+      name: 'Tai Chi Group ' + spot.name,
+      position: Cesium.Cartesian3.fromDegrees(spot.lon, spot.lat, 2),
+      billboard: {
+        image: createTaiChiCanvas(idx),
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scaleByDistance: new Cesium.NearFarScalar(50, 1.2, 3000, 0.0),
+        translucencyByDistance: new Cesium.NearFarScalar(30, 1.0, 2500, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        scale: 1.0,
+      },
+    });
+    _taiChiEntities.push(entity);
+  });
+
+  // Animate figures and control visibility by time of day
+  _taiChiInterval = setInterval(function() {
+    var hour = getMacauHour();
+    var visible = hour >= 5 && hour < 9;
+    // Fade in/out at edges: 5:00-5:30 fade in, 8:30-9:00 fade out
+    var alpha = 1.0;
+    if (hour >= 5 && hour < 5.5) alpha = (hour - 5) * 2;
+    else if (hour >= 8.5 && hour < 9) alpha = (9 - hour) * 2;
+    else if (!visible) alpha = 0;
+
+    _taiChiEntities.forEach(function(entity, idx) {
+      entity.show = alpha > 0;
+      if (alpha > 0) {
+        entity.billboard.image = createTaiChiCanvas(idx);
+        entity.billboard.color = new Cesium.Color(1, 1, 1, alpha);
+      }
+    });
+  }, 400);
+}
+
 // ── Minimap Navigation ──
 var _minimapCanvas = null;
 var _minimapCtx = null;
@@ -9745,6 +9879,7 @@ function addSkyCabs(viewer) {
     { icon: '📍', text: isTouch ? 'Tap any landmark for photos, facts, and history — swipe the gallery' : 'Click any landmark for photos, facts, and history' },
     { icon: '🔊', text: isTouch ? 'Enable sound — hear casino chimes near Cotai, temple bells near A-Ma, waves by the harbour' : 'Press M for sound — fly near casinos, temples, or harbour to hear spatial audio zones' },
     { icon: '🪷', text: 'Spot floating lotus flowers on Nam Van Lake — Macau\'s official emblem' },
+    { icon: '🧘', text: 'Look for morning tai chi groups in parks between 5-9 AM Macau time' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

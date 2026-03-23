@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-23 (Session 86)*
+*This document evolves every session. Last updated: 2026-03-23 (Session 91)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -100,3 +100,4 @@
 - Floating lotus flowers: 10 animated lotus flower billboards on Nam Van Lake, Inner Harbour, and A-Ma Temple coast — Macau's official emblem with drift and breathing animation (Session 84)
 - Macau triciclo pedicabs: 4 traditional rickshaws on 3 heritage district routes with ping-pong movement, minimap tracking (Session 85)
 - Waterfront promenade lights: ~55 warm pathway lights along 5 major waterfront promenades (Nam Van Lake, Outer Harbour, NAPE, Inner Harbour, Taipa) — night-only "string of pearls" coastline glow (Session 86)
+- Morning tai chi groups: 5 animated exercise groups at parks and waterfront areas, morning-only (5-9 AM), first dawn-specific feature (Session 91)

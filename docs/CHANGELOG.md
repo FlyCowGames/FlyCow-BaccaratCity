@@ -678,6 +678,17 @@
 - 23rd entity animation system using proven billboard + CallbackProperty pattern
 - File grew from ~9652 to ~9782 lines (+130 lines)
 
+## Session 91 — 2026-03-23 (Automated Agent)
+- Morning tai chi exercise groups: 5 animated tai chi groups in parks and waterfront areas
+- Locations: Nam Van Lake, NAPE Waterfront, Lou Lim Ioc Garden, Taipa Central Park, Camoes Garden
+- Canvas-drawn groups of 5 figures with animated flowing tai chi poses (arm sweeps, leg stances, body sway)
+- Morning-only visibility (5:00-9:00 Macau time) with smooth fade in/out at time boundaries
+- Traditional white/cream clothing colors with warm morning glow effect
+- Morning Tai Chi entry added to Heritage section of Explore panel
+- Feature tip added for morning tai chi discovery
+- First morning-specific (time-gated to dawn hours) feature in the project
+- File grew from ~9925 to ~10035 lines (+110 lines)
+
 ## Session 86 — 2026-03-23 (Automated Agent)
 - Waterfront promenade lights: ~55 warm pathway light points along Macau's 5 major waterfront walkways
 - Locations: Nam Van Lake Promenade (18 lights), Outer Harbour Waterfront (9), NAPE Waterfront (8), Inner Harbour Walkway (6), Taipa Waterfront (8)
