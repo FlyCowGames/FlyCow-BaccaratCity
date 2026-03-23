@@ -1001,6 +1001,42 @@
       ],
       "linesAdded": 179,
       "agent": "automated"
+    },
+    {
+      "session": 83,
+      "date": "2026-03-23",
+      "title": "Position-Aware Spatial Audio Zones",
+      "domain": "audio",
+      "summary": "Enhanced ambient audio with 4 spatial zones that change based on camera position: casino chimes near Cotai, temple bells near A-Ma, harbour foghorn near water, and boosted ocean waves by the coast.",
+      "details": [
+        "4 new audio layers: casino chimes (C/E/G triad), slot machine noise, temple bell tones (F3/F4/C5 harmonics), harbour foghorn",
+        "3 audio zones with proximity falloff: casino district (Cotai + NAPE), temple area (A-Ma + Ruins), harbour (Inner + Outer + Nam Van)",
+        "Altitude-aware: zone sounds fade above 500m for realistic distance effect",
+        "Time-sensitive: casino sounds louder at night, temple bells peak at dawn, harbour foghorn boosted in fog",
+        "Audio mix update frequency increased from 30s to 3s for responsive position tracking",
+        "Updated feature tips and help overlay to mention spatial audio zones"
+      ],
+      "linesAdded": 161,
+      "agent": "automated"
+    },
+    {
+      "session": 84,
+      "date": "2026-03-23",
+      "title": "Floating Lotus Flowers on Nam Van Lake",
+      "domain": "landmarks",
+      "summary": "10 animated floating lotus flowers on Nam Van Lake and Inner Harbour — Macau's official emblem, the lotus, now graces the waterways with gentle drift and breathing animations.",
+      "details": [
+        "10 lotus flower billboard entities across Nam Van Lake (6), Inner Harbour (2), and A-Ma Temple coast (2)",
+        "Canvas-drawn lotus icons: 5 outer petals, 3 inner petals, green lily pad, golden seed pod center",
+        "3 color varieties: pink, light pink, deep pink, and white — matching real lotus flower colors",
+        "Gentle circular drift animation (~40s cycle, 5m radius) simulates water current movement",
+        "Breathing scale pulse (6s cycle) creates floating-on-water feel",
+        "Always active (day and night) — adds daytime visual life to water areas",
+        "Lotus Flowers entry added to Heritage section of Explore panel",
+        "New feature tip: 'Spot floating lotus flowers on Nam Van Lake — Macau's official emblem'"
+      ],
+      "linesAdded": 105,
+      "agent": "automated"
     }
   ]
 }

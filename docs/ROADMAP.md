@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-23 (Session 82)*
+*This document evolves every session. Last updated: 2026-03-23 (Session 84)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -96,3 +96,5 @@
 - Animated neon Chinese signs: 8 glowing neon signs at casinos and historic sites with flickering animation, night-only (Session 79)
 - Street food market stalls: 8 animated food vendor stalls at 4 famous food streets with warm lantern glow and steam wisps (Session 81)
 - Portuguese azulejo tile panels: 6 decorative blue-and-white tile panels at heritage sites with traditional patterns (Session 82)
+- Position-aware spatial audio zones: 4 zone-specific audio layers (casino chimes, temple bells, harbour foghorn, slot noise) responding to camera position, altitude, time, and weather (Session 83)
+- Floating lotus flowers: 10 animated lotus flower billboards on Nam Van Lake, Inner Harbour, and A-Ma Temple coast — Macau's official emblem with drift and breathing animation (Session 84)

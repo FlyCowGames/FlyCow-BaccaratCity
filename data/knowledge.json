@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 82,
+  "last_updated_session": 84,
   "learnings": [
     {
       "type": "pattern",
@@ -41,22 +41,22 @@
       "domain": "animation",
       "title": "Staggered animation delays prevent mechanical feel",
       "description": "Vary animation-delay and animation-duration per element to prevent synchronized movement that looks artificial. Different speeds and directions per element create organic motion.",
-      "evidence": "Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, food stalls, and other animation systems",
+      "evidence": "Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, food stalls, lotus flowers, and other animation systems",
       "tags": ["css", "animation", "visual-quality"],
       "weight": 0.8,
-      "times_applied": 8,
-      "times_successful": 8
+      "times_applied": 9,
+      "times_successful": 9
     },
     {
       "type": "pattern",
       "domain": "audio",
       "title": "Web Audio API for procedural sound without external files",
       "description": "Web Audio API generates convincing ambient and interactive sounds procedurally — no audio files needed. Must start muted and require user click (browser autoplay policy).",
-      "evidence": "Sessions 9, 58, 63: ambient soundscape, baccarat sounds, firework sounds — all procedurally generated",
+      "evidence": "Sessions 9, 58, 63, 83: ambient soundscape, baccarat sounds, firework sounds, spatial audio zones — all procedurally generated",
       "tags": ["audio", "performance"],
       "weight": 0.8,
-      "times_applied": 3,
-      "times_successful": 3
+      "times_applied": 4,
+      "times_successful": 4
     },
     {
       "type": "pattern",
@@ -109,6 +109,28 @@
       "description": "When a digital twin represents a multicultural city, actively balance representation of different cultural heritages. Macau has Chinese and Portuguese elements — adding Portuguese azulejo tile panels complements the extensive Chinese elements (lanterns, neon signs, food stalls, incense). This avoids cultural homogeneity and better represents the city's unique identity.",
       "evidence": "Session 82: 6 Portuguese azulejo tile panels added at heritage sites alongside 20+ existing Chinese cultural elements. Blue-and-white Portuguese palette provides visual contrast to warm red/gold Chinese elements.",
       "tags": ["culture", "heritage", "visual-variety", "authenticity"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "audio",
+      "title": "Position-aware audio zones using proximity falloff with altitude gate",
+      "description": "Camera position relative to defined zone centers (lon/lat/radius) drives audio gain for zone-specific layers. Distance-based proximity (0-1 linear falloff from zone radius) combined with altitude gate (fade above threshold) creates convincing spatial audio without 3D panning. Enhancing existing gain nodes with position-aware modulation is non-breaking and additive.",
+      "evidence": "Session 83: 3 zone types (casino, temple, harbour) with 4 new audio layers. Zero JS errors, smooth transitions via linearRampToValueAtTime, 3s update interval is responsive without performance cost.",
+      "tags": ["audio", "spatial", "cesiumjs", "immersion"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "landmarks",
+      "title": "Official symbols and emblems add cultural depth",
+      "description": "Using a city's official symbols (like Macau's lotus emblem) as visual elements connects the digital twin to the real city's identity beyond just physical geography. The lotus is on Macau's flag and coat of arms, and Grand Lisboa is designed as a lotus bud — floating lotus flowers reinforce this symbolism naturally.",
+      "evidence": "Session 84: 10 lotus flower billboards on Nam Van Lake and harbour. Culturally significant, visually beautiful, fills the day/night balance gap as an always-active feature.",
+      "tags": ["culture", "heritage", "symbolism", "authenticity"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
@@ -169,6 +191,12 @@
       "question": "How to represent Portuguese colonial heritage?",
       "chosen": "Canvas-drawn azulejo tile panel billboards with traditional blue-and-white patterns, Portuguese place names, and 4 tile motifs",
       "rationale": "Follows proven billboard + canvas + setInterval pattern. Blue-and-white color palette provides strong visual contrast to warm Chinese elements. Portuguese place names add linguistic authenticity. Multiple pattern types (cross, floral, diamond, wave) prevent visual monotony.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add lotus flower cultural symbolism to the scene?",
+      "chosen": "Canvas-drawn lotus billboard entities with CallbackProperty drift and scale animation on water surfaces",
+      "rationale": "Follows proven billboard + CallbackProperty pattern. Lotus is Macau's official emblem — deeply meaningful. Placed on water surfaces (Nam Van Lake, Inner Harbour) for authenticity. Always-active to help balance the day/night feature ratio. Circular drift + breathing pulse creates natural floating-on-water feel without complex physics.",
       "revisit_after_session": null
     }
   ]

@@ -1665,7 +1665,7 @@
       <div class="help-row"><span class="help-key">E</span><span class="help-desc">Toggle explore panel</span></div>
       <div class="help-row"><span class="help-key">F</span><span class="help-desc">Replay flythrough</span></div>
       <div class="help-row"><span class="help-key">S</span><span class="help-desc">Share current view</span></div>
-      <div class="help-row"><span class="help-key">M</span><span class="help-desc">Toggle sound</span></div>
+      <div class="help-row"><span class="help-key">M</span><span class="help-desc">Toggle sound (spatial audio zones)</span></div>
       <div class="help-row"><span class="help-key">G</span><span class="help-desc">Street-level view</span></div>
       <div class="help-row"><span class="help-key">Y</span><span class="help-desc">Toggle typhoon demo</span></div>
       <div class="help-row"><span class="help-key">W</span><span class="help-key">A</span><span class="help-key">S</span><span class="help-key">D</span><span class="help-desc">Walk in street mode</span></div>
@@ -2476,6 +2476,7 @@ async function init() {
     addFerries(viewer);
     addJunkBoats(viewer);
     addDragonBoats(viewer);
+    addLotusFlowers(viewer);
     addTraffic(viewer);
     addGuiaCircuit(viewer);
     addPedestrians(viewer);
@@ -4707,6 +4708,7 @@ var ATTRACTIONS = {
     { name: "Temple Incense", chinese: "香炉", icon: "🪔", lat: 22.1868, lon: 113.5311, alt: 80, pitch: -25 },
     { name: "Street Food Stalls", chinese: "街頭美食", icon: "🥟", lat: 22.1560, lon: 113.5581, alt: 100, pitch: -25 },
     { name: "Azulejo Tiles", chinese: "葡式瓷磚", icon: "🔷", lat: 22.1933, lon: 113.5389, alt: 150, pitch: -20 },
+    { name: "Lotus Flowers", chinese: "蓮花", icon: "🪷", lat: 22.1855, lon: 113.5355, alt: 150, pitch: -25 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -5256,7 +5258,120 @@ function initAudio() {
   cityNoiseBuf.start();
   _audioNodes.cityGain = cityGain;
 
+  // Casino ambience — electronic chime layer (filtered oscillator + harmonics)
+  var casinoOsc1 = _audioCtx.createOscillator();
+  casinoOsc1.type = 'sine';
+  casinoOsc1.frequency.value = 1046.5; // C6
+  var casinoOsc2 = _audioCtx.createOscillator();
+  casinoOsc2.type = 'sine';
+  casinoOsc2.frequency.value = 1318.5; // E6
+  var casinoOsc3 = _audioCtx.createOscillator();
+  casinoOsc3.type = 'sine';
+  casinoOsc3.frequency.value = 1568; // G6
+  // LFO for gentle shimmer
+  var casinoLfo = _audioCtx.createOscillator();
+  casinoLfo.frequency.value = 2.5;
+  var casinoLfoGain = _audioCtx.createGain();
+  casinoLfoGain.gain.value = 0.008;
+  casinoLfo.connect(casinoLfoGain);
+  var casinoGain = _audioCtx.createGain();
+  casinoGain.gain.value = 0;
+  casinoLfoGain.connect(casinoGain.gain);
+  casinoOsc1.connect(casinoGain);
+  casinoOsc2.connect(casinoGain);
+  casinoOsc3.connect(casinoGain);
+  casinoGain.connect(master);
+  casinoOsc1.start(); casinoOsc2.start(); casinoOsc3.start(); casinoLfo.start();
+  _audioNodes.casinoGain = casinoGain;
+
+  // Casino slot noise — filtered noise for ambient chatter/machine hum
+  var slotBuf = _audioCtx.createBufferSource();
+  var slotLen = _audioCtx.sampleRate * 4;
+  var slotBuffer = _audioCtx.createBuffer(1, slotLen, _audioCtx.sampleRate);
+  var slotData = slotBuffer.getChannelData(0);
+  for (var i = 0; i < slotLen; i++) slotData[i] = (Math.random() * 2 - 1);
+  slotBuf.buffer = slotBuffer; slotBuf.loop = true;
+  var slotFilter = _audioCtx.createBiquadFilter();
+  slotFilter.type = 'bandpass'; slotFilter.frequency.value = 1800; slotFilter.Q.value = 0.8;
+  var slotGain = _audioCtx.createGain();
+  slotGain.gain.value = 0;
+  slotBuf.connect(slotFilter); slotFilter.connect(slotGain); slotGain.connect(master);
+  slotBuf.start();
+  _audioNodes.slotGain = slotGain;
+
+  // Temple ambience — low resonant bell tone
+  var templeOsc1 = _audioCtx.createOscillator();
+  templeOsc1.type = 'sine';
+  templeOsc1.frequency.value = 174.6; // F3 — deep bell fundamental
+  var templeOsc2 = _audioCtx.createOscillator();
+  templeOsc2.type = 'sine';
+  templeOsc2.frequency.value = 349.2; // F4 overtone
+  var templeOsc3 = _audioCtx.createOscillator();
+  templeOsc3.type = 'sine';
+  templeOsc3.frequency.value = 523.3; // C5 — temple bowl harmonic
+  // Slow tremolo for meditative quality
+  var templeLfo = _audioCtx.createOscillator();
+  templeLfo.frequency.value = 0.3;
+  var templeLfoGain = _audioCtx.createGain();
+  templeLfoGain.gain.value = 0.01;
+  templeLfo.connect(templeLfoGain);
+  var templeGain = _audioCtx.createGain();
+  templeGain.gain.value = 0;
+  templeLfoGain.connect(templeGain.gain);
+  templeOsc1.connect(templeGain);
+  templeOsc2.connect(templeGain);
+  templeOsc3.connect(templeGain);
+  templeGain.connect(master);
+  templeOsc1.start(); templeOsc2.start(); templeOsc3.start(); templeLfo.start();
+  _audioNodes.templeGain = templeGain;
+
+  // Harbour ambience — deeper water lapping + foghorn-like low tone
+  var harbourOsc = _audioCtx.createOscillator();
+  harbourOsc.type = 'sine';
+  harbourOsc.frequency.value = 85; // low foghorn
+  var harbourLfo = _audioCtx.createOscillator();
+  harbourLfo.frequency.value = 0.08;
+  var harbourLfoGain = _audioCtx.createGain();
+  harbourLfoGain.gain.value = 0.015;
+  harbourLfo.connect(harbourLfoGain);
+  var harbourGain = _audioCtx.createGain();
+  harbourGain.gain.value = 0;
+  harbourLfoGain.connect(harbourGain.gain);
+  harbourOsc.connect(harbourGain);
+  harbourGain.connect(master);
+  harbourOsc.start(); harbourLfo.start();
+  _audioNodes.harbourGain = harbourGain;
+
   _audioEnabled = true;
+}
+
+// Audio zone definitions (lon, lat, radius in degrees)
+var AUDIO_ZONES = {
+  casino: [
+    { lon: 113.5590, lat: 22.1494, r: 0.008 }, // Cotai Strip — Venetian/Galaxy/Wynn
+    { lon: 113.5399, lat: 22.1893, r: 0.004 }, // Grand Lisboa / NAPE casino district
+  ],
+  temple: [
+    { lon: 113.5311, lat: 22.1868, r: 0.003 }, // A-Ma Temple
+    { lon: 113.5410, lat: 22.1974, r: 0.002 }, // Ruins of St. Paul's area
+  ],
+  harbour: [
+    { lon: 113.5380, lat: 22.1870, r: 0.006 }, // Inner Harbour
+    { lon: 113.5530, lat: 22.1920, r: 0.005 }, // Outer Harbour
+    { lon: 113.5365, lat: 22.1800, r: 0.004 }, // Nam Van Lake
+  ],
+};
+
+function getZoneProximity(camLon, camLat, zones) {
+  var maxProx = 0;
+  for (var i = 0; i < zones.length; i++) {
+    var z = zones[i];
+    var dx = camLon - z.lon, dy = camLat - z.lat;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    var prox = Math.max(0, 1 - dist / z.r);
+    if (prox > maxProx) maxProx = prox;
+  }
+  return maxProx;
 }
 
 function updateAudioMix() {
@@ -5289,15 +5404,62 @@ function updateAudioMix() {
     }
   }
 
+  // Position-aware zone mixing
+  var casinoVol = 0, templeVol = 0, harbourVol = 0, slotVol = 0;
+  if (_viewer) {
+    try {
+      var cam = _viewer.camera;
+      var pos = cam.positionCartographic;
+      var camLon = Cesium.Math.toDegrees(pos.longitude);
+      var camLat = Cesium.Math.toDegrees(pos.latitude);
+      var camAlt = pos.height;
+
+      // Proximity to zones (0-1 scale)
+      var casinoProx = getZoneProximity(camLon, camLat, AUDIO_ZONES.casino);
+      var templeProx = getZoneProximity(camLon, camLat, AUDIO_ZONES.temple);
+      var harbourProx = getZoneProximity(camLon, camLat, AUDIO_ZONES.harbour);
+
+      // Altitude falloff — zone sounds fade out above 500m
+      var altFade = Math.max(0, 1 - (camAlt - 100) / 400);
+      altFade = Math.min(1, Math.max(0, altFade));
+
+      // Casino chimes and slot noise — louder at night
+      var nightBoost = isNight ? 1.5 : 1.0;
+      casinoVol = casinoProx * altFade * 0.015 * nightBoost;
+      slotVol = casinoProx * altFade * 0.025 * nightBoost;
+
+      // Temple bells — quieter at night (temples close), louder at dawn
+      var templeTimeBoost = isDawn ? 1.5 : isNight ? 0.3 : 1.0;
+      templeVol = templeProx * altFade * 0.02 * templeTimeBoost;
+
+      // Harbour foghorn — boost near water, louder when foggy or at night
+      var fogBoost = (currentWeather && currentWeather.weather_code >= 45 && currentWeather.weather_code <= 48) ? 2.0 : 1.0;
+      var nightHarbourBoost = isNight ? 1.3 : 1.0;
+      harbourVol = harbourProx * altFade * 0.025 * fogBoost * nightHarbourBoost;
+
+      // Boost ocean near harbour zones
+      oceanVol += harbourProx * altFade * 0.2;
+
+      // Boost city hum near casino district
+      cityVol += casinoProx * altFade * 0.04;
+    } catch(e) { /* ignore camera errors during transitions */ }
+  }
+
   // Smooth transitions (ramp over 2 seconds)
   var t = _audioCtx.currentTime;
   _audioNodes.cityGain.gain.linearRampToValueAtTime(cityVol, t + 2);
   _audioNodes.oceanGain.gain.linearRampToValueAtTime(oceanVol, t + 2);
   _audioNodes.windGain.gain.linearRampToValueAtTime(windVol, t + 2);
+
+  // Zone-specific layers
+  if (_audioNodes.casinoGain) _audioNodes.casinoGain.gain.linearRampToValueAtTime(casinoVol, t + 2);
+  if (_audioNodes.slotGain) _audioNodes.slotGain.gain.linearRampToValueAtTime(slotVol, t + 2);
+  if (_audioNodes.templeGain) _audioNodes.templeGain.gain.linearRampToValueAtTime(templeVol, t + 2);
+  if (_audioNodes.harbourGain) _audioNodes.harbourGain.gain.linearRampToValueAtTime(harbourVol, t + 2);
 }
 
-// Update audio mix every 30 seconds
-setInterval(updateAudioMix, 30000);
+// Update audio mix every 3 seconds (position-aware zones need frequent updates)
+setInterval(updateAudioMix, 3000);
 
 // Audio toggle
 document.getElementById('audio-toggle').addEventListener('click', function() {
@@ -7171,6 +7333,130 @@ function addDragonBoats(viewer) {
         },
       });
     })(lane, icon);
+  });
+}
+
+// ── Floating Lotus Flowers — Nam Van Lake & Harbour ──
+// The lotus is Macau's official emblem (appears on SAR flag/coat of arms).
+// Grand Lisboa is designed as a lotus bud. Floating lotus flowers add cultural significance.
+var LOTUS_POSITIONS = [
+  // Nam Van Lake cluster (main group)
+  { lon: 113.5352, lat: 22.1858, phase: 0.0, color: '#ff69b4', size: 1.0 },   // pink
+  { lon: 113.5360, lat: 22.1850, phase: 0.3, color: '#ffb6c1', size: 0.85 },  // light pink
+  { lon: 113.5342, lat: 22.1852, phase: 0.7, color: '#ff1493', size: 0.9 },   // deep pink
+  { lon: 113.5368, lat: 22.1862, phase: 1.2, color: '#ffffff', size: 0.8 },   // white lotus
+  { lon: 113.5355, lat: 22.1845, phase: 1.8, color: '#ff69b4', size: 0.95 },  // pink
+  { lon: 113.5347, lat: 22.1867, phase: 2.3, color: '#ffb6c1', size: 0.85 },  // light pink
+  // Inner Harbour waterfront (scattered)
+  { lon: 113.5330, lat: 22.1870, phase: 0.5, color: '#ff69b4', size: 0.9 },
+  { lon: 113.5322, lat: 22.1878, phase: 1.5, color: '#ffffff', size: 0.8 },
+  // Near A-Ma Temple coast
+  { lon: 113.5308, lat: 22.1862, phase: 2.0, color: '#ff1493', size: 0.85 },
+  { lon: 113.5315, lat: 22.1856, phase: 0.8, color: '#ffb6c1', size: 0.9 },
+];
+
+function createLotusIcon(petalColor, sizeFactor) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 48;
+  canvas.height = 48;
+  var ctx = canvas.getContext('2d');
+  var cx = 24, cy = 24;
+
+  // Water pad (lily pad underneath)
+  ctx.fillStyle = 'rgba(40, 130, 60, 0.6)';
+  ctx.beginPath();
+  ctx.ellipse(cx, cy + 6, 18 * sizeFactor, 10 * sizeFactor, 0, 0, Math.PI * 2);
+  ctx.fill();
+  // Pad notch
+  ctx.fillStyle = 'rgba(10, 10, 18, 0.3)';
+  ctx.beginPath();
+  ctx.moveTo(cx, cy + 6);
+  ctx.lineTo(cx + 14 * sizeFactor, cy + 2);
+  ctx.lineTo(cx + 10 * sizeFactor, cy + 6);
+  ctx.closePath();
+  ctx.fill();
+
+  // Petals (5 outer petals in a circle)
+  for (var i = 0; i < 5; i++) {
+    var angle = (i / 5) * Math.PI * 2 - Math.PI / 2;
+    var px = cx + Math.cos(angle) * 8 * sizeFactor;
+    var py = cy + Math.sin(angle) * 6 * sizeFactor - 2;
+    ctx.fillStyle = petalColor;
+    ctx.globalAlpha = 0.85;
+    ctx.beginPath();
+    ctx.ellipse(px, py, 7 * sizeFactor, 4 * sizeFactor, angle + Math.PI / 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Inner petals (smaller, brighter)
+  ctx.globalAlpha = 0.95;
+  for (var j = 0; j < 3; j++) {
+    var a2 = (j / 3) * Math.PI * 2 - Math.PI / 3;
+    var px2 = cx + Math.cos(a2) * 4 * sizeFactor;
+    var py2 = cy + Math.sin(a2) * 3 * sizeFactor - 3;
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.ellipse(px2, py2, 4 * sizeFactor, 2.5 * sizeFactor, a2 + Math.PI / 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1.0;
+
+  // Golden center (seed pod)
+  ctx.fillStyle = '#d4af37';
+  ctx.beginPath();
+  ctx.arc(cx, cy - 2, 3 * sizeFactor, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Soft glow halo
+  var grad = ctx.createRadialGradient(cx, cy, 4, cx, cy, 22);
+  grad.addColorStop(0, petalColor.replace(')', ', 0.0)').replace('rgb', 'rgba').replace('#ff69b4', 'rgba(255,105,180,0.0)').replace('#ffb6c1', 'rgba(255,182,193,0.0)').replace('#ff1493', 'rgba(255,20,147,0.0)').replace('#ffffff', 'rgba(255,255,255,0.0)'));
+  grad.addColorStop(1, 'rgba(255,182,193,0.12)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 48, 48);
+
+  return canvas;
+}
+
+function addLotusFlowers(viewer) {
+  var startTime = Date.now();
+
+  LOTUS_POSITIONS.forEach(function(lotus) {
+    var icon = createLotusIcon(lotus.color, lotus.size);
+
+    (function(data, lotusIcon) {
+      // Gentle drift animation — lotuses slowly bob and drift on water
+      var positionCallback = new Cesium.CallbackProperty(function() {
+        var t = (Date.now() - startTime) / 1000 + data.phase * 10;
+        // Gentle circular drift (very slow, ~40s full circle, small radius ~5m)
+        var driftLon = Math.sin(t / 40 * Math.PI * 2) * 0.00003;
+        var driftLat = Math.cos(t / 40 * Math.PI * 2) * 0.00003;
+        return Cesium.Cartesian3.fromDegrees(
+          data.lon + driftLon,
+          data.lat + driftLat,
+          1.5  // Just above water surface
+        );
+      }, false);
+
+      // Gentle scale pulse simulates floating/breathing
+      var scaleCallback = new Cesium.CallbackProperty(function() {
+        var t = (Date.now() - startTime) / 1000 + data.phase * 10;
+        return 1.0 + Math.sin(t / 6 * Math.PI * 2) * 0.08;
+      }, false);
+
+      viewer.entities.add({
+        name: 'Lotus Flower',
+        position: positionCallback,
+        billboard: {
+          image: lotusIcon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: scaleCallback,
+          scaleByDistance: new Cesium.NearFarScalar(50, 2.5, 5000, 0.3),
+          translucencyByDistance: new Cesium.NearFarScalar(30, 1.0, 6000, 0.1),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+    })(lotus, icon);
   });
 }
 
@@ -9206,6 +9492,8 @@ function addSkyCabs(viewer) {
     { icon: '🚶', text: isTouch ? 'Tap Walk Tour for a cinematic guided tour with photos at each landmark' : 'Press W for a cinematic walking tour — auto-opens photo galleries at each stop' },
     { icon: '🌠', text: 'Look up at night for shooting stars across the sky' },
     { icon: '📍', text: isTouch ? 'Tap any landmark for photos, facts, and history — swipe the gallery' : 'Click any landmark for photos, facts, and history' },
+    { icon: '🔊', text: isTouch ? 'Enable sound — hear casino chimes near Cotai, temple bells near A-Ma, waves by the harbour' : 'Press M for sound — fly near casinos, temples, or harbour to hear spatial audio zones' },
+    { icon: '🪷', text: 'Spot floating lotus flowers on Nam Van Lake — Macau\'s official emblem' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

@@ -636,6 +636,35 @@
 - Balances cultural representation: adds Portuguese colonial heritage alongside existing Chinese elements
 - File grew from ~9207 to ~9386 lines (+179 lines)
 
+## Session 83 — 2026-03-23 (Automated Agent)
+- Position-aware spatial audio zones: 4 new audio layers that respond to camera position over Macau
+- Casino zone (Cotai Strip + NAPE): electronic chime triad (C6/E6/G6) with shimmer LFO + bandpass slot machine noise
+- Temple zone (A-Ma Temple + Ruins of St. Paul's): deep bell tones (F3/F4/C5 harmonics) with slow tremolo
+- Harbour zone (Inner Harbour + Outer Harbour + Nam Van Lake): low foghorn tone (85Hz) with wave-like LFO
+- Proximity-based volume: smooth falloff from zone center with configurable radius per zone
+- Altitude awareness: zone sounds fade out above 500m for realistic distance perception
+- Time-sensitive mixing: casino sounds 1.5x louder at night, temple bells 1.5x at dawn, harbour foghorn boosted in fog
+- Existing ocean/city layers also boosted near relevant zones (ocean near harbour, city hum near casinos)
+- Audio mix update frequency increased from 30s to 3s for responsive position tracking
+- Updated feature tips to mention spatial audio zones; help overlay updated
+- 4th audio feature (after ambient soundscape S9, baccarat sounds S58, firework sounds S63)
+- File grew from ~9386 to ~9547 lines (+161 lines)
+
+## Session 84 — 2026-03-23 (Automated Agent)
+- Floating lotus flowers: 10 animated lotus flower billboard entities on Nam Van Lake and Inner Harbour
+- Lotus is Macau's official emblem (SAR flag, coat of arms) — Grand Lisboa is designed as a lotus bud
+- 3 placement areas: Nam Van Lake cluster (6 flowers), Inner Harbour waterfront (2), A-Ma Temple coast (2)
+- Canvas-drawn 48x48px lotus icon: green lily pad base, 5 outer petals, 3 inner white petals, golden seed pod center
+- 4 color varieties: pink (#ff69b4), light pink (#ffb6c1), deep pink (#ff1493), white (#ffffff)
+- Gentle circular drift animation via CallbackProperty (~40s full circle, ~5m radius) simulates water current
+- Breathing scale pulse (6s cycle, ±8%) creates floating-on-water feel
+- Always active (day and night) — adds daytime visual life to water areas
+- Street-level visibility (scaleByDistance 50m-5km, translucencyByDistance 30m-6km)
+- Lotus Flowers entry added to Heritage section of Explore panel with lotus emoji
+- New feature tip: "Spot floating lotus flowers on Nam Van Lake — Macau's official emblem"
+- 22nd entity animation system using proven billboard + CallbackProperty pattern
+- File grew from ~9547 to ~9652 lines (+105 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
