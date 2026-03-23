@@ -2502,6 +2502,7 @@ async function init() {
     initWavePool(viewer);
     initIncenseCoils(viewer);
     initNeonSigns(viewer);
+    initFoodStalls(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -4703,6 +4704,7 @@ var ATTRACTIONS = {
     { name: "Sky Lanterns", chinese: "孔明灯", icon: "🏮", lat: 22.1850, lon: 113.5370, alt: 300, pitch: -20 },
     { name: "Red Lanterns", chinese: "红灯笼", icon: "🏮", lat: 22.1937, lon: 113.5388, alt: 150, pitch: -15 },
     { name: "Temple Incense", chinese: "香炉", icon: "🪔", lat: 22.1868, lon: 113.5311, alt: 80, pitch: -25 },
+    { name: "Street Food Stalls", chinese: "街頭美食", icon: "🥟", lat: 22.1560, lon: 113.5581, alt: 100, pitch: -25 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -8301,6 +8303,115 @@ function initNeonSigns(viewer) {
       item.entity.billboard.image = c.toDataURL();
     });
   }, 200);
+}
+
+// ── Street Food Market Stalls ──
+// Animated food vendor stalls at Macau's famous food streets — warm lantern glow with Chinese food names
+var FOOD_STALLS = [
+  // Rua do Cunha, Taipa Village — most famous food street
+  { food: '蛋撻', sub: 'EGG TART', lon: 113.5581, lat: 22.1560, alt: 12, color: [255, 180, 60] },
+  { food: '杏仁餅', sub: 'ALMOND COOKIE', lon: 113.5577, lat: 22.1567, alt: 12, color: [255, 160, 50] },
+  { food: '豬扒包', sub: 'PORK CHOP BUN', lon: 113.5584, lat: 22.1553, alt: 12, color: [255, 140, 40] },
+  // Senado Square area — historic centre food vendors
+  { food: '牛雜', sub: 'BEEF OFFAL', lon: 113.5385, lat: 22.1930, alt: 12, color: [255, 120, 40] },
+  { food: '雙皮奶', sub: 'MILK PUDDING', lon: 113.5392, lat: 22.1940, alt: 12, color: [255, 200, 80] },
+  // Three Lamps District — local food hub
+  { food: '咖喱魚蛋', sub: 'CURRY FISHBALL', lon: 113.5430, lat: 22.2005, alt: 12, color: [255, 150, 50] },
+  { food: '竹升麵', sub: 'BAMBOO NOODLE', lon: 113.5437, lat: 22.2012, alt: 12, color: [255, 170, 60] },
+  // Rua da Felicidade — historic Happiness Street
+  { food: '鳳凰卷', sub: 'PHOENIX ROLL', lon: 113.5376, lat: 22.1921, alt: 12, color: [255, 190, 70] },
+];
+
+function createFoodStallCanvas(stall, time) {
+  var c = document.createElement('canvas');
+  c.width = 128;
+  c.height = 80;
+  var ctx = c.getContext('2d');
+  var r = stall.color[0], g = stall.color[1], b = stall.color[2];
+
+  // Warm flicker for lantern glow
+  var flicker = 0.85 + 0.15 * Math.sin(time * 2.3) * Math.sin(time * 1.7);
+
+  // Lantern body (rounded rect)
+  ctx.save();
+  ctx.shadowColor = 'rgba(' + r + ',' + g + ',' + b + ',0.7)';
+  ctx.shadowBlur = 16;
+  ctx.fillStyle = 'rgba(' + Math.round(r * flicker) + ',' + Math.round(g * flicker * 0.6) + ',' + Math.round(b * flicker * 0.3) + ',0.85)';
+  roundRect(ctx, 14, 6, 100, 44, 6);
+  ctx.fill();
+  ctx.restore();
+
+  // Awning stripe at top
+  ctx.fillStyle = 'rgba(180,40,40,0.9)';
+  roundRect(ctx, 14, 6, 100, 10, 4);
+  ctx.fill();
+
+  // Food name Chinese text
+  ctx.shadowColor = 'rgba(255,220,100,0.5)';
+  ctx.shadowBlur = 6;
+  ctx.font = 'bold 22px "Noto Sans SC", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(255,255,240,' + (0.8 + 0.2 * flicker) + ')';
+  ctx.fillText(stall.food, 64, 34);
+
+  // English subtitle
+  ctx.shadowBlur = 3;
+  ctx.font = '8px "DM Mono", monospace';
+  ctx.fillStyle = 'rgba(255,220,150,0.6)';
+  ctx.fillText(stall.sub, 64, 58);
+
+  // Small steam wisps above stall
+  ctx.shadowBlur = 0;
+  for (var i = 0; i < 3; i++) {
+    var sx = 40 + i * 24 + Math.sin(time * 1.5 + i * 2) * 6;
+    var sy = 4 - Math.abs(Math.sin(time * 0.8 + i)) * 3;
+    ctx.globalAlpha = 0.25 + 0.15 * Math.sin(time + i);
+    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+    ctx.beginPath();
+    ctx.arc(sx, sy, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  return c;
+}
+
+function initFoodStalls(viewer) {
+  var startTime = performance.now() / 1000;
+  var entities = [];
+
+  FOOD_STALLS.forEach(function(stall) {
+    var initialCanvas = createFoodStallCanvas(stall, 0);
+    var entity = viewer.entities.add({
+      name: 'Food Stall: ' + stall.food,
+      position: Cesium.Cartesian3.fromDegrees(stall.lon, stall.lat, stall.alt),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 128,
+        height: 80,
+        scale: new Cesium.CallbackProperty(function() {
+          // Always visible but brighter glow at night
+          return 0.7 + _currentGlowIntensity * 0.3;
+        }, false),
+        scaleByDistance: new Cesium.NearFarScalar(30, 2.5, 2000, 0.2),
+        translucencyByDistance: new Cesium.NearFarScalar(20, 1.0, 3000, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    entities.push({ entity: entity, stall: stall });
+  });
+
+  // Animate warm flicker + steam wisps
+  setInterval(function() {
+    var elapsed = performance.now() / 1000 - startTime;
+    entities.forEach(function(item, i) {
+      var c = createFoodStallCanvas(item.stall, elapsed + i * 1.7);
+      item.entity.billboard.image = c.toDataURL();
+    });
+  }, 250);
 }
 
 // ── Minimap Navigation ──

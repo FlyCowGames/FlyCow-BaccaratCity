@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 79,
+  "last_updated_session": 81,
   "learnings": [
     {
       "type": "pattern",
@@ -41,11 +41,11 @@
       "domain": "animation",
       "title": "Staggered animation delays prevent mechanical feel",
       "description": "Vary animation-delay and animation-duration per element to prevent synchronized movement that looks artificial. Different speeds and directions per element create organic motion.",
-      "evidence": "Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, and other animation systems",
+      "evidence": "Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, food stalls, and other animation systems",
       "tags": ["css", "animation", "visual-quality"],
       "weight": 0.8,
-      "times_applied": 7,
-      "times_successful": 7
+      "times_applied": 8,
+      "times_successful": 8
     },
     {
       "type": "pattern",
@@ -85,8 +85,19 @@
       "domain": "rendering",
       "title": "Canvas text with shadowBlur creates convincing neon glow",
       "description": "Using canvas 2D context shadowBlur + shadowColor creates a convincing neon glow effect around text. Two passes (colored glow + white core) makes it look realistic. setInterval at 200ms for flicker is smooth without being expensive.",
-      "evidence": "Session 79: 8 neon signs with canvas-drawn Chinese text, colored glow halos, and flickering animation. Runs smoothly alongside 18 other entity systems.",
+      "evidence": "Session 79: 8 neon signs with canvas-drawn Chinese text, colored glow halos, and flickering animation. Session 81: reused for food stall warm glow. Runs smoothly alongside 20 other entity systems.",
       "tags": ["canvas", "rendering", "neon", "performance"],
+      "weight": 0.6,
+      "times_applied": 2,
+      "times_successful": 2
+    },
+    {
+      "type": "pattern",
+      "domain": "landmarks",
+      "title": "Canvas steam/smoke wisps add life to static billboards",
+      "description": "Drawing small animated circles with varying opacity on canvas creates convincing steam/smoke wisps. Using sin() with different phase offsets per wisp gives organic movement without complex physics. Works well for food stalls, incense coils, chimneys.",
+      "evidence": "Session 81: 3 steam wisps per food stall with sin-based horizontal drift and opacity variation. Session 46: smoke wisps for incense coils. Both look natural and cost almost nothing performance-wise.",
+      "tags": ["canvas", "animation", "atmosphere", "performance"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
@@ -135,6 +146,12 @@
       "question": "How to add neon signage to the city?",
       "chosen": "Canvas-drawn billboard entities with Chinese text + glow halos, setInterval for flicker animation",
       "rationale": "Follows proven billboard + canvas + setInterval pattern (used by incense coils, LED facades, smoke wisps). Canvas shadowBlur creates convincing neon glow without post-processing. Night-only via _currentGlowIntensity threshold.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to represent street food culture?",
+      "chosen": "Canvas-drawn billboard entities with warm lantern awnings, Chinese food names, and animated steam wisps",
+      "rationale": "Follows proven billboard + canvas + setInterval pattern. Warm orange/red color palette contrasts with cool blue/purple neon signs. Always-active visibility (not night-only) adds daytime life. Real Macau food names add cultural authenticity.",
       "revisit_after_session": null
     }
   ]

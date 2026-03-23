@@ -968,6 +968,22 @@
       ],
       "linesAdded": 94,
       "agent": "automated"
+    },
+    {
+      "session": 81,
+      "date": "2026-03-23",
+      "title": "Street Food Market Stalls",
+      "domain": "landmarks",
+      "summary": "Added 8 animated street food vendor stalls with warm lantern glow at Macau's famous food streets.",
+      "details": [
+        "8 food stalls at 4 famous areas: Rua do Cunha (Taipa Village), Senado Square, Three Lamps District, Rua da Felicidade",
+        "Canvas-drawn warm lantern awnings with Chinese food names and English subtitles",
+        "Animated steam wisps rising above stalls and warm flicker glow effect",
+        "Always active (day and night) with brighter glow boost at night",
+        "Street Food Stalls entry added to Heritage section of Explore panel"
+      ],
+      "linesAdded": 110,
+      "agent": "automated"
     }
   ]
 }

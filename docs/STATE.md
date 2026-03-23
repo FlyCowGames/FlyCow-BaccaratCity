@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-23 (Session 79)
+## Last Updated: 2026-03-23 (Session 81)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -49,6 +49,7 @@
 - **Event notification banner**: Red/gold gradient banner at top of screen showing current or upcoming Macau festivals (7 events: CNY, Ching Ming, Dragon Boat, Fireworks Contest, Mid-Autumn, Grand Prix, Light Festival). Clickable to fly to event location, dismissable. Shows countdown ("IN X DAYS") or "HAPPENING NOW" status. Enhanced fireworks during festival events (2-4x frequency, extended hours). Auto-refreshes every 5 minutes.
 - **Casino water reflections**: 10 elongated vertical light streaks on harbor water below waterfront casinos at night (Grand Lisboa, Wynn Macau, NAPE, Fisherman's Wharf, Nam Van Lake, Outer Harbour) with shimmer animation and casino-matched colors — creates classic "city lights mirrored in water" effect
 - **Neon Chinese signs**: 8 animated neon sign billboards at casinos and historic sites (Grand Lisboa, Venetian, Galaxy, Wynn Palace, City of Dreams, Senado Square, Ruins of St. Paul's, A-Ma Temple) with Chinese characters, English subtitles, colored glow halos, and flickering animation — night-only
+- **Street food market stalls**: 8 animated food vendor stalls at famous food streets (Rua do Cunha/Taipa Village, Senado Square, Three Lamps District, Rua da Felicidade) with warm lantern glow, Chinese food names (蛋撻, 杏仁餅, 豬扒包, 牛雜, 雙皮奶, 咖喱魚蛋, 竹升麵, 鳳凰卷), steam wisps, and flicker animation — always active with night glow boost
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -57,7 +58,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~9096 lines, ~336KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~9207 lines, ~341KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -109,6 +110,7 @@
 - **Wynn SkyCab cable cars** — 4 animated cable car gondolas traveling over the Performance Lake at 38-45m altitude with gentle sway (always active)
 
 - **Cinematic walking tour** — Walk Tour button starts documentary-style guided tour at 8m altitude through 8 landmarks, auto-opens photo gallery cards at each stop with gentle orbit camera, gold progress bar, stop counter
+- **Street food market stalls** — 8 animated food vendor stalls at Rua do Cunha, Senado Square, Three Lamps District, Rua da Felicidade with warm lantern glow, Chinese food names, steam wisps (always active)
 - **Casino water reflections** — 10 elongated light streaks on harbor water below waterfront casinos at night with shimmer + wobble animation, casino-matched colors
 - **Camera position URL sharing** — Share View button copies URL with camera position; shared URLs skip flythrough
 - **Minimap navigation with live tracking** — Canvas-drawn minimap in bottom-left showing Macau coastline outlines, landmark dots, camera position with heading/FOV indicator, live-moving transport dots (cyan=ferries, red=junks, white=planes, green=LRT, yellow=helicopters), transport legend; click anywhere to fly there

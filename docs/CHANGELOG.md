@@ -610,6 +610,18 @@
 - 19th entity animation system using proven billboard + canvas + setInterval pattern
 - File grew from ~9002 to ~9097 lines (+95 lines)
 
+## Session 81 — 2026-03-23 (Automated Agent)
+- Street food market stalls: 8 animated food vendor stalls at Macau's famous food streets
+- Locations: Rua do Cunha/Taipa Village (蛋撻 egg tart, 杏仁餅 almond cookie, 豬扒包 pork chop bun), Senado Square (牛雜 beef offal, 雙皮奶 milk pudding), Three Lamps District (咖喱魚蛋 curry fishball, 竹升麵 bamboo noodle), Rua da Felicidade (鳳凰卷 phoenix roll)
+- Canvas-drawn warm lantern awnings with Chinese food names and English subtitles
+- Animated steam wisps rising above stalls with warm flicker glow effect (250ms setInterval)
+- Always active (day and night) with brighter glow boost at night via _currentGlowIntensity
+- Street-level visibility (scaleByDistance 30m-2km, translucencyByDistance 20m-3km)
+- Street Food Stalls entry added to Heritage section of Explore panel
+- 20th entity animation system using proven billboard + canvas + setInterval pattern
+- Fulfills IDEAS backlog item: "Street markets and food stalls"
+- File grew from ~9097 to ~9207 lines (+110 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

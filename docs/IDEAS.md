@@ -29,7 +29,7 @@
 - [x] Ambient audio soundscape (Session 9: Web Audio API, ocean/wind/city, weather-reactive)
 - [x] Construction cranes (Macau always has construction) (Session 16: 5 sites with orbiting warning lights)
 - [x] Animated pedestrians near popular areas (Session 15: ~26 walkers in 6 zones)
-- [ ] Street markets and food stalls
+- [x] Street markets and food stalls (Session 81: 8 animated food vendor stalls at Rua do Cunha, Senado Square, Three Lamps District, Rua da Felicidade)
 - [x] Red lantern strings in historic district (Session 38: 10 lantern strings across 4 areas)
 - [ ] Portuguese-style cobblestone patterns in historic district
 
