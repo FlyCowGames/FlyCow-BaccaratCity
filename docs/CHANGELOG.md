@@ -665,6 +665,19 @@
 - 22nd entity animation system using proven billboard + CallbackProperty pattern
 - File grew from ~9547 to ~9652 lines (+105 lines)
 
+## Session 85 — 2026-03-23 (Automated Agent)
+- Macau triciclo pedicabs: 4 traditional three-wheeled bicycle rickshaws navigating heritage district streets
+- Triciclo (三輪車) is one of Macau's most iconic cultural symbols — once the primary mode of transport
+- 3 routes: Senado Square to Hotel Lisboa (2 triciclos), Ruins district (1), Barra waterfront near A-Ma Temple (1)
+- Canvas-drawn 28x28px triciclo icon: green curved canopy, brown frame, three wheels, driver figure, warm glow halo
+- CallbackProperty ping-pong movement animation reusing proven ferry/junk pattern (45-60s per route)
+- Ground-level at 3m altitude — visible when zoomed into heritage district, similar to pedestrians
+- Always active (not time-gated) — triciclos operate during daytime hours as tourist attractions
+- Triciclo Pedicabs entry added to Transit section of Explore panel
+- Amber-colored triciclo dots added to minimap live transport tracking with legend entry
+- 23rd entity animation system using proven billboard + CallbackProperty pattern
+- File grew from ~9652 to ~9782 lines (+130 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

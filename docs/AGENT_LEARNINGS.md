@@ -64,6 +64,12 @@
 - **Evidence:** Session 82: 6 Portuguese azulejo tile panels added at heritage sites alongside 20+ existing Chinese cultural elements. Blue-and-white Portuguese palette provides visual contrast to warm red/gold Chinese elements.
 - **Tags:** culture, heritage, visual-variety, authenticity
 
+### Heritage district ground-level transport adds cultural authenticity
+- **Domain:** animation | **Weight:** 0.5 | **Applied:** 1/1
+- Adding unique transport types specific to a city's heritage (like Macau's triciclo pedicabs) fills animation gaps in areas dominated by static cultural elements (tiles, lanterns, signs). Ground-level moving entities (3m altitude) bring life to pedestrian zones that otherwise only have stationary billboard features.
+- **Evidence:** Session 85: 4 triciclos on 3 heritage routes (Senado Square, Ruins, Barra). Follows proven CallbackProperty ping-pong pattern from ferries/junks. Zero JS errors, passed desktop/mobile checks.
+- **Tags:** animation, heritage, transport, cultural-authenticity
+
 ## Anti-Patterns (What to Avoid)
 
 ### CesiumJS bloom post-processing with Google 3D Tiles
@@ -105,4 +111,8 @@
 ### How to represent Portuguese colonial heritage?
 - **Chosen:** Canvas-drawn azulejo tile panel billboards with traditional blue-and-white patterns, Portuguese place names, and 4 tile motifs
 - **Rationale:** Follows proven billboard + canvas + setInterval pattern. Blue-and-white color palette provides strong visual contrast to warm Chinese elements. Portuguese place names add linguistic authenticity. Multiple pattern types (cross, floral, diamond, wave) prevent visual monotony.
+
+### How to add heritage district ground-level movement?
+- **Chosen:** Triciclo pedicab billboard entities with CallbackProperty ping-pong movement on 3 heritage routes
+- **Rationale:** Triciclos are uniquely Macau — once the primary transport, now a tourist icon. Fills animation gap in heritage district where most features are stationary billboards. Follows proven ferry/junk movement pattern. Transit section placement (not Heritage) distinguishes transport from static cultural elements.
 

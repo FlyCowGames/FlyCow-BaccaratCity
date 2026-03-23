@@ -1037,6 +1037,24 @@
       ],
       "linesAdded": 105,
       "agent": "automated"
+    },
+    {
+      "session": 85,
+      "date": "2026-03-23",
+      "title": "Macau Triciclo Pedicabs",
+      "domain": "animation",
+      "summary": "4 traditional three-wheeled bicycle rickshaws (triciclos) navigating heritage district streets near Senado Square, Ruins of St. Paul's, and A-Ma Temple.",
+      "details": [
+        "3 routes through heritage district: Senado Square to Hotel Lisboa, Ruins district, and Barra waterfront",
+        "4 triciclo entities with ping-pong movement animation using CallbackProperty",
+        "Canvas-drawn 28x28px triciclo icon with green canopy, brown frame, three wheels, and driver figure",
+        "Triciclo Pedicabs entry added to Transit section of Explore panel",
+        "Amber-colored triciclo dots added to minimap live transport tracking",
+        "Triciclo added to minimap transport legend",
+        "Always active — triciclos are a daytime heritage district feature"
+      ],
+      "linesAdded": 120,
+      "agent": "automated"
     }
   ]
 }

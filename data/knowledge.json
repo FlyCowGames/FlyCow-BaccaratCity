@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 84,
+  "last_updated_session": 85,
   "learnings": [
     {
       "type": "pattern",
@@ -134,6 +134,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "animation",
+      "title": "Heritage district ground-level transport adds cultural authenticity",
+      "description": "Adding unique transport types specific to a city's heritage (like Macau's triciclo pedicabs) fills animation gaps in areas dominated by static cultural elements (tiles, lanterns, signs). Ground-level moving entities (3m altitude) bring life to pedestrian zones that otherwise only have stationary billboard features.",
+      "evidence": "Session 85: 4 triciclos on 3 heritage routes (Senado Square, Ruins, Barra). Follows proven CallbackProperty ping-pong pattern from ferries/junks. Zero JS errors, passed desktop/mobile checks.",
+      "tags": ["animation", "heritage", "transport", "cultural-authenticity"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -197,6 +208,12 @@
       "question": "How to add lotus flower cultural symbolism to the scene?",
       "chosen": "Canvas-drawn lotus billboard entities with CallbackProperty drift and scale animation on water surfaces",
       "rationale": "Follows proven billboard + CallbackProperty pattern. Lotus is Macau's official emblem — deeply meaningful. Placed on water surfaces (Nam Van Lake, Inner Harbour) for authenticity. Always-active to help balance the day/night feature ratio. Circular drift + breathing pulse creates natural floating-on-water feel without complex physics.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add heritage district ground-level movement?",
+      "chosen": "Triciclo pedicab billboard entities with CallbackProperty ping-pong movement on 3 heritage routes",
+      "rationale": "Triciclos are uniquely Macau — once the primary transport, now a tourist icon. Fills animation gap in heritage district where most features are stationary billboards. Follows proven ferry/junk movement pattern. Transit section placement (not Heritage) distinguishes transport from static cultural elements.",
       "revisit_after_session": null
     }
   ]

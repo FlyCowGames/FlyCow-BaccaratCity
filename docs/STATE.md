@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-23 (Session 84)
+## Last Updated: 2026-03-23 (Session 85)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -52,6 +52,7 @@
 - **Street food market stalls**: 8 animated food vendor stalls at famous food streets (Rua do Cunha/Taipa Village, Senado Square, Three Lamps District, Rua da Felicidade) with warm lantern glow, Chinese food names (蛋撻, 杏仁餅, 豬扒包, 牛雜, 雙皮奶, 咖喱魚蛋, 竹升麵, 鳳凰卷), steam wisps, and flicker animation — always active with night glow boost
 - **Portuguese azulejo tile panels**: 6 decorative blue-and-white Portuguese tile panels at heritage sites (Largo do Senado, Leal Senado, Ruínas de S. Paulo, Largo de S. Agostinho, Fortaleza da Guia, Largo da Barra) with traditional azulejo patterns (cross, floral, diamond, wave motifs), Portuguese place names, Chinese subtitles, gold corner accents — always active with gentle shimmer animation
 - **Floating lotus flowers**: 10 animated lotus flower billboards on Nam Van Lake (6), Inner Harbour (2), and A-Ma Temple coast (2) — Macau's official emblem. Canvas-drawn pink/white lotus with lily pad, gentle circular drift (~40s cycle) and breathing scale pulse. Always active (day and night)
+- **Macau triciclo pedicabs**: 4 traditional three-wheeled bicycle rickshaws (三輪車) on 3 heritage district routes (Senado Square to Hotel Lisboa, Ruins district, Barra waterfront) with ping-pong movement, amber minimap tracking dots (Session 85)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -114,6 +115,7 @@
 - **Cinematic walking tour** — Walk Tour button starts documentary-style guided tour at 8m altitude through 8 landmarks, auto-opens photo gallery cards at each stop with gentle orbit camera, gold progress bar, stop counter
 - **Street food market stalls** — 8 animated food vendor stalls at Rua do Cunha, Senado Square, Three Lamps District, Rua da Felicidade with warm lantern glow, Chinese food names, steam wisps (always active)
 - **Floating lotus flowers** — 10 animated lotus billboards (Macau's emblem) on Nam Van Lake, Inner Harbour, and A-Ma Temple coast with gentle drift and breathing animation (always active)
+- **Macau triciclo pedicabs** — 4 traditional rickshaws on 3 heritage district routes (Senado Square, Ruins, Barra) with ping-pong movement and minimap tracking (always active)
 - **Casino water reflections** — 10 elongated light streaks on harbor water below waterfront casinos at night with shimmer + wobble animation, casino-matched colors
 - **Camera position URL sharing** — Share View button copies URL with camera position; shared URLs skip flythrough
 - **Minimap navigation with live tracking** — Canvas-drawn minimap in bottom-left showing Macau coastline outlines, landmark dots, camera position with heading/FOV indicator, live-moving transport dots (cyan=ferries, red=junks, white=planes, green=LRT, yellow=helicopters), transport legend; click anywhere to fly there

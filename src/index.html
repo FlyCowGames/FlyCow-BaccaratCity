@@ -2505,6 +2505,7 @@ async function init() {
     initNeonSigns(viewer);
     initFoodStalls(viewer);
     initAzulejoTiles(viewer);
+    addTriiciclos(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -4718,6 +4719,7 @@ var ATTRACTIONS = {
   transit: [
     { name: "Macau LRT", chinese: "澳門輕軌", icon: "🚈", lat: 22.1500, lon: 113.5700, alt: 400, pitch: -25 },
     { name: "Helicopter Service", chinese: "直升機服務", icon: "🚁", lat: 22.1920, lon: 113.5535, alt: 350, pitch: -25 },
+    { name: "Triciclo Pedicabs", chinese: "三輪車", icon: "🛺", lat: 22.1937, lon: 113.5388, alt: 120, pitch: -20 },
   ],
   wildlife: [
     { name: "Harbor Seagulls", chinese: "海鷗", icon: "🕊️", lat: 22.1870, lon: 113.5400, alt: 300, pitch: -20 },
@@ -8879,6 +8881,157 @@ function initAzulejoTiles(viewer) {
   }, 400);
 }
 
+// ── Macau Triciclo Pedicabs ──
+// Traditional three-wheeled bicycle rickshaws — iconic Macau heritage transport
+var TRICICLO_ROUTES = [
+  {
+    name: 'Senado Square Triciclo',
+    points: [
+      { lon: 113.5388, lat: 22.1937 }, // Senado Square
+      { lon: 113.5395, lat: 22.1928 },
+      { lon: 113.5402, lat: 22.1920 },
+      { lon: 113.5409, lat: 22.1910 }, // Near Grand Lisboa
+      { lon: 113.5405, lat: 22.1898 },
+      { lon: 113.5399, lat: 22.1893 }, // Hotel Lisboa area
+    ],
+    durationSec: 60,
+    count: 2,
+  },
+  {
+    name: 'Ruins District Triciclo',
+    points: [
+      { lon: 113.5410, lat: 22.1974 }, // Ruins of St. Paul's
+      { lon: 113.5405, lat: 22.1960 },
+      { lon: 113.5398, lat: 22.1948 },
+      { lon: 113.5390, lat: 22.1940 }, // Near Senado Square north
+    ],
+    durationSec: 50,
+    count: 1,
+  },
+  {
+    name: 'Barra Waterfront Triciclo',
+    points: [
+      { lon: 113.5330, lat: 22.1870 }, // Near A-Ma Temple
+      { lon: 113.5340, lat: 22.1860 },
+      { lon: 113.5348, lat: 22.1845 },
+      { lon: 113.5355, lat: 22.1830 }, // Barra area
+    ],
+    durationSec: 45,
+    count: 1,
+  },
+];
+
+function createTriicicloIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 28;
+  canvas.height = 28;
+  var ctx = canvas.getContext('2d');
+
+  // Rear wheels (two side by side)
+  ctx.strokeStyle = 'rgba(80, 60, 40, 0.9)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(8, 22, 4, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(20, 22, 4, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Front wheel
+  ctx.beginPath();
+  ctx.arc(14, 10, 3.5, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Frame connecting wheels
+  ctx.strokeStyle = 'rgba(60, 45, 30, 0.85)';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(8, 22);
+  ctx.lineTo(14, 14);
+  ctx.lineTo(20, 22);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(14, 14);
+  ctx.lineTo(14, 10);
+  ctx.stroke();
+
+  // Passenger canopy — iconic curved shade (green/dark fabric)
+  ctx.fillStyle = 'rgba(40, 90, 60, 0.85)';
+  ctx.beginPath();
+  ctx.moveTo(5, 18);
+  ctx.quadraticCurveTo(14, 8, 23, 18);
+  ctx.lineTo(20, 20);
+  ctx.quadraticCurveTo(14, 12, 8, 20);
+  ctx.closePath();
+  ctx.fill();
+
+  // Canopy outline
+  ctx.strokeStyle = 'rgba(30, 70, 45, 0.9)';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.moveTo(5, 18);
+  ctx.quadraticCurveTo(14, 8, 23, 18);
+  ctx.stroke();
+
+  // Seat/passenger area — warm brown
+  ctx.fillStyle = 'rgba(140, 90, 50, 0.7)';
+  ctx.fillRect(9, 18, 10, 4);
+
+  // Driver figure (simplified) — at front
+  ctx.fillStyle = 'rgba(80, 60, 40, 0.8)';
+  ctx.beginPath();
+  ctx.arc(14, 6, 2, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Warm glow halo for visibility
+  var grad = ctx.createRadialGradient(14, 14, 5, 14, 14, 14);
+  grad.addColorStop(0, 'rgba(180, 140, 60, 0.0)');
+  grad.addColorStop(0.6, 'rgba(180, 140, 60, 0.0)');
+  grad.addColorStop(1, 'rgba(180, 140, 60, 0.1)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 28, 28);
+
+  return canvas;
+}
+
+function addTriiciclos(viewer) {
+  var tricicloIcon = createTriicicloIcon();
+  var startTime = Date.now();
+
+  TRICICLO_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var phaseOffset = i / route.count;
+      var reverseStart = i % 2 === 1;
+
+      (function(offset, reverse) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          var cycleDuration = route.durationSec;
+          var rawT = ((elapsed / cycleDuration) + offset) % 2;
+          var t = rawT <= 1 ? rawT : 2 - rawT;
+          if (reverse) t = 1 - t;
+          var pos = lerpPosition(route.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 3);
+        }, false);
+
+        viewer.entities.add({
+          name: route.name,
+          position: positionCallback,
+          billboard: {
+            image: tricicloIcon,
+            verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scale: 1.0,
+            scaleByDistance: new Cesium.NearFarScalar(80, 1.6, 6000, 0.4),
+            translucencyByDistance: new Cesium.NearFarScalar(80, 1.0, 8000, 0.1),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+      })(phaseOffset, reverseStart);
+    }
+  });
+}
+
 // ── Minimap Navigation ──
 var _minimapCanvas = null;
 var _minimapCtx = null;
@@ -9101,6 +9254,19 @@ function drawMinimap() {
     }
   });
 
+  // Triciclos — amber dots (ping-pong animation)
+  TRICICLO_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var offset = i / route.count;
+      var reverse = i % 2 === 1;
+      var rawT = ((elapsed / route.durationSec) + offset) % 2;
+      var t = rawT <= 1 ? rawT : 2 - rawT;
+      if (reverse) t = 1 - t;
+      var pos = lerpPosition(route.points, t);
+      drawTransportDot(pos.lon, pos.lat, 'rgba(200, 150, 60, 0.9)', 2.5);
+    }
+  });
+
   // Transport legend at bottom
   var legendY = h - 12;
   var legendItems = [
@@ -9108,6 +9274,7 @@ function drawMinimap() {
     { color: 'rgba(220, 80, 60, 0.85)', label: 'Junk' },
     { color: 'rgba(255, 255, 255, 0.9)', label: 'Air' },
     { color: 'rgba(76, 175, 80, 0.9)', label: 'LRT' },
+    { color: 'rgba(200, 150, 60, 0.9)', label: 'Triciclo' },
   ];
   ctx.font = '11px DM Mono, monospace';
   ctx.textAlign = 'left';
