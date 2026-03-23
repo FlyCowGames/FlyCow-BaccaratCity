@@ -23,15 +23,15 @@
 - **Tags:** performance, css, animation
 
 ### Staggered animation delays prevent mechanical feel
-- **Domain:** animation | **Weight:** 0.8 | **Applied:** 8/8
+- **Domain:** animation | **Weight:** 0.8 | **Applied:** 9/9
 - Vary animation-delay and animation-duration per element to prevent synchronized movement that looks artificial. Different speeds and directions per element create organic motion.
-- **Evidence:** Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, food stalls, and other animation systems
+- **Evidence:** Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, food stalls, lotus flowers, and other animation systems
 - **Tags:** css, animation, visual-quality
 
 ### Web Audio API for procedural sound without external files
-- **Domain:** audio | **Weight:** 0.8 | **Applied:** 3/3
+- **Domain:** audio | **Weight:** 0.8 | **Applied:** 4/4
 - Web Audio API generates convincing ambient and interactive sounds procedurally — no audio files needed. Must start muted and require user click (browser autoplay policy).
-- **Evidence:** Sessions 9, 58, 63: ambient soundscape, baccarat sounds, firework sounds — all procedurally generated
+- **Evidence:** Sessions 9, 58, 63, 83: ambient soundscape, baccarat sounds, firework sounds, spatial audio zones — all procedurally generated
 - **Tags:** audio, performance
 
 ### Progress indicators improve guided experience UX
@@ -63,6 +63,18 @@
 - When a digital twin represents a multicultural city, actively balance representation of different cultural heritages. Macau has Chinese and Portuguese elements — adding Portuguese azulejo tile panels complements the extensive Chinese elements (lanterns, neon signs, food stalls, incense). This avoids cultural homogeneity and better represents the city's unique identity.
 - **Evidence:** Session 82: 6 Portuguese azulejo tile panels added at heritage sites alongside 20+ existing Chinese cultural elements. Blue-and-white Portuguese palette provides visual contrast to warm red/gold Chinese elements.
 - **Tags:** culture, heritage, visual-variety, authenticity
+
+### Position-aware audio zones using proximity falloff with altitude gate
+- **Domain:** audio | **Weight:** 0.5 | **Applied:** 1/1
+- Camera position relative to defined zone centers (lon/lat/radius) drives audio gain for zone-specific layers. Distance-based proximity (0-1 linear falloff from zone radius) combined with altitude gate (fade above threshold) creates convincing spatial audio without 3D panning. Enhancing existing gain nodes with position-aware modulation is non-breaking and additive.
+- **Evidence:** Session 83: 3 zone types (casino, temple, harbour) with 4 new audio layers. Zero JS errors, smooth transitions via linearRampToValueAtTime, 3s update interval is responsive without performance cost.
+- **Tags:** audio, spatial, cesiumjs, immersion
+
+### Official symbols and emblems add cultural depth
+- **Domain:** landmarks | **Weight:** 0.5 | **Applied:** 1/1
+- Using a city's official symbols (like Macau's lotus emblem) as visual elements connects the digital twin to the real city's identity beyond just physical geography. The lotus is on Macau's flag and coat of arms, and Grand Lisboa is designed as a lotus bud — floating lotus flowers reinforce this symbolism naturally.
+- **Evidence:** Session 84: 10 lotus flower billboards on Nam Van Lake and harbour. Culturally significant, visually beautiful, fills the day/night balance gap as an always-active feature.
+- **Tags:** culture, heritage, symbolism, authenticity
 
 ### Heritage district ground-level transport adds cultural authenticity
 - **Domain:** animation | **Weight:** 0.5 | **Applied:** 1/1
@@ -118,6 +130,10 @@
 - **Chosen:** Canvas-drawn azulejo tile panel billboards with traditional blue-and-white patterns, Portuguese place names, and 4 tile motifs
 - **Rationale:** Follows proven billboard + canvas + setInterval pattern. Blue-and-white color palette provides strong visual contrast to warm Chinese elements. Portuguese place names add linguistic authenticity. Multiple pattern types (cross, floral, diamond, wave) prevent visual monotony.
 
+### How to add lotus flower cultural symbolism to the scene?
+- **Chosen:** Canvas-drawn lotus billboard entities with CallbackProperty drift and scale animation on water surfaces
+- **Rationale:** Follows proven billboard + CallbackProperty pattern. Lotus is Macau's official emblem — deeply meaningful. Placed on water surfaces (Nam Van Lake, Inner Harbour) for authenticity. Always-active to help balance the day/night feature ratio. Circular drift + breathing pulse creates natural floating-on-water feel without complex physics.
+
 ### How to add heritage district ground-level movement?
 - **Chosen:** Triciclo pedicab billboard entities with CallbackProperty ping-pong movement on 3 heritage routes
 - **Rationale:** Triciclos are uniquely Macau — once the primary transport, now a tourist icon. Fills animation gap in heritage district where most features are stationary billboards. Follows proven ferry/junk movement pattern. Transit section placement (not Heritage) distinguishes transport from static cultural elements.
@@ -125,4 +141,3 @@
 ### How to add waterfront ambient lighting?
 - **Chosen:** Distributed small radial gradient billboard entities along 5 promenade paths at 3m altitude, night-only via _currentGlowIntensity
 - **Rationale:** Follows proven bridge lights pattern exactly. Small light points are visible from bird's-eye but don't interfere with ground-level 3D tiles. Warm-amber palette with per-path variation creates organic coastline glow without oversaturation.
-
