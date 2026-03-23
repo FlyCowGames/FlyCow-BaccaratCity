@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-23 (Session 91)
+## Last Updated: 2026-03-23 (Session 93)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -55,6 +55,7 @@
 - **Macau triciclo pedicabs**: 4 traditional three-wheeled bicycle rickshaws (三輪車) on 3 heritage district routes (Senado Square to Hotel Lisboa, Ruins district, Barra waterfront) with ping-pong movement, amber minimap tracking dots (Session 85)
 - **Waterfront promenade lights**: ~55 warm pathway light points along 5 major waterfront walkways (Nam Van Lake, Outer Harbour, NAPE, Inner Harbour, Taipa) — night-only warm-amber glow creating "string of pearls" coastline effect with gentle pulse animation (Session 86)
 - **Morning tai chi groups**: 5 animated tai chi exercise groups at parks and waterfront areas (Nam Van Lake, NAPE, Lou Lim Ioc Garden, Taipa Central Park, Camoes Garden) — canvas-drawn groups of 5 figures with flowing poses, morning-only 5:00-9:00 Macau time with fade in/out (Session 91)
+- **Afternoon fishing sampans**: 5 traditional flat-bottomed fishing boats on 3 Inner Harbour routes with bamboo canopy, fishing nets, bobbing animation — afternoon-only 15:00-19:00 Macau time (Session 93)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -63,7 +64,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~10060 lines, ~381KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~10225 lines, ~389KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -120,6 +121,7 @@
 - **Macau triciclo pedicabs** — 4 traditional rickshaws on 3 heritage district routes (Senado Square, Ruins, Barra) with ping-pong movement and minimap tracking (always active)
 - **Waterfront promenade lights** — ~55 warm pathway lights along 5 major waterfront promenades (Nam Van Lake, Outer Harbour, NAPE, Inner Harbour, Taipa) creating "string of pearls" coastline glow at night with gentle pulse animation
 - **Morning tai chi groups** — 5 animated groups of tai chi practitioners at parks (Nam Van Lake, NAPE, Lou Lim Ioc Garden, Taipa Central Park, Camoes Garden) with flowing poses, morning-only 5-9 AM Macau time
+- **Afternoon fishing sampans** — 5 traditional flat-bottomed fishing boats returning to Inner Harbour in the afternoon (3-7 PM Macau time) with bamboo canopy, fishing nets, bobbing animation, minimap tracking
 - **Casino water reflections** — 10 elongated light streaks on harbor water below waterfront casinos at night with shimmer + wobble animation, casino-matched colors
 - **Camera position URL sharing** — Share View button copies URL with camera position; shared URLs skip flythrough
 - **Minimap navigation with live tracking** — Canvas-drawn minimap in bottom-left showing Macau coastline outlines, landmark dots, camera position with heading/FOV indicator, live-moving transport dots (cyan=ferries, red=junks, white=planes, green=LRT, yellow=helicopters), transport legend; click anywhere to fly there

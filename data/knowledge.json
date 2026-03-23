@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 91,
+  "last_updated_session": 93,
   "learnings": [
     {
       "type": "pattern",
@@ -162,11 +162,11 @@
       "domain": "animation",
       "title": "Time-of-day gated features fill temporal gaps and add realism",
       "description": "Gating billboard entity visibility to specific time windows (e.g., morning 5-9 AM for tai chi) creates time-specific atmosphere that rewards exploration at different hours. Using getMacauHour() with smooth fade in/out at boundaries (0.5h ramp) prevents jarring appearance/disappearance. Most features are night-only or always-on — morning/afternoon-specific features fill temporal gaps.",
-      "evidence": "Session 91: 5 tai chi groups visible 5-9 AM only with 30-min fade ramps. Zero JS errors, first morning-specific feature. Fills gap where all time-gated features were night-only.",
+      "evidence": "Session 91: tai chi 5-9 AM. Session 93: fishing sampans 15-19 PM. Both use getMacauHour() with 30-min fade ramps. Zero JS errors both times.",
       "tags": ["animation", "time-of-day", "cultural-authenticity", "billboard"],
-      "weight": 0.5,
-      "times_applied": 1,
-      "times_successful": 1
+      "weight": 0.6,
+      "times_applied": 2,
+      "times_successful": 2
     }
   ],
   "anti_patterns": [
@@ -248,6 +248,12 @@
       "question": "How to add morning-specific cultural life to the scene?",
       "chosen": "Animated tai chi billboard groups at 5 park/waterfront locations, visible 5-9 AM with fade ramps, setInterval canvas redraw for pose animation",
       "rationale": "Tai chi is quintessential Chinese morning culture and very authentic for Macau parks. Fills temporal gap — all previous time-gated features were night-only. Canvas redraw at 400ms interval is smooth without being expensive. 5 locations across Peninsula and Taipa spread the feature geographically.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to fill the afternoon temporal gap (12-7 PM)?",
+      "chosen": "Fishing sampan billboard entities on Inner Harbour routes, time-gated 15:00-19:00, with canvas bobbing animation and minimap tracking",
+      "rationale": "Macau originated as a fishing village ('Bay of A-Ma') — fishing sampans are deeply historically significant. Afternoon is the natural time for fishers to return with catch. Follows proven tai chi time-gating pattern (getMacauHour + fade ramps) and junk boat movement pattern (CallbackProperty ping-pong). Now morning, afternoon, and night all have time-specific features.",
       "revisit_after_session": null
     }
   ]

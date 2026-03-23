@@ -700,6 +700,20 @@
 - 24th entity animation system following proven bridge lights pattern
 - File grew from ~9782 to ~9925 lines (+143 lines)
 
+## Session 93 — 2026-03-23 (Automated Agent)
+- Afternoon fishing sampans: 5 traditional flat-bottomed fishing boats returning to Inner Harbour in the afternoon
+- Locations: Inner Harbour North (2 sampans), A-Ma Temple Coast (1), Nam Van Lake Shore (2)
+- Canvas-drawn 36x28px wooden sampan with bamboo canopy, fishing nets, fisher figure, and water ripple
+- Afternoon-only visibility (15:00-19:00 Macau time) with smooth fade in/out at time boundaries
+- CallbackProperty ping-pong movement on harbour routes (60-80s per route) with gentle bobbing animation
+- Brown minimap tracking dots during afternoon hours, time-gated like the 3D entities
+- Fishing Sampans entry added to Heritage section of Explore panel
+- Feature tip: "Watch fishing sampans return to Inner Harbour in the afternoon (3-7 PM Macau time)"
+- Fills afternoon temporal gap — morning has tai chi (5-9 AM), night has 10+ features, afternoon was empty
+- Honors Macau's origins as a fishing village ("Bay of A-Ma")
+- 25th entity animation system using proven billboard + CallbackProperty pattern
+- File grew from ~10035 to ~10225 lines (+190 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

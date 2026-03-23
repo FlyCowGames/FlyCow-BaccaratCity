@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-23 (Session 91)*
+*This document evolves every session. Last updated: 2026-03-23 (Session 93)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -101,3 +101,4 @@
 - Macau triciclo pedicabs: 4 traditional rickshaws on 3 heritage district routes with ping-pong movement, minimap tracking (Session 85)
 - Waterfront promenade lights: ~55 warm pathway lights along 5 major waterfront promenades (Nam Van Lake, Outer Harbour, NAPE, Inner Harbour, Taipa) — night-only "string of pearls" coastline glow (Session 86)
 - Morning tai chi groups: 5 animated exercise groups at parks and waterfront areas, morning-only (5-9 AM), first dawn-specific feature (Session 91)
+- Afternoon fishing sampans: 5 traditional fishing boats returning to Inner Harbour, afternoon-only (3-7 PM), fills afternoon temporal gap (Session 93)

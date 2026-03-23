@@ -1088,6 +1088,24 @@
       ],
       "linesAdded": 110,
       "agent": "automated"
+    },
+    {
+      "session": 93,
+      "date": "2026-03-23",
+      "title": "Afternoon Fishing Sampans",
+      "domain": "animation",
+      "summary": "5 traditional fishing sampans returning to Inner Harbour in the afternoon (3-7 PM Macau time), honoring Macau's origins as a fishing village.",
+      "details": [
+        "3 sampan routes: Inner Harbour North (2 boats), A-Ma Temple Coast (1), Nam Van Lake Shore (2)",
+        "Canvas-drawn wooden sampans with bamboo canopy, fishing nets, and fisher figure",
+        "Afternoon-only visibility (15:00-19:00 Macau time) with smooth fade in/out",
+        "CallbackProperty ping-pong movement with gentle bobbing animation",
+        "Minimap tracking with brown dots during afternoon hours",
+        "Fishing Sampans entry added to Heritage section of Explore panel",
+        "Feature tip: 'Watch fishing sampans return to Inner Harbour in the afternoon'"
+      ],
+      "linesAdded": 140,
+      "agent": "automated"
     }
   ]
 }

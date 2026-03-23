@@ -36,6 +36,10 @@
     text-align: center; padding-top: 32px;
     background: linear-gradient(180deg, rgba(10,10,18,0.85) 0%, rgba(10,10,18,0.4) 60%, transparent 100%);
     padding-bottom: 48px;
+    transition: padding-top 0.3s ease;
+  }
+  #title-block.banner-active {
+    padding-top: 72px;
   }
   #title {
     font-family: 'Cinzel', serif;
@@ -2161,8 +2165,12 @@ function updateTyphoonSignal(windSpeed) {
       var icon = _typhoonSignalLevel >= 8 ? '\u26A0\uFE0F' : '\u{1F300}';
       banner.innerHTML = icon + ' TYPHOON SIGNAL ' + getTyphoonSignalName(_typhoonSignalLevel) + ' ' + icon;
       banner.classList.add('visible');
+      var tb = document.getElementById('title-block');
+      if (tb) tb.classList.add('banner-active');
     } else {
       banner.classList.remove('visible');
+      var tb = document.getElementById('title-block');
+      if (tb) tb.classList.remove('banner-active');
     }
 
     // Wind-driven rain
@@ -2508,6 +2516,7 @@ async function init() {
     addTriiciclos(viewer);
     addPromenadeLights(viewer);
     addTaiChiGroups(viewer);
+    addFishingSampans(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -2585,7 +2594,7 @@ function addLandmarks(viewer) {
       name: lm.name,
       position: Cesium.Cartesian3.fromDegrees(lm.lon, lm.lat, 80),
       billboard: {
-        image: createLandmarkCanvas(lm),
+        image: createLandmarkCanvas(lm).toDataURL(),
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         scaleByDistance: new Cesium.NearFarScalar(300, 1.0, 12000, 0.25),
@@ -2677,7 +2686,7 @@ function addDistrictLabels(viewer) {
     viewer.entities.add({
       position: Cesium.Cartesian3.fromDegrees(d.lon, d.lat, 300),
       billboard: {
-        image: createDistrictCanvas(d.name, d.chinese),
+        image: createDistrictCanvas(d.name, d.chinese).toDataURL(),
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         scaleByDistance: new Cesium.NearFarScalar(1500, 1.4, 30000, 0.5),
@@ -2839,81 +2848,30 @@ document.addEventListener('keydown', function(e) {
 
 function createLandmarkCanvas(lm) {
   var canvas = document.createElement('canvas');
-  var w = 340, h = 110;
+  var w = 200, h = 48;
   canvas.width = w;
   canvas.height = h;
   var ctx = canvas.getContext('2d');
 
-  // Background pill
-  ctx.fillStyle = 'rgba(10, 10, 18, 0.88)';
-  roundRect(ctx, 0, 0, w, h - 18, 8);
-  ctx.fill();
+  // Name text only — no background box
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
 
-  // Gold border
-  ctx.strokeStyle = 'rgba(212, 175, 55, 0.6)';
-  ctx.lineWidth = 1.5;
-  roundRect(ctx, 0, 0, w, h - 18, 8);
-  ctx.stroke();
-
-  // Gold accent line at top
-  var grad = ctx.createLinearGradient(12, 0, 60, 0);
-  grad.addColorStop(0, 'transparent');
-  grad.addColorStop(0.3, '#d4af37');
-  grad.addColorStop(1, 'transparent');
-  ctx.fillStyle = grad;
-  ctx.fillRect(10, 0, 50, 2);
-
-  // Inner glow
-  ctx.shadowColor = 'rgba(212, 175, 55, 0.08)';
-  ctx.shadowBlur = 20;
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 0;
-
-  // Emoji
-  ctx.shadowBlur = 0;
-  ctx.font = '24px sans-serif';
-  ctx.textAlign = 'left';
-  ctx.fillText(lm.emoji, 14, 38);
-
-  // English name
+  // Dark outline for readability
+  ctx.font = 'bold 16px sans-serif';
+  ctx.strokeStyle = 'rgba(10, 10, 18, 0.9)';
+  ctx.lineWidth = 4;
+  ctx.strokeText(lm.emoji + ' ' + lm.name, w / 2, 16);
   ctx.fillStyle = '#d4af37';
-  ctx.font = 'bold 17px sans-serif';
-  ctx.fillText(lm.name, 48, 36);
+  ctx.fillText(lm.emoji + ' ' + lm.name, w / 2, 16);
 
-  // Chinese name
-  ctx.fillStyle = 'rgba(212, 175, 55, 0.55)';
-  ctx.font = '15px sans-serif';
-  ctx.fillText(lm.chinese, 48, 60);
-
-  // Thin separator
-  ctx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
-  ctx.lineWidth = 0.5;
-  ctx.beginPath();
-  ctx.moveTo(14, 72);
-  ctx.lineTo(w - 14, 72);
-  ctx.stroke();
-
-  // Coordinates
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-  ctx.font = '10px monospace';
-  ctx.fillText(lm.lat.toFixed(4) + '\u00B0N  ' + lm.lon.toFixed(4) + '\u00B0E', 14, 86);
-
-  // Pointer triangle
-  ctx.fillStyle = 'rgba(10, 10, 18, 0.88)';
-  ctx.beginPath();
-  ctx.moveTo(w/2 - 10, h - 18);
-  ctx.lineTo(w/2, h);
-  ctx.lineTo(w/2 + 10, h - 18);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.strokeStyle = 'rgba(212, 175, 55, 0.6)';
-  ctx.lineWidth = 1.5;
-  ctx.beginPath();
-  ctx.moveTo(w/2 - 10, h - 18);
-  ctx.lineTo(w/2, h);
-  ctx.lineTo(w/2 + 10, h - 18);
-  ctx.stroke();
+  // Chinese subtitle
+  ctx.font = '12px sans-serif';
+  ctx.strokeStyle = 'rgba(10, 10, 18, 0.7)';
+  ctx.lineWidth = 3;
+  ctx.strokeText(lm.chinese, w / 2, 36);
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.6)';
+  ctx.fillText(lm.chinese, w / 2, 36);
 
   return canvas;
 }
@@ -3763,7 +3721,7 @@ function lerpPosition(points, t) {
 }
 
 function addFerries(viewer) {
-  var ferryIcon = createFerryIcon();
+  var ferryIcon = createFerryIcon().toDataURL();
   var startTime = Date.now();
 
   FERRY_ROUTES.forEach(function(route) {
@@ -3914,7 +3872,7 @@ function createJunkIcon() {
 }
 
 function addJunkBoats(viewer) {
-  var junkIcon = createJunkIcon();
+  var junkIcon = createJunkIcon().toDataURL();
   var startTime = Date.now();
 
   JUNK_ROUTES.forEach(function(route) {
@@ -4050,7 +4008,7 @@ function addTraffic(viewer) {
   var startTime = Date.now();
 
   TRAFFIC_ROUTES.forEach(function(route) {
-    var carIcon = createCarIcon(route.color);
+    var carIcon = createCarIcon(route.color).toDataURL();
 
     for (var i = 0; i < route.cars; i++) {
       var phaseOffset = i / route.cars;
@@ -4143,7 +4101,7 @@ function addGuiaCircuit(viewer) {
   for (var i = 0; i < circuit.cars; i++) {
     var phaseOffset = i / circuit.cars;
     var color = circuit.colors[i % circuit.colors.length];
-    var carIcon = createRaceCarIcon(color);
+    var carIcon = createRaceCarIcon(color).toDataURL();
 
     (function(offset, icon) {
       var positionCallback = new Cesium.CallbackProperty(function() {
@@ -4247,7 +4205,7 @@ function createPedestrianIcon() {
 
 function addPedestrians(viewer) {
   var startTime = Date.now();
-  var pedIcon = createPedestrianIcon();
+  var pedIcon = createPedestrianIcon().toDataURL();
 
   PEDESTRIAN_ZONES.forEach(function(zone) {
     for (var i = 0; i < zone.count; i++) {
@@ -4362,8 +4320,8 @@ function createCraneWarningLight() {
 }
 
 function addConstructionCranes(viewer) {
-  var towerIcon = createCraneTowerIcon();
-  var lightIcon = createCraneWarningLight();
+  var towerIcon = createCraneTowerIcon().toDataURL();
+  var lightIcon = createCraneWarningLight().toDataURL();
   var startTime = Date.now();
 
   CRANE_SITES.forEach(function(site) {
@@ -4491,7 +4449,7 @@ function lerpPositionWithAlt(points, t) {
 }
 
 function addAirportPlanes(viewer) {
-  var planeIcon = createPlaneIcon();
+  var planeIcon = createPlaneIcon().toDataURL();
   var startTime = Date.now();
 
   FLIGHT_ROUTES.forEach(function(route) {
@@ -4577,7 +4535,7 @@ function addNeonGlow(viewer) {
 
   // Add neon light entities at each casino zone
   NEON_ZONES.forEach(function(zone) {
-    var icon = createNeonIcon(zone.color, 64);
+    var icon = createNeonIcon(zone.color, 64).toDataURL();
     var entity = viewer.entities.add({
       name: zone.name,
       position: Cesium.Cartesian3.fromDegrees(zone.lon, zone.lat, 50),
@@ -4714,6 +4672,7 @@ var ATTRACTIONS = {
     { name: "Azulejo Tiles", chinese: "葡式瓷磚", icon: "🔷", lat: 22.1933, lon: 113.5389, alt: 150, pitch: -20 },
     { name: "Lotus Flowers", chinese: "蓮花", icon: "🪷", lat: 22.1855, lon: 113.5355, alt: 150, pitch: -25 },
     { name: "Morning Tai Chi", chinese: "太極晨練", icon: "🧘", lat: 22.1830, lon: 113.5360, alt: 120, pitch: -20 },
+    { name: "Fishing Sampans", chinese: "漁船", icon: "🛶", lat: 22.1870, lon: 113.5310, alt: 120, pitch: -20 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -4936,6 +4895,8 @@ function updateEventBanner(allEvents) {
   }
 
   banner.classList.add('visible');
+  var tb = document.getElementById('title-block');
+  if (tb) tb.classList.add('banner-active');
   banner.onclick = function(e) {
     if (e.target.id === 'event-banner-dismiss') return;
     flyToAttraction(evt);
@@ -4947,6 +4908,8 @@ document.getElementById('event-banner-dismiss').addEventListener('click', functi
   e.stopPropagation();
   _eventBannerDismissed = true;
   document.getElementById('event-banner').classList.remove('visible');
+  var tb = document.getElementById('title-block');
+  if (tb) tb.classList.remove('banner-active');
 });
 
 // Refresh events every 5 minutes
@@ -6008,7 +5971,7 @@ function addWaterShimmer(viewer) {
   SHIMMER_POINTS.forEach(function(pt, idx) {
     var phase = Math.random() * Math.PI * 2;
     var speed = 1.5 + Math.random() * 2.0; // seconds per cycle
-    var icon = createShimmerIcon(pt.color, 10);
+    var icon = createShimmerIcon(pt.color, 10).toDataURL();
     var entity = viewer.entities.add({
       name: 'Water Shimmer ' + idx,
       position: Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, 2),
@@ -6107,7 +6070,7 @@ function addCasinoReflections(viewer) {
     var phase = Math.random() * Math.PI * 2;
     var speed = 2.0 + Math.random() * 2.5;
     var wobblePhase = Math.random() * Math.PI * 2;
-    var icon = createReflectionIcon(ref.color, ref.length);
+    var icon = createReflectionIcon(ref.color, ref.length).toDataURL();
     var entity = viewer.entities.add({
       name: ref.name,
       position: Cesium.Cartesian3.fromDegrees(ref.lon, ref.lat, 1),
@@ -6227,7 +6190,7 @@ function createBridgeLightIcon(color, size) {
 function addBridgeLights(viewer) {
   var startTime = Date.now();
   BRIDGE_LIGHTS.forEach(function(bridge) {
-    var icon = createBridgeLightIcon(bridge.color, 8);
+    var icon = createBridgeLightIcon(bridge.color, 8).toDataURL();
     bridge.points.forEach(function(pt, idx) {
       var phase = idx * 0.4 + Math.random() * 0.5; // sequential phase for running light effect
       var entity = viewer.entities.add({
@@ -6351,7 +6314,7 @@ function addFountainShow(viewer) {
 
   FOUNTAIN_JETS.forEach(function(jet, idx) {
     // Create initial icon with default color
-    var icon = createFountainJetIcon(16, FOUNTAIN_COLORS[4]); // Wynn amber default
+    var icon = createFountainJetIcon(16, FOUNTAIN_COLORS[4]).toDataURL(); // Wynn amber default
 
     var entity = viewer.entities.add({
       name: 'Fountain Jet ' + idx,
@@ -6413,7 +6376,7 @@ function createMistIcon(size) {
 }
 
 function addFountainMist(viewer) {
-  var mistIcon = createMistIcon(32);
+  var mistIcon = createMistIcon(32).toDataURL();
   // 5 mist clouds around the fountain base
   for (var i = 0; i < 5; i++) {
     var angle = (Math.PI * 2 * i) / 5;
@@ -6476,7 +6439,7 @@ function updateFountainShow() {
 
       // Update jet icons with new color
       _fountainEntities.forEach(function(item) {
-        var newIcon = createFountainJetIcon(16, showColor);
+        var newIcon = createFountainJetIcon(16, showColor).toDataURL();
         item.entity.billboard.image = newIcon;
         item.entity.show = true;
       });
@@ -6543,7 +6506,7 @@ function createSkyBeamIcon(color, width, height) {
 function addSkyBeams(viewer) {
   var startTime = Date.now();
   SKY_BEAM_CASINOS.forEach(function(beam) {
-    var icon = createSkyBeamIcon(beam.color, 32, 128);
+    var icon = createSkyBeamIcon(beam.color, 32, 128).toDataURL();
     var phase = Math.random() * Math.PI * 2;
 
     var entity = viewer.entities.add({
@@ -6626,7 +6589,7 @@ function createSearchlightBeamIcon(color) {
 function addSearchlights(viewer) {
   var startTime = Date.now();
   SEARCHLIGHT_CASINOS.forEach(function(spot) {
-    var beamIcon = createSearchlightBeamIcon(spot.color);
+    var beamIcon = createSearchlightBeamIcon(spot.color).toDataURL();
     var beamRadius = 0.005; // beam reach in degrees (~500m)
 
     var entity = viewer.entities.add({
@@ -6732,7 +6695,7 @@ function createLighthouseBeamIcon() {
 }
 
 function addGuiaLighthouse(viewer) {
-  var towerIcon = createLighthouseTowerIcon();
+  var towerIcon = createLighthouseTowerIcon().toDataURL();
   _lighthouseTowerEntity = viewer.entities.add({
     name: 'Guia Lighthouse',
     position: Cesium.Cartesian3.fromDegrees(GUIA_LIGHTHOUSE.lon, GUIA_LIGHTHOUSE.lat, GUIA_LIGHTHOUSE.alt),
@@ -6748,7 +6711,7 @@ function addGuiaLighthouse(viewer) {
     },
   });
 
-  var beamIcon = createLighthouseBeamIcon();
+  var beamIcon = createLighthouseBeamIcon().toDataURL();
   var startTime = Date.now();
   var beamRadius = 0.004; // ~400m beam reach in degrees
   var rotationPeriod = 8; // seconds per full rotation (real lighthouse: ~15s, faster for visual effect)
@@ -6972,7 +6935,7 @@ function createSkyLanternIcon() {
 function addSkyLanterns(viewer) {
   var zone = SKY_LANTERN_ZONE;
   var startTime = Date.now();
-  var icon = createSkyLanternIcon();
+  var icon = createSkyLanternIcon().toDataURL();
 
   for (var i = 0; i < zone.count; i++) {
     // Each lantern starts at random position and phase
@@ -7148,7 +7111,7 @@ function createHelicopterIcon() {
 }
 
 function addHelicopters(viewer) {
-  var heliIcon = createHelicopterIcon();
+  var heliIcon = createHelicopterIcon().toDataURL();
   var startTime = Date.now();
 
   HELI_ROUTES.forEach(function(route) {
@@ -7308,7 +7271,7 @@ function addDragonBoats(viewer) {
   var startTime = Date.now();
 
   DRAGON_BOAT_LANES.forEach(function(lane) {
-    var icon = createDragonBoatIcon(lane.color);
+    var icon = createDragonBoatIcon(lane.color).toDataURL();
 
     (function(laneData, laneIcon) {
       var positionCallback = new Cesium.CallbackProperty(function() {
@@ -7427,7 +7390,7 @@ function addLotusFlowers(viewer) {
   var startTime = Date.now();
 
   LOTUS_POSITIONS.forEach(function(lotus) {
-    var icon = createLotusIcon(lotus.color, lotus.size);
+    var icon = createLotusIcon(lotus.color, lotus.size).toDataURL();
 
     (function(data, lotusIcon) {
       // Gentle drift animation — lotuses slowly bob and drift on water
@@ -7551,7 +7514,7 @@ function createGondolaIcon() {
 
 function addGondolas(viewer) {
   var startTime = Date.now();
-  var icon = createGondolaIcon();
+  var icon = createGondolaIcon().toDataURL();
 
   GONDOLA_ROUTES.forEach(function(route) {
     (function(routeData) {
@@ -7744,7 +7707,7 @@ function initSkyJump(viewer) {
     return c.toDataURL();
   }
 
-  var jumperIcon = createJumperIcon();
+  var jumperIcon = createJumperIcon().toDataURL();
 
   for (var j = 0; j < jumperCount; j++) {
     (function(idx) {
@@ -8191,7 +8154,7 @@ function initSeagulls(viewer) {
     return c;
   }
 
-  var seagullIcon = createSeagullIcon();
+  var seagullIcon = createSeagullIcon().toDataURL();
 
   // 4 flock centers around Macau's coastal areas
   var FLOCKS = [
@@ -8432,7 +8395,7 @@ function initIncenseCoils(viewer) {
   ];
 
   var startTime = performance.now() / 1000;
-  var coilIcon = createCoilIcon();
+  var coilIcon = createCoilIcon().toDataURL();
 
   // Add static incense coil entities
   COIL_POINTS.forEach(function(pt, i) {
@@ -8999,7 +8962,7 @@ function createTriicicloIcon() {
 }
 
 function addTriiciclos(viewer) {
-  var tricicloIcon = createTriicicloIcon();
+  var tricicloIcon = createTriicicloIcon().toDataURL();
   var startTime = Date.now();
 
   TRICICLO_ROUTES.forEach(function(route) {
@@ -9091,7 +9054,7 @@ function createPromenadeLightIcon(color, size) {
 function addPromenadeLights(viewer) {
   var startTime = Date.now();
   PROMENADE_PATHS.forEach(function(path) {
-    var icon = createPromenadeLightIcon(path.color, 10);
+    var icon = createPromenadeLightIcon(path.color, 10).toDataURL();
     path.points.forEach(function(pt, idx) {
       var phase = idx * 0.7 + Math.random() * 1.5;
       var entity = viewer.entities.add({
@@ -9218,7 +9181,7 @@ function addTaiChiGroups(viewer) {
       name: 'Tai Chi Group ' + spot.name,
       position: Cesium.Cartesian3.fromDegrees(spot.lon, spot.lat, 2),
       billboard: {
-        image: createTaiChiCanvas(idx),
+        image: createTaiChiCanvas(idx).toDataURL(),
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         scaleByDistance: new Cesium.NearFarScalar(50, 1.2, 3000, 0.0),
@@ -9243,11 +9206,196 @@ function addTaiChiGroups(viewer) {
     _taiChiEntities.forEach(function(entity, idx) {
       entity.show = alpha > 0;
       if (alpha > 0) {
-        entity.billboard.image = createTaiChiCanvas(idx);
+        entity.billboard.image = createTaiChiCanvas(idx).toDataURL();
         entity.billboard.color = new Cesium.Color(1, 1, 1, alpha);
       }
     });
   }, 400);
+}
+
+// ── Afternoon Fishing Sampans ──
+var SAMPAN_ROUTES = [
+  {
+    name: 'Inner Harbour North',
+    points: [
+      { lon: 113.5318, lat: 22.1905 },
+      { lon: 113.5308, lat: 22.1875 },
+      { lon: 113.5302, lat: 22.1845 },
+      { lon: 113.5310, lat: 22.1820 },
+    ],
+    durationSec: 70,
+    count: 2,
+  },
+  {
+    name: 'A-Ma Temple Coast',
+    points: [
+      { lon: 113.5290, lat: 22.1870 },
+      { lon: 113.5275, lat: 22.1840 },
+      { lon: 113.5268, lat: 22.1808 },
+    ],
+    durationSec: 60,
+    count: 1,
+  },
+  {
+    name: 'Nam Van Lake Shore',
+    points: [
+      { lon: 113.5345, lat: 22.1825 },
+      { lon: 113.5360, lat: 22.1810 },
+      { lon: 113.5380, lat: 22.1800 },
+      { lon: 113.5395, lat: 22.1815 },
+    ],
+    durationSec: 80,
+    count: 2,
+  },
+];
+
+var _sampanEntities = [];
+var _sampanInterval = null;
+
+function createSampanCanvas(idx) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 36;
+  canvas.height = 28;
+  var ctx = canvas.getContext('2d');
+  var t = Date.now() / 1000;
+  var bob = Math.sin(t * 1.2 + idx * 1.5) * 0.8;
+
+  // Water ripple below hull
+  ctx.strokeStyle = 'rgba(100, 160, 200, 0.15)';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.ellipse(18, 23 + bob, 16, 2, 0, 0, Math.PI);
+  ctx.stroke();
+
+  // Hull — flat-bottomed wooden sampan
+  ctx.fillStyle = 'rgba(120, 75, 35, 0.92)';
+  ctx.beginPath();
+  ctx.moveTo(3, 18 + bob);
+  ctx.lineTo(6, 22 + bob);
+  ctx.lineTo(30, 22 + bob);
+  ctx.lineTo(33, 18 + bob);
+  ctx.lineTo(31, 16 + bob);
+  ctx.lineTo(5, 16 + bob);
+  ctx.closePath();
+  ctx.fill();
+
+  // Hull highlight
+  ctx.fillStyle = 'rgba(160, 100, 50, 0.5)';
+  ctx.fillRect(8, 17 + bob, 20, 2);
+
+  // Canopy/shelter — woven bamboo cover
+  ctx.fillStyle = 'rgba(180, 150, 90, 0.85)';
+  ctx.beginPath();
+  ctx.moveTo(10, 16 + bob);
+  ctx.quadraticCurveTo(18, 9 + bob, 26, 16 + bob);
+  ctx.closePath();
+  ctx.fill();
+
+  // Canopy ribs
+  ctx.strokeStyle = 'rgba(140, 110, 60, 0.6)';
+  ctx.lineWidth = 0.6;
+  for (var i = 0; i < 3; i++) {
+    var cx = 13 + i * 5;
+    ctx.beginPath();
+    ctx.moveTo(cx, 16 + bob);
+    ctx.lineTo(cx + 1, 11 + bob);
+    ctx.stroke();
+  }
+
+  // Fishing net draped over side
+  ctx.strokeStyle = 'rgba(160, 140, 100, 0.4)';
+  ctx.lineWidth = 0.5;
+  var netX = 28;
+  ctx.beginPath();
+  ctx.moveTo(netX, 16 + bob);
+  ctx.lineTo(netX + 3, 20 + bob);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(netX + 1, 16 + bob);
+  ctx.lineTo(netX + 5, 21 + bob);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(netX + 3, 20 + bob);
+  ctx.lineTo(netX + 5, 21 + bob);
+  ctx.stroke();
+
+  // Fisher figure
+  ctx.fillStyle = 'rgba(90, 70, 50, 0.8)';
+  ctx.beginPath();
+  ctx.arc(8, 12 + bob, 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(90, 70, 50, 0.7)';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(8, 14 + bob);
+  ctx.lineTo(8, 16 + bob);
+  ctx.stroke();
+
+  // Warm amber glow halo
+  var grad = ctx.createRadialGradient(18, 16, 6, 18, 16, 18);
+  grad.addColorStop(0, 'rgba(180, 140, 60, 0.0)');
+  grad.addColorStop(0.7, 'rgba(180, 140, 60, 0.0)');
+  grad.addColorStop(1, 'rgba(180, 140, 60, 0.08)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 36, 28);
+
+  return canvas;
+}
+
+function addFishingSampans(viewer) {
+  var startTime = Date.now();
+
+  SAMPAN_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var phaseOffset = i / route.count;
+      var reverseStart = i % 2 === 1;
+
+      (function(offset, reverse, routeRef) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          var rawT = ((elapsed / routeRef.durationSec) + offset) % 2;
+          var t = rawT <= 1 ? rawT : 2 - rawT;
+          if (reverse) t = 1 - t;
+          var pos = lerpPosition(routeRef.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 1.5);
+        }, false);
+
+        var entity = viewer.entities.add({
+          name: 'Fishing Sampan',
+          position: positionCallback,
+          billboard: {
+            image: createSampanCanvas(i).toDataURL(),
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scaleByDistance: new Cesium.NearFarScalar(50, 1.0, 3000, 0.0),
+            translucencyByDistance: new Cesium.NearFarScalar(30, 1.0, 2500, 0.0),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            scale: 1.0,
+          },
+        });
+        _sampanEntities.push(entity);
+      })(phaseOffset, reverseStart, route);
+    }
+  });
+
+  // Animate canvas and control time-of-day visibility (15:00-19:00 Macau time)
+  _sampanInterval = setInterval(function() {
+    var hour = getMacauHour();
+    var visible = hour >= 15 && hour < 19;
+    // Fade: 15:00-15:30 fade in, 18:30-19:00 fade out
+    var alpha = 1.0;
+    if (hour >= 15 && hour < 15.5) alpha = (hour - 15) * 2;
+    else if (hour >= 18.5 && hour < 19) alpha = (19 - hour) * 2;
+    else if (!visible) alpha = 0;
+
+    _sampanEntities.forEach(function(entity, idx) {
+      entity.show = alpha > 0;
+      if (alpha > 0) {
+        entity.billboard.image = createSampanCanvas(idx).toDataURL();
+        entity.billboard.color = new Cesium.Color(1, 1, 1, alpha);
+      }
+    });
+  }, 500);
 }
 
 // ── Minimap Navigation ──
@@ -9484,6 +9632,22 @@ function drawMinimap() {
       drawTransportDot(pos.lon, pos.lat, 'rgba(200, 150, 60, 0.9)', 2.5);
     }
   });
+
+  // Fishing sampans — brown dots (ping-pong, afternoon only)
+  var sampanHour = getMacauHour();
+  if (sampanHour >= 15 && sampanHour < 19) {
+    SAMPAN_ROUTES.forEach(function(route) {
+      for (var i = 0; i < route.count; i++) {
+        var offset = i / route.count;
+        var reverse = i % 2 === 1;
+        var rawT = ((elapsed / route.durationSec) + offset) % 2;
+        var t = rawT <= 1 ? rawT : 2 - rawT;
+        if (reverse) t = 1 - t;
+        var pos = lerpPosition(route.points, t);
+        drawTransportDot(pos.lon, pos.lat, 'rgba(160, 110, 50, 0.85)', 2.5);
+      }
+    });
+  }
 
   // Transport legend at bottom
   var legendY = h - 12;
@@ -9728,7 +9892,7 @@ function createSkyCabIcon() {
 
 function addSkyCabs(viewer) {
   var startTime = Date.now();
-  var icon = createSkyCabIcon();
+  var icon = createSkyCabIcon().toDataURL();
 
   SKYCAB_ROUTES.forEach(function(route) {
     (function(routeData) {
@@ -9880,6 +10044,7 @@ function addSkyCabs(viewer) {
     { icon: '🔊', text: isTouch ? 'Enable sound — hear casino chimes near Cotai, temple bells near A-Ma, waves by the harbour' : 'Press M for sound — fly near casinos, temples, or harbour to hear spatial audio zones' },
     { icon: '🪷', text: 'Spot floating lotus flowers on Nam Van Lake — Macau\'s official emblem' },
     { icon: '🧘', text: 'Look for morning tai chi groups in parks between 5-9 AM Macau time' },
+    { icon: '🛶', text: 'Watch fishing sampans return to Inner Harbour in the afternoon (3-7 PM Macau time)' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;
