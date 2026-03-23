@@ -1,20 +1,26 @@
 # Agent Learnings
 Auto-generated from data/knowledge.json. Do NOT edit directly.
 
+Last updated from session: 96
+
+---
+
 ## Patterns (What Works)
+
+Sorted by weight (highest first), then by times applied.
 
 ### CSS particle effects are lightweight alternatives to WebGL
 - **Domain:** rendering
-- **Weight:** 0.8 | Applied: 3 | Successful: 3
+- **Weight:** 0.8 | Applied: 4 | Successful: 4
 - CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.
-- **Evidence:** Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars
+- **Evidence:** Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps.
 - **Tags:** performance, css, animation
 
 ### Staggered animation delays prevent mechanical feel
 - **Domain:** animation
-- **Weight:** 0.8 | Applied: 9 | Successful: 9
+- **Weight:** 0.8 | Applied: 10 | Successful: 10
 - Vary animation-delay and animation-duration per element to prevent synchronized movement that looks artificial. Different speeds and directions per element create organic motion.
-- **Evidence:** Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, food stalls, lotus flowers, and other animation systems
+- **Evidence:** Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, food stalls, lotus flowers, cloud wisps, and other animation systems
 - **Tags:** css, animation, visual-quality
 
 ### Web Audio API for procedural sound without external files
@@ -108,27 +114,38 @@ Auto-generated from data/knowledge.json. Do NOT edit directly.
 - **Evidence:** Session 86: ~55 promenade lights across 5 waterfront paths. Follows bridge lights pattern exactly. Zero JS errors, passed desktop/mobile checks. Visible from bird's-eye at night.
 - **Tags:** atmosphere, lighting, night, waterfront, billboard
 
+### CSS cloud overlays are effective weather-reactive sky atmosphere
+- **Domain:** atmosphere
+- **Weight:** 0.5 | Applied: 1 | Successful: 1
+- CSS div elements with blur filter and keyframe drift animation create convincing cloud wisps without CesiumJS entity overhead. Tying opacity to real weather API cloud_cover percentage makes them weather-reactive. Placing below color grading z-index means they automatically get time-of-day tinting. Staggered sizes, positions, speeds, and delays prevent mechanical feel.
+- **Evidence:** Session 96: 7 cloud wisps with blur(40px), weather-reactive opacity. Zero JS errors, passed desktop/mobile. First sky-level atmospheric effect in the project.
+- **Tags:** css, atmosphere, weather, performance, animation
+
+---
+
 ## Anti-Patterns (What to Avoid)
 
 ### CesiumJS bloom post-processing with Google 3D Tiles [HIGH]
 - **Severity:** high
 - CesiumJS bloom applies to entire scene causing severe oversaturation/washout with Google 3D Tiles. Tried contrast values 119 down to 40 — all caused unacceptable results.
-- **Fix:** Use billboard entities with canvas radial gradients for glow effects instead of scene-wide bloom
+- **Fix:** Use billboard entities with canvas radial gradients for glow effects instead of scene-wide bloom.
 - **Tags:** cesiumjs, rendering, 3d-tiles
 
 ### CallbackProperty for billboard image causes black rectangles [HIGH]
 - **Severity:** high
 - Using CesiumJS CallbackProperty to dynamically update billboard.image with canvas elements renders as solid black rectangles with Google 3D Tiles.
-- **Fix:** Use direct billboard.image = canvas.toDataURL() assignment in setInterval instead
+- **Fix:** Use direct `billboard.image = canvas.toDataURL()` assignment in setInterval instead.
 - **Tags:** cesiumjs, rendering, billboard
 
 ### Parallax on mobile breaks layout [MEDIUM]
 - **Severity:** medium
 - Parallax effects on mobile conflict with position:relative layouts and feel exaggerated on small viewports.
-- **Fix:** Disable parallax on mobile via media query or JS check
+- **Fix:** Disable parallax on mobile via media query or JS check.
 - **Tags:** mobile, css, layout
 
-## Decisions
+---
+
+## Architectural Decisions
 
 ### How to enhance walk tour for documentary feel?
 - **Chosen:** Compose existing systems: auto-open landmark cards (with S75 photo gallery), add slow orbit camera, add progress bar/counter
@@ -169,3 +186,28 @@ Auto-generated from data/knowledge.json. Do NOT edit directly.
 ### How to fill the afternoon temporal gap (12-7 PM)?
 - **Chosen:** Fishing sampan billboard entities on Inner Harbour routes, time-gated 15:00-19:00, with canvas bobbing animation and minimap tracking
 - **Rationale:** Macau originated as a fishing village ('Bay of A-Ma') — fishing sampans are deeply historically significant. Afternoon is the natural time for fishers to return with catch. Follows proven tai chi time-gating pattern (getMacauHour + fade ramps) and junk boat movement pattern (CallbackProperty ping-pong). Now morning, afternoon, and night all have time-specific features.
+
+### How to add sky-level atmosphere without more CesiumJS billboard entities?
+- **Chosen:** CSS cloud div overlay with blur filter and keyframe drift animation at z-index below color grading
+- **Rationale:** CSS approach avoids adding more CesiumJS entities (26 systems already), is more performant, and automatically inherits time-of-day color grading from the z-index layering. Weather-reactive via existing currentWeather global. First atmospheric effect targeting the sky rather than ground/water level.
+
+---
+
+## Quick Reference: Proven Patterns by Domain
+
+| Domain | Key Patterns |
+|--------|-------------|
+| **Rendering** | CSS particles over WebGL; canvas shadowBlur for neon glow; staggered CSS transitions for reveals |
+| **Animation** | Stagger delays/durations; CallbackProperty ping-pong for movement; sin() for organic drift |
+| **Audio** | Web Audio API procedural generation; proximity-based zone gains; altitude gating |
+| **Interactivity** | Compose existing systems; separate tick handlers; progress indicators for tours |
+| **Atmosphere** | Distributed small light points; CSS cloud overlays; time-of-day gating with fade ramps |
+| **Culture** | Balance Chinese/Portuguese heritage; use official symbols; authentic place names and food names |
+
+## Quick Reference: Things That Do NOT Work
+
+| Problem | Workaround |
+|---------|-----------|
+| CesiumJS bloom + Google 3D Tiles | Use billboard + canvas radial gradients |
+| CallbackProperty for billboard.image | Use direct assignment via setInterval + toDataURL() |
+| Parallax on mobile | Disable via media query or JS check |
