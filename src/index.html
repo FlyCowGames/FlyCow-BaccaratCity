@@ -1141,6 +1141,76 @@
   }
   .bacc-reset-btn:hover { background: linear-gradient(135deg, rgba(200,60,60,0.4), rgba(200,60,60,0.25)); }
 
+  /* ── Live Baccarat Ticker ── */
+  #bacc-ticker {
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    height: 32px; z-index: 150;
+    background: linear-gradient(180deg, rgba(10,10,18,0.92) 0%, rgba(10,10,18,0.98) 100%);
+    border-top: 1px solid rgba(212,175,55,0.2);
+    overflow: hidden;
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.72rem; letter-spacing: 0.04em;
+    pointer-events: auto;
+    opacity: 0; transition: opacity 1s ease;
+  }
+  #bacc-ticker.visible { opacity: 1; }
+  #bacc-ticker-label {
+    position: absolute; left: 0; top: 0; height: 100%;
+    padding: 0 12px; display: flex; align-items: center;
+    background: linear-gradient(90deg, rgba(212,175,55,0.15) 0%, rgba(10,10,18,0.98) 100%);
+    color: #d4af37; font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    white-space: nowrap; z-index: 2;
+    border-right: 1px solid rgba(212,175,55,0.15);
+  }
+  #bacc-ticker-track {
+    display: flex; align-items: center; height: 100%;
+    white-space: nowrap;
+    animation: tickerScroll 40s linear infinite;
+    padding-left: 110px;
+  }
+  @keyframes tickerScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .ticker-item {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 0 20px; height: 100%;
+    color: rgba(255,255,255,0.6);
+  }
+  .ticker-casino {
+    color: #d4af37; font-weight: 400;
+  }
+  .ticker-result-player {
+    color: #4a9eff; font-weight: 400;
+  }
+  .ticker-result-banker {
+    color: #ff4c4c; font-weight: 400;
+  }
+  .ticker-result-tie {
+    color: #2ecc71; font-weight: 400;
+  }
+  .ticker-score {
+    color: rgba(255,255,255,0.4);
+  }
+  .ticker-dot {
+    color: rgba(212,175,55,0.25);
+  }
+  .ticker-new {
+    animation: tickerFlash 1.5s ease-out;
+  }
+  @keyframes tickerFlash {
+    0% { background: rgba(212,175,55,0.3); }
+    100% { background: transparent; }
+  }
+  #bacc-ticker-close {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    color: rgba(255,255,255,0.3); cursor: pointer; z-index: 2;
+    font-size: 0.8rem; padding: 4px 8px;
+    background: none; border: none; font-family: inherit;
+  }
+  #bacc-ticker-close:hover { color: rgba(255,255,255,0.6); }
+
   /* ── Mobile Responsive ── */
   @media (max-width: 600px) {
     /* Safe area insets for notched phones (iPhone X+) */
@@ -1293,6 +1363,13 @@
 
     /* Share toast */
     #share-toast { font-size: 0.75rem; bottom: calc(130px + env(safe-area-inset-bottom)); }
+
+    /* Baccarat ticker — mobile */
+    #bacc-ticker { height: 28px; }
+    #bacc-ticker-label { font-size: 0.5rem; padding: 0 8px; letter-spacing: 0.12em; }
+    #bacc-ticker-track { font-size: 0.65rem; padding-left: 80px; }
+    .ticker-item { padding: 0 14px; }
+    #bacc-ticker-close { padding: 4px 12px; min-width: 44px; min-height: 28px; }
   }
 
   /* Event banner */
@@ -1543,6 +1620,12 @@
   </div>
 
   <div id="feature-tips"></div>
+
+  <div id="bacc-ticker">
+    <div id="bacc-ticker-label">LIVE TABLES</div>
+    <div id="bacc-ticker-track"></div>
+    <button id="bacc-ticker-close">&times;</button>
+  </div>
 
   <button id="walk-btn">&#128694; Walk Tour</button>
   <button id="replay-btn">&#9654; Replay Flythrough</button>
@@ -2418,6 +2501,7 @@ async function init() {
     initSeagulls(viewer);
     initWavePool(viewer);
     initIncenseCoils(viewer);
+    initNeonSigns(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -4609,6 +4693,7 @@ var ATTRACTIONS = {
     { name: "Galaxy Wave Pool", chinese: "銀河天浪淘園", icon: "🌊", lat: 22.1489, lon: 113.5544, alt: 200, pitch: -15 },
     { name: "Wynn SkyCab", chinese: "永利觀光纜車", icon: "🚡", lat: 22.1478, lon: 113.5628, alt: 200, pitch: -15 },
     { name: "Harbor Reflections", chinese: "海港倒影", icon: "✨", lat: 22.1865, lon: 113.5420, alt: 400, pitch: -35 },
+    { name: "Neon Signs", chinese: "霓虹招牌", icon: "💡", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -20 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -8126,6 +8211,98 @@ function initIncenseCoils(viewer) {
   }, 500);
 }
 
+// ── Neon Chinese Signs ──
+// Animated neon signs at casinos and historic sites — iconic Macau visual element
+var NEON_SIGNS = [
+  { text: '葡京', sub: 'LISBOA', lon: 113.5403, lat: 22.1897, alt: 80, color: [255, 50, 50], flicker: 0.08 },
+  { text: '威尼斯人', sub: 'VENETIAN', lon: 113.5595, lat: 22.1498, alt: 65, color: [255, 200, 50], flicker: 0.05 },
+  { text: '銀河', sub: 'GALAXY', lon: 113.5540, lat: 22.1485, alt: 70, color: [100, 150, 255], flicker: 0.06 },
+  { text: '永利皇宮', sub: 'WYNN', lon: 113.5622, lat: 22.1468, alt: 60, color: [255, 160, 50], flicker: 0.04 },
+  { text: '新濠天地', sub: 'COD', lon: 113.5565, lat: 22.1505, alt: 65, color: [200, 100, 255], flicker: 0.07 },
+  { text: '議事亭', sub: 'SENADO', lon: 113.5388, lat: 22.1933, alt: 30, color: [255, 220, 100], flicker: 0.10 },
+  { text: '大三巴', sub: 'RUINS', lon: 113.5408, lat: 22.1976, alt: 35, color: [255, 180, 80], flicker: 0.09 },
+  { text: '媽閣廟', sub: 'A-MA', lon: 113.5316, lat: 22.1872, alt: 25, color: [255, 100, 100], flicker: 0.06 },
+];
+
+function createNeonSignCanvas(sign, glowPhase) {
+  var c = document.createElement('canvas');
+  c.width = 160;
+  c.height = 64;
+  var ctx = c.getContext('2d');
+  var r = sign.color[0], g = sign.color[1], b = sign.color[2];
+
+  // Neon flicker: subtle brightness variation
+  var flicker = 1.0 - sign.flicker * Math.sin(glowPhase * 7.3) * Math.sin(glowPhase * 3.1);
+  var fr = Math.min(255, Math.round(r * flicker));
+  var fg = Math.min(255, Math.round(g * flicker));
+  var fb = Math.min(255, Math.round(b * flicker));
+
+  // Outer glow
+  ctx.shadowColor = 'rgba(' + fr + ',' + fg + ',' + fb + ',0.8)';
+  ctx.shadowBlur = 18;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
+
+  // Main Chinese text
+  ctx.font = 'bold 30px "Noto Sans SC", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(' + fr + ',' + fg + ',' + fb + ',0.95)';
+  ctx.fillText(sign.text, 80, 24);
+
+  // Second pass for extra glow
+  ctx.shadowBlur = 8;
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  ctx.fillText(sign.text, 80, 24);
+
+  // Small subtitle
+  ctx.shadowBlur = 6;
+  ctx.shadowColor = 'rgba(' + fr + ',' + fg + ',' + fb + ',0.5)';
+  ctx.font = '10px "DM Mono", monospace';
+  ctx.fillStyle = 'rgba(' + fr + ',' + fg + ',' + fb + ',0.6)';
+  ctx.fillText(sign.sub, 80, 52);
+
+  return c;
+}
+
+function initNeonSigns(viewer) {
+  var startTime = performance.now() / 1000;
+  var entities = [];
+
+  NEON_SIGNS.forEach(function(sign, i) {
+    var initialCanvas = createNeonSignCanvas(sign, 0);
+    var entity = viewer.entities.add({
+      name: 'Neon Sign: ' + sign.text,
+      position: Cesium.Cartesian3.fromDegrees(sign.lon, sign.lat, sign.alt),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 160,
+        height: 64,
+        scale: new Cesium.CallbackProperty(function() {
+          // Night-only: fade with glow intensity
+          if (_currentGlowIntensity < 0.1) return 0;
+          return 0.8 + _currentGlowIntensity * 0.4;
+        }, false),
+        scaleByDistance: new Cesium.NearFarScalar(80, 2.0, 5000, 0.3),
+        translucencyByDistance: new Cesium.NearFarScalar(50, 1.0, 6000, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    entities.push({ entity: entity, sign: sign });
+  });
+
+  // Update neon flicker animation — direct image assignment (avoid CallbackProperty for image)
+  setInterval(function() {
+    var elapsed = performance.now() / 1000 - startTime;
+    entities.forEach(function(item, i) {
+      var c = createNeonSignCanvas(item.sign, elapsed + i * 2.1);
+      item.entity.billboard.image = c.toDataURL();
+    });
+  }, 200);
+}
+
 // ── Minimap Navigation ──
 var _minimapCanvas = null;
 var _minimapCtx = null;
@@ -8780,6 +8957,133 @@ function addSkyCabs(viewer) {
       el.style.opacity = '0';
     }
   });
+})();
+
+// ── Live Baccarat Ticker ──
+(function() {
+  var TICKER_CASINOS = [
+    { name: 'Grand Lisboa', chinese: '新葡京', table: 'VIP-1' },
+    { name: 'The Venetian', chinese: '威尼斯人', table: 'Main-12' },
+    { name: 'Wynn Palace', chinese: '永利皇宮', table: 'Salon-3' },
+    { name: 'Galaxy Macau', chinese: '銀河', table: 'Floor-7' },
+    { name: 'City of Dreams', chinese: '新濠天地', table: 'Premium-5' },
+    { name: 'MGM Cotai', chinese: '美高梅', table: 'Table-22' },
+    { name: 'Sands Cotai', chinese: '金沙', table: 'VIP-8' },
+    { name: 'Studio City', chinese: '新濠影匯', table: 'Main-4' },
+  ];
+
+  var tickerResults = [];
+  var tickerShoe = [];
+
+  function tickerDraw() {
+    if (tickerShoe.length < 20) {
+      tickerShoe = [];
+      for (var d = 0; d < 8; d++)
+        for (var s = 0; s < 4; s++)
+          for (var r = 0; r < 13; r++)
+            tickerShoe.push(RANK_VALUES[RANKS[r]]);
+      for (var i = tickerShoe.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = tickerShoe[i]; tickerShoe[i] = tickerShoe[j]; tickerShoe[j] = tmp;
+      }
+    }
+    return tickerShoe.pop();
+  }
+
+  function simBaccHand() {
+    var p1 = tickerDraw(), p2 = tickerDraw(), b1 = tickerDraw(), b2 = tickerDraw();
+    var pScore = (p1 + p2) % 10;
+    var bScore = (b1 + b2) % 10;
+
+    // Natural check
+    if (pScore < 8 && bScore < 8) {
+      // Player third card rule
+      var pThird = -1;
+      if (pScore <= 5) {
+        pThird = tickerDraw();
+        pScore = (pScore + pThird) % 10;
+      }
+      // Banker third card rule
+      if (pThird === -1) {
+        if (bScore <= 5) bScore = (bScore + tickerDraw()) % 10;
+      } else {
+        if (bScore <= 2) bScore = (bScore + tickerDraw()) % 10;
+        else if (bScore === 3 && pThird !== 8) bScore = (bScore + tickerDraw()) % 10;
+        else if (bScore === 4 && pThird >= 2 && pThird <= 7) bScore = (bScore + tickerDraw()) % 10;
+        else if (bScore === 5 && pThird >= 4 && pThird <= 7) bScore = (bScore + tickerDraw()) % 10;
+        else if (bScore === 6 && pThird >= 6 && pThird <= 7) bScore = (bScore + tickerDraw()) % 10;
+      }
+    }
+
+    var result = pScore > bScore ? 'Player' : bScore > pScore ? 'Banker' : 'Tie';
+    return { pScore: pScore, bScore: bScore, result: result };
+  }
+
+  function generateResult() {
+    var casino = TICKER_CASINOS[Math.floor(Math.random() * TICKER_CASINOS.length)];
+    var hand = simBaccHand();
+    return {
+      casino: casino.name,
+      table: casino.table,
+      result: hand.result,
+      pScore: hand.pScore,
+      bScore: hand.bScore,
+      ts: Date.now()
+    };
+  }
+
+  function renderTicker() {
+    var track = document.getElementById('bacc-ticker-track');
+    if (!track) return;
+    var html = '';
+    // Render results twice for seamless loop
+    for (var dup = 0; dup < 2; dup++) {
+      for (var i = 0; i < tickerResults.length; i++) {
+        var r = tickerResults[i];
+        var cls = r.result === 'Player' ? 'ticker-result-player' : r.result === 'Banker' ? 'ticker-result-banker' : 'ticker-result-tie';
+        var isNew = dup === 0 && Date.now() - r.ts < 2000;
+        html += '<span class="ticker-item' + (isNew ? ' ticker-new' : '') + '">' +
+          '<span class="ticker-casino">' + r.casino + '</span> ' +
+          '<span class="ticker-score">T' + r.table.split('-')[1] + '</span> ' +
+          '<span class="' + cls + '">' + r.result + '</span> ' +
+          '<span class="ticker-score">' + r.pScore + '-' + r.bScore + '</span>' +
+          '<span class="ticker-dot"> · </span>' +
+          '</span>';
+      }
+    }
+    track.innerHTML = html;
+    // Reset animation
+    track.style.animation = 'none';
+    track.offsetHeight; // trigger reflow
+    var duration = Math.max(30, tickerResults.length * 3.5);
+    track.style.animation = 'tickerScroll ' + duration + 's linear infinite';
+  }
+
+  // Seed initial results
+  for (var i = 0; i < 12; i++) tickerResults.push(generateResult());
+
+  // Add new result periodically
+  setInterval(function() {
+    tickerResults.push(generateResult());
+    if (tickerResults.length > 24) tickerResults.shift();
+    renderTicker();
+  }, 20000);
+
+  // Show ticker after flythrough (delay 30s)
+  setTimeout(function() {
+    renderTicker();
+    var el = document.getElementById('bacc-ticker');
+    if (el) el.classList.add('visible');
+  }, 30000);
+
+  // Close button
+  var closeBtn = document.getElementById('bacc-ticker-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function() {
+      var el = document.getElementById('bacc-ticker');
+      if (el) { el.classList.remove('visible'); el.style.display = 'none'; }
+    });
+  }
 })();
 
 // ── Initialize ──

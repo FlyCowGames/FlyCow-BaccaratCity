@@ -599,6 +599,17 @@
 - No new external dependencies — pure CSS animations with innerHTML rendering
 - File grew from ~8746 to ~8792 lines (+46 lines)
 
+## Session 79 — 2026-03-23 (Automated Agent)
+- Animated neon Chinese signs: 8 glowing neon sign billboards at casinos and historic sites
+- Locations: Grand Lisboa (葡京), Venetian (威尼斯人), Galaxy (銀河), Wynn Palace (永利皇宮), City of Dreams (新濠天地), Senado Square (議事亭), Ruins of St. Paul's (大三巴), A-Ma Temple (媽閣廟)
+- Canvas-drawn neon text with Chinese characters, English subtitle, colored glow halos
+- Flickering animation via setInterval (200ms) — subtle brightness variation per sign for realistic neon feel
+- Night-only visibility tied to _currentGlowIntensity (> 0.1 threshold)
+- Each sign has unique neon color: red (Lisboa), gold (Venetian), blue (Galaxy), amber (Wynn), purple (City of Dreams), warm yellow (Senado), orange (Ruins), red (A-Ma)
+- Neon Signs entry added to Shows section of Explore panel
+- 19th entity animation system using proven billboard + canvas + setInterval pattern
+- File grew from ~9002 to ~9097 lines (+95 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

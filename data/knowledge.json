@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 77,
+  "last_updated_session": 79,
   "learnings": [
     {
       "type": "pattern",
@@ -41,11 +41,11 @@
       "domain": "animation",
       "title": "Staggered animation delays prevent mechanical feel",
       "description": "Vary animation-delay and animation-duration per element to prevent synchronized movement that looks artificial. Different speeds and directions per element create organic motion.",
-      "evidence": "Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, and other animation systems",
+      "evidence": "Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, and other animation systems",
       "tags": ["css", "animation", "visual-quality"],
       "weight": 0.8,
-      "times_applied": 6,
-      "times_successful": 6
+      "times_applied": 7,
+      "times_successful": 7
     },
     {
       "type": "pattern",
@@ -77,6 +77,17 @@
       "evidence": "Session 77: flythrough title cards use 4 staggered CSS transitions for a cinematic reveal. Gold gradient title, Chinese subtitle, tagline all animate independently with different delays.",
       "tags": ["css", "animation", "cinematic", "typography"],
       "weight": 0.6,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "rendering",
+      "title": "Canvas text with shadowBlur creates convincing neon glow",
+      "description": "Using canvas 2D context shadowBlur + shadowColor creates a convincing neon glow effect around text. Two passes (colored glow + white core) makes it look realistic. setInterval at 200ms for flicker is smooth without being expensive.",
+      "evidence": "Session 79: 8 neon signs with canvas-drawn Chinese text, colored glow halos, and flickering animation. Runs smoothly alongside 18 other entity systems.",
+      "tags": ["canvas", "rendering", "neon", "performance"],
+      "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
     }
@@ -118,6 +129,12 @@
       "question": "How to make flythrough labels more cinematic?",
       "chosen": "Multi-line HTML with staggered CSS transitions — title + Chinese + tagline + decorative lines",
       "rationale": "Pure CSS approach (no JS animation library) keeps it lightweight. innerHTML generation in showStageLabel() keeps the function signature simple while supporting rich content. Gold gradient text matches site branding.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add neon signage to the city?",
+      "chosen": "Canvas-drawn billboard entities with Chinese text + glow halos, setInterval for flicker animation",
+      "rationale": "Follows proven billboard + canvas + setInterval pattern (used by incense coils, LED facades, smoke wisps). Canvas shadowBlur creates convincing neon glow without post-processing. Night-only via _currentGlowIntensity threshold.",
       "revisit_after_session": null
     }
   ]

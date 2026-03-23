@@ -951,6 +951,23 @@
       ],
       "linesAdded": 35,
       "agent": "automated"
+    },
+    {
+      "session": 79,
+      "date": "2026-03-23",
+      "title": "Animated Neon Chinese Signs",
+      "domain": "rendering",
+      "summary": "Added 8 animated neon sign billboards at casinos and historic sites with Chinese characters, colored glow halos, and flickering animation at night.",
+      "details": [
+        "8 neon signs: Grand Lisboa, Venetian, Galaxy, Wynn Palace, City of Dreams, Senado Square, Ruins of St. Paul's, A-Ma Temple",
+        "Canvas-drawn Chinese text with English subtitle and colored neon glow",
+        "Flickering animation via 200ms setInterval with per-sign variation",
+        "Night-only visibility tied to _currentGlowIntensity",
+        "Unique neon color per location matching casino branding",
+        "Neon Signs entry added to Shows section of Explore panel"
+      ],
+      "linesAdded": 94,
+      "agent": "automated"
     }
   ]
 }

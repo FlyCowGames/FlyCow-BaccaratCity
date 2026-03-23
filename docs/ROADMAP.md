@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-23 (Session 77)*
+*This document evolves every session. Last updated: 2026-03-23 (Session 79)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -93,3 +93,4 @@
 - Landmark photo gallery: 3 real Wikimedia Commons photos per landmark with swipeable gallery, arrow navigation, dot indicators (Session 75)
 - Cinematic walking tour: documentary-style guided tour at 8m altitude, auto-opens photo galleries at each of 8 landmarks, gentle orbit camera, progress bar (Session 76)
 - Cinematic flythrough title cards: multi-line gold gradient labels with Chinese subtitles, descriptive taglines, staggered slide-up animations at all 9 flythrough stages (Session 77)
+- Animated neon Chinese signs: 8 glowing neon signs at casinos and historic sites with flickering animation, night-only (Session 79)
