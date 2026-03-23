@@ -984,6 +984,23 @@
       ],
       "linesAdded": 110,
       "agent": "automated"
+    },
+    {
+      "session": 82,
+      "date": "2026-03-23",
+      "title": "Portuguese Azulejo Tile Panels",
+      "domain": "landmarks",
+      "summary": "Added 6 decorative Portuguese azulejo tile panel billboards at heritage sites, celebrating Macau's colonial legacy.",
+      "details": [
+        "6 azulejo panels at Senado Square, Leal Senado, Ruins of St. Paul's, St. Augustine's Square, Guia Fortress, Barra Square",
+        "Canvas-drawn blue-and-white tile patterns with 4 motifs: cross, floral, diamond, wave",
+        "Portuguese place names with Chinese subtitles and gold corner accents",
+        "Gentle shimmer animation on tile patterns (400ms setInterval)",
+        "Always active with slight scale boost at night",
+        "Azulejo Tiles entry added to Heritage section of Explore panel"
+      ],
+      "linesAdded": 179,
+      "agent": "automated"
     }
   ]
 }

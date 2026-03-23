@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-23 (Session 81)*
+*This document evolves every session. Last updated: 2026-03-23 (Session 82)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -95,3 +95,4 @@
 - Cinematic flythrough title cards: multi-line gold gradient labels with Chinese subtitles, descriptive taglines, staggered slide-up animations at all 9 flythrough stages (Session 77)
 - Animated neon Chinese signs: 8 glowing neon signs at casinos and historic sites with flickering animation, night-only (Session 79)
 - Street food market stalls: 8 animated food vendor stalls at 4 famous food streets with warm lantern glow and steam wisps (Session 81)
+- Portuguese azulejo tile panels: 6 decorative blue-and-white tile panels at heritage sites with traditional patterns (Session 82)

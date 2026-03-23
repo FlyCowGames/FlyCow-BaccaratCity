@@ -2503,6 +2503,7 @@ async function init() {
     initIncenseCoils(viewer);
     initNeonSigns(viewer);
     initFoodStalls(viewer);
+    initAzulejoTiles(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -4705,6 +4706,7 @@ var ATTRACTIONS = {
     { name: "Red Lanterns", chinese: "红灯笼", icon: "🏮", lat: 22.1937, lon: 113.5388, alt: 150, pitch: -15 },
     { name: "Temple Incense", chinese: "香炉", icon: "🪔", lat: 22.1868, lon: 113.5311, alt: 80, pitch: -25 },
     { name: "Street Food Stalls", chinese: "街頭美食", icon: "🥟", lat: 22.1560, lon: 113.5581, alt: 100, pitch: -25 },
+    { name: "Azulejo Tiles", chinese: "葡式瓷磚", icon: "🔷", lat: 22.1933, lon: 113.5389, alt: 150, pitch: -20 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -8412,6 +8414,183 @@ function initFoodStalls(viewer) {
       item.entity.billboard.image = c.toDataURL();
     });
   }, 250);
+}
+
+// ── Portuguese Azulejo Tile Panels ──
+// Decorative blue-and-white Portuguese tile panels at heritage sites — Macau's colonial legacy
+var AZULEJO_PANELS = [
+  // Senado Square — civic heart of Portuguese Macau
+  { title: 'LARGO DO SENADO', chinese: '議事亭前地', lon: 113.5389, lat: 22.1933, alt: 14, pattern: 'cross' },
+  { title: 'LEAL SENADO', chinese: '民政總署', lon: 113.5383, lat: 22.1928, alt: 14, pattern: 'floral' },
+  // Ruins of St. Paul's — UNESCO World Heritage
+  { title: 'RUÍNAS DE S. PAULO', chinese: '大三巴牌坊', lon: 113.5408, lat: 22.1975, alt: 16, pattern: 'diamond' },
+  // St. Augustine's Square — colonial theatre district
+  { title: 'LARGO DE S. AGOSTINHO', chinese: '崗頂前地', lon: 113.5380, lat: 22.1920, alt: 14, pattern: 'wave' },
+  // Guia Fortress — oldest lighthouse on China coast
+  { title: 'FORTALEZA DA GUIA', chinese: '東望洋炮台', lon: 113.5480, lat: 22.1967, alt: 90, pattern: 'cross' },
+  // Barra Square near A-Ma Temple — where Portuguese first landed
+  { title: 'LARGO DA BARRA', chinese: '媽閣廟前地', lon: 113.5315, lat: 22.1873, alt: 14, pattern: 'floral' },
+];
+
+function createAzulejoCanvas(panel, time) {
+  var c = document.createElement('canvas');
+  c.width = 128;
+  c.height = 96;
+  var ctx = c.getContext('2d');
+
+  // Tile background — classic Portuguese blue-and-white
+  ctx.fillStyle = 'rgba(240,245,255,0.92)';
+  roundRect(ctx, 4, 4, 120, 88, 4);
+  ctx.fill();
+
+  // Border — azulejo blue
+  ctx.strokeStyle = 'rgba(25,60,140,0.8)';
+  ctx.lineWidth = 2;
+  roundRect(ctx, 4, 4, 120, 88, 4);
+  ctx.stroke();
+
+  // Inner decorative border
+  ctx.strokeStyle = 'rgba(25,60,140,0.4)';
+  ctx.lineWidth = 1;
+  roundRect(ctx, 8, 8, 112, 80, 3);
+  ctx.stroke();
+
+  // Draw tile pattern in center area
+  var blue = 'rgba(25,60,140,';
+  var shimmer = 0.6 + 0.15 * Math.sin(time * 0.5);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(12, 12, 104, 42);
+  ctx.clip();
+
+  if (panel.pattern === 'cross') {
+    // Portuguese cross tile motif
+    for (var row = 0; row < 3; row++) {
+      for (var col = 0; col < 4; col++) {
+        var cx = 24 + col * 26;
+        var cy = 20 + row * 14;
+        ctx.strokeStyle = blue + shimmer + ')';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(cx - 5, cy); ctx.lineTo(cx + 5, cy);
+        ctx.moveTo(cx, cy - 5); ctx.lineTo(cx, cy + 5);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+        ctx.strokeStyle = blue + (shimmer * 0.5) + ')';
+        ctx.stroke();
+      }
+    }
+  } else if (panel.pattern === 'floral') {
+    // Stylized floral/petal motif
+    for (var row = 0; row < 3; row++) {
+      for (var col = 0; col < 4; col++) {
+        var cx = 24 + col * 26;
+        var cy = 20 + row * 14;
+        for (var p = 0; p < 4; p++) {
+          var angle = p * Math.PI / 2 + time * 0.1;
+          ctx.beginPath();
+          ctx.ellipse(cx + Math.cos(angle) * 3, cy + Math.sin(angle) * 3, 2, 4, angle, 0, Math.PI * 2);
+          ctx.fillStyle = blue + (shimmer * 0.45) + ')';
+          ctx.fill();
+        }
+        ctx.beginPath();
+        ctx.arc(cx, cy, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = blue + shimmer + ')';
+        ctx.fill();
+      }
+    }
+  } else if (panel.pattern === 'diamond') {
+    // Diamond lattice pattern
+    for (var row = 0; row < 3; row++) {
+      for (var col = 0; col < 4; col++) {
+        var cx = 24 + col * 26;
+        var cy = 20 + row * 14;
+        ctx.strokeStyle = blue + shimmer + ')';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - 5); ctx.lineTo(cx + 5, cy);
+        ctx.lineTo(cx, cy + 5); ctx.lineTo(cx - 5, cy);
+        ctx.closePath();
+        ctx.stroke();
+      }
+    }
+  } else {
+    // Wave pattern
+    for (var row = 0; row < 3; row++) {
+      ctx.strokeStyle = blue + shimmer + ')';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      for (var x = 12; x <= 116; x += 2) {
+        var y = 18 + row * 14 + Math.sin((x - 12) * 0.15 + time * 0.3 + row) * 4;
+        if (x === 12) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+  }
+  ctx.restore();
+
+  // Portuguese title text
+  ctx.font = 'bold 9px "Cinzel", serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(25,60,140,0.9)';
+  ctx.fillText(panel.title, 64, 64);
+
+  // Chinese subtitle
+  ctx.font = '10px "Noto Sans SC", sans-serif';
+  ctx.fillStyle = 'rgba(25,60,140,0.65)';
+  ctx.fillText(panel.chinese, 64, 78);
+
+  // Subtle corner accents
+  var accent = 'rgba(180,150,50,0.4)';
+  ctx.fillStyle = accent;
+  ctx.fillRect(6, 6, 8, 2);
+  ctx.fillRect(6, 6, 2, 8);
+  ctx.fillRect(114, 6, 8, 2);
+  ctx.fillRect(120, 6, 2, 8);
+  ctx.fillRect(6, 84, 8, 2);
+  ctx.fillRect(6, 78, 2, 8);
+  ctx.fillRect(114, 84, 8, 2);
+  ctx.fillRect(120, 78, 2, 8);
+
+  return c;
+}
+
+function initAzulejoTiles(viewer) {
+  var startTime = performance.now() / 1000;
+  var entities = [];
+
+  AZULEJO_PANELS.forEach(function(panel) {
+    var initialCanvas = createAzulejoCanvas(panel, 0);
+    var entity = viewer.entities.add({
+      name: 'Azulejo: ' + panel.title,
+      position: Cesium.Cartesian3.fromDegrees(panel.lon, panel.lat, panel.alt),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 128,
+        height: 96,
+        scale: new Cesium.CallbackProperty(function() {
+          return 0.7 + _currentGlowIntensity * 0.15;
+        }, false),
+        scaleByDistance: new Cesium.NearFarScalar(30, 2.5, 2000, 0.2),
+        translucencyByDistance: new Cesium.NearFarScalar(20, 1.0, 3000, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    entities.push({ entity: entity, panel: panel });
+  });
+
+  // Gentle shimmer animation on tile patterns
+  setInterval(function() {
+    var elapsed = performance.now() / 1000 - startTime;
+    entities.forEach(function(item, i) {
+      var c = createAzulejoCanvas(item.panel, elapsed + i * 1.3);
+      item.entity.billboard.image = c.toDataURL();
+    });
+  }, 400);
 }
 
 // ── Minimap Navigation ──

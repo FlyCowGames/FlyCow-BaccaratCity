@@ -622,6 +622,20 @@
 - Fulfills IDEAS backlog item: "Street markets and food stalls"
 - File grew from ~9097 to ~9207 lines (+110 lines)
 
+## Session 82 — 2026-03-23 (Automated Agent)
+- Portuguese azulejo tile panels: 6 decorative blue-and-white Portuguese tile panel billboards at heritage sites
+- Locations: Senado Square (Largo do Senado), Leal Senado, Ruins of St. Paul's (Ruínas de S. Paulo), St. Augustine's Square (Largo de S. Agostinho), Guia Fortress (Fortaleza da Guia), Barra Square (Largo da Barra)
+- Canvas-drawn 128x96px tile panels with traditional blue-and-white azulejo patterns: cross, floral, diamond, wave motifs
+- Portuguese place names in Cinzel font with Chinese subtitles in Noto Sans SC
+- Gold corner accent decorations echoing Macau's fusion aesthetic
+- Gentle shimmer animation via setInterval (400ms) — subtle pattern intensity variation
+- Always active (day and night) with slight scale boost at night via _currentGlowIntensity
+- Street-level visibility (scaleByDistance 30m-2km, translucencyByDistance 20m-3km)
+- Azulejo Tiles entry added to Heritage section of Explore panel
+- 21st entity animation system using proven billboard + canvas + setInterval pattern
+- Balances cultural representation: adds Portuguese colonial heritage alongside existing Chinese elements
+- File grew from ~9207 to ~9386 lines (+179 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

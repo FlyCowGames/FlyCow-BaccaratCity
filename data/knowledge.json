@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 81,
+  "last_updated_session": 82,
   "learnings": [
     {
       "type": "pattern",
@@ -101,6 +101,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "landmarks",
+      "title": "Cultural balance through complementary heritage elements",
+      "description": "When a digital twin represents a multicultural city, actively balance representation of different cultural heritages. Macau has Chinese and Portuguese elements — adding Portuguese azulejo tile panels complements the extensive Chinese elements (lanterns, neon signs, food stalls, incense). This avoids cultural homogeneity and better represents the city's unique identity.",
+      "evidence": "Session 82: 6 Portuguese azulejo tile panels added at heritage sites alongside 20+ existing Chinese cultural elements. Blue-and-white Portuguese palette provides visual contrast to warm red/gold Chinese elements.",
+      "tags": ["culture", "heritage", "visual-variety", "authenticity"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -152,6 +163,12 @@
       "question": "How to represent street food culture?",
       "chosen": "Canvas-drawn billboard entities with warm lantern awnings, Chinese food names, and animated steam wisps",
       "rationale": "Follows proven billboard + canvas + setInterval pattern. Warm orange/red color palette contrasts with cool blue/purple neon signs. Always-active visibility (not night-only) adds daytime life. Real Macau food names add cultural authenticity.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to represent Portuguese colonial heritage?",
+      "chosen": "Canvas-drawn azulejo tile panel billboards with traditional blue-and-white patterns, Portuguese place names, and 4 tile motifs",
+      "rationale": "Follows proven billboard + canvas + setInterval pattern. Blue-and-white color palette provides strong visual contrast to warm Chinese elements. Portuguese place names add linguistic authenticity. Multiple pattern types (cross, floral, diamond, wave) prevent visual monotony.",
       "revisit_after_session": null
     }
   ]

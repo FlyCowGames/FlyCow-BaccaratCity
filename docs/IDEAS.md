@@ -31,7 +31,8 @@
 - [x] Animated pedestrians near popular areas (Session 15: ~26 walkers in 6 zones)
 - [x] Street markets and food stalls (Session 81: 8 animated food vendor stalls at Rua do Cunha, Senado Square, Three Lamps District, Rua da Felicidade)
 - [x] Red lantern strings in historic district (Session 38: 10 lantern strings across 4 areas)
-- [ ] Portuguese-style cobblestone patterns in historic district
+- [x] Portuguese-style decorative elements in historic district (Session 82: azulejo tile panels at 6 heritage sites)
+- [ ] Portuguese-style cobblestone calçada pavement patterns
 
 ## Events
 - [x] Macau Grand Prix (November) — F3 cars on Guia Circuit (Session 21: 5 race cars on real circuit)
