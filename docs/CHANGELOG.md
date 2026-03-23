@@ -714,6 +714,32 @@
 - 25th entity animation system using proven billboard + CallbackProperty pattern
 - File grew from ~10035 to ~10225 lines (+190 lines)
 
+## Session 94 — 2026-03-23 (Automated Agent)
+- Midday sightseeing tour buses: 4 open-top double-decker tourist buses on 2 routes during midday hours
+- Routes: Peninsula Heritage loop (A-Ma Temple → Senado Square → Ruins → Grand Lisboa → Macau Tower) and Cotai Casino loop (Venetian → Galaxy → City of Dreams → MGM → Studio City)
+- Canvas-drawn 40x32px red and blue double-decker buses with open-top upper deck, railing posts, seated passengers, windows, and gold/white stripe
+- Midday-only visibility (9:00-15:00 Macau time) with smooth 30-min fade in/out ramps
+- Loop movement (not ping-pong) — buses circuit their routes continuously, following real tour bus patterns
+- Orange minimap tracking dots during midday hours, time-gated like the 3D entities
+- Tour Buses entry added to Transit section of Explore panel
+- Feature tip: "Spot open-top sightseeing buses touring the Peninsula and Cotai between 9 AM-3 PM Macau time"
+- Fills the LAST remaining temporal gap — all time-of-day slots now have dedicated features: morning tai chi (5-9), midday buses (9-15), afternoon sampans (15-19), night features (19+)
+- 26th entity animation system using proven billboard + CallbackProperty pattern
+- File grew from ~10225 to ~10375 lines (~150 lines)
+
+## Session 96 — 2026-03-23 (Automated Agent)
+- Drifting cloud wisps: animated semi-transparent cloud layer across the sky, reactive to real weather
+- 7 CSS cloud wisp elements at varying heights (5-45% from top), sizes (280-600px wide), and drift speeds (80-130s)
+- Weather-reactive: opacity scales with real Macau cloud cover percentage from Open-Meteo API (0.2-1.0 factor)
+- Time-of-day tinting: white clouds in daytime, warm amber at dawn/dusk, dark blue-grey at night
+- CSS @keyframes cloudDrift animation with blur(40px) filter for soft edges and will-change optimization
+- Cloud layer at z-index 41 (below color grading z-42) so clouds get tinted by time-of-day color grading
+- Staggered animation delays (0-65s) and durations (80-130s) for organic, non-mechanical feel
+- Layer hidden when cloud cover < 5% (clear sky), 8s opacity transition for smooth appearance/disappearance
+- First sky-level atmospheric effect — all 26 prior entity systems are ground/water level
+- Feature tip added: "Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk"
+- File grew from ~10375 to ~10455 lines (~80 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

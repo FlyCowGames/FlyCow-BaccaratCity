@@ -1106,6 +1106,41 @@
       ],
       "linesAdded": 140,
       "agent": "automated"
+    },
+    {
+      "session": 94,
+      "date": "2026-03-23",
+      "title": "Midday Sightseeing Tour Buses",
+      "domain": "animation",
+      "summary": "4 open-top double-decker tour buses on Peninsula heritage and Cotai casino loops, visible 9 AM-3 PM Macau time, filling the last temporal gap.",
+      "details": [
+        "2 routes: Peninsula Heritage loop (A-Ma Temple, Senado Square, Ruins, Grand Lisboa, Macau Tower) and Cotai Casino loop (Venetian, Galaxy, City of Dreams, MGM, Studio City)",
+        "Canvas-drawn red and blue double-decker buses with open-top upper deck, railing, seated passengers, and windows",
+        "Midday-only visibility (9:00-15:00 Macau time) with smooth 30-min fade in/out ramps",
+        "Loop movement (not ping-pong) — buses circuit their routes continuously",
+        "Minimap tracking with orange dots during midday hours",
+        "Tour Buses entry added to Transit section of Explore panel",
+        "Feature tip: 'Spot open-top sightseeing buses touring the Peninsula and Cotai between 9 AM-3 PM'"
+      ],
+      "linesAdded": 150,
+      "agent": "automated"
+    },
+    {
+      "session": 96,
+      "date": "2026-03-23",
+      "title": "Drifting Cloud Wisps",
+      "domain": "atmosphere",
+      "summary": "Animated semi-transparent cloud wisps drift across the sky, reactive to real Macau weather cloud cover, tinted at dawn/dusk.",
+      "details": [
+        "7 CSS cloud wisps at varying heights, sizes, and speeds for organic variety",
+        "Weather-reactive: opacity scales with real Macau cloud cover percentage from Open-Meteo API",
+        "Time-of-day tinting: white in day, warm amber at dawn/dusk, dark blue-grey at night",
+        "CSS keyframe animation with will-change optimization, blur filter for soft edges",
+        "Placed at z-index 41 below color grading overlay for natural atmospheric layering",
+        "Feature tip added for cloud wisp discovery"
+      ],
+      "linesAdded": 80,
+      "agent": "automated"
     }
   ]
 }

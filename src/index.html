@@ -253,6 +253,28 @@
   #typhoon-sim-btn:hover { color: #d4af37; background: rgba(212,175,55,0.15); border-color: rgba(212,175,55,0.4); }
   #typhoon-sim-btn.active { color: #ff6644; background: rgba(255,80,40,0.15); border-color: rgba(255,80,40,0.4); }
 
+  /* Drifting cloud wisps overlay */
+  #cloud-layer {
+    position: fixed; top: 0; left: 0; width: 100%; height: 60%;
+    pointer-events: none; z-index: 41;
+    overflow: hidden; opacity: 0;
+    transition: opacity 8s ease;
+  }
+  #cloud-layer.active { opacity: 1; }
+  .cloud-wisp {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  @keyframes cloudDrift {
+    0% { transform: translateX(110vw); opacity: 0; }
+    5% { opacity: var(--cloud-peak, 0.08); }
+    90% { opacity: var(--cloud-peak, 0.08); }
+    100% { transform: translateX(-40vw); opacity: 0; }
+  }
+
   /* Color grading overlay */
   #color-grading {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -1565,6 +1587,7 @@
 </div>
 
 <div id="cesiumContainer"></div>
+<div id="cloud-layer"></div>
 <div id="color-grading"></div>
 <div id="rain-overlay"></div>
 <canvas id="shootingstar-canvas"></canvas>
@@ -2517,6 +2540,7 @@ async function init() {
     addPromenadeLights(viewer);
     addTaiChiGroups(viewer);
     addFishingSampans(viewer);
+    addTourBuses(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -4683,6 +4707,7 @@ var ATTRACTIONS = {
     { name: "Macau LRT", chinese: "澳門輕軌", icon: "🚈", lat: 22.1500, lon: 113.5700, alt: 400, pitch: -25 },
     { name: "Helicopter Service", chinese: "直升機服務", icon: "🚁", lat: 22.1920, lon: 113.5535, alt: 350, pitch: -25 },
     { name: "Triciclo Pedicabs", chinese: "三輪車", icon: "🛺", lat: 22.1937, lon: 113.5388, alt: 120, pitch: -20 },
+    { name: "Tour Buses", chinese: "觀光巴士", icon: "🚌", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
   ],
   wildlife: [
     { name: "Harbor Seagulls", chinese: "海鷗", icon: "🕊️", lat: 22.1870, lon: 113.5400, alt: 300, pitch: -20 },
@@ -9398,6 +9423,172 @@ function addFishingSampans(viewer) {
   }, 500);
 }
 
+// ── Midday Sightseeing Tour Buses ──
+// Open-top double-decker tourist buses on 2 routes (9:00-15:00 Macau time)
+var TOUR_BUS_ROUTES = [
+  { // Peninsula heritage loop: A-Ma Temple → Senado Square → Ruins → Grand Lisboa → Macau Tower → back
+    name: 'Peninsula Heritage',
+    points: [
+      { lon: 113.5311, lat: 22.1868 },
+      { lon: 113.5350, lat: 22.1880 },
+      { lon: 113.5388, lat: 22.1937 },
+      { lon: 113.5392, lat: 22.1960 },
+      { lon: 113.5399, lat: 22.1893 },
+      { lon: 113.5375, lat: 22.1830 },
+      { lon: 113.5311, lat: 22.1868 },
+    ],
+    durationSec: 120,
+    count: 2,
+  },
+  { // Cotai casino loop: Venetian → Galaxy → City of Dreams → MGM Cotai → Studio City → back
+    name: 'Cotai Casino',
+    points: [
+      { lon: 113.5590, lat: 22.1496 },
+      { lon: 113.5560, lat: 22.1480 },
+      { lon: 113.5580, lat: 22.1440 },
+      { lon: 113.5640, lat: 22.1430 },
+      { lon: 113.5690, lat: 22.1460 },
+      { lon: 113.5640, lat: 22.1490 },
+      { lon: 113.5590, lat: 22.1496 },
+    ],
+    durationSec: 100,
+    count: 2,
+  },
+];
+
+var _tourBusEntities = [];
+var _tourBusInterval = null;
+
+function createTourBusCanvas(idx) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 40;
+  canvas.height = 32;
+  var ctx = canvas.getContext('2d');
+
+  // Bus colors — red and blue (common Macau tourist bus liveries)
+  var colors = [
+    { body: 'rgba(200, 40, 40, 0.92)', roof: 'rgba(180, 30, 30, 0.85)', stripe: 'rgba(255, 215, 0, 0.7)' },
+    { body: 'rgba(40, 80, 180, 0.92)', roof: 'rgba(30, 60, 160, 0.85)', stripe: 'rgba(255, 255, 255, 0.7)' },
+    { body: 'rgba(200, 40, 40, 0.92)', roof: 'rgba(180, 30, 30, 0.85)', stripe: 'rgba(255, 215, 0, 0.7)' },
+    { body: 'rgba(40, 80, 180, 0.92)', roof: 'rgba(30, 60, 160, 0.85)', stripe: 'rgba(255, 255, 255, 0.7)' },
+  ];
+  var c = colors[idx % colors.length];
+
+  // Shadow
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+  ctx.beginPath();
+  ctx.ellipse(20, 28, 16, 3, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Lower deck body
+  ctx.fillStyle = c.body;
+  ctx.fillRect(5, 16, 30, 10);
+
+  // Wheels
+  ctx.fillStyle = 'rgba(40, 40, 40, 0.9)';
+  ctx.beginPath(); ctx.arc(10, 27, 2.5, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(30, 27, 2.5, 0, Math.PI * 2); ctx.fill();
+
+  // Upper deck (open-top — no roof, just railing)
+  ctx.fillStyle = c.roof;
+  ctx.fillRect(7, 8, 26, 8);
+
+  // Windows on lower deck
+  ctx.fillStyle = 'rgba(180, 220, 255, 0.7)';
+  for (var w = 0; w < 4; w++) {
+    ctx.fillRect(8 + w * 7, 17, 5, 5);
+  }
+
+  // Gold/white stripe
+  ctx.fillStyle = c.stripe;
+  ctx.fillRect(5, 15, 30, 1.5);
+
+  // Open-top railing posts on upper deck
+  ctx.strokeStyle = 'rgba(200, 200, 200, 0.6)';
+  ctx.lineWidth = 0.8;
+  for (var p = 0; p < 5; p++) {
+    var px = 9 + p * 5.5;
+    ctx.beginPath();
+    ctx.moveTo(px, 8);
+    ctx.lineTo(px, 4);
+    ctx.stroke();
+  }
+  // Top rail
+  ctx.beginPath();
+  ctx.moveTo(9, 4);
+  ctx.lineTo(36, 4);
+  ctx.stroke();
+
+  // Tiny seated passengers on upper deck (2-3 visible)
+  ctx.fillStyle = 'rgba(180, 150, 100, 0.7)';
+  ctx.beginPath(); ctx.arc(14, 12, 1.5, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(22, 11, 1.5, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(30, 12, 1.5, 0, Math.PI * 2); ctx.fill();
+
+  // Warm glow halo
+  var grad = ctx.createRadialGradient(20, 16, 8, 20, 16, 20);
+  grad.addColorStop(0, 'rgba(200, 160, 60, 0.0)');
+  grad.addColorStop(0.8, 'rgba(200, 160, 60, 0.0)');
+  grad.addColorStop(1, 'rgba(200, 160, 60, 0.06)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 40, 32);
+
+  return canvas;
+}
+
+function addTourBuses(viewer) {
+  var startTime = Date.now();
+
+  TOUR_BUS_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var phaseOffset = i / route.count;
+
+      (function(offset, routeRef, busIdx) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          // Loop (not ping-pong) — buses go in a circuit
+          var t = ((elapsed / routeRef.durationSec) + offset) % 1;
+          var pos = lerpPosition(routeRef.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 3);
+        }, false);
+
+        var entity = viewer.entities.add({
+          name: 'Tour Bus',
+          position: positionCallback,
+          billboard: {
+            image: createTourBusCanvas(busIdx).toDataURL(),
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scaleByDistance: new Cesium.NearFarScalar(50, 1.2, 4000, 0.0),
+            translucencyByDistance: new Cesium.NearFarScalar(30, 1.0, 3000, 0.0),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            scale: 1.0,
+          },
+        });
+        _tourBusEntities.push(entity);
+      })(phaseOffset, route, i);
+    }
+  });
+
+  // Animate canvas and control time-of-day visibility (9:00-15:00 Macau time)
+  _tourBusInterval = setInterval(function() {
+    var hour = getMacauHour();
+    var visible = hour >= 9 && hour < 15;
+    // Fade: 9:00-9:30 fade in, 14:30-15:00 fade out
+    var alpha = 1.0;
+    if (hour >= 9 && hour < 9.5) alpha = (hour - 9) * 2;
+    else if (hour >= 14.5 && hour < 15) alpha = (15 - hour) * 2;
+    else if (!visible) alpha = 0;
+
+    _tourBusEntities.forEach(function(entity, idx) {
+      entity.show = alpha > 0;
+      if (alpha > 0) {
+        entity.billboard.color = new Cesium.Color(1, 1, 1, alpha);
+      }
+    });
+  }, 500);
+}
+
 // ── Minimap Navigation ──
 var _minimapCanvas = null;
 var _minimapCtx = null;
@@ -9649,6 +9840,19 @@ function drawMinimap() {
     });
   }
 
+  // Tour buses — orange dots (loop, midday only)
+  var busHour = getMacauHour();
+  if (busHour >= 9 && busHour < 15) {
+    TOUR_BUS_ROUTES.forEach(function(route) {
+      for (var i = 0; i < route.count; i++) {
+        var offset = i / route.count;
+        var t = ((elapsed / route.durationSec) + offset) % 1;
+        var pos = lerpPosition(route.points, t);
+        drawTransportDot(pos.lon, pos.lat, 'rgba(255, 140, 0, 0.9)', 3);
+      }
+    });
+  }
+
   // Transport legend at bottom
   var legendY = h - 12;
   var legendItems = [
@@ -9657,6 +9861,7 @@ function drawMinimap() {
     { color: 'rgba(255, 255, 255, 0.9)', label: 'Air' },
     { color: 'rgba(76, 175, 80, 0.9)', label: 'LRT' },
     { color: 'rgba(200, 150, 60, 0.9)', label: 'Triciclo' },
+    { color: 'rgba(255, 140, 0, 0.9)', label: 'Bus' },
   ];
   ctx.font = '11px DM Mono, monospace';
   ctx.textAlign = 'left';
@@ -9928,6 +10133,82 @@ function addSkyCabs(viewer) {
   });
 }
 
+// ── Drifting Cloud Wisps ──
+(function() {
+  var layer = document.getElementById('cloud-layer');
+  if (!layer) return;
+
+  var CLOUD_COUNT = 7;
+  var clouds = [];
+
+  // Cloud configs: varied sizes, vertical positions, speeds, opacities
+  var configs = [
+    { w: 500, h: 60, top: '5%',  dur: 90,  delay: 0,   peak: 0.07 },
+    { w: 350, h: 40, top: '15%', dur: 110, delay: 15,  peak: 0.05 },
+    { w: 600, h: 80, top: '25%', dur: 80,  delay: 35,  peak: 0.09 },
+    { w: 280, h: 35, top: '8%',  dur: 130, delay: 50,  peak: 0.04 },
+    { w: 450, h: 55, top: '35%', dur: 95,  delay: 20,  peak: 0.06 },
+    { w: 380, h: 45, top: '45%', dur: 105, delay: 65,  peak: 0.08 },
+    { w: 520, h: 70, top: '18%', dur: 85,  delay: 45,  peak: 0.06 },
+  ];
+
+  for (var i = 0; i < CLOUD_COUNT; i++) {
+    var c = configs[i];
+    var el = document.createElement('div');
+    el.className = 'cloud-wisp';
+    el.style.width = c.w + 'px';
+    el.style.height = c.h + 'px';
+    el.style.top = c.top;
+    el.style.setProperty('--cloud-peak', c.peak);
+    el.style.background = 'rgba(255,255,255,0.9)';
+    el.style.animation = 'cloudDrift ' + c.dur + 's linear ' + c.delay + 's infinite';
+    layer.appendChild(el);
+    clouds.push({ el: el, basePeak: c.peak });
+  }
+
+  function updateClouds() {
+    var hour = getMacauHour();
+    var cloudCover = currentWeather ? (currentWeather.cloud_cover || 0) : 30;
+
+    // Cloud intensity: scale by weather cloud cover (0-100)
+    // Min visibility at 0% cover, max at 100%
+    var weatherFactor = 0.2 + (cloudCover / 100) * 0.8; // 0.2 to 1.0
+
+    // Night clouds are darker and less visible
+    var isNight = hour < 5.5 || hour > 19.5;
+    var isDusk = (hour >= 18 && hour <= 19.5) || (hour >= 5.5 && hour < 7);
+
+    var colorR = 255, colorG = 255, colorB = 255;
+    var nightDim = 1.0;
+
+    if (isNight) {
+      colorR = 40; colorG = 45; colorB = 70;
+      nightDim = 0.5;
+    } else if (isDusk) {
+      // Warm-tinted clouds at dawn/dusk
+      colorR = 255; colorG = 200; colorB = 160;
+      nightDim = 0.8;
+    }
+
+    for (var i = 0; i < clouds.length; i++) {
+      var peak = clouds[i].basePeak * weatherFactor * nightDim;
+      clouds[i].el.style.setProperty('--cloud-peak', peak.toFixed(4));
+      clouds[i].el.style.background = 'rgba(' + colorR + ',' + colorG + ',' + colorB + ',0.9)';
+    }
+
+    // Show/hide layer based on cloud cover (always show if > 5%)
+    if (cloudCover > 5 || !currentWeather) {
+      layer.classList.add('active');
+    } else {
+      layer.classList.remove('active');
+    }
+  }
+
+  // Update every 10 seconds
+  setInterval(updateClouds, 10000);
+  setTimeout(updateClouds, 5000);
+})();
+
 // ── Golden Hour & Cinematic Color Grading ──
 (function() {
   var el = document.getElementById('color-grading');
@@ -10045,6 +10326,8 @@ function addSkyCabs(viewer) {
     { icon: '🪷', text: 'Spot floating lotus flowers on Nam Van Lake — Macau\'s official emblem' },
     { icon: '🧘', text: 'Look for morning tai chi groups in parks between 5-9 AM Macau time' },
     { icon: '🛶', text: 'Watch fishing sampans return to Inner Harbour in the afternoon (3-7 PM Macau time)' },
+    { icon: '🚌', text: 'Spot open-top sightseeing buses touring the Peninsula and Cotai between 9 AM-3 PM Macau time' },
+    { icon: '☁️', text: 'Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

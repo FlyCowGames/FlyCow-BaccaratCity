@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 93,
+  "last_updated_session": 96,
   "learnings": [
     {
       "type": "pattern",
@@ -30,22 +30,22 @@
       "domain": "rendering",
       "title": "CSS particle effects are lightweight alternatives to WebGL",
       "description": "CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.",
-      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars",
+      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps.",
       "tags": ["performance", "css", "animation"],
       "weight": 0.8,
-      "times_applied": 3,
-      "times_successful": 3
+      "times_applied": 4,
+      "times_successful": 4
     },
     {
       "type": "pattern",
       "domain": "animation",
       "title": "Staggered animation delays prevent mechanical feel",
       "description": "Vary animation-delay and animation-duration per element to prevent synchronized movement that looks artificial. Different speeds and directions per element create organic motion.",
-      "evidence": "Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, food stalls, lotus flowers, and other animation systems",
+      "evidence": "Applied in pedestrians, seagulls, sky lanterns, flythrough title cards, neon signs, food stalls, lotus flowers, cloud wisps, and other animation systems",
       "tags": ["css", "animation", "visual-quality"],
       "weight": 0.8,
-      "times_applied": 9,
-      "times_successful": 9
+      "times_applied": 10,
+      "times_successful": 10
     },
     {
       "type": "pattern",
@@ -167,6 +167,17 @@
       "weight": 0.6,
       "times_applied": 2,
       "times_successful": 2
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "CSS cloud overlays are effective weather-reactive sky atmosphere",
+      "description": "CSS div elements with blur filter and keyframe drift animation create convincing cloud wisps without CesiumJS entity overhead. Tying opacity to real weather API cloud_cover percentage makes them weather-reactive. Placing below color grading z-index means they automatically get time-of-day tinting. Staggered sizes, positions, speeds, and delays prevent mechanical feel.",
+      "evidence": "Session 96: 7 cloud wisps with blur(40px), weather-reactive opacity. Zero JS errors, passed desktop/mobile. First sky-level atmospheric effect in the project.",
+      "tags": ["css", "atmosphere", "weather", "performance", "animation"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -254,6 +265,12 @@
       "question": "How to fill the afternoon temporal gap (12-7 PM)?",
       "chosen": "Fishing sampan billboard entities on Inner Harbour routes, time-gated 15:00-19:00, with canvas bobbing animation and minimap tracking",
       "rationale": "Macau originated as a fishing village ('Bay of A-Ma') — fishing sampans are deeply historically significant. Afternoon is the natural time for fishers to return with catch. Follows proven tai chi time-gating pattern (getMacauHour + fade ramps) and junk boat movement pattern (CallbackProperty ping-pong). Now morning, afternoon, and night all have time-specific features.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add sky-level atmosphere without more CesiumJS billboard entities?",
+      "chosen": "CSS cloud div overlay with blur filter and keyframe drift animation at z-index below color grading",
+      "rationale": "CSS approach avoids adding more CesiumJS entities (26 systems already), is more performant, and automatically inherits time-of-day color grading from the z-index layering. Weather-reactive via existing currentWeather global. First atmospheric effect targeting the sky rather than ground/water level.",
       "revisit_after_session": null
     }
   ]
