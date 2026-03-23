@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 97,
+  "last_updated_session": 98,
   "learnings": [
     {
       "type": "pattern",
@@ -52,11 +52,11 @@
       "domain": "audio",
       "title": "Web Audio API for procedural sound without external files",
       "description": "Web Audio API generates convincing ambient and interactive sounds procedurally — no audio files needed. Must start muted and require user click (browser autoplay policy).",
-      "evidence": "Sessions 9, 58, 63, 83: ambient soundscape, baccarat sounds, firework sounds, spatial audio zones — all procedurally generated",
+      "evidence": "Sessions 9, 58, 63, 83, 98: ambient soundscape, baccarat sounds, firework sounds, spatial audio zones, thunder — all procedurally generated",
       "tags": ["audio", "performance"],
       "weight": 0.8,
-      "times_applied": 4,
-      "times_successful": 4
+      "times_applied": 5,
+      "times_successful": 5
     },
     {
       "type": "pattern",
@@ -189,6 +189,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "Canvas forked lightning with recursive branching creates realistic bolts",
+      "description": "Drawing lightning bolts via recursive canvas path segments with random horizontal jitter creates convincing forked bolts. Three-layer glow (wide dim outer, medium mid, thin bright core) per branch provides depth. Combined with double screen flash (bright 60ms + secondary 40ms) and delayed procedural thunder, it creates a complete storm effect. Integrating into existing weather/typhoon systems via simple start/stop lifecycle keeps it clean.",
+      "evidence": "Session 98: forked lightning bolts up to 4 branch depth, double flash, procedural thunder with rumble + crackle layers. Zero JS errors, clean typhoon demo integration.",
+      "tags": ["canvas", "atmosphere", "weather", "audio", "animation"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -288,6 +299,12 @@
       "question": "How to add a prominent evening harbour feature?",
       "chosen": "Large dinner cruise vessels with detailed canvas rendering, night-specific glow, and 19-23 time gate",
       "rationale": "Dinner cruises are authentic Macau harbour activity. Larger 64x48 canvas allows multi-deck detail. Evening time window (19-23) fills the post-sunset period between golden hour and late-night fireworks. Follows proven ferry/junk movement pattern with ping-pong route, plus proven sampan/bus time-gating pattern.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add dramatic storm effects beyond rain and wind?",
+      "chosen": "Canvas-drawn forked lightning bolts + CSS screen flash + Web Audio API thunder, triggered by WMO thunderstorm codes and typhoon T8+",
+      "rationale": "Lightning is the most cinematic missing piece of the weather system. Canvas drawing allows recursive forked bolts with glow. CSS flash overlay is simpler than CesiumJS scene manipulation. Web Audio thunder reuses proven procedural audio pattern. Dual trigger (weather API + typhoon demo) ensures visibility since real thunderstorms are rare.",
       "revisit_after_session": null
     }
   ]

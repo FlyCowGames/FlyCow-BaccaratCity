@@ -1159,6 +1159,23 @@
       ],
       "linesAdded": 160,
       "agent": "automated"
+    },
+    {
+      "session": 98,
+      "date": "2026-03-23",
+      "title": "Thunderstorm Lightning Effects",
+      "domain": "atmosphere",
+      "summary": "Dramatic forked lightning bolts with screen flash and procedural thunder sound during thunderstorms and typhoon demo mode.",
+      "details": [
+        "Canvas-drawn forked lightning bolts with multi-layer glow (up to 4 branch depth levels)",
+        "Double screen flash: bright initial flash (60ms) + secondary flicker (40ms) for realism",
+        "Procedural thunder via Web Audio API: low rumble (150Hz) + crackle (2kHz), delayed 0.5-2.5s after flash",
+        "Triggered by WMO codes 95/96/99 (thunderstorm) from live weather or Typhoon Demo T8+",
+        "Random 6-20 second interval between bolts for natural storm feel",
+        "Clean start/stop lifecycle integrated with weather and typhoon systems"
+      ],
+      "linesAdded": 194,
+      "agent": "automated"
     }
   ]
 }

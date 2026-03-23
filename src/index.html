@@ -297,6 +297,18 @@
   }
   #wind-canvas.active { opacity: 1; }
 
+  /* Lightning flash overlay */
+  #lightning-flash {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 49;
+    background: rgba(220,225,255,0);
+    transition: none;
+  }
+  #lightning-canvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 49;
+  }
+
   /* Typhoon warning banner */
   #typhoon-banner {
     position: fixed; top: 0; left: 0; width: 100%;
@@ -1592,6 +1604,8 @@
 <div id="rain-overlay"></div>
 <canvas id="shootingstar-canvas"></canvas>
 <canvas id="wind-canvas"></canvas>
+<div id="lightning-flash"></div>
+<canvas id="lightning-canvas"></canvas>
 <canvas id="fireworks-canvas"></canvas>
 <div id="typhoon-banner"></div>
 
@@ -2127,6 +2141,11 @@ function applyWeatherEffects(w) {
     rainOverlay.classList.remove('active');
   }
 
+  // Lightning for thunderstorms (only if not in typhoon sim which handles its own lightning)
+  if (!_typhoonSimActive) {
+    if (isThunderstormCode(code)) { startLightning(); } else { stopLightning(); }
+  }
+
   // Fog — apply CesiumJS scene fog + haze
   if (_viewer) {
     if (isFoggyCode(code) || w.cloud_cover > 85) {
@@ -2224,12 +2243,20 @@ function updateTyphoonSignal(windSpeed) {
     } else {
       stopWindStreaks();
     }
+
+    // Lightning for T8+ typhoon
+    if (_typhoonSignalLevel >= 8) {
+      startLightning();
+    } else {
+      stopLightning();
+    }
   } else {
     badge.style.display = 'none';
     badge.className = '';
     banner.classList.remove('visible');
     rainOverlay.classList.remove('windy', 'very-windy');
     stopWindStreaks();
+    stopLightning();
     // Restore normal atmosphere if sim was just turned off
     if (currentWeather) {
       applyWeatherEffects(currentWeather);
@@ -2326,6 +2353,173 @@ function stopWindStreaks() {
     updateTyphoonSignal(windSpeed);
   });
 })();
+
+// ── Thunderstorm Lightning Effects ──
+var _lightningInterval = null;
+var _lightningActive = false;
+
+function isThunderstormCode(code) {
+  return [95, 96, 99].indexOf(code) !== -1;
+}
+
+function triggerLightningBolt() {
+  var flash = document.getElementById('lightning-flash');
+  var canvas = document.getElementById('lightning-canvas');
+  var ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  // Draw forked lightning bolt
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  var startX = canvas.width * (0.2 + Math.random() * 0.6);
+  var startY = 0;
+  var endY = canvas.height * (0.4 + Math.random() * 0.4);
+
+  function drawBranch(x, y, targetY, width, depth) {
+    if (depth > 4 || y >= targetY) return;
+    var segments = 4 + Math.floor(Math.random() * 6);
+    var segLen = (targetY - y) / segments;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    var cx = x, cy = y;
+    for (var i = 0; i < segments; i++) {
+      cx += (Math.random() - 0.5) * 60 * (1 / (depth + 1));
+      cy += segLen;
+      ctx.lineTo(cx, cy);
+      // Fork chance
+      if (depth < 3 && Math.random() < 0.3) {
+        drawBranch(cx, cy, cy + segLen * (1 + Math.random() * 2), width * 0.5, depth + 1);
+      }
+    }
+    // Glow layers
+    ctx.strokeStyle = 'rgba(180,190,255,' + (0.15 / (depth + 1)) + ')';
+    ctx.lineWidth = width * 4;
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(200,210,255,' + (0.4 / (depth + 1)) + ')';
+    ctx.lineWidth = width * 2;
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(240,245,255,' + (0.9 / (depth + 1)) + ')';
+    ctx.lineWidth = width;
+    ctx.stroke();
+  }
+
+  drawBranch(startX, startY, endY, 2, 0);
+
+  // Screen flash — bright then fade
+  flash.style.transition = 'none';
+  flash.style.background = 'rgba(220,225,255,0.35)';
+  setTimeout(function() {
+    flash.style.transition = 'background 0.08s ease';
+    flash.style.background = 'rgba(220,225,255,0)';
+  }, 60);
+  // Second smaller flash
+  setTimeout(function() {
+    flash.style.transition = 'none';
+    flash.style.background = 'rgba(220,225,255,0.15)';
+    setTimeout(function() {
+      flash.style.transition = 'background 0.15s ease';
+      flash.style.background = 'rgba(220,225,255,0)';
+    }, 40);
+  }, 150);
+
+  // Fade out bolt
+  setTimeout(function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }, 250);
+
+  // Thunder sound via Web Audio API (delayed by distance)
+  if (_audioCtx && _audioEnabled) {
+    var delay = 0.5 + Math.random() * 2.0;
+    setTimeout(function() { playThunderSound(); }, delay * 1000);
+  }
+}
+
+function playThunderSound() {
+  if (!_audioCtx) return;
+  var t = _audioCtx.currentTime;
+  var dur = 1.5 + Math.random() * 1.5;
+
+  // Low rumble — filtered noise burst
+  var bufLen = Math.floor(_audioCtx.sampleRate * dur);
+  var buf = _audioCtx.createBuffer(1, bufLen, _audioCtx.sampleRate);
+  var data = buf.getChannelData(0);
+  for (var i = 0; i < bufLen; i++) {
+    data[i] = (Math.random() * 2 - 1);
+  }
+  var src = _audioCtx.createBufferSource();
+  src.buffer = buf;
+
+  var filter = _audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.value = 150;
+  filter.Q.value = 0.5;
+
+  var gain = _audioCtx.createGain();
+  var vol = 0.12 + Math.random() * 0.08;
+  gain.gain.setValueAtTime(0, t);
+  gain.gain.linearRampToValueAtTime(vol, t + 0.05);
+  gain.gain.linearRampToValueAtTime(vol * 0.6, t + 0.3);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+
+  src.connect(filter);
+  filter.connect(gain);
+  gain.connect(_audioNodes.master || _audioCtx.destination);
+  src.start(t);
+  src.stop(t + dur);
+
+  // Crackle layer — higher frequency, shorter
+  var crackLen = Math.floor(_audioCtx.sampleRate * 0.3);
+  var crackBuf = _audioCtx.createBuffer(1, crackLen, _audioCtx.sampleRate);
+  var crackData = crackBuf.getChannelData(0);
+  for (var i = 0; i < crackLen; i++) {
+    crackData[i] = (Math.random() * 2 - 1) * (1 - i / crackLen);
+  }
+  var crackSrc = _audioCtx.createBufferSource();
+  crackSrc.buffer = crackBuf;
+  var crackFilter = _audioCtx.createBiquadFilter();
+  crackFilter.type = 'bandpass';
+  crackFilter.frequency.value = 2000;
+  crackFilter.Q.value = 0.3;
+  var crackGain = _audioCtx.createGain();
+  crackGain.gain.setValueAtTime(vol * 0.5, t);
+  crackGain.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+  crackSrc.connect(crackFilter);
+  crackFilter.connect(crackGain);
+  crackGain.connect(_audioNodes.master || _audioCtx.destination);
+  crackSrc.start(t);
+  crackSrc.stop(t + 0.3);
+}
+
+function startLightning() {
+  if (_lightningActive) return;
+  _lightningActive = true;
+  function scheduleNext() {
+    if (!_lightningActive) return;
+    var delay = 6000 + Math.random() * 14000; // 6-20 seconds
+    _lightningInterval = setTimeout(function() {
+      triggerLightningBolt();
+      scheduleNext();
+    }, delay);
+  }
+  // First bolt soon
+  _lightningInterval = setTimeout(function() {
+    triggerLightningBolt();
+    scheduleNext();
+  }, 1000 + Math.random() * 3000);
+}
+
+function stopLightning() {
+  _lightningActive = false;
+  if (_lightningInterval) {
+    clearTimeout(_lightningInterval);
+    _lightningInterval = null;
+  }
+  var flash = document.getElementById('lightning-flash');
+  flash.style.background = 'rgba(220,225,255,0)';
+  var canvas = document.getElementById('lightning-canvas');
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
 
 // ── Shooting Stars (Night Sky) ──
 (function() {

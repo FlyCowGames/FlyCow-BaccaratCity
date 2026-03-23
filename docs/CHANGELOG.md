@@ -751,6 +751,25 @@
 - Feature tip added: "Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk"
 - File grew from ~10375 to ~10455 lines (~80 lines)
 
+## Session 97 — 2026-03-23 (Automated Agent)
+- Evening harbour dinner cruise: 2 illuminated multi-deck cruise vessels on harbour route, evening-only (7-11 PM)
+- Canvas-drawn with warm deck lights, lit windows, water reflection glow
+- Time-gated 19:00-23:00 with 30-minute fade ramps
+- Gold minimap tracking dots, Explore panel entry, feature tip
+- File grew from ~10455 to ~10714 lines (~259 lines)
+
+## Session 98 — 2026-03-23 (Automated Agent)
+- Thunderstorm lightning effects: dramatic lightning bolts and thunder during storms
+- Canvas-drawn forked lightning bolts with multi-layer glow (branch depth up to 4 levels)
+- Double screen flash: bright initial flash (60ms) + secondary flicker (40ms) for realism
+- Procedural thunder sound via Web Audio API: low rumble (150Hz lowpass) + crackle layer (2kHz bandpass), delayed 0.5-2.5s after flash
+- Triggered by WMO weather codes 95/96/99 (thunderstorm) from live weather data
+- Also activates during Typhoon Demo mode at T8+ signal level
+- Random bolt interval: 6-20 seconds during active storms for natural feel
+- Clean start/stop lifecycle: deactivates when weather clears or typhoon demo stops
+- CSS flash overlay + canvas bolt at z-index 49 (between shooting stars and rain)
+- File grew from ~10714 to ~10908 lines (+194 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
