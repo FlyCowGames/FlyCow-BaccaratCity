@@ -70,6 +70,12 @@
 - **Evidence:** Session 85: 4 triciclos on 3 heritage routes (Senado Square, Ruins, Barra). Follows proven CallbackProperty ping-pong pattern from ferries/junks. Zero JS errors, passed desktop/mobile checks.
 - **Tags:** animation, heritage, transport, cultural-authenticity
 
+### Distributed small light points create coastline-tracing glow effects
+- **Domain:** atmosphere | **Weight:** 0.5 | **Applied:** 1/1
+- Placing many small radial gradient billboard entities along geographic features (waterfronts, promenades, paths) creates a 'string of pearls' ambient glow visible from overview altitude. Using the bridge lights pattern (CallbackProperty scale tied to _currentGlowIntensity) ensures consistent night-only behavior. Per-path color variation within a warm palette prevents monotony.
+- **Evidence:** Session 86: ~55 promenade lights across 5 waterfront paths. Follows bridge lights pattern exactly. Zero JS errors, passed desktop/mobile checks. Visible from bird's-eye at night.
+- **Tags:** atmosphere, lighting, night, waterfront, billboard
+
 ## Anti-Patterns (What to Avoid)
 
 ### CesiumJS bloom post-processing with Google 3D Tiles
@@ -115,4 +121,8 @@
 ### How to add heritage district ground-level movement?
 - **Chosen:** Triciclo pedicab billboard entities with CallbackProperty ping-pong movement on 3 heritage routes
 - **Rationale:** Triciclos are uniquely Macau — once the primary transport, now a tourist icon. Fills animation gap in heritage district where most features are stationary billboards. Follows proven ferry/junk movement pattern. Transit section placement (not Heritage) distinguishes transport from static cultural elements.
+
+### How to add waterfront ambient lighting?
+- **Chosen:** Distributed small radial gradient billboard entities along 5 promenade paths at 3m altitude, night-only via _currentGlowIntensity
+- **Rationale:** Follows proven bridge lights pattern exactly. Small light points are visible from bird's-eye but don't interfere with ground-level 3D tiles. Warm-amber palette with per-path variation creates organic coastline glow without oversaturation.
 
