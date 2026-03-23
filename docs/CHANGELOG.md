@@ -589,6 +589,16 @@
 - Fulfills high-priority ROADMAP item: "Street-level guided tour"
 - File grew from ~8424 to ~8494 lines (+70 lines)
 
+## Session 77 — 2026-03-23 (Automated Agent)
+- Cinematic title cards during flythrough: upgraded plain-text stage labels to dramatic multi-line overlays
+- Multi-line structure: large gold gradient title + Chinese subtitle + descriptive tagline + decorative accent lines
+- Staggered CSS slide-up animations: accent lines scale in (0.1s delay), title slides up (0.15s), Chinese fades in (0.35s), tagline appears last (0.55s)
+- Gold gradient text with drop-shadow matching BACCARAT CITY branding
+- 9 bilingual labels with unique taglines: "Pearl of the Orient", "Asia's Las Vegas", "World's Largest Casino", "US$4.2 Billion Wonder", "The Lotus Tower", "UNESCO World Heritage", etc.
+- Mobile-responsive: clamp() sizing, reduced letter-spacing at 600px breakpoint
+- No new external dependencies — pure CSS animations with innerHTML rendering
+- File grew from ~8746 to ~8792 lines (+46 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

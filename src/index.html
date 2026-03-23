@@ -553,14 +553,51 @@
   /* Flythrough stage indicator */
   #stage-label {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    font-family: 'Cinzel', serif; font-weight: 400;
-    font-size: clamp(0.8rem, 1.5vw, 1.1rem);
-    color: rgba(212,175,55,0.6);
-    letter-spacing: 0.3em; text-transform: uppercase;
-    opacity: 0; transition: opacity 1s ease;
-    text-align: center;
+    text-align: center; pointer-events: none;
+    opacity: 0; transition: opacity 0.8s ease;
   }
   #stage-label.show { opacity: 1; }
+  .stage-line-top, .stage-line-bot {
+    width: 60px; height: 1px; margin: 0 auto;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent);
+    opacity: 0; transform: scaleX(0);
+    transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
+  }
+  #stage-label.show .stage-line-top,
+  #stage-label.show .stage-line-bot { opacity: 1; transform: scaleX(1); }
+  .stage-title {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: clamp(1.4rem, 4vw, 2.8rem);
+    letter-spacing: 0.25em; text-transform: uppercase;
+    background: linear-gradient(135deg, #d4af37 0%, #f5e6a3 40%, #d4af37 70%, #a67c00 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 16px rgba(212,175,55,0.35));
+    margin: 10px 0 6px;
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s;
+  }
+  #stage-label.show .stage-title { opacity: 1; transform: translateY(0); }
+  .stage-chinese {
+    font-family: 'Noto Sans SC', sans-serif; font-weight: 300;
+    font-size: clamp(0.85rem, 2vw, 1.3rem);
+    color: rgba(212,175,55,0.55);
+    letter-spacing: 0.4em;
+    margin-bottom: 6px;
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s;
+  }
+  #stage-label.show .stage-chinese { opacity: 1; transform: translateY(0); }
+  .stage-tagline {
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: clamp(0.55rem, 1vw, 0.75rem);
+    color: rgba(232,224,208,0.35);
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-top: 8px;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.5s ease 0.55s, transform 0.5s ease 0.55s;
+  }
+  #stage-label.show .stage-tagline { opacity: 1; transform: translateY(0); }
 
   /* Night glow indicator */
   #glow-indicator {
@@ -1245,7 +1282,9 @@
     .bacc-reset-btn { font-size: 0.7rem; min-height: 44px; padding: 8px 16px; }
 
     /* Stage label — flythrough */
-    #stage-label { font-size: clamp(0.75rem, 3vw, 0.9rem); letter-spacing: 0.2em; }
+    .stage-title { letter-spacing: 0.15em; }
+    .stage-chinese { letter-spacing: 0.25em; }
+    .stage-line-top, .stage-line-bot { width: 40px; }
 
     /* Loading screen */
     #loading-title { font-size: 1.8rem; letter-spacing: 0.25em; }
@@ -2804,9 +2843,16 @@ function roundRect(ctx, x, y, w, h, r) {
 }
 
 // ── Stage Label ──
-function showStageLabel(text, duration) {
+function showStageLabel(text, duration, opts) {
   var el = document.getElementById('stage-label');
-  el.textContent = text;
+  var chinese = (opts && opts.chinese) || '';
+  var tagline = (opts && opts.tagline) || '';
+  el.innerHTML =
+    '<div class="stage-line-top"></div>' +
+    '<div class="stage-title">' + text + '</div>' +
+    (chinese ? '<div class="stage-chinese">' + chinese + '</div>' : '') +
+    '<div class="stage-line-bot"></div>' +
+    (tagline ? '<div class="stage-tagline">' + tagline + '</div>' : '');
   el.classList.add('show');
   setTimeout(function() { el.classList.remove('show'); }, duration || 3000);
 }
@@ -2865,7 +2911,7 @@ async function runFlythrough(viewer) {
   viewer.scene.screenSpaceCameraController.enableInputs = false;
 
   // Stage 1: Bird's eye — slow pan across all Macau
-  showStageLabel('MACAU SKYLINE', 6000);
+  showStageLabel('MACAU', 6000, { chinese: '\u6FB3\u9580', tagline: 'Pearl of the Orient \u00B7 Est. 1557' });
   await flyCamera(viewer, {
     lon: 113.5439, lat: 22.1987, alt: 3200,
     heading: 20, pitch: -55, duration: 7
@@ -2875,7 +2921,7 @@ async function runFlythrough(viewer) {
 
   // Stage 2: Descend toward Cotai Strip
   if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
-  showStageLabel('COTAI STRIP', 5000);
+  showStageLabel('COTAI STRIP', 5000, { chinese: '\u8DEF\u6C39\u91D1\u5149\u5927\u9053', tagline: 'Asia\'s Las Vegas' });
   await flyCamera(viewer, {
     lon: 113.5570, lat: 22.1520, alt: 900,
     heading: -15, pitch: -28, duration: 7
@@ -2885,7 +2931,7 @@ async function runFlythrough(viewer) {
 
   // Stage 3a: Glide street-level past Venetian
   if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
-  showStageLabel('THE VENETIAN', 4000);
+  showStageLabel('THE VENETIAN', 4000, { chinese: '\u5A01\u5C3C\u65AF\u4EBA', tagline: 'World\'s Largest Casino' });
   await flyCamera(viewer, {
     lon: 113.5595, lat: 22.1500, alt: 160,
     heading: 65, pitch: -8, duration: 5
@@ -2895,7 +2941,7 @@ async function runFlythrough(viewer) {
 
   // Stage 3b: Drift past City of Dreams to Galaxy
   if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
-  showStageLabel('CITY OF DREAMS \u00B7 GALAXY', 4500);
+  showStageLabel('CITY OF DREAMS \u00B7 GALAXY', 4500, { chinese: '\u65B0\u6FE0\u5929\u5730 \u00B7 \u9280\u6CB3', tagline: 'Cotai\'s Crown Jewels' });
   await flyCamera(viewer, {
     lon: 113.5544, lat: 22.1490, alt: 200,
     heading: 130, pitch: -10, duration: 5
@@ -2905,7 +2951,7 @@ async function runFlythrough(viewer) {
 
   // Stage 3c: Cruise past Wynn Palace
   if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
-  showStageLabel('WYNN PALACE', 4000);
+  showStageLabel('WYNN PALACE', 4000, { chinese: '\u6C38\u5229\u7687\u5BAE', tagline: 'US$4.2 Billion Wonder' });
   await flyCamera(viewer, {
     lon: 113.5635, lat: 22.1480, alt: 180,
     heading: 210, pitch: -12, duration: 5
@@ -2915,7 +2961,7 @@ async function runFlythrough(viewer) {
 
   // Stage 4: Cross the harbor — show ferries
   if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
-  showStageLabel('MACAU HARBOUR', 4000);
+  showStageLabel('MACAU HARBOUR', 4000, { chinese: '\u6FB3\u9580\u6D77\u6E2F', tagline: 'Gateway to the Pearl River Delta' });
   await flyCamera(viewer, {
     lon: 113.5460, lat: 22.1780, alt: 350,
     heading: 340, pitch: -18, duration: 6
@@ -2925,7 +2971,7 @@ async function runFlythrough(viewer) {
 
   // Stage 5: Rise and orbit Grand Lisboa
   if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
-  showStageLabel('GRAND LISBOA', 5000);
+  showStageLabel('GRAND LISBOA', 5000, { chinese: '\u65B0\u8461\u4EAC', tagline: 'The Lotus Tower \u00B7 258 Metres' });
   await flyCamera(viewer, {
     lon: 113.5410, lat: 22.1900, alt: 450,
     heading: 0, pitch: -22, duration: 6
@@ -2940,7 +2986,7 @@ async function runFlythrough(viewer) {
 
   // Stage 6: Ruins of St. Paul's — heritage district
   if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
-  showStageLabel('RUINS OF ST. PAUL\'S', 4000);
+  showStageLabel('RUINS OF ST. PAUL\'S', 4000, { chinese: '\u5927\u4E09\u5DF4', tagline: 'UNESCO World Heritage \u00B7 1602' });
   await flyCamera(viewer, {
     lon: 113.5410, lat: 22.1974, alt: 200,
     heading: 150, pitch: -15, duration: 5
@@ -2950,7 +2996,7 @@ async function runFlythrough(viewer) {
 
   // Stage 7: Pull back to cinematic overview
   if (_flythroughAbort) { _flythroughCleanup(viewer); return; }
-  showStageLabel('BACCARAT CITY', 5000);
+  showStageLabel('BACCARAT CITY', 5000, { chinese: '\u767E\u5BB6\u6A02\u4E4B\u57CE', tagline: 'A Living Digital Twin of Macau' });
   await flyCamera(viewer, {
     lon: 113.5500, lat: 22.1700, alt: 1500,
     heading: 30, pitch: -32, duration: 7

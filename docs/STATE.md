@@ -2,11 +2,11 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-23 (Session 76)
+## Last Updated: 2026-03-23 (Session 77)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
-- Cinematic 5-stage flythrough: bird's eye > Cotai sweep > street level > Grand Lisboa orbit > casino district overview
+- Cinematic 7-stage flythrough with dramatic title cards: bird's eye > Cotai > Venetian > City of Dreams/Galaxy > Wynn Palace > Harbour > Grand Lisboa > Ruins of St. Paul's > overview. Each stage features multi-line cinematic labels with gold gradient title, Chinese subtitle, descriptive tagline, and staggered slide-up CSS animations
 - 8 landmark billboards: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams
 - Real-time day/night cycle driven by actual Macau time (UTC+8) via CesiumJS sun position
 - Live weather from Open-Meteo API: temperature, conditions, humidity, wind, cloud cover
@@ -56,7 +56,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~8746 lines, ~322KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~8792 lines, ~325KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
