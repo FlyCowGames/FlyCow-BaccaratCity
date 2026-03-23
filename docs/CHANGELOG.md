@@ -678,6 +678,17 @@
 - 23rd entity animation system using proven billboard + CallbackProperty pattern
 - File grew from ~9652 to ~9782 lines (+130 lines)
 
+## Session 86 — 2026-03-23 (Automated Agent)
+- Waterfront promenade lights: ~55 warm pathway light points along Macau's 5 major waterfront walkways
+- Locations: Nam Van Lake Promenade (18 lights), Outer Harbour Waterfront (9), NAPE Waterfront (8), Inner Harbour Walkway (6), Taipa Waterfront (8)
+- Canvas-drawn 10px warm-amber radial gradient light icons with per-path color variation (golden-amber palette)
+- Night-only visibility tied to _currentGlowIntensity (same system as bridge lights, neon glow)
+- Gentle pulse animation via CallbackProperty with staggered phase offsets per light for organic feel
+- Creates "string of pearls" coastline glow effect visible from bird's-eye view at night
+- Promenade Lights entry added to Shows section of Explore panel
+- 24th entity animation system following proven bridge lights pattern
+- File grew from ~9782 to ~9925 lines (+143 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

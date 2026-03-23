@@ -1055,6 +1055,22 @@
       ],
       "linesAdded": 120,
       "agent": "automated"
+    },
+    {
+      "session": 86,
+      "date": "2026-03-23",
+      "title": "Waterfront Promenade Lights",
+      "domain": "atmosphere",
+      "summary": "~55 warm pathway lights along 5 major waterfront promenades creating a 'string of pearls' coastline glow at night.",
+      "details": [
+        "5 promenade paths: Nam Van Lake, Outer Harbour, NAPE, Inner Harbour, Taipa Waterfront",
+        "Canvas-drawn warm-amber radial gradient light points at 3m altitude",
+        "Night-only with gentle pulse animation and staggered phase offsets",
+        "Promenade Lights entry added to Shows section of Explore panel",
+        "Follows proven bridge lights pattern with per-path color variation"
+      ],
+      "linesAdded": 143,
+      "agent": "automated"
     }
   ]
 }

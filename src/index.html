@@ -2506,6 +2506,7 @@ async function init() {
     initFoodStalls(viewer);
     initAzulejoTiles(viewer);
     addTriiciclos(viewer);
+    addPromenadeLights(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -4698,6 +4699,7 @@ var ATTRACTIONS = {
     { name: "Wynn SkyCab", chinese: "永利觀光纜車", icon: "🚡", lat: 22.1478, lon: 113.5628, alt: 200, pitch: -15 },
     { name: "Harbor Reflections", chinese: "海港倒影", icon: "✨", lat: 22.1865, lon: 113.5420, alt: 400, pitch: -35 },
     { name: "Neon Signs", chinese: "霓虹招牌", icon: "💡", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -20 },
+    { name: "Promenade Lights", chinese: "海濱步道燈", icon: "💫", lat: 22.1810, lon: 113.5375, alt: 500, pitch: -35 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -9029,6 +9031,88 @@ function addTriiciclos(viewer) {
         });
       })(phaseOffset, reverseStart);
     }
+  });
+}
+
+// ── Waterfront Promenade Lights ──
+// Warm pathway lights along Macau's waterfront walkways — creates a "string of pearls" coastline glow at night
+var PROMENADE_PATHS = [
+  { name: 'Nam Van Lake Promenade', color: [255, 200, 100], points: [
+    { lon: 113.5355, lat: 22.1855 }, { lon: 113.5348, lat: 22.1845 }, { lon: 113.5342, lat: 22.1835 },
+    { lon: 113.5338, lat: 22.1822 }, { lon: 113.5335, lat: 22.1810 }, { lon: 113.5333, lat: 22.1798 },
+    { lon: 113.5332, lat: 22.1785 }, { lon: 113.5335, lat: 22.1775 }, { lon: 113.5345, lat: 22.1770 },
+    { lon: 113.5358, lat: 22.1768 }, { lon: 113.5370, lat: 22.1770 }, { lon: 113.5382, lat: 22.1775 },
+    { lon: 113.5392, lat: 22.1780 }, { lon: 113.5400, lat: 22.1788 }, { lon: 113.5408, lat: 22.1798 },
+    { lon: 113.5415, lat: 22.1810 }, { lon: 113.5418, lat: 22.1822 }, { lon: 113.5420, lat: 22.1835 },
+  ]},
+  { name: 'Outer Harbour Waterfront', color: [255, 210, 120], points: [
+    { lon: 113.5520, lat: 22.1960 }, { lon: 113.5530, lat: 22.1948 }, { lon: 113.5538, lat: 22.1935 },
+    { lon: 113.5542, lat: 22.1920 }, { lon: 113.5545, lat: 22.1905 }, { lon: 113.5545, lat: 22.1890 },
+    { lon: 113.5542, lat: 22.1875 }, { lon: 113.5535, lat: 22.1862 }, { lon: 113.5525, lat: 22.1850 },
+  ]},
+  { name: 'NAPE Waterfront', color: [255, 195, 90], points: [
+    { lon: 113.5430, lat: 22.1850 }, { lon: 113.5442, lat: 22.1845 }, { lon: 113.5455, lat: 22.1842 },
+    { lon: 113.5468, lat: 22.1840 }, { lon: 113.5480, lat: 22.1840 }, { lon: 113.5492, lat: 22.1842 },
+    { lon: 113.5505, lat: 22.1845 }, { lon: 113.5515, lat: 22.1850 },
+  ]},
+  { name: 'Inner Harbour Walkway', color: [255, 185, 80], points: [
+    { lon: 113.5320, lat: 22.1920 }, { lon: 113.5315, lat: 22.1905 }, { lon: 113.5310, lat: 22.1890 },
+    { lon: 113.5308, lat: 22.1875 }, { lon: 113.5310, lat: 22.1862 }, { lon: 113.5315, lat: 22.1850 },
+  ]},
+  { name: 'Taipa Waterfront', color: [255, 205, 110], points: [
+    { lon: 113.5440, lat: 22.1650 }, { lon: 113.5460, lat: 22.1645 }, { lon: 113.5480, lat: 22.1640 },
+    { lon: 113.5500, lat: 22.1638 }, { lon: 113.5520, lat: 22.1635 }, { lon: 113.5540, lat: 22.1630 },
+    { lon: 113.5560, lat: 22.1625 }, { lon: 113.5575, lat: 22.1618 },
+  ]},
+];
+
+var _promenadeLightEntities = [];
+
+function createPromenadeLightIcon(color, size) {
+  var canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  var ctx = canvas.getContext('2d');
+  var cx = size / 2, cy = size / 2, r = size / 2;
+  var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+  grad.addColorStop(0, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 1.0)');
+  grad.addColorStop(0.2, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.7)');
+  grad.addColorStop(0.5, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0.2)');
+  grad.addColorStop(1, 'rgba(' + color[0] + ',' + color[1] + ',' + color[2] + ', 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fill();
+  return canvas;
+}
+
+function addPromenadeLights(viewer) {
+  var startTime = Date.now();
+  PROMENADE_PATHS.forEach(function(path) {
+    var icon = createPromenadeLightIcon(path.color, 10);
+    path.points.forEach(function(pt, idx) {
+      var phase = idx * 0.7 + Math.random() * 1.5;
+      var entity = viewer.entities.add({
+        name: 'Promenade Light ' + path.name + ' ' + idx,
+        position: Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, 3),
+        billboard: {
+          image: icon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: new Cesium.CallbackProperty(function() {
+            var glow = _currentGlowIntensity;
+            if (glow < 0.05) return 0;
+            var t = (Date.now() - startTime) / 1000;
+            var pulse = 0.85 + 0.15 * Math.sin(t * 0.8 + phase);
+            return pulse * glow * 1.8;
+          }, false),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 12000, 0.0),
+          scaleByDistance: new Cesium.NearFarScalar(100, 2.0, 10000, 0.4),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+      _promenadeLightEntities.push(entity);
+    });
   });
 }
 
