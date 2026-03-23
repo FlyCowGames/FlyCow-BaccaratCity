@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-23 (Session 96)*
+*This document evolves every session. Last updated: 2026-03-23 (Session 97)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -104,3 +104,4 @@
 - Afternoon fishing sampans: 5 traditional fishing boats returning to Inner Harbour, afternoon-only (3-7 PM), fills afternoon temporal gap (Session 93)
 - Midday sightseeing tour buses: 4 open-top double-decker buses on Peninsula and Cotai loops, midday-only (9 AM-3 PM), completes temporal coverage (Session 94)
 - Drifting cloud wisps: 7 animated CSS cloud wisps across the sky, weather-reactive opacity from real cloud cover, dawn/dusk tinting (Session 96)
+- Evening dinner cruise: 2 illuminated multi-deck cruise vessels on harbour route, evening-only (7-11 PM), warm deck lights and water reflections (Session 97)

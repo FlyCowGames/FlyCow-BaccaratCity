@@ -727,6 +727,17 @@
 - 26th entity animation system using proven billboard + CallbackProperty pattern
 - File grew from ~10225 to ~10375 lines (~150 lines)
 
+## Session 97 — 2026-03-23 (Automated Agent)
+- Evening harbour dinner cruise: 2 illuminated dinner cruise vessels on Macau harbour route (19:00-23:00 Macau time)
+- Canvas-drawn multi-deck vessel with navy hull, red waterline stripe, dual-deck cabin windows, funnel, bridge
+- Night-specific rendering: warm interior window glow, deck rail string lights, warm glow halo, water reflection gradient beneath hull
+- 8-waypoint route from Outer Harbour past Nam Van Lake to Inner Harbour (A-Ma Temple coast) and back, 180s cycle
+- Time-gated with 30-minute fade ramps at 19:00 and 23:00 boundaries
+- Warm gold minimap tracking dots (4px) with "Cruise" legend entry in transport legend
+- Explore panel entry in Transit section: "Dinner Cruise / 海上晚餐" with fly-to view
+- Feature tip: "Watch illuminated dinner cruise ships glide through the harbour from 7-11 PM Macau time"
+- File grew from ~10455 to ~10714 lines (~160 lines added)
+
 ## Session 96 — 2026-03-23 (Automated Agent)
 - Drifting cloud wisps: animated semi-transparent cloud layer across the sky, reactive to real weather
 - 7 CSS cloud wisp elements at varying heights (5-45% from top), sizes (280-600px wide), and drift speeds (80-130s)

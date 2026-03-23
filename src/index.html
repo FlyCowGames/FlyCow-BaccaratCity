@@ -2541,6 +2541,7 @@ async function init() {
     addTaiChiGroups(viewer);
     addFishingSampans(viewer);
     addTourBuses(viewer);
+    addDinnerCruise(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -4708,6 +4709,7 @@ var ATTRACTIONS = {
     { name: "Helicopter Service", chinese: "直升機服務", icon: "🚁", lat: 22.1920, lon: 113.5535, alt: 350, pitch: -25 },
     { name: "Triciclo Pedicabs", chinese: "三輪車", icon: "🛺", lat: 22.1937, lon: 113.5388, alt: 120, pitch: -20 },
     { name: "Tour Buses", chinese: "觀光巴士", icon: "🚌", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
+    { name: "Dinner Cruise", chinese: "海上晚餐", icon: "🚢", lat: 22.1850, lon: 113.5450, alt: 400, pitch: -25 },
   ],
   wildlife: [
     { name: "Harbor Seagulls", chinese: "海鷗", icon: "🕊️", lat: 22.1870, lon: 113.5400, alt: 300, pitch: -20 },
@@ -9589,6 +9591,191 @@ function addTourBuses(viewer) {
   }, 500);
 }
 
+// ── Evening Dinner Cruise ──
+// Large illuminated dinner cruise vessel in Macau harbour at night (19:00-23:00)
+var DINNER_CRUISE_ROUTE = {
+  name: 'Harbour Dinner Cruise',
+  points: [
+    { lon: 113.5555, lat: 22.1920 }, // Outer Harbour terminal
+    { lon: 113.5540, lat: 22.1880 },
+    { lon: 113.5500, lat: 22.1850 },
+    { lon: 113.5450, lat: 22.1830 }, // Passing Nam Van Lake
+    { lon: 113.5380, lat: 22.1820 },
+    { lon: 113.5320, lat: 22.1840 }, // Inner Harbour
+    { lon: 113.5310, lat: 22.1870 }, // Near A-Ma Temple
+    { lon: 113.5320, lat: 22.1900 }, // Turn back north
+  ],
+  durationSec: 180,
+};
+
+var _dinnerCruiseEntities = [];
+var _dinnerCruiseInterval = null;
+
+function createDinnerCruiseCanvas() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 64;
+  canvas.height = 48;
+  var ctx = canvas.getContext('2d');
+
+  var hour = getMacauHour();
+  var isNight = hour >= 19 || hour < 5;
+
+  // Water reflection glow beneath hull
+  if (isNight) {
+    var reflGrad = ctx.createRadialGradient(32, 44, 2, 32, 44, 28);
+    reflGrad.addColorStop(0, 'rgba(255, 200, 100, 0.25)');
+    reflGrad.addColorStop(1, 'rgba(255, 200, 100, 0)');
+    ctx.fillStyle = reflGrad;
+    ctx.fillRect(0, 30, 64, 18);
+  }
+
+  // Hull — dark navy with white trim
+  ctx.fillStyle = 'rgba(25, 35, 60, 0.95)';
+  ctx.beginPath();
+  ctx.moveTo(6, 32);
+  ctx.lineTo(10, 38);
+  ctx.lineTo(54, 38);
+  ctx.lineTo(58, 32);
+  ctx.lineTo(56, 28);
+  ctx.lineTo(8, 28);
+  ctx.closePath();
+  ctx.fill();
+
+  // Hull waterline stripe
+  ctx.strokeStyle = 'rgba(200, 30, 30, 0.7)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(10, 36);
+  ctx.lineTo(54, 36);
+  ctx.stroke();
+
+  // Lower deck — cabin with windows
+  ctx.fillStyle = 'rgba(240, 235, 225, 0.9)';
+  ctx.fillRect(12, 20, 40, 8);
+
+  // Lower deck windows — warm interior glow
+  var windowGlow = isNight ? 'rgba(255, 220, 120, 0.95)' : 'rgba(180, 200, 220, 0.6)';
+  for (var w = 0; w < 8; w++) {
+    ctx.fillStyle = windowGlow;
+    ctx.fillRect(14 + w * 5, 22, 3, 4);
+  }
+
+  // Upper deck — slightly narrower
+  ctx.fillStyle = 'rgba(235, 230, 220, 0.85)';
+  ctx.fillRect(15, 13, 34, 7);
+
+  // Upper deck windows
+  for (var u = 0; u < 6; u++) {
+    ctx.fillStyle = windowGlow;
+    ctx.fillRect(17 + u * 5.5, 15, 3, 3);
+  }
+
+  // Top deck / sun deck rail
+  ctx.fillStyle = 'rgba(220, 215, 205, 0.8)';
+  ctx.fillRect(18, 9, 28, 4);
+
+  // Funnel / smokestack
+  ctx.fillStyle = 'rgba(200, 50, 50, 0.9)';
+  ctx.fillRect(28, 4, 6, 5);
+  ctx.fillStyle = 'rgba(30, 30, 30, 0.7)';
+  ctx.fillRect(28, 4, 6, 1.5);
+
+  // Bridge / wheelhouse
+  ctx.fillStyle = 'rgba(200, 210, 220, 0.85)';
+  ctx.fillRect(20, 7, 8, 4);
+  if (isNight) {
+    ctx.fillStyle = 'rgba(120, 200, 255, 0.6)';
+    ctx.fillRect(21, 8, 6, 2);
+  }
+
+  // Night deck lights — string of small warm lights along rails
+  if (isNight) {
+    for (var d = 0; d < 12; d++) {
+      var lx = 14 + d * 3.2;
+      ctx.fillStyle = 'rgba(255, 230, 150, 0.9)';
+      ctx.beginPath();
+      ctx.arc(lx, 20, 0.8, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    for (var d2 = 0; d2 < 8; d2++) {
+      var lx2 = 18 + d2 * 3.5;
+      ctx.fillStyle = 'rgba(255, 210, 130, 0.8)';
+      ctx.beginPath();
+      ctx.arc(lx2, 13, 0.6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // Warm glow halo for visibility at distance (night only)
+  if (isNight) {
+    var halo = ctx.createRadialGradient(32, 24, 8, 32, 24, 32);
+    halo.addColorStop(0, 'rgba(255, 200, 100, 0.15)');
+    halo.addColorStop(0.6, 'rgba(255, 200, 100, 0.05)');
+    halo.addColorStop(1, 'rgba(255, 200, 100, 0)');
+    ctx.fillStyle = halo;
+    ctx.fillRect(0, 0, 64, 48);
+  }
+
+  return canvas;
+}
+
+function addDinnerCruise(viewer) {
+  var startTime = Date.now();
+  var route = DINNER_CRUISE_ROUTE;
+
+  // Two cruise vessels with different phase offsets
+  for (var i = 0; i < 2; i++) {
+    var phaseOffset = i * 0.5;
+    var reverseStart = i === 1;
+
+    (function(offset, reverse) {
+      var positionCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        var rawT = ((elapsed / route.durationSec) + offset) % 2;
+        var t = rawT <= 1 ? rawT : 2 - rawT;
+        if (reverse) t = 1 - t;
+        var pos = lerpPosition(route.points, t);
+        return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 3);
+      }, false);
+
+      var entity = viewer.entities.add({
+        name: 'Dinner Cruise',
+        position: positionCallback,
+        billboard: {
+          image: createDinnerCruiseCanvas().toDataURL(),
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scaleByDistance: new Cesium.NearFarScalar(100, 2.0, 8000, 0.6),
+          translucencyByDistance: new Cesium.NearFarScalar(80, 1.0, 12000, 0.2),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          scale: 1.2,
+        },
+      });
+      _dinnerCruiseEntities.push(entity);
+    })(phaseOffset, reverseStart);
+  }
+
+  // Animate canvas and control time-of-day visibility (19:00-23:00 Macau time)
+  _dinnerCruiseInterval = setInterval(function() {
+    var hour = getMacauHour();
+    var visible = hour >= 19 || hour < 23;
+    if (hour >= 5 && hour < 19) visible = false;
+    // Fade: 19:00-19:30 fade in, 22:30-23:00 fade out
+    var alpha = 1.0;
+    if (hour >= 19 && hour < 19.5) alpha = (hour - 19) * 2;
+    else if (hour >= 22.5 && hour < 23) alpha = (23 - hour) * 2;
+    else if (!visible) alpha = 0;
+
+    _dinnerCruiseEntities.forEach(function(entity) {
+      entity.show = alpha > 0;
+      if (alpha > 0) {
+        entity.billboard.image = createDinnerCruiseCanvas().toDataURL();
+        entity.billboard.color = new Cesium.Color(1, 1, 1, alpha);
+      }
+    });
+  }, 500);
+}
+
 // ── Minimap Navigation ──
 var _minimapCanvas = null;
 var _minimapCtx = null;
@@ -9853,6 +10040,23 @@ function drawMinimap() {
     });
   }
 
+  // Dinner cruise — warm gold dots (ping-pong, evening only)
+  var cruiseHour = getMacauHour();
+  if (cruiseHour >= 19 || cruiseHour < 23) {
+    if (!(cruiseHour >= 5 && cruiseHour < 19)) {
+      var cruiseRoute = DINNER_CRUISE_ROUTE;
+      for (var ci = 0; ci < 2; ci++) {
+        var coffset = ci * 0.5;
+        var creverse = ci === 1;
+        var crawT = ((elapsed / cruiseRoute.durationSec) + coffset) % 2;
+        var ct = crawT <= 1 ? crawT : 2 - crawT;
+        if (creverse) ct = 1 - ct;
+        var cpos = lerpPosition(cruiseRoute.points, ct);
+        drawTransportDot(cpos.lon, cpos.lat, 'rgba(255, 200, 80, 0.95)', 4);
+      }
+    }
+  }
+
   // Transport legend at bottom
   var legendY = h - 12;
   var legendItems = [
@@ -9862,6 +10066,7 @@ function drawMinimap() {
     { color: 'rgba(76, 175, 80, 0.9)', label: 'LRT' },
     { color: 'rgba(200, 150, 60, 0.9)', label: 'Triciclo' },
     { color: 'rgba(255, 140, 0, 0.9)', label: 'Bus' },
+    { color: 'rgba(255, 200, 80, 0.95)', label: 'Cruise' },
   ];
   ctx.font = '11px DM Mono, monospace';
   ctx.textAlign = 'left';
@@ -10328,6 +10533,7 @@ function addSkyCabs(viewer) {
     { icon: '🛶', text: 'Watch fishing sampans return to Inner Harbour in the afternoon (3-7 PM Macau time)' },
     { icon: '🚌', text: 'Spot open-top sightseeing buses touring the Peninsula and Cotai between 9 AM-3 PM Macau time' },
     { icon: '☁️', text: 'Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk' },
+    { icon: '🚢', text: 'Watch illuminated dinner cruise ships glide through the harbour from 7-11 PM Macau time' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

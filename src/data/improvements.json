@@ -1141,6 +1141,24 @@
       ],
       "linesAdded": 80,
       "agent": "automated"
+    },
+    {
+      "session": 97,
+      "date": "2026-03-23",
+      "title": "Evening Harbour Dinner Cruise",
+      "domain": "animation",
+      "summary": "Two illuminated dinner cruise vessels glide through Macau harbour in the evening (7-11 PM), with warm deck lights and water reflections.",
+      "details": [
+        "2 large multi-deck dinner cruise ships on an 8-waypoint harbour route (Outer Harbour to A-Ma Temple and back)",
+        "Canvas-drawn vessel with navy hull, dual-deck windows, warm interior glow, deck string lights, funnel, and bridge",
+        "Night-specific rendering: lit windows, deck rail lights, warm glow halo, and water reflection beneath hull",
+        "Time-gated 19:00-23:00 Macau time with 30-minute fade ramps at boundaries",
+        "Gold minimap tracking dots with Cruise legend entry",
+        "Explore panel entry in Transit section with fly-to camera view",
+        "Feature tip for discovery system"
+      ],
+      "linesAdded": 160,
+      "agent": "automated"
     }
   ]
 }

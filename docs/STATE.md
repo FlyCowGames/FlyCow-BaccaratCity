@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-23 (Session 96)
+## Last Updated: 2026-03-23 (Session 97)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -58,6 +58,7 @@
 - **Afternoon fishing sampans**: 5 traditional flat-bottomed fishing boats on 3 Inner Harbour routes with bamboo canopy, fishing nets, bobbing animation — afternoon-only 15:00-19:00 Macau time (Session 93)
 - **Midday sightseeing tour buses**: 4 open-top double-decker tourist buses on 2 routes (Peninsula Heritage loop + Cotai Casino loop) — midday-only 9:00-15:00 Macau time, red and blue liveries with seated passengers (Session 94)
 - **Drifting cloud wisps**: 7 animated semi-transparent cloud wisps across the upper sky, weather-reactive opacity from real Macau cloud cover, white in day/warm amber at dawn-dusk/dark blue-grey at night, CSS blur for soft edges (Session 96)
+- **Evening dinner cruise**: 2 illuminated multi-deck dinner cruise vessels on harbour route (Outer Harbour to A-Ma Temple coast and back), evening-only 19:00-23:00 Macau time, canvas-drawn with warm deck lights, lit windows, water reflection glow, warm gold minimap tracking dots (Session 97)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -66,7 +67,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~10455 lines, ~397KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~10714 lines, ~394KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 

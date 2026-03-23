@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 96,
+  "last_updated_session": 97,
   "learnings": [
     {
       "type": "pattern",
@@ -162,11 +162,11 @@
       "domain": "animation",
       "title": "Time-of-day gated features fill temporal gaps and add realism",
       "description": "Gating billboard entity visibility to specific time windows (e.g., morning 5-9 AM for tai chi) creates time-specific atmosphere that rewards exploration at different hours. Using getMacauHour() with smooth fade in/out at boundaries (0.5h ramp) prevents jarring appearance/disappearance. Most features are night-only or always-on — morning/afternoon-specific features fill temporal gaps.",
-      "evidence": "Session 91: tai chi 5-9 AM. Session 93: fishing sampans 15-19 PM. Both use getMacauHour() with 30-min fade ramps. Zero JS errors both times.",
+      "evidence": "Session 91: tai chi 5-9 AM. Session 93: fishing sampans 15-19 PM. Session 97: dinner cruise 19-23. All use getMacauHour() with 30-min fade ramps. Zero JS errors every time.",
       "tags": ["animation", "time-of-day", "cultural-authenticity", "billboard"],
-      "weight": 0.6,
-      "times_applied": 2,
-      "times_successful": 2
+      "weight": 0.7,
+      "times_applied": 3,
+      "times_successful": 3
     },
     {
       "type": "pattern",
@@ -175,6 +175,17 @@
       "description": "CSS div elements with blur filter and keyframe drift animation create convincing cloud wisps without CesiumJS entity overhead. Tying opacity to real weather API cloud_cover percentage makes them weather-reactive. Placing below color grading z-index means they automatically get time-of-day tinting. Staggered sizes, positions, speeds, and delays prevent mechanical feel.",
       "evidence": "Session 96: 7 cloud wisps with blur(40px), weather-reactive opacity. Zero JS errors, passed desktop/mobile. First sky-level atmospheric effect in the project.",
       "tags": ["css", "atmosphere", "weather", "performance", "animation"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "animation",
+      "title": "Larger canvas entities with detail reward night scenes",
+      "description": "Drawing a larger canvas (64x48 vs typical 32x32) allows more visual detail — multi-deck windows, string lights, hull details. Combined with higher scaleByDistance values and wider translucency range, large vessels are visible from bird's-eye view. Night-specific rendering (lit windows, glow halo, reflection gradient) creates dramatic visual difference from daytime.",
+      "evidence": "Session 97: dinner cruise with 64x48 canvas, scale 1.2, scaleByDistance near=2.0/far=0.6. Warm interior glow and deck lights clearly visible at night from overview altitude.",
+      "tags": ["canvas", "rendering", "night", "scale", "billboard"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
@@ -271,6 +282,12 @@
       "question": "How to add sky-level atmosphere without more CesiumJS billboard entities?",
       "chosen": "CSS cloud div overlay with blur filter and keyframe drift animation at z-index below color grading",
       "rationale": "CSS approach avoids adding more CesiumJS entities (26 systems already), is more performant, and automatically inherits time-of-day color grading from the z-index layering. Weather-reactive via existing currentWeather global. First atmospheric effect targeting the sky rather than ground/water level.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add a prominent evening harbour feature?",
+      "chosen": "Large dinner cruise vessels with detailed canvas rendering, night-specific glow, and 19-23 time gate",
+      "rationale": "Dinner cruises are authentic Macau harbour activity. Larger 64x48 canvas allows multi-deck detail. Evening time window (19-23) fills the post-sunset period between golden hour and late-night fireworks. Follows proven ferry/junk movement pattern with ping-pong route, plus proven sampan/bus time-gating pattern.",
       "revisit_after_session": null
     }
   ]
