@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-22 (Session 68)
+## Last Updated: 2026-03-23 (Session 76)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -16,7 +16,7 @@
 - **Airport flights**: 4 planes on 2 routes (approach from south descending, departure north climbing), continuously animating
 - **Neon casino glow**: 11 glow zones with bloom post-processing, active at night (19:00-05:00) with dusk/dawn ramps
 - **Ambient audio**: 3-layer procedural soundscape (ocean, wind, city hum) via Web Audio API, time-of-day + weather reactive
-- **Landmark info cards**: click any landmark to see a rich popup with description, history, facts, type, and year
+- **Landmark info cards with photo gallery**: click any landmark to see a rich popup with photo gallery (3 real Wikimedia Commons images, swipeable on mobile), description, history, facts, type, and year
 - **Interactive baccarat with betting + sound**: click any casino → "Enter Casino" → play baccarat with HK$10,000 virtual bankroll, chip selection ($100-$10K), bet on Player/Banker/Tie with authentic payouts, procedural sound effects (deal, flip, chip, win/lose/tie chimes)
 - **Firework sound effects**: procedural Web Audio API launch whoosh (rising sine sweep + noise) and burst pop (explosive thump + crackle tail) synchronized with visual fireworks, randomized per firework for natural variation
 - **Harbor fireworks**: particle-based firework display over the harbor at night (20:00-01:00), 6 color palettes, 3 burst types
@@ -35,6 +35,7 @@
 - **Floating sky lanterns**: 12 kongming lanterns drifting over Inner Harbour at night, slowly ascending 30-220m with warm golden glow and flicker, recycling at peak
 - **Helicopter service**: 3 helicopters on routes from Outer Harbour heliport — 2 HK shuttle flights (inbound/outbound) and 1 scenic peninsula tour at 200-350m altitude
 - **Auto-tour mode**: TOUR button that automatically flies camera through all 30+ attractions in random order, with bilingual location labels and 6-second dwell per stop
+- **Cinematic walking tour**: Walk Tour button starts a documentary-style guided tour at 8m street-level altitude through 8 landmarks (A-Ma Temple, Senado Square, Ruins of St. Paul's, Grand Lisboa, Macau Tower, Galaxy, Venetian, Wynn Palace). Auto-opens photo gallery cards at each stop with gentle orbit camera, progress bar, and stop counter. 5s flight + 2s pause + 10s dwell with card + next stop cycle.
 - **Dragon boat racing**: 5 colorful dragon boats racing parallel lanes on Nam Van Lake with team colors (red, blue, green, gold, purple)
 - **Venetian canal gondolas**: 3 traditional gondolas gliding along canals near The Venetian Macao with black hulls, gold ferro prows, and gondoliers
 - **Red lantern strings**: 10 traditional Chinese red lantern strings hanging across streets in 4 historic areas (Senado Square, Ruins of St. Paul's, A-Ma Temple, Taipa Village) with gentle sway and night glow
@@ -55,7 +56,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~8192 lines, ~295KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68
+- Single HTML file (~8746 lines, ~322KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -77,7 +78,7 @@
 - **Airport flights**: 4 planes approaching and departing Macau International Airport
 - **Neon casino glow** at night with radial light billboard entities
 - **Ambient audio** soundscape with mute/unmute toggle
-- **Landmark info cards** with descriptions, facts, history (click any landmark)
+- **Landmark info cards with photo gallery** — click any landmark for real photos (3 per landmark, swipeable on mobile), description, facts, history
 - **Interactive baccarat with betting + sound** at any casino (Punto Banco rules, animated dealing, HK$10K virtual bankroll, chip selection, Player/Banker/Tie bets with authentic payouts, procedural sound effects for deals, flips, chips, and results)
 - **Harbor fireworks** at night (20:00-01:00) with particle physics, multiple burst types, brand-matching palettes
 - **Animated pedestrians** near 6 popular areas (~26 walking figures, visible when zoomed in)
@@ -106,9 +107,10 @@
 - **A-Ma Temple incense coils** — 6 hanging spiral incense coils with rising smoke wisps at A-Ma Temple courtyards (always active)
 - **Wynn SkyCab cable cars** — 4 animated cable car gondolas traveling over the Performance Lake at 38-45m altitude with gentle sway (always active)
 
+- **Cinematic walking tour** — Walk Tour button starts documentary-style guided tour at 8m altitude through 8 landmarks, auto-opens photo gallery cards at each stop with gentle orbit camera, gold progress bar, stop counter
 - **Casino water reflections** — 10 elongated light streaks on harbor water below waterfront casinos at night with shimmer + wobble animation, casino-matched colors
 - **Camera position URL sharing** — Share View button copies URL with camera position; shared URLs skip flythrough
-- **Minimap navigation** — Canvas-drawn minimap in bottom-left showing Macau coastline outlines, landmark dots, camera position with heading/FOV indicator; click anywhere to fly there
+- **Minimap navigation with live tracking** — Canvas-drawn minimap in bottom-left showing Macau coastline outlines, landmark dots, camera position with heading/FOV indicator, live-moving transport dots (cyan=ferries, red=junks, white=planes, green=LRT, yellow=helicopters), transport legend; click anywhere to fly there
 - **Explore panel search** — Search input at top of Explore panel filters all 30+ attractions in real-time by name (English or Chinese), auto-expands matched sections, clear button to reset
 - **Keyboard shortcuts + help overlay** — Press ? to toggle help panel; 1-8 fly to landmarks; N/D/L for night/day/live time; T/E/F/S/M for tour/explore/flythrough/share/mute; G for street view; input-aware (disabled when typing)
 - **Street-level exploration mode** — Street button drops camera to 5m altitude for first-person city exploration; WASD/arrow key walking controls (8 m/s); mobile virtual joystick on touch devices; Exit Street button restores previous view; keyboard shortcut G; mobile-responsive

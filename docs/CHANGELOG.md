@@ -551,6 +551,44 @@
 - No new billboard entities — uses simple CSS div overlay with dynamic rgba background
 - File grew from ~8065 to ~8192 lines (+127 lines)
 
+## Session 69 — 2026-03-22 (Automated Agent)
+- Live transport tracking on minimap: 16 animated colored dots for all transport systems
+- Color-coded: cyan=ferries (5), red=junk boats (4), white=planes (4), green=LRT trains (3), yellow=helicopters (3)
+- Each dot has a glow halo for visibility at mobile minimap sizes
+- Transport legend at bottom of minimap (Ferry, Junk, Air, LRT)
+- Uses same route data and lerp math as 3D entity animations
+- Updated feature tip to mention live minimap tracking
+- Deepens existing minimap feature rather than adding more 3D billboard entities
+- File grew from ~8192 to ~8274 lines (+82 lines)
+
+## Session 75 — 2026-03-23 (Automated Agent)
+- Landmark photo gallery: swipeable image gallery in each landmark's info card with real Wikimedia Commons photos
+- 3 verified photos per landmark (24 total): Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams
+- Horizontal gallery with CSS translateX transitions, left/right arrow navigation, clickable dot indicators
+- Touch swipe support for mobile: touchstart/touchmove/touchend with 40px threshold for swipe detection
+- Photo captions in gradient overlay at bottom of gallery area
+- Graceful error handling: img.onerror replaces broken images with "Photo unavailable" placeholder
+- Card now scrollable (max-height: 90vh desktop, 85vh mobile) to accommodate gallery + text content
+- Mobile-responsive: 36px arrow buttons, adjusted caption font, proper touch targets
+- Updated feature tip to mention photo galleries on mobile (swipe hint)
+- Fulfills ROADMAP high-priority item: "Landmark photo/video gallery"
+- File grew from ~8274 to ~8424 lines (+150 lines)
+
+## Session 76 — 2026-03-23 (Automated Agent)
+- Enhanced street-level walking tour into cinematic documentary-style experience
+- Auto-opens landmark info cards with photo galleries (3 real photos each) at each of 8 tour stops
+- Gentle slow orbit camera at each stop: camera slowly circles the landmark at ~30m radius for cinematic feel
+- Gold progress bar at bottom of screen showing tour completion percentage with smooth transitions
+- Stop counter "STOP N / 8" in bottom-right corner with DM Mono font
+- Lowered camera altitude from 12m to 8m for more immersive street-level experience
+- Tour sequence per stop: 5s fly → 2s pause → auto-open info card → 10s dwell with orbit → close card → 1s pause → next
+- Walk tour orbit uses its own tick handler (separate from main orbit) for independent control
+- Mobile-responsive: counter and progress bar respect safe-area-inset-bottom
+- Updated help overlay description for W key shortcut
+- Updated feature tips to mention photo gallery auto-opening
+- Fulfills high-priority ROADMAP item: "Street-level guided tour"
+- File grew from ~8424 to ~8494 lines (+70 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

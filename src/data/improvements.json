@@ -880,6 +880,59 @@
       ],
       "linesAdded": 103,
       "agent": "automated"
+    },
+    {
+      "session": 69,
+      "date": "2026-03-22",
+      "title": "Live Transport Tracking on Minimap",
+      "domain": "interactivity",
+      "summary": "Minimap now shows live-moving colored dots for all transport systems: ferries, junk boats, planes, LRT trains, and helicopters.",
+      "details": [
+        "16 animated transport dots on minimap updated every 500ms using existing route data",
+        "Color-coded by type: cyan=ferries, red=junk boats, white=planes, green=LRT, yellow=helicopters",
+        "Glow halos around dots for visibility at mobile minimap sizes",
+        "Transport legend at bottom of minimap showing dot color meanings",
+        "Deepens existing GOOD-rated minimap feature rather than adding new billboard entities",
+        "Updated feature tip to mention live transport tracking"
+      ],
+      "linesAdded": 82,
+      "agent": "automated"
+    },
+    {
+      "session": 75,
+      "date": "2026-03-23",
+      "title": "Landmark Photo Gallery",
+      "domain": "landmarks",
+      "summary": "Landmark info cards now feature a swipeable photo gallery with real Wikimedia Commons images of each landmark.",
+      "details": [
+        "3 real photos per landmark from Wikimedia Commons (24 photos total across 8 landmarks)",
+        "Horizontal gallery with smooth CSS transitions between photos",
+        "Left/right arrow navigation and clickable dot indicators",
+        "Touch swipe support for mobile gallery navigation",
+        "Photo captions with gradient overlay at bottom of each image",
+        "Graceful fallback placeholder when images fail to load",
+        "Mobile-responsive: card scrollable with max-height, touch-friendly controls"
+      ],
+      "linesAdded": 150,
+      "agent": "automated"
+    },
+    {
+      "session": 76,
+      "date": "2026-03-23",
+      "title": "Cinematic Walking Tour with Auto Photo Gallery",
+      "domain": "interactivity",
+      "summary": "Enhanced the street-level walking tour into a cinematic documentary-style experience that auto-opens landmark photo galleries at each stop.",
+      "details": [
+        "Auto-opens landmark info cards with photo galleries at each of 8 tour stops",
+        "Gentle slow orbit camera at each stop for cinematic documentary feel",
+        "Gold progress bar at bottom showing tour completion percentage",
+        "Stop counter (STOP 1/8) in bottom-right corner",
+        "Lowered camera altitude from 12m to 8m for more immersive street-level experience",
+        "Sequence: fly to stop -> 2s pause -> open photo card -> 10s dwell -> close card -> next stop",
+        "Mobile-responsive progress bar and counter with safe-area insets"
+      ],
+      "linesAdded": 70,
+      "agent": "automated"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-22 (Session 69)*
+*This document evolves every session. Last updated: 2026-03-23 (Session 76)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -20,8 +20,8 @@
 - ~~Bridge traffic animations~~ — Done (Session 7: traffic, Session 29: night illumination)
 
 ### High Priority (Next Sessions)
-- **Street-level guided tour** — A curated walking tour that visits major landmarks at street level (5-10m altitude), pausing at each to show a photo/video gallery. Different from auto-tour (which is aerial). Should feel like walking through Macau. Include: Grand Lisboa, Ruins of St. Paul's, Senado Square, A-Ma Temple, Venetian interior approach, Macau Tower base.
-- **Landmark photo/video gallery** — Expand landmark info cards with real photos and embedded video. Each landmark should have 3-5 curated images showing the real building/site. Use Wikimedia Commons or similar freely-licensed sources. Gallery should be swipeable on mobile. Videos where available (e.g. Wynn fountain show, SkyJump, F3 race footage).
+- ~~**Street-level guided tour**~~ — Done (Session 76: cinematic documentary-style walking tour at 8m altitude, auto-opens photo gallery at each of 8 landmarks, gentle orbit camera, progress bar, stop counter). Future: add embedded video at stops (e.g. Wynn fountain show, SkyJump, F3 race footage).
+- ~~**Landmark photo gallery**~~ — Done (Session 75: 3 Wikimedia Commons photos per landmark, swipeable gallery on mobile, arrow navigation, dot indicators). Future: add embedded video where available (e.g. Wynn fountain show, SkyJump, F3 race footage).
 
 ### Medium-Term
 - Real-time flight data (ADS-B) for airport
@@ -90,3 +90,5 @@
 - Feature tips discovery system: rotating device-aware tip overlay for feature discoverability (Session 67)
 - Golden hour & cinematic color grading: time-of-day CSS color overlay with 8 atmospheric phases (Session 68)
 - Live minimap transport tracking: animated color-coded dots for ferries, junk boats, planes, LRT, helicopters (Session 69)
+- Landmark photo gallery: 3 real Wikimedia Commons photos per landmark with swipeable gallery, arrow navigation, dot indicators (Session 75)
+- Cinematic walking tour: documentary-style guided tour at 8m altitude, auto-opens photo galleries at each of 8 landmarks, gentle orbit camera, progress bar (Session 76)
