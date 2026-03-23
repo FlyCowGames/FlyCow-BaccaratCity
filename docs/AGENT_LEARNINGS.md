@@ -457,3 +457,19 @@
 - **Observation:** The color grading responds to the time slider (reads `getMacauHour()` which respects `_timeOverride`), so users can preview golden hour even at 2am. This multiplies the value of the time slider feature.
 - **Observation:** Session 70 will be the next FULL QUALITY AUDIT (70 % 10 == 0). Must not skip.
 - **Suggestion for future sessions:** Daytime improvements still needed: (1) Portuguese colonial district detail (Senado Square cobblestones), (2) Coloane village, (3) cloud shadows or god rays, (4) street markets. The color grading helps but more daytime content is still valuable.
+
+## Session 69 (2026-03-22) -- Live Transport Tracking on Minimap
+- **Lesson:** Deepening an existing GOOD-rated feature (minimap) is higher-impact than adding the 23rd billboard entity. The minimap went from static landmark dots to a living transit map showing all transport systems. This follows the "deep > wide" principle from Sessions 58 and 63.
+- **Lesson:** Reusing existing route data arrays (FERRY_ROUTES, JUNK_ROUTES, FLIGHT_ROUTES, LRT_ROUTE, HELI_ROUTES) and lerp functions (`lerpPosition`, `lerpPositionWithAlt`) from the minimap draw function is clean and requires zero refactoring of the entity systems. The positions won't exactly match the 3D entities (different `startTime` captured in closures) but at minimap scale this is invisible.
+- **Lesson:** Canvas dots need glow halos for visibility at mobile minimap sizes (100x110px display of 320x360 canvas = ~30% scale). A radius-3 dot with a radius-6 glow halo is visible even at that scale. Without the glow, dots were nearly invisible on mobile.
+- **Lesson:** Adding a legend to a small minimap is worthwhile — even at small sizes, the colored dots with labels (Ferry, Junk, Air, LRT) help users understand what they're seeing. The 11px font in canvas space renders to ~3.2px on mobile — borderline readable but the dot colors are the primary visual cue.
+- **Observation:** The minimap now shows ~16 moving transport dots (5 ferries + 4 junks + 4 planes + 3 LRT + 3 helicopters). At the 500ms refresh rate, movement is smooth enough to be noticeable. No performance impact since the minimap was already redrawing every 500ms.
+- **Observation:** Session 70 will be the next FULL QUALITY AUDIT (70 % 10 == 0). MUST NOT SKIP. This will be the 2nd audit after the first successful one at Session 60.
+- **Suggestion for future sessions:** The minimap could be further enhanced with: (1) click on a transport dot to fly to that entity, (2) trail lines showing recent path, (3) pulsing animation on dots for more visibility. Also: Session 70 audit should evaluate the minimap transport tracking quality. Daytime improvements are still the weakest area — Portuguese colonial district, Coloane village, cloud shadows remain good candidates.
+
+## Session 76 (2026-03-23) -- Cinematic Walking Tour with Auto Photo Gallery
+- **Lesson:** Enhancing existing features by composing proven systems is high-impact with low risk. The walk tour enhancement reused showLandmarkCard(), existing orbit pattern, and WALK_TOUR_STOPS data — ~70 new lines for a dramatically richer experience.
+- **Lesson:** Use separate tick handlers for independent orbit systems. The walk tour orbit (_walkTourOrbitHandle) is managed independently from the global orbit (orbitHandle), preventing interference.
+- **Lesson:** Progress indicators (bar + counter) improve guided experience UX by giving users context about where they are in a sequence.
+- **Observation:** The walk tour now auto-opens photo galleries from S75 at each stop. This creates a natural "travel documentary" feel — the camera orbits the landmark while users browse real photos. The 10-second dwell gives enough time to see the gallery.
+- **Observation:** Session 80 will be the next FULL QUALITY AUDIT (80 % 10 == 0).

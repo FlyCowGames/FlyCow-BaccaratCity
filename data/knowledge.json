@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "project": "baccarat-city",
+  "last_updated_session": 76,
+  "learnings": [
+    {
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "Enhancing existing features is high-impact with low risk",
+      "description": "Rather than building an entirely new feature, enhancing the existing walk tour with auto-opening photo galleries, orbit camera, and progress bar created a much richer experience by composing existing systems (landmark cards, photo gallery, orbit camera). Building on proven patterns is fast and reliable.",
+      "evidence": "Session 76: enhanced walk tour in ~70 lines by reusing showLandmarkCard(), existing orbit pattern, and existing WALK_TOUR_STOPS data. Zero JS errors, passed mobile/desktop checks.",
+      "tags": ["architecture", "composability", "feature-enhancement"],
+      "weight": 0.6,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "Separate tick handlers for independent orbit systems",
+      "description": "When adding a new orbit behavior (walk tour orbit), use a separate onTick handler rather than reusing the global orbit system. This allows independent control — the walk tour orbit can be stopped/started without affecting the global orbit used after flythrough.",
+      "evidence": "Session 76: _walkTourOrbitHandle is managed independently from orbitHandle. Clean start/stop lifecycle prevents interference.",
+      "tags": ["cesiumjs", "animation", "architecture"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "rendering",
+      "title": "CSS particle effects are lightweight alternatives to WebGL",
+      "description": "CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.",
+      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars",
+      "tags": ["performance", "css", "animation"],
+      "weight": 0.8,
+      "times_applied": 3,
+      "times_successful": 3
+    },
+    {
+      "type": "pattern",
+      "domain": "animation",
+      "title": "Staggered animation delays prevent mechanical feel",
+      "description": "Vary animation-delay and animation-duration per element to prevent synchronized movement that looks artificial. Different speeds and directions per element create organic motion.",
+      "evidence": "Applied in pedestrians, seagulls, sky lanterns, and other entity animation systems",
+      "tags": ["css", "animation", "visual-quality"],
+      "weight": 0.8,
+      "times_applied": 5,
+      "times_successful": 5
+    },
+    {
+      "type": "pattern",
+      "domain": "audio",
+      "title": "Web Audio API for procedural sound without external files",
+      "description": "Web Audio API generates convincing ambient and interactive sounds procedurally — no audio files needed. Must start muted and require user click (browser autoplay policy).",
+      "evidence": "Sessions 9, 58, 63: ambient soundscape, baccarat sounds, firework sounds — all procedurally generated",
+      "tags": ["audio", "performance"],
+      "weight": 0.8,
+      "times_applied": 3,
+      "times_successful": 3
+    },
+    {
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "Progress indicators improve guided experience UX",
+      "description": "Adding a visual progress bar and stop counter to guided tours gives users context about where they are in the experience and how much is left. Simple CSS progress bar with width transition is effective.",
+      "evidence": "Session 76: gold progress bar + 'STOP N/8' counter added to walk tour. Visible on both desktop and mobile.",
+      "tags": ["ux", "ui", "tour"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    }
+  ],
+  "anti_patterns": [
+    {
+      "type": "anti_pattern",
+      "title": "CesiumJS bloom post-processing with Google 3D Tiles",
+      "description": "CesiumJS bloom applies to entire scene causing severe oversaturation/washout with Google 3D Tiles. Tried contrast values 119 down to 40 — all caused unacceptable results.",
+      "fix": "Use billboard entities with canvas radial gradients for glow effects instead of scene-wide bloom",
+      "severity": "high",
+      "tags": ["cesiumjs", "rendering", "3d-tiles"]
+    },
+    {
+      "type": "anti_pattern",
+      "title": "CallbackProperty for billboard image causes black rectangles",
+      "description": "Using CesiumJS CallbackProperty to dynamically update billboard.image with canvas elements renders as solid black rectangles with Google 3D Tiles.",
+      "fix": "Use direct billboard.image = canvas.toDataURL() assignment in setInterval instead",
+      "severity": "high",
+      "tags": ["cesiumjs", "rendering", "billboard"]
+    },
+    {
+      "type": "anti_pattern",
+      "title": "Parallax on mobile breaks layout",
+      "description": "Parallax effects on mobile conflict with position:relative layouts and feel exaggerated on small viewports.",
+      "fix": "Disable parallax on mobile via media query or JS check",
+      "severity": "medium",
+      "tags": ["mobile", "css", "layout"]
+    }
+  ],
+  "decisions": [
+    {
+      "question": "How to enhance walk tour for documentary feel?",
+      "chosen": "Compose existing systems: auto-open landmark cards (with S75 photo gallery), add slow orbit camera, add progress bar/counter",
+      "rationale": "Reusing existing showLandmarkCard() and orbit patterns minimized new code while maximizing impact. The photo gallery from S75 already provides the visual richness needed.",
+      "revisit_after_session": null
+    }
+  ]
+}
