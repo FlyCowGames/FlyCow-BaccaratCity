@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 105,
+  "last_updated_session": 106,
   "learnings": [
     {
       "type": "pattern",
@@ -30,11 +30,11 @@
       "domain": "rendering",
       "title": "CSS particle effects are lightweight alternatives to WebGL",
       "description": "CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.",
-      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes.",
+      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays.",
       "tags": ["performance", "css", "animation"],
       "weight": 0.8,
-      "times_applied": 5,
-      "times_successful": 5
+      "times_applied": 6,
+      "times_successful": 6
     },
     {
       "type": "pattern",
@@ -241,6 +241,17 @@
       "description": "Adding real-world regulatory elements (aviation obstacle lights, warning lights, signal markers) creates an 'uncanny familiarity' — visitors may not consciously notice them, but their absence would make the scene feel subtly wrong. These features are simple to implement (single billboard entity per location) but add significant authenticity to night scenes.",
       "evidence": "Session 105: 8 red beacon lights on tall buildings using bridge lights pattern. ~55 lines of code, zero JS errors, follows proven CallbackProperty + glow gating approach.",
       "tags": ["atmosphere", "authenticity", "night", "billboard", "regulatory"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "CSS crepuscular rays enhance golden hour without entity overhead",
+      "description": "Multiple CSS div rays with linear-gradient backgrounds, blur filter, and transform rotation create convincing sun ray (god ray) effects. Time-gating to dawn and golden hour windows with smooth ramps, weather-reactive cloud dampening, and staggered pulse animations make them feel natural. Layering above color grading (z-index 43) lets rays shine 'through' the atmosphere overlay.",
+      "evidence": "Session 106: 10 rays at varied angles (-35 to +38 deg), blur(6px), pulse animations 15-28s. Zero JS errors, visible on desktop and mobile, inactive during midday/night. Weather dampening from 1.0 (clear) to 0.2 (100% cloud cover).",
+      "tags": ["css", "atmosphere", "golden-hour", "cinematic", "performance"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1

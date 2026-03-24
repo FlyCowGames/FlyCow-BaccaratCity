@@ -1,6 +1,6 @@
 # Agent Learnings
 *Auto-generated from data/knowledge.json — do not edit directly*
-*Last updated: Session 105*
+*Last updated: Session 106*
 
 ## Patterns (What Works)
 
@@ -17,7 +17,7 @@ When adding a new orbit behavior (walk tour orbit), use a separate onTick handle
 **Tags:** cesiumjs, animation, architecture
 
 ### CSS particle effects are lightweight alternatives to WebGL
-**Domain:** rendering | **Weight:** 0.8 | **Applied:** 5/5 times
+**Domain:** rendering | **Weight:** 0.8 | **Applied:** 6/6 times
 CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.
 **Evidence:** Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes.
 **Tags:** performance, css, animation
@@ -135,6 +135,12 @@ Spawning temporary CSS particle elements (chips, confetti, sparkles) on positive
 Adding real-world regulatory elements (aviation obstacle lights, warning lights, signal markers) creates an 'uncanny familiarity' — visitors may not consciously notice them, but their absence would make the scene feel subtly wrong. These features are simple to implement (single billboard entity per location) but add significant authenticity to night scenes.
 **Evidence:** Session 105: 8 red beacon lights on tall buildings using bridge lights pattern. ~55 lines of code, zero JS errors, follows proven CallbackProperty + glow gating approach.
 **Tags:** atmosphere, authenticity, night, billboard, regulatory
+
+### CSS crepuscular rays enhance golden hour without entity overhead
+**Domain:** atmosphere | **Weight:** 0.5 | **Applied:** 1/1 times
+Multiple CSS div rays with linear-gradient backgrounds, blur filter, and transform rotation create convincing sun ray (god ray) effects. Time-gating to dawn and golden hour windows with smooth ramps, weather-reactive cloud dampening, and staggered pulse animations make them feel natural. Layering above color grading (z-index 43) lets rays shine 'through' the atmosphere overlay.
+**Evidence:** Session 106: 10 rays at varied angles (-35 to +38 deg), blur(6px), pulse animations 15-28s. Zero JS errors, visible on desktop and mobile, inactive during midday/night. Weather dampening from 1.0 (clear) to 0.2 (100% cloud cover).
+**Tags:** css, atmosphere, golden-hour, cinematic, performance
 
 ## Anti-Patterns (What to Avoid)
 

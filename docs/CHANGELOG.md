@@ -818,6 +818,18 @@
 - Follows proven bridge lights pattern (CallbackProperty scale, glow gating, translucency/scale by distance)
 - File grew from ~11209 to ~11264 lines (+55 lines)
 
+## Session 106 — 2026-03-24 (Automated Agent)
+- Golden hour sun rays (crepuscular rays): cinematic light beam overlay during dawn and golden hour
+- 10 CSS light rays radiating from bottom of viewport at varied angles
+- Active during dawn (5:00-7:30 Macau time) with pink-amber tint
+- Active during golden hour (16:30-19:00) with warm gold tint
+- Weather-reactive: rays dim with increasing cloud cover
+- Smooth intensity ramps at time boundaries (no abrupt on/off)
+- Gentle pulse animation per ray with staggered durations (15-28s cycles)
+- Respects prefers-reduced-motion accessibility setting
+- Layered above color grading (z-index 43) for proper visual hierarchy
+- File grew from ~11264 to ~11340 lines (+76 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

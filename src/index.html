@@ -329,6 +329,33 @@
   }
   #color-grading.active { opacity: 1; }
 
+  /* Golden hour sun rays (crepuscular rays) */
+  #sun-rays {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 43;
+    opacity: 0; transition: opacity 8s ease;
+    overflow: hidden;
+  }
+  #sun-rays.active { opacity: 1; }
+  .sun-ray {
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    width: 4px;
+    height: 130%;
+    transform-origin: bottom center;
+    filter: blur(6px);
+    will-change: opacity;
+  }
+  @keyframes rayPulse {
+    0%, 100% { opacity: var(--ray-base, 0.06); }
+    50% { opacity: var(--ray-peak, 0.12); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sun-ray { animation-duration: 0.01ms !important; }
+    #sun-rays { transition-duration: 0.01ms !important; }
+  }
+
   /* Shooting star canvas */
   #shootingstar-canvas {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -1778,6 +1805,7 @@
 <div id="cesiumContainer"></div>
 <div id="cloud-layer"></div>
 <div id="color-grading"></div>
+<div id="sun-rays"></div>
 <div id="rain-overlay"></div>
 <div id="rain-splash-layer"></div>
 <canvas id="shootingstar-canvas"></canvas>
@@ -11134,6 +11162,96 @@ function addSkyCabs(viewer) {
   setInterval(updateColorGrading, 5000);
   // Initial update after short delay
   setTimeout(updateColorGrading, 2000);
+})();
+
+// ── Golden Hour Sun Rays (Crepuscular Rays) ──
+// Cinematic light beams during dawn (5:30-7:00) and golden hour (17:00-18:30)
+(function() {
+  var container = document.getElementById('sun-rays');
+  if (!container) return;
+
+  // Create 10 light ray beams at varied angles
+  var RAY_CONFIGS = [
+    { angle: -35, width: 12,  baseOp: 0.06, peakOp: 0.14, dur: 18 },
+    { angle: -25, width: 20,  baseOp: 0.08, peakOp: 0.18, dur: 22 },
+    { angle: -16, width: 10,  baseOp: 0.05, peakOp: 0.12, dur: 15 },
+    { angle: -8,  width: 28,  baseOp: 0.10, peakOp: 0.22, dur: 25 },
+    { angle: -2,  width: 16,  baseOp: 0.07, peakOp: 0.16, dur: 20 },
+    { angle: 5,   width: 24,  baseOp: 0.09, peakOp: 0.20, dur: 23 },
+    { angle: 12,  width: 14,  baseOp: 0.06, peakOp: 0.14, dur: 17 },
+    { angle: 20,  width: 30,  baseOp: 0.12, peakOp: 0.24, dur: 28 },
+    { angle: 28,  width: 14,  baseOp: 0.07, peakOp: 0.16, dur: 19 },
+    { angle: 38,  width: 10,  baseOp: 0.05, peakOp: 0.10, dur: 16 },
+  ];
+
+  var rays = [];
+  for (var i = 0; i < RAY_CONFIGS.length; i++) {
+    var cfg = RAY_CONFIGS[i];
+    var ray = document.createElement('div');
+    ray.className = 'sun-ray';
+    ray.style.width = cfg.width + 'px';
+    ray.style.transform = 'rotate(' + cfg.angle + 'deg)';
+    ray.style.setProperty('--ray-base', cfg.baseOp);
+    ray.style.setProperty('--ray-peak', cfg.peakOp);
+    ray.style.animation = 'rayPulse ' + cfg.dur + 's ease-in-out ' + (i * 1.7) + 's infinite';
+    ray.style.opacity = cfg.baseOp;
+    container.appendChild(ray);
+    rays.push({ el: ray, cfg: cfg });
+  }
+
+  function updateSunRays() {
+    var hour = getMacauHour();
+    var intensity = 0;
+
+    // Dawn rays: 5:00-7:30 (peak at 6:00-6:30)
+    if (hour >= 5 && hour < 7.5) {
+      if (hour < 5.5) intensity = (hour - 5) / 0.5;           // 0→1 ramp in
+      else if (hour < 6.5) intensity = 1.0;                    // full
+      else intensity = 1.0 - (hour - 6.5) / 1.0;              // 1→0 ramp out
+    }
+    // Golden hour rays: 16:30-19:00 (peak at 17:30-18:00)
+    if (hour >= 16.5 && hour < 19) {
+      if (hour < 17.5) intensity = (hour - 16.5) / 1.0;       // 0→1 ramp in
+      else if (hour < 18) intensity = 1.0;                     // full
+      else intensity = 1.0 - (hour - 18) / 1.0;               // 1→0 ramp out
+    }
+
+    // Weather dampening: heavy clouds reduce rays
+    var cloudDamp = 1.0;
+    if (currentWeather) {
+      var clouds = currentWeather.cloud_cover || 0;
+      cloudDamp = Math.max(0.1, 1.0 - (clouds / 100) * 0.8); // 1.0 at clear → 0.2 at 100% cover
+    }
+    intensity *= cloudDamp;
+
+    if (intensity < 0.01) {
+      container.classList.remove('active');
+      return;
+    }
+
+    // Color shifts: dawn = pink/amber, golden hour = warm gold
+    var isDawn = hour >= 5 && hour < 7.5;
+    var r, g, b;
+    if (isDawn) {
+      r = 255; g = 170; b = 120; // pink-amber
+    } else {
+      r = 255; g = 190; b = 60;  // warm gold
+    }
+
+    for (var i = 0; i < rays.length; i++) {
+      var cfg = rays[i].cfg;
+      var base = cfg.baseOp * intensity;
+      var peak = cfg.peakOp * intensity;
+      rays[i].el.style.setProperty('--ray-base', base.toFixed(4));
+      rays[i].el.style.setProperty('--ray-peak', peak.toFixed(4));
+      rays[i].el.style.background = 'linear-gradient(to top, rgba(' + r + ',' + g + ',' + b + ',0.4), transparent 75%)';
+    }
+
+    container.classList.add('active');
+  }
+
+  setInterval(updateSunRays, 5000);
+  setTimeout(updateSunRays, 3000);
 })();
 
 // ── Feature Tips (rotating discovery system) ──

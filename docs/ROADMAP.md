@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-24 (Session 105)*
+*This document evolves every session. Last updated: 2026-03-24 (Session 106)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -110,3 +110,4 @@
 - Rain splash ripples: CSS-animated ground-level ripple effects during rainfall, matching rain intensity, integrated with weather and typhoon systems (Session 102)
 - Baccarat win chip celebration: cascading golden casino chips on winning hands, intensity scales with win amount, mobile-responsive (Session 103)
 - Aviation obstacle lights: red blinking beacon lights on 8 tallest buildings at night, authentic aviation safety detail (Session 105)
+- Golden hour sun rays: cinematic crepuscular light rays during dawn and golden hour with weather-reactive intensity (Session 106)
