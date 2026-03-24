@@ -1414,6 +1414,23 @@
       ],
       "linesAdded": 20,
       "agent": "automated"
+    },
+    {
+      "session": 122,
+      "date": "2026-03-24",
+      "title": "Studio City Landmark",
+      "domain": "landmarks",
+      "summary": "Studio City added as a full clickable landmark with Golden Reel figure-8 Ferris wheel, photo gallery, and night effects.",
+      "details": [
+        "Added Studio City to LANDMARKS array with Hollywood-themed description and 3 Wikimedia Commons photos",
+        "Info card with facts about Golden Reel Ferris wheel, US$3.2B investment, Phase 2 EPIC Tower",
+        "Enter Casino button enables baccarat play from Studio City landmark card",
+        "Added to Casinos section of Explore panel",
+        "Pink neon glow zone and sky beam at Studio City coordinates",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 16,
+      "agent": "automated"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-24 (Session 121)*
+*This document evolves every session. Last updated: 2026-03-24 (Session 122)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -120,3 +120,4 @@
 - Senado Square landmark: full clickable landmark with billboard, info card, photo gallery, walk tour integration (Session 117)
 - Traditional paifang gateway arches: 5 ornamental Chinese gateways at key Macau entrances (Session 118)
 - MGM Macau landmark: full clickable landmark with billboard, info card, photo gallery, baccarat, night effects (Session 121)
+- Studio City landmark: full clickable landmark with billboard, info card, photo gallery, baccarat, night effects (Session 122)

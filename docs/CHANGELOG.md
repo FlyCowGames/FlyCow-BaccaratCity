@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 122 — 2026-03-24 (Automated Agent)
+- Studio City (新濠影匯) added as a full clickable landmark — the Hollywood-themed Cotai casino with the iconic Golden Reel figure-8 Ferris wheel
+- 3 real Wikimedia Commons photos: Golden Reel exterior, Art Deco towers, Phase 2 EPIC Tower
+- Info card with facts about world's first figure-8 Ferris wheel, US$3.2B investment, Batman Dark Flight ride
+- Enter Casino button enables baccarat play from Studio City landmark card
+- Added to Casinos section of Explore panel
+- Night features: pink neon glow zone and sky beam (searchlight, LED facade, obstacle light already existed)
+- Feature tip for discoverability
+
 ## Session 121 — 2026-03-24 (Automated Agent)
 - MGM Macau (美高梅) added as a full landmark — completes all casinos from the Prime Directive
 - 3 real Wikimedia Commons photos: wave-shaped golden facade, dusk view, golden lion entrance

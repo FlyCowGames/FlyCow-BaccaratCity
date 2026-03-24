@@ -2356,6 +2356,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/MGM_Grand%2C_Macao%2C_2013-08-08%2C_DD_19.jpg/960px-MGM_Grand%2C_Macao%2C_2013-08-08%2C_DD_19.jpg", caption: "MGM Macau at dusk" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/MGM_Grand_Macau_Main_Enterance.jpg/960px-MGM_Grand_Macau_Main_Enterance.jpg", caption: "The golden lion entrance" },
     ] },
+  { name: "Studio City", chinese: "\u65B0\u6FE0\u5F71\u532F", emoji: "\uD83C\uDFAC",
+    lat: 22.1435, lon: 113.5550, type: "Casino & Entertainment", year: "2015",
+    desc: "Studio City is a Hollywood-themed casino resort on the Cotai Strip, instantly recognizable by its figure-8 Golden Reel \u2014 the world\u2019s first and highest figure-8 Ferris wheel at 130 metres. Developed by Melco Resorts & Entertainment at a cost of US$3.2 billion, its Art Deco-inspired design celebrates the golden age of cinema with attractions including a Batman Dark Flight ride and the indoor 4D Warner Bros. experience.",
+    facts: ["Golden Reel: world\u2019s first figure-8 Ferris wheel (130m tall)", "US$3.2 billion total investment across two phases", "Phase 2 EPIC Tower opened in 2023 with Asia\u2019s largest indoor/outdoor water park", "Art Deco Hollywood theme with Batman Dark Flight 4D ride"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Studio_City_Macau_01.jpg/960px-Studio_City_Macau_01.jpg", caption: "Studio City's iconic figure-8 Golden Reel" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Studio_City_Macau_2.jpg/960px-Studio_City_Macau_2.jpg", caption: "Studio City exterior with Art Deco towers" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Studio_City_Macau_27-05-2024.jpg/960px-Studio_City_Macau_27-05-2024.jpg", caption: "Studio City and Phase 2 EPIC Tower" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -5278,6 +5287,8 @@ var NEON_ZONES = [
   { name: 'MGM Macau Glow',     lon: 113.5417, lat: 22.1848, color: [255, 210, 80],  intensity: 0.75 },
   { name: 'NAPE District',      lon: 113.5440, lat: 22.1870, color: [255, 200, 120], intensity: 0.5 },
   { name: 'Fisherman\'s Wharf', lon: 113.5510, lat: 22.1920, color: [200, 180, 140], intensity: 0.4 },
+  // Cotai south
+  { name: 'Studio City Glow',  lon: 113.5550, lat: 22.1435, color: [255, 180, 220], intensity: 0.8 },
 ];
 
 var _neonEntities = [];
@@ -5420,6 +5431,7 @@ var ATTRACTIONS = {
     { name: "Wynn Palace", chinese: "永利皇宮", icon: "🎰", lat: 22.1478, lon: 113.5630, alt: 300, pitch: -25 },
     { name: "City of Dreams", chinese: "新濠天地", icon: "🎰", lat: 22.1486, lon: 113.5586, alt: 300, pitch: -25 },
     { name: "MGM Macau", chinese: "美高梅", icon: "🎰", lat: 22.1848, lon: 113.5417, alt: 300, pitch: -25 },
+    { name: "Studio City", chinese: "新濠影匯", icon: "🎬", lat: 22.1435, lon: 113.5550, alt: 300, pitch: -25 },
   ],
   development: [
     { name: "Zone A New Town", chinese: "新城A區", icon: "🏗", lat: 22.2050, lon: 113.5485, alt: 400, pitch: -30 },
@@ -7368,6 +7380,7 @@ var SKY_BEAM_CASINOS = [
   { name: 'Wynn Palace Beam', lon: 113.5630, lat: 22.1478, color: [255, 180, 60],  height: 300, swaySpeed: 0.08, swayAmp: 0.00016 },
   { name: 'City of Dreams Beam', lon: 113.5586, lat: 22.1486, color: [180, 140, 255], height: 280, swaySpeed: 0.055, swayAmp: 0.00017 },
   { name: 'MGM Macau Beam',    lon: 113.5417, lat: 22.1848, color: [255, 200, 50],  height: 260, swaySpeed: 0.065, swayAmp: 0.00015 },
+  { name: 'Studio City Beam', lon: 113.5550, lat: 22.1435, color: [255, 150, 200], height: 270, swaySpeed: 0.075, swayAmp: 0.00014 },
 ];
 
 var _skyBeamEntities = [];
@@ -12360,6 +12373,7 @@ function addSkyCabs(viewer) {
     { icon: '🏖️', text: isTouch ? 'Explore Coloane Island — Hac Sa Beach, the village, and giant pandas at Seac Pai Van Park' : 'Press 0 to visit Hac Sa Beach on Coloane Island — black sand, village chapel, and giant pandas' },
     { icon: '⏩', text: isTouch ? 'Tap the 24H button by the clock to watch a full day cycle in 48 seconds — see dawn mist, tai chi, sunset, neon lights' : 'Press P to play a 24-hour time-lapse — watch dawn mist, morning tai chi, golden hour, and neon lights in 48 seconds' },
     { icon: '🦁', text: 'Visit MGM Macau — the golden wave-shaped casino with its iconic 10-metre lion statue at the entrance' },
+    { icon: '🎬', text: 'Visit Studio City — the Hollywood-themed casino with the world\'s first figure-8 Ferris wheel, the Golden Reel' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;
