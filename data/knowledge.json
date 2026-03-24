@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 111,
+  "last_updated_session": 114,
   "learnings": [
     {
       "type": "pattern",
@@ -107,11 +107,11 @@
       "domain": "landmarks",
       "title": "Cultural balance through complementary heritage elements",
       "description": "When a digital twin represents a multicultural city, actively balance representation of different cultural heritages. Macau has Chinese and Portuguese elements — adding Portuguese azulejo tile panels complements the extensive Chinese elements (lanterns, neon signs, food stalls, incense). This avoids cultural homogeneity and better represents the city's unique identity.",
-      "evidence": "Session 82: 6 Portuguese azulejo tile panels added at heritage sites alongside 20+ existing Chinese cultural elements. Blue-and-white Portuguese palette provides visual contrast to warm red/gold Chinese elements.",
+      "evidence": "Session 82: 6 Portuguese azulejo tile panels. Session 114: 8 bilingual street name signs. Blue-and-white Portuguese palette provides visual contrast to warm red/gold Chinese elements.",
       "tags": ["culture", "heritage", "visual-variety", "authenticity"],
-      "weight": 0.5,
-      "times_applied": 1,
-      "times_successful": 1
+      "weight": 0.6,
+      "times_applied": 2,
+      "times_successful": 2
     },
     {
       "type": "pattern",
@@ -300,6 +300,17 @@
       "times_applied": 1,
       "times_successful": 1
     }
+    ,{
+      "type": "pattern",
+      "domain": "landmarks",
+      "title": "Static billboard entities for signage need no animation interval",
+      "description": "Street name signs, static plaques, and other non-animated signage billboards can use a single canvas.toDataURL() call at init time with no setInterval. This saves CPU compared to animated billboards (neon signs, food stalls) that redraw every 200-400ms. For static content, the simplest approach is best.",
+      "evidence": "Session 114: 8 street name signs with one-time canvas draw, no setInterval. Zero JS errors, clean implementation.",
+      "tags": ["performance", "billboard", "canvas", "simplicity"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    }
   ],
   "anti_patterns": [
     {
@@ -440,6 +451,12 @@
       "question": "How to let visitors experience all time-gated features without visiting at different hours?",
       "chosen": "requestAnimationFrame time-lapse animating _timeOverride 0-24 over 48 seconds, small play button next to time slider",
       "rationale": "Reuses existing time override system (slider, updateCesiumClock, updateNeonGlow) — zero new infrastructure. Placing the button in the clock block (next to LIVE) is contextually obvious. 48s duration (2s/hour) is long enough to appreciate changes but short enough to watch in full. Returns to live time on completion for clean UX.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to deepen Portuguese colonial heritage beyond decorative tiles?",
+      "chosen": "Bilingual street name sign billboards at 8 famous intersections, canvas-drawn with tile border aesthetic, static (no animation)",
+      "rationale": "Street name signs are one of the most photographed features of historic Macau. Blue-and-white tile style matches azulejo panels (S82). Static billboards (no setInterval) because signs don't animate. 6m altitude matches real sign height. Portuguese + Chinese text reinforces the bilingual identity. Complements azulejo tiles, food stalls, and red lanterns in the heritage district.",
       "revisit_after_session": null
     }
   ]

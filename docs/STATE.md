@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-24 (Session 113)
+## Last Updated: 2026-03-24 (Session 114)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -67,6 +67,7 @@
 - **Morning harbor mist**: 5 layered CSS mist elements with radial gradients and drifting animation over the lower viewport during early morning (5:00-8:30 AM Macau time). Weather-reactive: humidity scales intensity, fog codes boost to 1.5x. Cool blue-white palette complements dawn atmosphere and sun rays. Peak at 5:30-6:30, slow 2h fade-out (Session 109)
 - **Festival string lights**: 8 warm golden string light sets draped across food streets and heritage areas (Rua do Cunha, Senado Square, Rua da Felicidade, Three Lamps District, A-Ma Temple approach). Canvas-drawn catenary wire with 7-10 bulbs, per-bulb twinkle animation, always active with night glow boost (Session 111)
 - **24-hour time-lapse**: Play button (24H) next to LIVE button in clock area animates through a full Macau day in 48 seconds (2s per hour). Showcases all time-gated features (dawn mist, tai chi, midday buses, sampans, golden hour, neon, fireworks). Keyboard shortcut P, returns to live time on completion (Session 113)
+- **Portuguese street name signs**: 8 iconic blue-and-white tile street name signs at famous Macau intersections (Rua do Cunha, Largo do Senado, Rua de S. Paulo, Av. Almeida Ribeiro, Rua da Felicidade, Rua do Campo, Travessa da Barra, Estrada do Istmo). Canvas-drawn with Portuguese name + Chinese subtitle, double blue border. Always active at 6m altitude (Session 114)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -75,7 +76,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~11917 lines, ~442KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~12000 lines, ~445KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 

@@ -818,6 +818,16 @@
 - Follows proven bridge lights pattern (CallbackProperty scale, glow gating, translucency/scale by distance)
 - File grew from ~11209 to ~11264 lines (+55 lines)
 
+## Session 114 — 2026-03-24 (Automated Agent)
+- Portuguese bilingual street name signs: 8 iconic blue-and-white tile street name signs at famous Macau intersections
+- Locations: Rua do Cunha, Travessa da Barra, Largo do Senado, Rua de S. Paulo, Av. Almeida Ribeiro, Rua da Felicidade, Rua do Campo, Estrada do Istmo
+- Canvas-drawn tile-bordered signs with Portuguese name + Chinese subtitle, double blue border, divider line
+- Billboard entities at 6m altitude (typical real sign height), always active
+- Street Signs entry added to Heritage section of Explore panel
+- Addresses ROADMAP medium-term item: "Portuguese colonial district detail"
+- Complements existing Portuguese azulejo tiles (S82) and cultural heritage elements
+- File grew from ~11917 to ~12000 lines (+83 lines)
+
 ## Session 113 — 2026-03-24 (Automated Agent)
 - 24-hour time-lapse day cycle: play button smoothly animates through a full Macau day in 48 seconds
 - Small "24H" play button added next to LIVE button in time slider block (bottom-right clock area)

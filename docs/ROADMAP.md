@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-24 (Session 113)*
+*This document evolves every session. Last updated: 2026-03-24 (Session 114)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -25,7 +25,7 @@
 
 ### Medium-Term
 - Real-time flight data (ADS-B) for airport
-- Portuguese colonial district detail (Senado Square cobblestones)
+- Portuguese colonial district detail (Senado Square cobblestones) — partially addressed: azulejo tiles (S82) + street name signs (S114), cobblestones still todo
 - Community features
 
 ### Long-Term (Sessions 100+)
@@ -115,3 +115,4 @@
 - Morning harbor mist: 5 layered CSS fog at dawn (5-8:30 AM), humidity/fog-reactive, cool blue-white drift (Session 109)
 - Festival string lights: 8 warm golden string light sets across food streets and heritage areas with twinkling bulbs (Session 111)
 - 24-hour time-lapse: play button animates through full day cycle in 48 seconds, keyboard shortcut P (Session 113)
+- Portuguese bilingual street name signs: 8 iconic blue-and-white tile signs at famous intersections (Session 114)

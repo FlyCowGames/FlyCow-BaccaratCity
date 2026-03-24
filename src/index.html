@@ -3180,6 +3180,7 @@ async function init() {
     initFoodStalls(viewer);
     initAzulejoTiles(viewer);
     initStringLights(viewer);
+    initStreetSigns(viewer);
     addTriiciclos(viewer);
     addPromenadeLights(viewer);
     addObstacleLights(viewer);
@@ -5348,6 +5349,7 @@ var ATTRACTIONS = {
     { name: "Morning Tai Chi", chinese: "太極晨練", icon: "🧘", lat: 22.1830, lon: 113.5360, alt: 120, pitch: -20 },
     { name: "Fishing Sampans", chinese: "漁船", icon: "🛶", lat: 22.1870, lon: 113.5310, alt: 120, pitch: -20 },
     { name: "String Lights", chinese: "串燈", icon: "💡", lat: 22.1560, lon: 113.5580, alt: 80, pitch: -25 },
+    { name: "Street Signs", chinese: "路牌", icon: "🪧", lat: 22.1936, lon: 113.5393, alt: 80, pitch: -25 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -9759,6 +9761,96 @@ function initStringLights(viewer) {
       item.entity.billboard.image = c.toDataURL();
     });
   }, 200);
+}
+
+// ── Portuguese Street Name Signs — Bilingual Heritage ──
+// Iconic blue-and-white tile street name signs found at every corner in Macau's historic centre
+var STREET_SIGNS = [
+  // Rua do Cunha — most famous food street in Taipa Village
+  { pt: 'RUA DO CUNHA', zh: '官也街', lon: 113.5580, lat: 22.1560, alt: 6 },
+  // Travessa do Pagode — near A-Ma Temple
+  { pt: 'TRAVESSA DA BARRA', zh: '河邊新街', lon: 113.5320, lat: 22.1870, alt: 6 },
+  // Largo do Senado — Senado Square
+  { pt: 'LARGO DO SENADO', zh: '議事亭前地', lon: 113.5393, lat: 22.1936, alt: 6 },
+  // Rua de S. Paulo — leading to the Ruins
+  { pt: 'RUA DE S. PAULO', zh: '大三巴街', lon: 113.5405, lat: 22.1965, alt: 6 },
+  // Avenida de Almeida Ribeiro — main commercial street
+  { pt: 'AV. ALMEIDA RIBEIRO', zh: '新馬路', lon: 113.5370, lat: 22.1923, alt: 6 },
+  // Rua da Felicidade — historic "Street of Happiness"
+  { pt: 'RUA DA FELICIDADE', zh: '福隆新街', lon: 113.5382, lat: 22.1913, alt: 6 },
+  // Rua do Campo — near Three Lamps District
+  { pt: 'RUA DO CAMPO', zh: '荷蘭園大馬路', lon: 113.5430, lat: 22.1980, alt: 6 },
+  // Estrada do Istmo — connecting Peninsula to Taipa (Cotai)
+  { pt: 'ESTRADA DO ISTMO', zh: '路氹連貫公路', lon: 113.5550, lat: 22.1510, alt: 6 },
+];
+
+function createStreetSignCanvas(sign) {
+  var c = document.createElement('canvas');
+  c.width = 96;
+  c.height = 48;
+  var ctx = c.getContext('2d');
+
+  // White tile background with rounded corners
+  ctx.fillStyle = 'rgba(245,248,255,0.95)';
+  roundRect(ctx, 2, 2, 92, 44, 3);
+  ctx.fill();
+
+  // Blue tile border — double line like real Macau signs
+  ctx.strokeStyle = 'rgba(20,55,130,0.85)';
+  ctx.lineWidth = 2;
+  roundRect(ctx, 2, 2, 92, 44, 3);
+  ctx.stroke();
+  ctx.strokeStyle = 'rgba(20,55,130,0.45)';
+  ctx.lineWidth = 1;
+  roundRect(ctx, 5, 5, 86, 38, 2);
+  ctx.stroke();
+
+  // Portuguese street name — blue serif text
+  ctx.font = 'bold 8px "Cinzel", serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(20,55,130,0.95)';
+  ctx.fillText(sign.pt, 48, 17);
+
+  // Thin divider line
+  ctx.strokeStyle = 'rgba(20,55,130,0.3)';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(14, 26);
+  ctx.lineTo(82, 26);
+  ctx.stroke();
+
+  // Chinese name — slightly larger
+  ctx.font = '10px "Noto Sans SC", sans-serif';
+  ctx.fillStyle = 'rgba(20,55,130,0.8)';
+  ctx.fillText(sign.zh, 48, 36);
+
+  return c;
+}
+
+function initStreetSigns(viewer) {
+  var signImage = null;
+  var entities = [];
+
+  STREET_SIGNS.forEach(function(sign) {
+    var canvas = createStreetSignCanvas(sign);
+    var entity = viewer.entities.add({
+      name: 'Street Sign: ' + sign.pt,
+      position: Cesium.Cartesian3.fromDegrees(sign.lon, sign.lat, sign.alt),
+      billboard: {
+        image: canvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 96,
+        height: 48,
+        scale: 0.7,
+        scaleByDistance: new Cesium.NearFarScalar(20, 2.5, 800, 0.1),
+        translucencyByDistance: new Cesium.NearFarScalar(10, 1.0, 1200, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    entities.push(entity);
+  });
 }
 
 // ── Macau Triciclo Pedicabs ──

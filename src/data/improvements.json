@@ -1327,6 +1327,23 @@
       ],
       "linesAdded": 72,
       "agent": "automated"
+    },
+    {
+      "session": 114,
+      "date": "2026-03-24",
+      "title": "Portuguese Bilingual Street Name Signs",
+      "domain": "landmarks",
+      "summary": "8 iconic blue-and-white tile street name signs at famous Macau intersections with Portuguese and Chinese text.",
+      "details": [
+        "8 signs at famous locations: Rua do Cunha, Travessa da Barra, Largo do Senado, Rua de S. Paulo, Av. Almeida Ribeiro, Rua da Felicidade, Rua do Campo, Estrada do Istmo",
+        "Canvas-drawn tile-bordered signs with double blue border, Portuguese name, and Chinese subtitle",
+        "Billboard entities at 6m altitude matching real street sign height",
+        "Always active, visible at street level for exploration mode",
+        "Street Signs entry added to Heritage section of Explore panel",
+        "Complements Portuguese azulejo tiles (S82) for deeper colonial heritage detail"
+      ],
+      "linesAdded": 83,
+      "agent": "automated"
     }
   ]
 }

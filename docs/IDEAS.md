@@ -32,6 +32,7 @@
 - [x] Street markets and food stalls (Session 81: 8 animated food vendor stalls at Rua do Cunha, Senado Square, Three Lamps District, Rua da Felicidade)
 - [x] Red lantern strings in historic district (Session 38: 10 lantern strings across 4 areas)
 - [x] Portuguese-style decorative elements in historic district (Session 82: azulejo tile panels at 6 heritage sites)
+- [x] Portuguese bilingual street name signs (Session 114: 8 blue-and-white tile signs at famous intersections)
 - [ ] Portuguese-style cobblestone calçada pavement patterns
 
 ## Events
