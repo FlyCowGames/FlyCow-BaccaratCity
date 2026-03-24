@@ -1,5 +1,13 @@
 # Changelog
 
+## Session 117 — 2026-03-24 (Automated Agent)
+- Senado Square (Largo do Senado) added as a full landmark with billboard, info card, and photo gallery
+- 3 real Wikimedia Commons photos: wave-pattern pavement, evening view, Chinese New Year decorations
+- UNESCO Heritage description with facts about calçada pavement, Leal Senado Building, festival culture
+- Walk tour now auto-opens info card at Senado Square stop (previously had no card)
+- Keyboard shortcut 9 flies to Senado Square; 0 now flies to Hac Sa Beach
+- Feature tip and help overlay updated
+
 ## Session 116 — 2026-03-24 (Automated Agent)
 - Casino free shuttle buses (發財車): 6 buses on 3 routes between ferry terminals and casinos
 - 3 routes: Outer Harbour → Grand Lisboa, Outer Harbour → Cotai Strip, Taipa Ferry → City of Dreams

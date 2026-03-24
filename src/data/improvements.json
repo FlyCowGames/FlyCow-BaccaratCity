@@ -1362,6 +1362,25 @@
       ],
       "linesAdded": 120,
       "agent": "automated"
+    },
+    {
+      "session": 117,
+      "date": "2026-03-24",
+      "title": "Senado Square Landmark",
+      "domain": "landmarks",
+      "summary": "Senado Square added as a full clickable landmark with billboard, info card, photo gallery, and keyboard shortcut.",
+      "details": [
+        "Added Senado Square (Largo do Senado) to LANDMARKS array with UNESCO heritage description",
+        "3 real Wikimedia Commons photos: wave-pattern pavement, evening view, Chinese New Year decorations",
+        "Billboard marker automatically created in 3D scene at correct coordinates",
+        "Clickable info card with description, facts, and swipeable photo gallery",
+        "Walk tour now auto-opens info card at Senado Square stop (previously skipped)",
+        "Keyboard shortcut 9 flies to Senado Square, 0 now flies to Hac Sa Beach",
+        "Feature tip added for discoverability",
+        "Updated keyboard shortcuts help overlay"
+      ],
+      "linesAdded": 18,
+      "agent": "automated"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-24 (Session 116)*
+*This document evolves every session. Last updated: 2026-03-24 (Session 117)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -117,3 +117,4 @@
 - 24-hour time-lapse: play button animates through full day cycle in 48 seconds, keyboard shortcut P (Session 113)
 - Portuguese bilingual street name signs: 8 iconic blue-and-white tile signs at famous intersections (Session 114)
 - Casino free shuttle buses: 6 Fortune Buses (發財車) on 3 routes between ferry terminals and casinos, always active (Session 116)
+- Senado Square landmark: full clickable landmark with billboard, info card, photo gallery, walk tour integration (Session 117)

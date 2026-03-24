@@ -2,12 +2,12 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-24 (Session 116)
+## Last Updated: 2026-03-24 (Session 117)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
 - Cinematic 7-stage flythrough with dramatic title cards: bird's eye > Cotai > Venetian > City of Dreams/Galaxy > Wynn Palace > Harbour > Grand Lisboa > Ruins of St. Paul's > overview. Each stage features multi-line cinematic labels with gold gradient title, Chinese subtitle, descriptive tagline, and staggered slide-up CSS animations
-- 8 landmark billboards: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams
+- 12 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park
 - Real-time day/night cycle driven by actual Macau time (UTC+8) via CesiumJS sun position
 - Live weather from Open-Meteo API: temperature, conditions, humidity, wind, cloud cover
 - Weather-reactive atmosphere: rain overlay, fog, cloud-dimmed lighting
@@ -68,6 +68,7 @@
 - **Festival string lights**: 8 warm golden string light sets draped across food streets and heritage areas (Rua do Cunha, Senado Square, Rua da Felicidade, Three Lamps District, A-Ma Temple approach). Canvas-drawn catenary wire with 7-10 bulbs, per-bulb twinkle animation, always active with night glow boost (Session 111)
 - **24-hour time-lapse**: Play button (24H) next to LIVE button in clock area animates through a full Macau day in 48 seconds (2s per hour). Showcases all time-gated features (dawn mist, tai chi, midday buses, sampans, golden hour, neon, fireworks). Keyboard shortcut P, returns to live time on completion (Session 113)
 - **Portuguese street name signs**: 8 iconic blue-and-white tile street name signs at famous Macau intersections (Rua do Cunha, Largo do Senado, Rua de S. Paulo, Av. Almeida Ribeiro, Rua da Felicidade, Rua do Campo, Travessa da Barra, Estrada do Istmo). Canvas-drawn with Portuguese name + Chinese subtitle, double blue border. Always active at 6m altitude (Session 114)
+- **Senado Square landmark**: Full clickable landmark for Macau's most famous public space (Largo do Senado) with billboard marker at correct coordinates, rich info card with UNESCO heritage description and calçada pavement facts, swipeable photo gallery (3 Wikimedia Commons images), walk tour auto-opens card at this stop (Session 117)
 - **Casino free shuttle buses**: 6 casino shuttle buses (發財車/Fortune Buses) on 3 routes — Outer Harbour to Grand Lisboa (gold), Outer Harbour to Cotai Strip (purple/Galaxy), Taipa Ferry to City of Dreams (blue). Canvas-drawn casino-branded buses with CallbackProperty ping-pong movement. Always active (24/7), minimap tracking with magenta dots (Session 116)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator

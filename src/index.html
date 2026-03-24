@@ -2011,8 +2011,8 @@
       <div class="help-row"><span class="help-key">6</span><span class="help-desc">Wynn Palace</span></div>
       <div class="help-row"><span class="help-key">7</span><span class="help-desc">A-Ma Temple</span></div>
       <div class="help-row"><span class="help-key">8</span><span class="help-desc">City of Dreams</span></div>
-      <div class="help-row"><span class="help-key">9</span><span class="help-desc">Hac Sa Beach</span></div>
-      <div class="help-row"><span class="help-key">0</span><span class="help-desc">Coloane Village</span></div>
+      <div class="help-row"><span class="help-key">9</span><span class="help-desc">Senado Square</span></div>
+      <div class="help-row"><span class="help-key">0</span><span class="help-desc">Hac Sa Beach</span></div>
       <div class="help-section">Time Control</div>
       <div class="help-row"><span class="help-key">N</span><span class="help-desc">Preview night (22:00)</span></div>
       <div class="help-row"><span class="help-key">D</span><span class="help-desc">Preview day (12:00)</span></div>
@@ -2264,6 +2264,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Macau-Morpheus-01.jpg/960px-Macau-Morpheus-01.jpg", caption: "The Morpheus tower by Zaha Hadid" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Macau-Morpheus-02.jpg/960px-Macau-Morpheus-02.jpg", caption: "Morpheus exoskeleton detail" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Macau-Morpheus-03.jpg/960px-Macau-Morpheus-03.jpg", caption: "City of Dreams and Morpheus tower" },
+    ] },
+  { name: "Senado Square", chinese: "\u8B70\u4E8B\u4EAD\u524D\u5730", emoji: "\uD83C\uDFDB\uFE0F",
+    lat: 22.1935, lon: 113.5388, type: "UNESCO Heritage", year: "1784",
+    desc: "Senado Square (Largo do Senado) is the cultural heart of Macau and the centrepiece of the Historic Centre of Macau UNESCO World Heritage Site. The square is paved with the famous Portuguese cal\u00E7ada wave-pattern mosaic in black and white stone, evoking the sea. Flanked by pastel-coloured neoclassical buildings \u2014 the Leal Senado, Santa Casa da Miseric\u00F3rdia, and S\u00E3o Domingos Church \u2014 it has been Macau\u2019s civic gathering place for over two centuries.",
+    facts: ["UNESCO World Heritage Site since 2005 as part of the Historic Centre of Macau", "Famous black-and-white wave-pattern cal\u00E7ada pavement laid by Portuguese artisans", "Leal Senado Building (1784) served as Macau\u2019s municipal council for centuries", "Centre of major festivals including Chinese New Year, Mid-Autumn, and Christmas"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Largo_do_Senado.JPG/960px-Largo_do_Senado.JPG", caption: "Senado Square and the wave-pattern pavement" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Evening_at_Senado_Square.jpg/960px-Evening_at_Senado_Square.jpg", caption: "The square in the evening" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Chinese_New_Year_decoration_among_Senado_Square.jpg/960px-Chinese_New_Year_decoration_among_Senado_Square.jpg", caption: "Chinese New Year decorations at Senado Square" },
     ] },
   { name: "Hac Sa Beach", chinese: "\u9ED1\u6C99\u6D77\u7058", emoji: "\uD83C\uDFD6\uFE0F",
     lat: 22.1164, lon: 113.5681, type: "Natural Beach", year: "",
@@ -12127,7 +12136,8 @@ function addSkyCabs(viewer) {
     { icon: '☁️', text: 'Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk' },
     { icon: '🚢', text: 'Watch illuminated dinner cruise ships glide through the harbour from 7-11 PM Macau time' },
     { icon: '🌫️', text: 'Morning mist drifts over the harbour at dawn (5-8 AM Macau time) — thicker on humid days' },
-    { icon: '🏖️', text: isTouch ? 'Explore Coloane Island — Hac Sa Beach, the village, and giant pandas at Seac Pai Van Park' : 'Press 9 or 0 to visit Coloane — Hac Sa Beach, the village chapel, and giant pandas' },
+    { icon: '🏛️', text: isTouch ? 'Tap Senado Square to see its famous wave-pattern pavement and colonial buildings — swipe through the photo gallery' : 'Press 9 to visit Senado Square — Macau\'s UNESCO heritage heart with wave-pattern cal\u00E7ada pavement' },
+    { icon: '🏖️', text: isTouch ? 'Explore Coloane Island — Hac Sa Beach, the village, and giant pandas at Seac Pai Van Park' : 'Press 0 to visit Hac Sa Beach on Coloane Island — black sand, village chapel, and giant pandas' },
     { icon: '⏩', text: isTouch ? 'Tap the 24H button by the clock to watch a full day cycle in 48 seconds — see dawn mist, tai chi, sunset, neon lights' : 'Press P to play a 24-hour time-lapse — watch dawn mist, morning tai chi, golden hour, and neon lights in 48 seconds' },
   ];
   var el = document.getElementById('feature-tips');
