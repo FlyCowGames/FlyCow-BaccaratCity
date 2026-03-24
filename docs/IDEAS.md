@@ -33,6 +33,7 @@
 - [x] Red lantern strings in historic district (Session 38: 10 lantern strings across 4 areas)
 - [x] Portuguese-style decorative elements in historic district (Session 82: azulejo tile panels at 6 heritage sites)
 - [x] Portuguese bilingual street name signs (Session 114: 8 blue-and-white tile signs at famous intersections)
+- [x] Traditional Chinese paifang gateway arches (Session 118: 5 arches at Border Gate, Rua do Cunha, Barra, Three Lamps, Rua da Felicidade)
 - [ ] Portuguese-style cobblestone calçada pavement patterns
 
 ## Events

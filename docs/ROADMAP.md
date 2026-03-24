@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-24 (Session 117)*
+*This document evolves every session. Last updated: 2026-03-24 (Session 118)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -118,3 +118,4 @@
 - Portuguese bilingual street name signs: 8 iconic blue-and-white tile signs at famous intersections (Session 114)
 - Casino free shuttle buses: 6 Fortune Buses (發財車) on 3 routes between ferry terminals and casinos, always active (Session 116)
 - Senado Square landmark: full clickable landmark with billboard, info card, photo gallery, walk tour integration (Session 117)
+- Traditional paifang gateway arches: 5 ornamental Chinese gateways at key Macau entrances (Session 118)

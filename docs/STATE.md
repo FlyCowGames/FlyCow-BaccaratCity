@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-24 (Session 117)
+## Last Updated: 2026-03-24 (Session 118)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -70,6 +70,7 @@
 - **Portuguese street name signs**: 8 iconic blue-and-white tile street name signs at famous Macau intersections (Rua do Cunha, Largo do Senado, Rua de S. Paulo, Av. Almeida Ribeiro, Rua da Felicidade, Rua do Campo, Travessa da Barra, Estrada do Istmo). Canvas-drawn with Portuguese name + Chinese subtitle, double blue border. Always active at 6m altitude (Session 114)
 - **Senado Square landmark**: Full clickable landmark for Macau's most famous public space (Largo do Senado) with billboard marker at correct coordinates, rich info card with UNESCO heritage description and calçada pavement facts, swipeable photo gallery (3 Wikimedia Commons images), walk tour auto-opens card at this stop (Session 117)
 - **Casino free shuttle buses**: 6 casino shuttle buses (發財車/Fortune Buses) on 3 routes — Outer Harbour to Grand Lisboa (gold), Outer Harbour to Cotai Strip (purple/Galaxy), Taipa Ferry to City of Dreams (blue). Canvas-drawn casino-branded buses with CallbackProperty ping-pong movement. Always active (24/7), minimap tracking with magenta dots (Session 116)
+- **Traditional paifang gateway arches**: 5 ornamental Chinese gateway arches (牌坊) at key Macau entrances — Border Gate (關閘), Rua do Cunha (官也街), Barra Square (媽閣廟前地), Three Lamps District (三盞燈), Rua da Felicidade (福隆新街). Canvas-drawn with curved green-tile roof, red lacquer pillars, gold Chinese text, decorative brackets. Static billboards at street level (8-10m altitude), always active (Session 118)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 

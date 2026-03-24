@@ -1381,6 +1381,22 @@
       ],
       "linesAdded": 18,
       "agent": "automated"
+    },
+    {
+      "session": 118,
+      "date": "2026-03-24",
+      "title": "Traditional Paifang Gateway Arches",
+      "domain": "landmarks",
+      "summary": "5 traditional Chinese paifang (牌坊) ornamental gateway arches at key Macau entrances.",
+      "details": [
+        "5 paifang arches at Border Gate, Rua do Cunha, Barra Square, Three Lamps District, Rua da Felicidade",
+        "Canvas-drawn with curved green-tile roof, red lacquer pillars, gold Chinese text, decorative brackets",
+        "Static billboards at street level (8-10m altitude) visible when zoomed in",
+        "Added to Heritage section of Explore panel",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 95,
+      "agent": "automated"
     }
   ]
 }

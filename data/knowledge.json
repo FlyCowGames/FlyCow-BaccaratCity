@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 117,
+  "last_updated_session": 118,
   "learnings": [
     {
       "type": "pattern",
@@ -107,11 +107,11 @@
       "domain": "landmarks",
       "title": "Cultural balance through complementary heritage elements",
       "description": "When a digital twin represents a multicultural city, actively balance representation of different cultural heritages. Macau has Chinese and Portuguese elements — adding Portuguese azulejo tile panels complements the extensive Chinese elements (lanterns, neon signs, food stalls, incense). This avoids cultural homogeneity and better represents the city's unique identity.",
-      "evidence": "Session 82: 6 Portuguese azulejo tile panels. Session 114: 8 bilingual street name signs. Blue-and-white Portuguese palette provides visual contrast to warm red/gold Chinese elements.",
+      "evidence": "Session 82: 6 Portuguese azulejo tile panels. Session 114: 8 bilingual street name signs. Session 118: 5 Chinese paifang gateway arches. Balancing Portuguese (blue/white) and Chinese (red/gold) visual elements creates authentic multicultural feel.",
       "tags": ["culture", "heritage", "visual-variety", "authenticity"],
-      "weight": 0.6,
-      "times_applied": 2,
-      "times_successful": 2
+      "weight": 0.7,
+      "times_applied": 3,
+      "times_successful": 3
     },
     {
       "type": "pattern",
@@ -305,11 +305,11 @@
       "domain": "landmarks",
       "title": "Static billboard entities for signage need no animation interval",
       "description": "Street name signs, static plaques, and other non-animated signage billboards can use a single canvas.toDataURL() call at init time with no setInterval. This saves CPU compared to animated billboards (neon signs, food stalls) that redraw every 200-400ms. For static content, the simplest approach is best.",
-      "evidence": "Session 114: 8 street name signs with one-time canvas draw, no setInterval. Zero JS errors, clean implementation.",
+      "evidence": "Session 114: 8 street name signs with one-time canvas draw, no setInterval. Session 118: 5 paifang arches same pattern. Zero JS errors both times.",
       "tags": ["performance", "billboard", "canvas", "simplicity"],
-      "weight": 0.5,
-      "times_applied": 1,
-      "times_successful": 1
+      "weight": 0.6,
+      "times_applied": 2,
+      "times_successful": 2
     },
     {
       "type": "pattern",
@@ -485,6 +485,12 @@
       "question": "How to add iconic Macau ground transport beyond tour buses and triciclos?",
       "chosen": "Casino free shuttle buses (發財車) on 3 routes between ferry terminals and casinos, always active with casino-branded colors",
       "rationale": "Casino shuttles are the most ubiquitous Macau transport — every tourist uses them. Always-active (24/7) fills gap since tour buses are midday-only. Per-route casino branding (gold/Lisboa, purple/Galaxy, blue/COD) adds visual variety. Follows proven CallbackProperty ping-pong pattern from ferries/triciclos.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add traditional Chinese architectural elements to complement Portuguese heritage features?",
+      "chosen": "Canvas-drawn paifang (牌坊) gateway arch billboards at 5 key Macau entrance locations, static (no animation)",
+      "rationale": "Paifang are iconic Chinese architectural gateways found at important entrances throughout Macau. Complements Portuguese heritage (azulejo tiles, street signs) with Chinese counterpart. Static billboard pattern from S114 street signs — no setInterval needed for non-animated structures. Red/gold/green color palette provides warm contrast to blue-white Portuguese elements. 5 diverse locations (Border Gate, food street, temple, neighborhood, historic street) spread the feature geographically.",
       "revisit_after_session": null
     }
   ]

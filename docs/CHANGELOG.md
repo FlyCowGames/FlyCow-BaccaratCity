@@ -1,5 +1,12 @@
 # Changelog
 
+## Session 118 — 2026-03-24 (Automated Agent)
+- Traditional Chinese paifang (牌坊) gateway arches: 5 ornamental gateways at key Macau entrances
+- Locations: Border Gate (關閘), Rua do Cunha (官也街), Barra Square (媽閣廟前地), Three Lamps District (三盞燈), Rua da Felicidade (福隆新街)
+- Canvas-drawn with curved green-tile roof, red lacquer pillars, gold Chinese text, decorative brackets
+- Static billboards at street level (8-10m altitude), follows street signs pattern
+- Added to Heritage section of Explore panel + feature tip
+
 ## Session 117 — 2026-03-24 (Automated Agent)
 - Senado Square (Largo do Senado) added as a full landmark with billboard, info card, and photo gallery
 - 3 real Wikimedia Commons photos: wave-pattern pavement, evening view, Chinese New Year decorations

@@ -3198,6 +3198,7 @@ async function init() {
     addTourBuses(viewer);
     addDinnerCruise(viewer);
     addShuttleBuses(viewer);
+    initPaifangArches(viewer);
     addKites(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
@@ -5362,6 +5363,7 @@ var ATTRACTIONS = {
     { name: "String Lights", chinese: "串燈", icon: "💡", lat: 22.1560, lon: 113.5580, alt: 80, pitch: -25 },
     { name: "Street Signs", chinese: "路牌", icon: "🪧", lat: 22.1936, lon: 113.5393, alt: 80, pitch: -25 },
     { name: "Chinese Kites", chinese: "风筝", icon: "🪁", lat: 22.1840, lon: 113.5355, alt: 300, pitch: -20 },
+    { name: "Paifang Arches", chinese: "牌坊", icon: "⛩️", lat: 22.2065, lon: 113.5515, alt: 80, pitch: -25 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -11106,6 +11108,126 @@ function addShuttleBuses(viewer) {
   });
 }
 
+// ── Traditional Chinese Paifang (牌坊) Gateway Arches ──
+// Ornamental gateway arches marking important entrances — iconic Macau architectural elements
+var PAIFANG_ARCHES = [
+  { name: 'Border Gate', chinese: '關閘', subtitle: 'Portas do Cerco',
+    lon: 113.5515, lat: 22.2065, alt: 10, color: '#c41e3a' },
+  { name: 'Rua do Cunha', chinese: '官也街', subtitle: 'Taipa Food Street',
+    lon: 113.5578, lat: 22.1565, alt: 8, color: '#b22222' },
+  { name: 'Barra Square', chinese: '媽閣廟前地', subtitle: 'Largo da Barra',
+    lon: 113.5325, lat: 22.1872, alt: 8, color: '#cc2233' },
+  { name: 'Three Lamps', chinese: '三盞燈', subtitle: 'Rotunda de Carlos da Maia',
+    lon: 113.5372, lat: 22.1982, alt: 8, color: '#b33030' },
+  { name: 'Rua da Felicidade', chinese: '福隆新街', subtitle: 'Street of Happiness',
+    lon: 113.5378, lat: 22.1923, alt: 8, color: '#c41e3a' },
+];
+
+function createPaifangCanvas(arch) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 96;
+  canvas.height = 64;
+  var ctx = canvas.getContext('2d');
+  var cw = canvas.width, ch = canvas.height;
+
+  // Traditional curved roof — green glazed tiles
+  ctx.fillStyle = '#1a5c2a';
+  ctx.beginPath();
+  ctx.moveTo(4, 22);
+  ctx.quadraticCurveTo(cw / 2, 4, cw - 4, 22);
+  ctx.lineTo(cw - 8, 26);
+  ctx.quadraticCurveTo(cw / 2, 10, 8, 26);
+  ctx.closePath();
+  ctx.fill();
+
+  // Roof ridge line — gold
+  ctx.strokeStyle = '#d4af37';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(4, 22);
+  ctx.quadraticCurveTo(cw / 2, 4, cw - 4, 22);
+  ctx.stroke();
+
+  // Roof eave tips — upturned corners
+  ctx.fillStyle = '#d4af37';
+  ctx.beginPath();
+  ctx.moveTo(2, 23);
+  ctx.lineTo(8, 20);
+  ctx.lineTo(6, 26);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(cw - 2, 23);
+  ctx.lineTo(cw - 8, 20);
+  ctx.lineTo(cw - 6, 26);
+  ctx.closePath();
+  ctx.fill();
+
+  // Header beam — red lacquer
+  ctx.fillStyle = arch.color;
+  ctx.fillRect(12, 26, cw - 24, 14);
+
+  // Gold border on header
+  ctx.strokeStyle = '#d4af37';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(12, 26, cw - 24, 14);
+
+  // Chinese text on header
+  ctx.fillStyle = '#ffd700';
+  ctx.font = 'bold 11px "Noto Sans SC", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(arch.chinese, cw / 2, 33);
+
+  // Two red pillars
+  ctx.fillStyle = arch.color;
+  ctx.fillRect(16, 40, 6, 22);
+  ctx.fillRect(cw - 22, 40, 6, 22);
+
+  // Pillar gold caps
+  ctx.fillStyle = '#d4af37';
+  ctx.fillRect(15, 39, 8, 3);
+  ctx.fillRect(cw - 23, 39, 8, 3);
+
+  // Pillar bases
+  ctx.fillStyle = '#8c7a5a';
+  ctx.fillRect(14, 58, 10, 4);
+  ctx.fillRect(cw - 24, 58, 10, 4);
+
+  // Decorative bracket under roof (dougong-style)
+  ctx.fillStyle = '#d4af37';
+  ctx.fillRect(20, 24, 4, 3);
+  ctx.fillRect(cw - 24, 24, 4, 3);
+  ctx.fillRect(cw / 2 - 2, 24, 4, 3);
+
+  // Subtitle text below arch
+  ctx.fillStyle = 'rgba(255, 215, 0, 0.7)';
+  ctx.font = '7px "DM Mono", monospace';
+  ctx.fillText(arch.subtitle, cw / 2, 50);
+
+  return canvas;
+}
+
+function initPaifangArches(viewer) {
+  PAIFANG_ARCHES.forEach(function(arch) {
+    viewer.entities.add({
+      name: 'Paifang: ' + arch.name,
+      position: Cesium.Cartesian3.fromDegrees(arch.lon, arch.lat, arch.alt),
+      billboard: {
+        image: createPaifangCanvas(arch).toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 96,
+        height: 64,
+        scale: 0.9,
+        scaleByDistance: new Cesium.NearFarScalar(20, 3.0, 1000, 0.15),
+        translucencyByDistance: new Cesium.NearFarScalar(10, 1.0, 1500, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+  });
+}
+
 function addKites(viewer) {
   KITE_SPOTS.forEach(function(kite, idx) {
     var entity = viewer.entities.add({
@@ -12133,6 +12255,7 @@ function addSkyCabs(viewer) {
     { icon: '🌈', text: 'Look for a rainbow arc when sun breaks through during or after rain' },
     { icon: '🚌', text: 'Spot open-top sightseeing buses touring the Peninsula and Cotai between 9 AM-3 PM Macau time' },
     { icon: '🚐', text: 'Casino shuttle buses (發財車) run 24/7 between ferry terminals and casinos — track them on the minimap' },
+    { icon: '⛩️', text: 'Spot traditional Chinese paifang (牌坊) gateway arches at famous Macau entrances — Border Gate, Rua do Cunha, Barra Square' },
     { icon: '☁️', text: 'Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk' },
     { icon: '🚢', text: 'Watch illuminated dinner cruise ships glide through the harbour from 7-11 PM Macau time' },
     { icon: '🌫️', text: 'Morning mist drifts over the harbour at dawn (5-8 AM Macau time) — thicker on humid days' },
