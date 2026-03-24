@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 102,
+  "last_updated_session": 103,
   "learnings": [
     {
       "type": "pattern",
@@ -219,6 +219,17 @@
       "description": "Adding secondary effects to existing weather systems (splash ripples to rain drops, thunder to lightning) compounds the immersion without replacing the original. Each layer adds a distinct sensory channel. Key: keep secondary effects subtle — they should enhance, not compete with, the primary effect.",
       "evidence": "Session 102: rain splash ripples added below existing rain drops. Session 98: thunder added to lightning bolts. Both integrate into the same weather/typhoon activation flow with minimal new code.",
       "tags": ["atmosphere", "weather", "css", "layering"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "CSS particle celebrations reward user actions and reinforce engagement",
+      "description": "Spawning temporary CSS particle elements (chips, confetti, sparkles) on positive outcomes makes interactive features feel more rewarding. Key design choices: scale intensity with outcome magnitude, use CSS custom properties for per-particle randomization, auto-cleanup containers after animation, and respect prefers-reduced-motion. The celebration should enhance, not block, the underlying UI.",
+      "evidence": "Session 103: golden chip cascade on baccarat wins. 8-28 chips based on net win amount. Staggered delays/durations/rotations via CSS custom properties. Zero JS errors, mobile-responsive, auto-cleanup at 3.5s.",
+      "tags": ["css", "animation", "interactivity", "ux", "celebration"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1

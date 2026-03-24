@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-24 (Session 102)
+## Last Updated: 2026-03-24 (Session 103)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -17,7 +17,7 @@
 - **Neon casino glow**: 11 glow zones with bloom post-processing, active at night (19:00-05:00) with dusk/dawn ramps
 - **Ambient audio with spatial zones**: 7-layer procedural soundscape via Web Audio API — base layers (ocean, wind, city hum) plus 4 position-aware zone layers (casino chimes, slot noise, temple bells, harbour foghorn). Volumes respond to camera position (proximity to Cotai, temples, harbour), altitude (fade above 500m), time of day (casino louder at night, temple at dawn), and weather (foghorn boosted in fog). Mix updates every 3 seconds.
 - **Landmark info cards with photo gallery**: click any landmark to see a rich popup with photo gallery (3 real Wikimedia Commons images, swipeable on mobile), description, history, facts, type, and year
-- **Interactive baccarat with betting + sound + Big Road**: click any casino → "Enter Casino" → play baccarat with HK$10,000 virtual bankroll, chip selection ($100-$10K), bet on Player/Banker/Tie with authentic payouts, procedural sound effects (deal, flip, chip, win/lose/tie chimes), Big Road scorecard (路紙) tracking result history with authentic column-based pattern display (Session 101)
+- **Interactive baccarat with betting + sound + Big Road + win celebration**: click any casino → "Enter Casino" → play baccarat with HK$10,000 virtual bankroll, chip selection ($100-$10K), bet on Player/Banker/Tie with authentic payouts, procedural sound effects (deal, flip, chip, win/lose/tie chimes), Big Road scorecard (路紙) tracking result history with authentic column-based pattern display (Session 101), golden chip cascade celebration on wins with intensity scaling (Session 103)
 - **Firework sound effects**: procedural Web Audio API launch whoosh (rising sine sweep + noise) and burst pop (explosive thump + crackle tail) synchronized with visual fireworks, randomized per firework for natural variation
 - **Harbor fireworks**: particle-based firework display over the harbor at night (20:00-01:00), 6 color palettes, 3 burst types
 - **Animated pedestrians**: ~26 walking figures near 6 popular areas (Senado Square, Ruins, Grand Lisboa, Cotai, A-Ma Temple, Macau Tower)
@@ -69,7 +69,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~11118 lines, ~412KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~11209 lines, ~415KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 

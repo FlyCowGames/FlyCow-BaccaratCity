@@ -793,6 +793,19 @@
 - Splash layer at z-index 51 (just above rain drops at z-index 50)
 - File grew from ~11095 to ~11118 lines (+23 lines)
 
+## Session 103 — 2026-03-24 (Automated Agent)
+- Golden chip celebration effect: cascading gold casino chips on baccarat wins
+- CSS-animated chip particles fall from top of screen when player wins a hand
+- Radial gradient gold chips with $ symbol, border, and box-shadow for 3D appearance
+- Intensity scales with win amount: 8 chips (small win), 14 (medium), 20 (big), 28 (jackpot 50K+)
+- Big wins (10K+) include larger "big" variant chips with brighter gold gradient
+- Staggered fall timing: random delays (0-0.8s), durations (1.6-2.8s), and rotation angles per chip
+- Auto-cleanup: celebration container removed after 3.5s
+- Mobile-responsive: smaller chips (22px vs 28px) on viewports under 600px
+- Respects prefers-reduced-motion media query for accessibility
+- Directly serves Prime Directive #8 ("Baccarat is the Soul") — winning feels rewarding
+- File grew from ~11118 to ~11209 lines (+91 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
