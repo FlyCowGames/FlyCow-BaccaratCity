@@ -2,12 +2,12 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-24 (Session 118)
+## Last Updated: 2026-03-24 (Session 121)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
 - Cinematic 7-stage flythrough with dramatic title cards: bird's eye > Cotai > Venetian > City of Dreams/Galaxy > Wynn Palace > Harbour > Grand Lisboa > Ruins of St. Paul's > overview. Each stage features multi-line cinematic labels with gold gradient title, Chinese subtitle, descriptive tagline, and staggered slide-up CSS animations
-- 12 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park
+- 13 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau
 - Real-time day/night cycle driven by actual Macau time (UTC+8) via CesiumJS sun position
 - Live weather from Open-Meteo API: temperature, conditions, humidity, wind, cloud cover
 - Weather-reactive atmosphere: rain overlay, fog, cloud-dimmed lighting
@@ -71,6 +71,7 @@
 - **Senado Square landmark**: Full clickable landmark for Macau's most famous public space (Largo do Senado) with billboard marker at correct coordinates, rich info card with UNESCO heritage description and calçada pavement facts, swipeable photo gallery (3 Wikimedia Commons images), walk tour auto-opens card at this stop (Session 117)
 - **Casino free shuttle buses**: 6 casino shuttle buses (發財車/Fortune Buses) on 3 routes — Outer Harbour to Grand Lisboa (gold), Outer Harbour to Cotai Strip (purple/Galaxy), Taipa Ferry to City of Dreams (blue). Canvas-drawn casino-branded buses with CallbackProperty ping-pong movement. Always active (24/7), minimap tracking with magenta dots (Session 116)
 - **Traditional paifang gateway arches**: 5 ornamental Chinese gateway arches (牌坊) at key Macau entrances — Border Gate (關閘), Rua do Cunha (官也街), Barra Square (媽閣廟前地), Three Lamps District (三盞燈), Rua da Felicidade (福隆新街). Canvas-drawn with curved green-tile roof, red lacquer pillars, gold Chinese text, decorative brackets. Static billboards at street level (8-10m altitude), always active (Session 118)
+- **MGM Macau landmark**: Full clickable landmark for MGM Macau (美高梅) — the wave-shaped golden glass casino on the Peninsula waterfront. Info card with 3 Wikimedia Commons photos, description, facts. Enter Casino button for baccarat. Neon glow zone, sky beam, searchlight, water reflection, obstacle light. Added to Casinos in Explore panel (Session 121)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -79,7 +80,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~12000 lines, ~445KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~12600 lines, ~469KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 

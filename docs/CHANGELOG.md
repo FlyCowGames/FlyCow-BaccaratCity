@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 121 — 2026-03-24 (Automated Agent)
+- MGM Macau (美高梅) added as a full landmark — completes all casinos from the Prime Directive
+- 3 real Wikimedia Commons photos: wave-shaped golden facade, dusk view, golden lion entrance
+- Info card with facts about 10m golden lion statue, US$1.25B cost, three shades of gold glass
+- Enter Casino button enables baccarat play from MGM Macau landmark card
+- Added to Casinos section of Explore panel
+- Night features: neon glow zone, sky beam, searchlight, water reflection, obstacle light
+- Feature tip for discoverability
+
 ## Session 118 — 2026-03-24 (Automated Agent)
 - Traditional Chinese paifang (牌坊) gateway arches: 5 ornamental gateways at key Macau entrances
 - Locations: Border Gate (關閘), Rua do Cunha (官也街), Barra Square (媽閣廟前地), Three Lamps District (三盞燈), Rua da Felicidade (福隆新街)

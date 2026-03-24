@@ -1397,6 +1397,23 @@
       ],
       "linesAdded": 95,
       "agent": "automated"
+    },
+    {
+      "session": 121,
+      "date": "2026-03-24",
+      "title": "MGM Macau Landmark",
+      "domain": "landmarks",
+      "summary": "MGM Macau added as a full landmark — completing all casinos from the Prime Directive landmark list.",
+      "details": [
+        "Added MGM Macau to LANDMARKS array with wave-shaped golden facade description and 3 Wikimedia Commons photos",
+        "Info card with facts about 10m golden lion statue, US$1.25B cost, three shades of gold glass",
+        "Enter Casino button enables baccarat play from MGM Macau landmark card",
+        "Added to Casinos section of Explore panel",
+        "Golden neon glow zone, sky beam, searchlight, water reflection, and obstacle light at MGM coordinates",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 20,
+      "agent": "automated"
     }
   ]
 }

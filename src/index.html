@@ -1147,6 +1147,46 @@
     color: rgba(232,224,208,0.6); text-align: center;
     pointer-events: none;
   }
+  .lm-video {
+    position: relative; width: 100%; aspect-ratio: 16/9;
+    background: #060610; overflow: hidden; cursor: pointer;
+  }
+  .lm-video-thumb {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.7);
+    transition: filter 0.3s;
+  }
+  .lm-video:hover .lm-video-thumb { filter: brightness(0.85); }
+  .lm-video-play {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px; height: 56px; border-radius: 50%;
+    background: rgba(212,175,55,0.9);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, background 0.2s;
+    pointer-events: none;
+  }
+  .lm-video:hover .lm-video-play { transform: translate(-50%, -50%) scale(1.1); background: #d4af37; }
+  .lm-video-play::after {
+    content: ''; display: block;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 18px;
+    border-color: transparent transparent transparent #0a0a12;
+    margin-left: 3px;
+  }
+  .lm-video-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 20px 10px 8px;
+    background: linear-gradient(transparent, rgba(10,10,18,0.85));
+    font-family: 'DM Mono', monospace; font-size: 0.6rem;
+    color: rgba(232,224,208,0.6); text-align: center;
+    pointer-events: none;
+  }
+  .lm-video iframe {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    border: none;
+  }
   .lm-card-enter-casino {
     display: block; margin: 4px 24px 20px; padding: 10px 0;
     background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.1));
@@ -1649,7 +1689,7 @@
     .lm-card-chinese { font-size: 0.8rem; }
     .lm-card-meta { padding: 0 16px 10px; font-size: 0.7rem; }
     .lm-gallery-arrow { width: 36px; height: 36px; }
-    .lm-gallery-caption { font-size: 0.55rem; }
+    .lm-gallery-caption { font-size: 0.7rem; }
     .lm-card-body { padding: 10px 16px 6px; font-size: 0.8rem; }
     .lm-card-facts { padding: 6px 16px 16px; }
     .lm-card-facts li { font-size: 0.75rem; }
@@ -1659,38 +1699,38 @@
     /* Baccarat overlay — scrollable on mobile so Big Road is reachable */
     #baccarat-overlay { align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     #baccarat-backdrop { position: fixed; }
-    /* Baccarat table — readable, tap-friendly */
+    /* Baccarat table — readable, tap-friendly (min 14px / 0.875rem for body text) */
     .bacc-table { width: min(360px, 94vw); padding: 16px 14px 14px; border-radius: 120px 120px 10px 10px; margin: 40px auto; flex-shrink: 0; }
     .bacc-table::before { border-radius: 116px 116px 6px 6px; }
-    .bacc-casino-name { font-size: 0.9rem; margin-bottom: 14px; }
+    .bacc-casino-name { font-size: 0.95rem; margin-bottom: 14px; }
     .bacc-hands { gap: 10px; }
-    .bacc-hand-label { font-size: 0.7rem; }
+    .bacc-hand-label { font-size: 0.85rem; }
     .bacc-card { width: 36px; height: 52px; }
-    .bacc-card-rank { font-size: 0.8rem; }
-    .bacc-card-suit { font-size: 0.7rem; }
+    .bacc-card-rank { font-size: 0.85rem; }
+    .bacc-card-suit { font-size: 0.75rem; }
     .bacc-score { font-size: 1.2rem; }
-    .bacc-result { font-size: 0.8rem; }
-    .bacc-deal-btn { font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
-    .bacc-stats { font-size: 0.65rem; gap: 12px; }
+    .bacc-result { font-size: 0.875rem; }
+    .bacc-deal-btn { font-size: 0.875rem; padding: 12px 0; min-height: 44px; }
+    .bacc-stats { font-size: 0.8rem; gap: 12px; }
     .bacc-close { font-size: 1.4rem; top: 10px; right: 14px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    .bacc-title { font-size: 0.7rem; }
+    .bacc-title { font-size: 0.8rem; }
     .bacc-bankroll { margin-bottom: 8px; }
-    .bacc-bankroll-amount { font-size: 1rem; }
-    .bacc-bankroll-label { font-size: 0.65rem; }
+    .bacc-bankroll-amount { font-size: 1.1rem; }
+    .bacc-bankroll-label { font-size: 0.8rem; }
     .bacc-bet-areas { gap: 6px; margin-bottom: 8px; }
-    .bacc-bet-area { padding: 8px 6px; min-height: 44px; }
-    .bacc-bet-area-label { font-size: 0.65rem; }
-    .bacc-bet-area-payout { font-size: 0.6rem; }
-    .bacc-bet-area-amount { font-size: 0.7rem; }
+    .bacc-bet-area { padding: 10px 8px; min-height: 44px; }
+    .bacc-bet-area-label { font-size: 0.85rem; }
+    .bacc-bet-area-payout { font-size: 0.75rem; }
+    .bacc-bet-area-amount { font-size: 0.85rem; }
     .bacc-chips { gap: 6px; margin-bottom: 8px; }
-    .bacc-chip { width: 44px; height: 44px; font-size: 0.6rem; }
-    .bacc-clear-bet { font-size: 0.6rem; min-height: 36px; padding: 6px 12px; }
-    .bacc-payout-msg { font-size: 0.7rem; }
-    .bacc-reset-btn { font-size: 0.7rem; min-height: 44px; padding: 8px 16px; }
+    .bacc-chip { width: 46px; height: 46px; font-size: 0.75rem; }
+    .bacc-clear-bet { font-size: 0.8rem; min-height: 40px; padding: 8px 14px; }
+    .bacc-payout-msg { font-size: 0.85rem; }
+    .bacc-reset-btn { font-size: 0.85rem; min-height: 44px; padding: 8px 16px; }
     .bacc-road-wrap { margin-top: 6px; padding-top: 6px; }
-    .bacc-road-label { font-size: 0.45rem; }
-    .bacc-road-cell { width: 7px; height: 7px; }
-    .bacc-road-grid { min-height: 46px; }
+    .bacc-road-label { font-size: 0.55rem; }
+    .bacc-road-cell { width: 8px; height: 8px; }
+    .bacc-road-grid { min-height: 50px; }
 
     /* Stage label — flythrough */
     .stage-title { letter-spacing: 0.15em; }
@@ -1706,11 +1746,11 @@
     #share-toast { font-size: 0.75rem; bottom: calc(130px + env(safe-area-inset-bottom)); }
 
     /* Baccarat ticker — mobile */
-    #bacc-ticker { height: 28px; }
-    #bacc-ticker-label { font-size: 0.5rem; padding: 0 8px; letter-spacing: 0.12em; }
-    #bacc-ticker-track { font-size: 0.65rem; padding-left: 80px; }
+    #bacc-ticker { height: 30px; }
+    #bacc-ticker-label { font-size: 0.6rem; padding: 0 8px; letter-spacing: 0.1em; }
+    #bacc-ticker-track { font-size: 0.75rem; padding-left: 85px; }
     .ticker-item { padding: 0 14px; }
-    #bacc-ticker-close { padding: 4px 12px; min-width: 44px; min-height: 28px; }
+    #bacc-ticker-close { padding: 4px 12px; min-width: 44px; min-height: 30px; }
   }
 
   /* Event banner */
@@ -2054,6 +2094,7 @@
         <div class="lm-gallery-dots" id="lmc-gallery-dots"></div>
         <div class="lm-gallery-caption" id="lmc-gallery-caption"></div>
       </div>
+      <div id="lmc-video" class="lm-video" style="display:none"></div>
       <div class="lm-card-divider"></div>
       <div class="lm-card-body" id="lmc-desc"></div>
       <ul class="lm-card-facts" id="lmc-facts"></ul>
@@ -2197,6 +2238,7 @@ const LANDMARKS = [
     lat: 22.1893, lon: 113.5399, type: "Casino & Hotel", year: "2008",
     desc: "The Grand Lisboa is Macau's most iconic building \u2014 a 258-metre lotus-shaped tower that dominates the peninsula skyline. Designed by Dennis Lau & Ng Chun Man Architects, it houses the world's largest casino floor and holds the famous Star of Stanley Ho, a 218.08-carat diamond.",
     facts: ["258m tall \u2014 tallest building in Macau", "Shaped like a blooming lotus flower", "Houses the 218-carat Star of Stanley Ho diamond", "Over 800 gaming tables across multiple floors"],
+    video: { id: "Ra7cMBy2iB8", title: "Grand Lisboa Luxury Resort (4K)" },
     photos: [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Grand_Lisboa%2C_Macau_%285234996532%29.jpg/960px-Grand_Lisboa%2C_Macau_%285234996532%29.jpg", caption: "Grand Lisboa tower at dusk" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Grand_Lisboa%2C_Macau_%285234406089%29.jpg/960px-Grand_Lisboa%2C_Macau_%285234406089%29.jpg", caption: "The iconic lotus-shaped silhouette" },
@@ -2206,6 +2248,7 @@ const LANDMARKS = [
     lat: 22.1494, lon: 113.5590, type: "Integrated Resort", year: "2007",
     desc: "The Venetian Macao is the largest casino in the world by floor area, modelled after its Las Vegas sister. Its 550,000 sq ft gaming floor hosts over 3,000 slot machines. Inside, a quarter-mile Grand Canal with singing gondoliers recreates Venice under a painted sky ceiling.",
     facts: ["Largest casino in the world by floor area", "3,000+ slot machines and 800+ gaming tables", "Indoor canal with real gondola rides", "15,000-seat Cotai Arena for concerts and events"],
+    video: { id: "glp-sA-9Pks", title: "Venice of Asia — The Venetian Macao (4K)" },
     photos: [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Venetian_Macau.jpg/960px-Venetian_Macau.jpg", caption: "The Venetian Macao exterior" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/5/54/Venetian_Macao_%283270334415%29.jpg", caption: "Grand Canal Shoppes interior" },
@@ -2215,6 +2258,7 @@ const LANDMARKS = [
     lat: 22.1801, lon: 113.5318, type: "Observation Tower", year: "2001",
     desc: "Standing 338 metres above Nam Van Lake, the Macau Tower Convention & Entertainment Centre was designed by Gordon Moller. Its observation deck at 223m offers panoramic views stretching 55km on clear days. Thrill-seekers can attempt the world's highest commercial bungee jump from 233 metres.",
     facts: ["338m tall \u2014 10th tallest freestanding tower in the world", "World's highest commercial bungee jump (233m)", "Revolving restaurant completes a rotation every 90 minutes", "Skywalk X lets visitors walk around the outer rim at 233m"],
+    video: { id: "2nqlR4d8PPM", title: "World's Highest Bungee — Macau Tower" },
     photos: [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Torre_de_Macao%2C_2013-08-08%2C_DD_04.jpg/960px-Torre_de_Macao%2C_2013-08-08%2C_DD_04.jpg", caption: "Macau Tower overlooking Nam Van Lake" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Macau_Tower_edit1.JPG/960px-Macau_Tower_edit1.JPG", caption: "Tower from the waterfront" },
@@ -2224,6 +2268,7 @@ const LANDMARKS = [
     lat: 22.1974, lon: 113.5410, type: "UNESCO Heritage", year: "1602",
     desc: "The iconic stone facade is all that remains of the Church of Mater Dei, once the largest Catholic church in East Asia. Built in 1602\u20131640, it was destroyed by a typhoon-sparked fire in 1835. The surviving facade blends Renaissance and Oriental stone carvings, and has been a UNESCO World Heritage Site since 2005.",
     facts: ["Built 1602\u20131640 by Japanese Christian exiles and Chinese craftsmen", "Largest Catholic church in East Asia before the 1835 fire", "UNESCO World Heritage Site since 2005", "Facade carvings mix Christian imagery with Chinese and Japanese motifs"],
+    video: { id: "TDS00a-NBMg", title: "Ruins of St. Paul's Walking Tour (4K)" },
     photos: [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Ruins_of_St._Paul%2C_Macau%2C_during_a_festival.jpg/960px-Ruins_of_St._Paul%2C_Macau%2C_during_a_festival.jpg", caption: "The iconic facade during a festival" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Ruins_of_the_Church_of_St_Paul%2C_Macau_%285240102278%29.jpg/960px-Ruins_of_the_Church_of_St_Paul%2C_Macau_%285240102278%29.jpg", caption: "Approaching the ruins from the stairway" },
@@ -2242,6 +2287,7 @@ const LANDMARKS = [
     lat: 22.1478, lon: 113.5630, type: "Casino & Hotel", year: "2016",
     desc: "Wynn Palace is a US$4.2 billion luxury resort on the Cotai Strip, known for its spectacular Performance Lake \u2014 a choreographed fountain show set to music with flames and LED lights. SkyCabs (cable cars) carry guests over the lake for a bird's eye view of the water ballet.",
     facts: ["US$4.2 billion construction cost", "Performance Lake with choreographed water, fire, and light shows", "SkyCab cable cars over the fountain lake", "Largest collection of floral sculptures by Preston Bailey"],
+    video: { id: "znl2uOz0wsY", title: "Wynn Palace Performance Lake Show" },
     photos: [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Wynn_Palace_Macau_2016.jpg/960px-Wynn_Palace_Macau_2016.jpg", caption: "Wynn Palace and Performance Lake" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Wynn_Palace_%28Macau%29_-_Operational_in_2017.jpg/960px-Wynn_Palace_%28Macau%29_-_Operational_in_2017.jpg", caption: "Wynn Palace resort complex" },
@@ -2300,6 +2346,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Seac_Pai_Van_Park_2011_02_01.JPG/960px-Seac_Pai_Van_Park_2011_02_01.JPG", caption: "Seac Pai Van Park entrance" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Seac_Pai_Van_Park_13-01-2023.jpg/960px-Seac_Pai_Van_Park_13-01-2023.jpg", caption: "Park gardens and pathways" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Seac_Pai_Van_Park_05.jpg/960px-Seac_Pai_Van_Park_05.jpg", caption: "Park grounds and greenery" },
+    ] },
+  { name: "MGM Macau", chinese: "\u7F8E\u9AD8\u6885", emoji: "\uD83C\uDFB0",
+    lat: 22.1848, lon: 113.5417, type: "Casino & Hotel", year: "2007",
+    desc: "MGM Macau is a striking 35-storey casino resort on the Macau Peninsula waterfront, instantly recognizable by its wave-shaped golden glass facade inspired by the South China Sea. Opened in 2007 as a joint venture between MGM Resorts International and Pansy Ho, the building features three tiers of differently tinted gold glass. A 10-metre tall, 63-tonne golden lion bronze statue guards the main entrance.",
+    facts: ["Wave-shaped facade built with three shades of golden glass", "10-metre tall golden lion statue (63 tonnes) at the entrance", "US$1.25 billion construction cost", "Grande Pra\u00E7a atrium inspired by Lisbon\u2019s central train station"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/MGM_Grand_Macau_edit1.jpg/960px-MGM_Grand_Macau_edit1.jpg", caption: "MGM Macau's iconic wave-shaped facade" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/MGM_Grand%2C_Macao%2C_2013-08-08%2C_DD_19.jpg/960px-MGM_Grand%2C_Macao%2C_2013-08-08%2C_DD_19.jpg", caption: "MGM Macau at dusk" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/MGM_Grand_Macau_Main_Enterance.jpg/960px-MGM_Grand_Macau_Main_Enterance.jpg", caption: "The golden lion entrance" },
     ] },
 ];
 
@@ -3493,6 +3548,38 @@ function showLandmarkCard(lm) {
     galleryEl.style.display = 'none';
   }
 
+  // Video embed (lite: thumbnail + play button, loads iframe on click)
+  var videoEl = document.getElementById('lmc-video');
+  videoEl.innerHTML = '';
+  if (lm.video && lm.video.id) {
+    videoEl.style.display = 'block';
+    var thumbImg = document.createElement('img');
+    thumbImg.className = 'lm-video-thumb';
+    thumbImg.src = 'https://img.youtube.com/vi/' + lm.video.id + '/hqdefault.jpg';
+    thumbImg.alt = lm.video.title || 'Video';
+    thumbImg.loading = 'lazy';
+    videoEl.appendChild(thumbImg);
+    var playBtn = document.createElement('div');
+    playBtn.className = 'lm-video-play';
+    videoEl.appendChild(playBtn);
+    var label = document.createElement('div');
+    label.className = 'lm-video-label';
+    label.textContent = lm.video.title || 'Watch Video';
+    videoEl.appendChild(label);
+    videoEl.onclick = function() {
+      videoEl.innerHTML = '';
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + lm.video.id + '?autoplay=1&rel=0';
+      iframe.allow = 'autoplay; encrypted-media';
+      iframe.allowFullscreen = true;
+      videoEl.appendChild(iframe);
+      videoEl.style.cursor = 'default';
+      videoEl.onclick = null;
+    };
+  } else {
+    videoEl.style.display = 'none';
+  }
+
   // Facts
   var factsEl = document.getElementById('lmc-facts');
   factsEl.innerHTML = '';
@@ -3520,6 +3607,9 @@ function showLandmarkCard(lm) {
 
 function hideLandmarkCard() {
   document.getElementById('landmark-card').classList.remove('visible');
+  // Stop any playing video by clearing the iframe
+  var videoEl = document.getElementById('lmc-video');
+  if (videoEl) { videoEl.innerHTML = ''; videoEl.style.display = 'none'; }
 }
 
 // Close card: click backdrop, close button, or Escape key
@@ -5185,6 +5275,7 @@ var NEON_ZONES = [
   { name: 'Lisboa Area',        lon: 113.5400, lat: 22.1905, color: [255, 190, 70],  intensity: 0.7 },
   { name: 'Wynn Macau Glow',    lon: 113.5410, lat: 22.1930, color: [255, 200, 100], intensity: 0.7 },
   // Waterfront
+  { name: 'MGM Macau Glow',     lon: 113.5417, lat: 22.1848, color: [255, 210, 80],  intensity: 0.75 },
   { name: 'NAPE District',      lon: 113.5440, lat: 22.1870, color: [255, 200, 120], intensity: 0.5 },
   { name: 'Fisherman\'s Wharf', lon: 113.5510, lat: 22.1920, color: [200, 180, 140], intensity: 0.4 },
 ];
@@ -5328,6 +5419,7 @@ var ATTRACTIONS = {
     { name: "Galaxy Macau", chinese: "銀河", icon: "🎰", lat: 22.1487, lon: 113.5544, alt: 350, pitch: -25 },
     { name: "Wynn Palace", chinese: "永利皇宮", icon: "🎰", lat: 22.1478, lon: 113.5630, alt: 300, pitch: -25 },
     { name: "City of Dreams", chinese: "新濠天地", icon: "🎰", lat: 22.1486, lon: 113.5586, alt: 300, pitch: -25 },
+    { name: "MGM Macau", chinese: "美高梅", icon: "🎰", lat: 22.1848, lon: 113.5417, alt: 300, pitch: -25 },
   ],
   development: [
     { name: "Zone A New Town", chinese: "新城A區", icon: "🏗", lat: 22.2050, lon: 113.5485, alt: 400, pitch: -30 },
@@ -6832,6 +6924,8 @@ var CASINO_REFLECTIONS = [
   { name: 'Grand Lisboa Reflection 2', lon: 113.5380, lat: 22.1865, color: [255, 200, 50], length: 2 },
   // Wynn Macau — reflects into Nam Van Lake
   { name: 'Wynn Macau Reflection', lon: 113.5405, lat: 22.1905, color: [255, 200, 100], length: 2.5 },
+  // MGM Macau — golden wave facade reflects into harbour
+  { name: 'MGM Macau Reflection', lon: 113.5420, lat: 22.1835, color: [255, 210, 50], length: 2.2 },
   // NAPE waterfront — direct harbor reflection
   { name: 'NAPE Reflection', lon: 113.5445, lat: 22.1845, color: [255, 190, 100], length: 2 },
   { name: 'NAPE Reflection 2', lon: 113.5460, lat: 22.1840, color: [255, 180, 80], length: 1.8 },
@@ -7273,6 +7367,7 @@ var SKY_BEAM_CASINOS = [
   { name: 'Galaxy Beam',      lon: 113.5544, lat: 22.1487, color: [255, 200, 80],  height: 320, swaySpeed: 0.06, swayAmp: 0.00018 },
   { name: 'Wynn Palace Beam', lon: 113.5630, lat: 22.1478, color: [255, 180, 60],  height: 300, swaySpeed: 0.08, swayAmp: 0.00016 },
   { name: 'City of Dreams Beam', lon: 113.5586, lat: 22.1486, color: [180, 140, 255], height: 280, swaySpeed: 0.055, swayAmp: 0.00017 },
+  { name: 'MGM Macau Beam',    lon: 113.5417, lat: 22.1848, color: [255, 200, 50],  height: 260, swaySpeed: 0.065, swayAmp: 0.00015 },
 ];
 
 var _skyBeamEntities = [];
@@ -7367,6 +7462,7 @@ var SEARCHLIGHT_CASINOS = [
   { name: 'Wynn Searchlight',        lon: 113.5634, lat: 22.1482, alt: 110, color: [255, 200, 180], period: 14, phase: 3.8, sweep: 2.2 },
   { name: 'MGM Cotai Searchlight',   lon: 113.5560, lat: 22.1462, alt: 100, color: [200, 230, 255], period: 11, phase: 5.0, sweep: 2.0 },
   { name: 'Studio City Searchlight', lon: 113.5520, lat: 22.1382, alt: 115, color: [255, 180, 220], period: 13, phase: 0.7, sweep: 2.6 },
+  { name: 'MGM Macau Searchlight',  lon: 113.5417, lat: 22.1848, alt: 130, color: [255, 215, 100], period: 11.5, phase: 4.2, sweep: 2.1 },
 ];
 
 var _searchlightEntities = [];
@@ -10113,6 +10209,7 @@ var OBSTACLE_LIGHT_BUILDINGS = [
   { name: 'MGM Cotai',     lon: 113.5567, lat: 22.1463, alt: 155 }, // ~150m
   { name: 'City of Dreams',lon: 113.5560, lat: 22.1510, alt: 160 }, // ~155m
   { name: 'Studio City',   lon: 113.5620, lat: 22.1340, alt: 145 }, // ~140m (figure-eight)
+  { name: 'MGM Macau',    lon: 113.5417, lat: 22.1848, alt: 155 }, // ~154m (35 storeys)
 ];
 
 var _obstacleLightEntities = [];
@@ -12246,7 +12343,7 @@ function addSkyCabs(viewer) {
     { icon: '🌊', text: 'Try Typhoon Demo to see T8 signal storm effects' },
     { icon: '🚶', text: isTouch ? 'Tap Walk Tour for a cinematic guided tour with photos at each landmark' : 'Press W for a cinematic walking tour — auto-opens photo galleries at each stop' },
     { icon: '🌠', text: 'Look up at night for shooting stars across the sky' },
-    { icon: '📍', text: isTouch ? 'Tap any landmark for photos, facts, and history — swipe the gallery' : 'Click any landmark for photos, facts, and history' },
+    { icon: '📍', text: isTouch ? 'Tap any landmark for photos, videos, and history — swipe the gallery' : 'Click any landmark for photos, videos, and history — watch fountain shows, bungee jumps, and more' },
     { icon: '🔊', text: isTouch ? 'Enable sound — hear casino chimes near Cotai, temple bells near A-Ma, waves by the harbour' : 'Press M for sound — fly near casinos, temples, or harbour to hear spatial audio zones' },
     { icon: '🪷', text: 'Spot floating lotus flowers on Nam Van Lake — Macau\'s official emblem' },
     { icon: '🧘', text: 'Look for morning tai chi groups in parks between 5-9 AM Macau time' },
@@ -12262,6 +12359,7 @@ function addSkyCabs(viewer) {
     { icon: '🏛️', text: isTouch ? 'Tap Senado Square to see its famous wave-pattern pavement and colonial buildings — swipe through the photo gallery' : 'Press 9 to visit Senado Square — Macau\'s UNESCO heritage heart with wave-pattern cal\u00E7ada pavement' },
     { icon: '🏖️', text: isTouch ? 'Explore Coloane Island — Hac Sa Beach, the village, and giant pandas at Seac Pai Van Park' : 'Press 0 to visit Hac Sa Beach on Coloane Island — black sand, village chapel, and giant pandas' },
     { icon: '⏩', text: isTouch ? 'Tap the 24H button by the clock to watch a full day cycle in 48 seconds — see dawn mist, tai chi, sunset, neon lights' : 'Press P to play a 24-hour time-lapse — watch dawn mist, morning tai chi, golden hour, and neon lights in 48 seconds' },
+    { icon: '🦁', text: 'Visit MGM Macau — the golden wave-shaped casino with its iconic 10-metre lion statue at the entrance' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;
