@@ -770,6 +770,29 @@
 - CSS flash overlay + canvas bolt at z-index 49 (between shooting stars and rain)
 - File grew from ~10714 to ~10908 lines (+194 lines)
 
+## Session 101 — 2026-03-24 (Automated Agent)
+- Baccarat Big Road scorecard (路紙/大路): traditional result tracking grid in the baccarat overlay
+- Authentic column-based layout: consecutive same-side wins stack vertically (up to 6 rows), side changes start new column
+- Player results shown as blue gradient circles, Banker as red gradient circles
+- Tie results marked as green dots overlaid on the previous non-tie result cell
+- Dragon tail support: columns exceeding 6 rows extend horizontally (authentic baccarat road behavior)
+- Shows last 20 columns to prevent overflow; grid is scrollable if needed
+- Road history persists across hands within a session, resets with New Bankroll button (also resets stats)
+- Mobile-responsive: 7px cells at 600px breakpoint (vs 8px desktop), proportional grid height
+- Directly serves Prime Directive #8 ("Baccarat is the Soul") — Big Road is THE defining visual of Macau casinos
+- File grew from ~10958 to ~11095 lines (+137 lines)
+
+## Session 102 — 2026-03-24 (Automated Agent)
+- Rain splash ripple effects: expanding ripple animations on screen during rainfall
+- CSS-animated elliptical splashes spawn in the lower 40% of viewport during rain
+- Radial gradient fill with border creates convincing water-surface ripple appearance
+- Three intensity levels matching rain: light (400ms interval), moderate (200ms), heavy (80ms)
+- Integrated with both weather API rain detection and Typhoon Demo mode
+- Auto-cleanup: each splash element removed after 750ms animation completes
+- Respects prefers-reduced-motion media query for accessibility
+- Splash layer at z-index 51 (just above rain drops at z-index 50)
+- File grew from ~11095 to ~11118 lines (+23 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html

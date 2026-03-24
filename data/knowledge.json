@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 98,
+  "last_updated_session": 102,
   "learnings": [
     {
       "type": "pattern",
@@ -30,11 +30,11 @@
       "domain": "rendering",
       "title": "CSS particle effects are lightweight alternatives to WebGL",
       "description": "CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.",
-      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps.",
+      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes.",
       "tags": ["performance", "css", "animation"],
       "weight": 0.8,
-      "times_applied": 4,
-      "times_successful": 4
+      "times_applied": 5,
+      "times_successful": 5
     },
     {
       "type": "pattern",
@@ -201,6 +201,28 @@
       "times_applied": 1,
       "times_successful": 1
     }
+    ,{
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "CSS Grid with explicit row/column placement for tabular game data",
+      "description": "Using CSS Grid with grid-auto-flow: column and explicit grid-row/grid-column style on each cell allows precise placement of baccarat road scorecard data. The Big Road pattern requires cells to stack vertically within columns and dragon-tail horizontally when overflowing — grid placement handles this naturally without complex table/flex layout. Dynamic grid-template-columns via JS adapts to data size.",
+      "evidence": "Session 101: Big Road scorecard with 6-row grid, column-based streaks, dragon tail overflow. 12 cells across 6 columns rendered correctly on both desktop and mobile.",
+      "tags": ["css-grid", "interactivity", "baccarat", "responsive"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "Layered weather effects compound for immersion",
+      "description": "Adding secondary effects to existing weather systems (splash ripples to rain drops, thunder to lightning) compounds the immersion without replacing the original. Each layer adds a distinct sensory channel. Key: keep secondary effects subtle — they should enhance, not compete with, the primary effect.",
+      "evidence": "Session 102: rain splash ripples added below existing rain drops. Session 98: thunder added to lightning bolts. Both integrate into the same weather/typhoon activation flow with minimal new code.",
+      "tags": ["atmosphere", "weather", "css", "layering"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    }
   ],
   "anti_patterns": [
     {
@@ -305,6 +327,12 @@
       "question": "How to add dramatic storm effects beyond rain and wind?",
       "chosen": "Canvas-drawn forked lightning bolts + CSS screen flash + Web Audio API thunder, triggered by WMO thunderstorm codes and typhoon T8+",
       "rationale": "Lightning is the most cinematic missing piece of the weather system. Canvas drawing allows recursive forked bolts with glow. CSS flash overlay is simpler than CesiumJS scene manipulation. Web Audio thunder reuses proven procedural audio pattern. Dual trigger (weather API + typhoon demo) ensures visibility since real thunderstorms are rare.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to deepen the baccarat experience beyond card dealing?",
+      "chosen": "Big Road (大路) scorecard below stats — CSS Grid with explicit cell placement, column-based streaks, tie marks as green dot overlays",
+      "rationale": "Big Road is THE most iconic visual element of Macau casinos — every baccarat table has electronic scorecards. Enhances existing feature rather than building new entity. CSS Grid handles the column/row placement naturally. Small visual footprint (54px height) doesn't crowd the already-full baccarat overlay. Future: could add Bead Plate, Big Eye Boy, Small Road, Cockroach Pig for complete scorecard set.",
       "revisit_after_session": null
     }
   ]

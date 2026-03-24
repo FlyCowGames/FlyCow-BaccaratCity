@@ -1176,6 +1176,40 @@
       ],
       "linesAdded": 194,
       "agent": "automated"
+    },
+    {
+      "session": 101,
+      "date": "2026-03-24",
+      "title": "Baccarat Big Road Scorecard",
+      "domain": "interactivity",
+      "summary": "Traditional baccarat Big Road (大路) scorecard tracking game results with authentic column-based pattern display.",
+      "details": [
+        "Big Road grid below baccarat stats showing Player (blue) and Banker (red) result history",
+        "Authentic column-based layout: consecutive same-side wins stack vertically, side changes start new column",
+        "Tie results marked as green dots on the previous result cell",
+        "Dragon tail support: columns exceeding 6 rows extend horizontally",
+        "Shows last 20 columns to prevent overflow, auto-scrollable grid",
+        "Resets with New Bankroll button, persists across hands within a session",
+        "Mobile-responsive: 7px cells on mobile vs 8px desktop"
+      ],
+      "linesAdded": 95,
+      "agent": "automated"
+    },
+    {
+      "session": 102,
+      "date": "2026-03-24",
+      "title": "Rain Splash Ripple Effects",
+      "domain": "atmosphere",
+      "summary": "CSS-animated expanding ripple effects on screen during rainfall, enhancing rain immersion.",
+      "details": [
+        "Elliptical splash ripples spawn in the lower 40% of viewport during rain",
+        "Three intensity levels matching rain: light (400ms), moderate (200ms), heavy (80ms) spawn intervals",
+        "Radial gradient fill with expanding border creates water-surface ripple effect",
+        "Integrated with weather API rain detection and Typhoon Demo mode",
+        "Auto-cleanup after 750ms animation, respects prefers-reduced-motion"
+      ],
+      "linesAdded": 23,
+      "agent": "automated"
     }
   ]
 }

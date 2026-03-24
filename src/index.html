@@ -362,6 +362,31 @@
     100% { transform: translateY(100vh); }
   }
 
+  /* Rain splash ripples */
+  #rain-splash-layer {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 40%;
+    pointer-events: none; z-index: 51;
+    overflow: hidden;
+    opacity: 0; transition: opacity 2s ease;
+  }
+  #rain-splash-layer.active { opacity: 1; }
+  .rain-splash {
+    position: absolute;
+    width: 8px; height: 4px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,215,235,0.6);
+    background: radial-gradient(ellipse, rgba(200,215,235,0.3) 0%, transparent 70%);
+    animation: splashRipple 0.7s ease-out forwards;
+  }
+  @keyframes splashRipple {
+    0% { transform: scale(0.5); opacity: 0.8; }
+    40% { transform: scale(2.5); opacity: 0.5; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rain-splash { animation-duration: 0.01ms !important; }
+  }
+
   /* Replay button */
   #walk-btn {
     position: absolute; bottom: 28px; left: 50%; transform: translateX(calc(-50% - 195px));
@@ -1086,6 +1111,55 @@
     color: rgba(212,175,55,0.35); letter-spacing: 0.1em; text-transform: uppercase;
   }
 
+  /* Baccarat Big Road Scorecard (路紙) */
+  .bacc-road-wrap {
+    margin-top: 10px; padding-top: 8px;
+    border-top: 1px solid rgba(212,175,55,0.12);
+  }
+  .bacc-road-label {
+    text-align: center; font-family: 'Noto Sans SC', sans-serif; font-size: 0.5rem;
+    color: rgba(212,175,55,0.35); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .bacc-road-grid {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 1px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(212,175,55,0.15);
+    border-radius: 3px;
+    padding: 2px;
+    min-height: 54px;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .bacc-road-cell {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    position: relative;
+  }
+  .bacc-road-cell.player-cell {
+    background: radial-gradient(circle at 35% 35%, rgba(130,180,255,0.9), rgba(60,100,220,0.8));
+    box-shadow: 0 0 2px rgba(100,160,255,0.4);
+  }
+  .bacc-road-cell.banker-cell {
+    background: radial-gradient(circle at 35% 35%, rgba(255,140,140,0.9), rgba(220,60,60,0.8));
+    box-shadow: 0 0 2px rgba(255,100,100,0.4);
+  }
+  .bacc-road-cell.tie-mark::after {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: rgba(80,200,80,0.8);
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+  .bacc-road-cell.empty-cell {
+    background: transparent;
+  }
+
   /* Baccarat Betting System */
   .bacc-bankroll {
     text-align: center; margin-bottom: 14px;
@@ -1388,6 +1462,10 @@
     .bacc-clear-bet { font-size: 0.6rem; min-height: 36px; padding: 6px 12px; }
     .bacc-payout-msg { font-size: 0.7rem; }
     .bacc-reset-btn { font-size: 0.7rem; min-height: 44px; padding: 8px 16px; }
+    .bacc-road-wrap { margin-top: 6px; padding-top: 6px; }
+    .bacc-road-label { font-size: 0.45rem; }
+    .bacc-road-cell { width: 7px; height: 7px; }
+    .bacc-road-grid { min-height: 46px; }
 
     /* Stage label — flythrough */
     .stage-title { letter-spacing: 0.15em; }
@@ -1602,6 +1680,7 @@
 <div id="cloud-layer"></div>
 <div id="color-grading"></div>
 <div id="rain-overlay"></div>
+<div id="rain-splash-layer"></div>
 <canvas id="shootingstar-canvas"></canvas>
 <canvas id="wind-canvas"></canvas>
 <div id="lightning-flash"></div>
@@ -1696,6 +1775,8 @@
       <div class="help-row"><span class="help-key">6</span><span class="help-desc">Wynn Palace</span></div>
       <div class="help-row"><span class="help-key">7</span><span class="help-desc">A-Ma Temple</span></div>
       <div class="help-row"><span class="help-key">8</span><span class="help-desc">City of Dreams</span></div>
+      <div class="help-row"><span class="help-key">9</span><span class="help-desc">Hac Sa Beach</span></div>
+      <div class="help-row"><span class="help-key">0</span><span class="help-desc">Coloane Village</span></div>
       <div class="help-section">Time Control</div>
       <div class="help-row"><span class="help-key">N</span><span class="help-desc">Preview night (22:00)</span></div>
       <div class="help-row"><span class="help-key">D</span><span class="help-desc">Preview day (12:00)</span></div>
@@ -1799,6 +1880,10 @@
         <span>Banker: <b id="bacc-stat-b">0</b></span>
         <span>Tie: <b id="bacc-stat-t">0</b></span>
       </div>
+      <div class="bacc-road-wrap">
+        <div class="bacc-road-label">Big Road &#x8DEF;&#x7D19;</div>
+        <div class="bacc-road-grid" id="bacc-road-grid"></div>
+      </div>
     </div>
   </div>
 
@@ -1852,6 +1937,10 @@
     <div class="panel-section collapsed">
       <div class="panel-section-title">Wildlife</div>
       <div class="panel-section-content"><div id="wildlife-list"></div></div>
+    </div>
+    <div class="panel-section collapsed">
+      <div class="panel-section-title">Coloane</div>
+      <div class="panel-section-content"><div id="coloane-list"></div></div>
     </div>
   </div>
 </div>
@@ -1938,6 +2027,33 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Macau-Morpheus-01.jpg/960px-Macau-Morpheus-01.jpg", caption: "The Morpheus tower by Zaha Hadid" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Macau-Morpheus-02.jpg/960px-Macau-Morpheus-02.jpg", caption: "Morpheus exoskeleton detail" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Macau-Morpheus-03.jpg/960px-Macau-Morpheus-03.jpg", caption: "City of Dreams and Morpheus tower" },
+    ] },
+  { name: "Hac Sa Beach", chinese: "\u9ED1\u6C99\u6D77\u7058", emoji: "\uD83C\uDFD6\uFE0F",
+    lat: 22.1164, lon: 113.5681, type: "Natural Beach", year: "",
+    desc: "Hac Sa Beach is Macau\u2019s largest natural beach, famous for its distinctive black sand \u2014 a mix of mineral deposits washed from the hills of Coloane. Located on the southeastern coast of Coloane Island, the crescent-shaped beach stretches about 400 metres and is backed by barbecue areas, parks, and the Grand Coloane Resort.",
+    facts: ["Largest natural beach in Macau \u2014 about 400m long", "Name means 'Black Sand' in Cantonese (\u9ED1\u6C99)", "Black sand comes from mineral deposits washed from Coloane hills", "Popular for barbecues, swimming, and water sports"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Hac_Sa_Beach_-_view_from_Coloane_Alto.jpg/960px-Hac_Sa_Beach_-_view_from_Coloane_Alto.jpg", caption: "Hac Sa Beach viewed from Coloane Alto" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Hac_Sa_Beach_19-02-2023.jpg/960px-Hac_Sa_Beach_19-02-2023.jpg", caption: "The distinctive black sand beach" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Hac_Sa_Beach_Sunset_%284944855201%29.jpg/960px-Hac_Sa_Beach_Sunset_%284944855201%29.jpg", caption: "Sunset over Hac Sa Beach" },
+    ] },
+  { name: "Coloane Village", chinese: "\u8DEF\u74B0\u6751", emoji: "\uD83C\uDFD8\uFE0F",
+    lat: 22.1236, lon: 113.5617, type: "Historic Village", year: "1928",
+    desc: "Coloane Village is a tranquil enclave preserving Macau\u2019s pre-casino character. Centred around the pastel-coloured Chapel of St. Francis Xavier (1928), the village retains narrow lanes, Portuguese colonial shophouses, and the Eduardo Marques Square with its wave-patterned calçada pavement. Lord Stow\u2019s Bakery, birthplace of the Macau egg tart, draws visitors from around the world.",
+    facts: ["Chapel of St. Francis Xavier built in 1928 in baroque style", "Home to Lord Stow\u2019s Bakery \u2014 birthplace of the famous Macau egg tart", "Eduardo Marques Square features Portuguese wave-pattern pavement", "One of the last areas in Macau with traditional village character"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Capela_de_S%C3%A3o_Francisco_Xavier_%28Macau%29_01.JPG/960px-Capela_de_S%C3%A3o_Francisco_Xavier_%28Macau%29_01.JPG", caption: "Chapel of St. Francis Xavier" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Coloane_Village%2C_Macau_%282051970053%29.jpg/960px-Coloane_Village%2C_Macau_%282051970053%29.jpg", caption: "Coloane Village streetscape" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Coloane_Village%2C_Macau_%282051971111%29.jpg/960px-Coloane_Village%2C_Macau_%282051971111%29.jpg", caption: "Village square and colonial buildings" },
+    ] },
+  { name: "Seac Pai Van Park", chinese: "\u77F3\u6392\u7063\u90CA\u91CE\u516C\u5712", emoji: "\uD83D\uDC3C",
+    lat: 22.1275, lon: 113.5560, type: "Nature Park", year: "1985",
+    desc: "Seac Pai Van Park is a sprawling nature reserve in Coloane covering 20 hectares of wooded hillside. It is home to the Macau Giant Panda Pavilion, housing giant pandas gifted by the central government. The park also features a rare animals exhibit, a botanical garden, a walk-in aviary, a medicinal plants garden, and a picturesque lake surrounded by hiking trails.",
+    facts: ["Home to Macau\u2019s giant pandas \u2014 gifts from the central government", "20-hectare nature reserve on Coloane\u2019s hillside", "Features a walk-in aviary, botanical garden, and rare animals exhibit", "Free admission \u2014 one of Macau\u2019s most family-friendly attractions"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Seac_Pai_Van_Park_2011_02_01.JPG/960px-Seac_Pai_Van_Park_2011_02_01.JPG", caption: "Seac Pai Van Park entrance" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Seac_Pai_Van_Park_13-01-2023.jpg/960px-Seac_Pai_Van_Park_13-01-2023.jpg", caption: "Park gardens and pathways" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Seac_Pai_Van_Park_05.jpg/960px-Seac_Pai_Van_Park_05.jpg", caption: "Park grounds and greenery" },
     ] },
 ];
 
@@ -2094,6 +2210,29 @@ function createRainDrops(intensity) {
   }
 }
 
+// ── Rain Splash Ripples ──
+var _rainSplashInterval = null;
+function startRainSplashes(intensity) {
+  stopRainSplashes();
+  var layer = document.getElementById('rain-splash-layer');
+  if (!layer) return;
+  layer.classList.add('active');
+  var rate = intensity === 'heavy' ? 80 : intensity === 'moderate' ? 200 : 400;
+  _rainSplashInterval = setInterval(function() {
+    var splash = document.createElement('div');
+    splash.className = 'rain-splash';
+    splash.style.left = Math.random() * 100 + '%';
+    splash.style.top = Math.random() * 100 + '%';
+    layer.appendChild(splash);
+    setTimeout(function() { if (splash.parentNode) splash.parentNode.removeChild(splash); }, 750);
+  }, rate);
+}
+function stopRainSplashes() {
+  if (_rainSplashInterval) { clearInterval(_rainSplashInterval); _rainSplashInterval = null; }
+  var layer = document.getElementById('rain-splash-layer');
+  if (layer) { layer.classList.remove('active'); layer.innerHTML = ''; }
+}
+
 async function fetchWeather() {
   try {
     var url = 'https://api.open-meteo.com/v1/forecast?latitude=22.1987&longitude=113.5439'
@@ -2137,8 +2276,10 @@ function applyWeatherEffects(w) {
     var intensity = isHeavyRain(code) ? 'heavy' : code >= 61 ? 'moderate' : 'light';
     createRainDrops(intensity);
     rainOverlay.classList.add('active');
+    startRainSplashes(intensity);
   } else {
     rainOverlay.classList.remove('active');
+    stopRainSplashes();
   }
 
   // Lightning for thunderstorms (only if not in typhoon sim which handles its own lightning)
@@ -2225,9 +2366,10 @@ function updateTyphoonSignal(windSpeed) {
 
     // Typhoon rain — force heavy rain for T3+
     if (_typhoonSimActive || _typhoonSignalLevel >= 3) {
-      var intensity = _typhoonSignalLevel >= 8 ? 'heavy' : 'moderate';
-      createRainDrops(_typhoonSignalLevel >= 8 ? 'heavy' : 'moderate');
+      var tIntensity = _typhoonSignalLevel >= 8 ? 'heavy' : 'moderate';
+      createRainDrops(tIntensity);
       rainOverlay.classList.add('active');
+      startRainSplashes(tIntensity);
       // More rain drops for typhoon
       if (_typhoonSignalLevel >= 8) {
         createRainDrops('heavy');
@@ -3357,7 +3499,7 @@ var _tourIndex = -1;
 
 function getAllTourStops() {
   var stops = [];
-  var keys = ['landmarks', 'water', 'casinos', 'development', 'shows', 'racing', 'heritage', 'bridges', 'transit'];
+  var keys = ['landmarks', 'water', 'casinos', 'development', 'shows', 'racing', 'heritage', 'bridges', 'transit', 'coloane'];
   keys.forEach(function(k) {
     if (ATTRACTIONS[k]) {
       ATTRACTIONS[k].forEach(function(a) { stops.push(a); });
@@ -4908,6 +5050,11 @@ var ATTRACTIONS = {
   wildlife: [
     { name: "Harbor Seagulls", chinese: "海鷗", icon: "🕊️", lat: 22.1870, lon: 113.5400, alt: 300, pitch: -20 },
   ],
+  coloane: [
+    { name: "Hac Sa Beach", chinese: "黑沙海灘", icon: "🏖️", lat: 22.1164, lon: 113.5681, alt: 300, pitch: -25 },
+    { name: "Coloane Village", chinese: "路環村", icon: "🏘️", lat: 22.1236, lon: 113.5617, alt: 200, pitch: -20 },
+    { name: "Seac Pai Van Park", chinese: "石排灣郊野公園", icon: "🐼", lat: 22.1275, lon: 113.5560, alt: 250, pitch: -20 },
+  ],
 };
 
 // Macau events calendar — updated by improvement agent
@@ -5031,6 +5178,12 @@ function populateAttractions() {
   var wildlifeList = document.getElementById('wildlife-list');
   ATTRACTIONS.wildlife.forEach(function(a) {
     wildlifeList.appendChild(buildAttractionItem(a, '<span class="attraction-badge">live</span>'));
+  });
+
+  // Coloane
+  var coloaneList = document.getElementById('coloane-list');
+  ATTRACTIONS.coloane.forEach(function(a) {
+    coloaneList.appendChild(buildAttractionItem(a));
   });
 
   // Live events
@@ -5264,10 +5417,15 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
       return; // Don't process other keys while help is open
     }
 
-    // Landmark fly-to (1-8)
-    if (key >= '1' && key <= '8') {
+    // Landmark fly-to (1-9, 0=10th)
+    if (key >= '1' && key <= '9') {
       e.preventDefault();
       flyToLandmark(parseInt(key) - 1);
+      return;
+    }
+    if (key === '0') {
+      e.preventDefault();
+      flyToLandmark(9);
       return;
     }
 
@@ -5673,6 +5831,7 @@ document.getElementById('audio-toggle').addEventListener('click', function() {
 
 // ── Baccarat Game ──
 var _baccStats = { p: 0, b: 0, t: 0 };
+var _baccRoadHistory = []; // Array of 'p', 'b', 't' results for Big Road
 var _baccBankroll = 10000;
 var _baccBets = { player: 0, tie: 0, banker: 0 };
 var _baccSelectedChip = 100;
@@ -5752,6 +5911,7 @@ function openBaccarat(casinoName) {
   document.getElementById('bacc-reset-btn').style.display = _baccBankroll <= 0 ? 'block' : 'none';
   document.getElementById('baccarat-overlay').classList.add('visible');
   updateBaccStats();
+  renderBaccRoad();
 }
 
 function closeBaccarat() {
@@ -5762,6 +5922,76 @@ function updateBaccStats() {
   document.getElementById('bacc-stat-p').textContent = _baccStats.p;
   document.getElementById('bacc-stat-b').textContent = _baccStats.b;
   document.getElementById('bacc-stat-t').textContent = _baccStats.t;
+}
+
+function renderBaccRoad() {
+  var grid = document.getElementById('bacc-road-grid');
+  grid.innerHTML = '';
+  if (_baccRoadHistory.length === 0) return;
+
+  // Build Big Road columns: each column = consecutive same-side streak
+  // Ties attach to the previous result cell as a green dot overlay
+  var columns = [];
+  var currentCol = null;
+
+  for (var i = 0; i < _baccRoadHistory.length; i++) {
+    var r = _baccRoadHistory[i];
+    if (r === 't') {
+      // Tie: mark on last non-tie cell
+      if (currentCol && currentCol.cells.length > 0) {
+        currentCol.cells[currentCol.cells.length - 1].tie = true;
+      } else if (columns.length > 0) {
+        var prevCol = columns[columns.length - 1];
+        prevCol.cells[prevCol.cells.length - 1].tie = true;
+      }
+      continue;
+    }
+    if (!currentCol || currentCol.side !== r) {
+      currentCol = { side: r, cells: [] };
+      columns.push(currentCol);
+    }
+    currentCol.cells.push({ side: r, tie: false });
+  }
+
+  // Render: 6 rows max per column, dragon tail extends right
+  var ROWS = 6;
+  var MAX_COLS = 20; // Show last N columns to avoid overflow
+  var startCol = Math.max(0, columns.length - MAX_COLS);
+  var renderCols = columns.slice(startCol);
+
+  // Calculate actual grid columns needed (some columns overflow into dragon tail)
+  var gridCols = 0;
+  for (var c = 0; c < renderCols.length; c++) {
+    var extra = Math.max(0, renderCols[c].cells.length - ROWS);
+    gridCols += 1 + extra;
+  }
+  var cellSize = window.innerWidth <= 600 ? '7px' : '8px';
+  grid.style.gridTemplateColumns = 'repeat(' + Math.max(gridCols, 1) + ', ' + cellSize + ')';
+
+  // Place cells
+  var colOffset = 0;
+  for (var c = 0; c < renderCols.length; c++) {
+    var col = renderCols[c];
+    for (var row = 0; row < col.cells.length; row++) {
+      var cell = document.createElement('div');
+      cell.className = 'bacc-road-cell ' + (col.cells[row].side === 'p' ? 'player-cell' : 'banker-cell');
+      if (col.cells[row].tie) cell.classList.add('tie-mark');
+
+      // Position in grid: first ROWS go down, overflow extends right (dragon tail)
+      var gridRow, gridCol;
+      if (row < ROWS) {
+        gridRow = row + 1;
+        gridCol = colOffset + 1;
+      } else {
+        gridRow = ROWS;
+        gridCol = colOffset + 1 + (row - ROWS + 1);
+      }
+      cell.style.gridRow = gridRow;
+      cell.style.gridColumn = gridCol;
+      grid.appendChild(cell);
+    }
+    colOffset += 1 + Math.max(0, col.cells.length - ROWS);
+  }
 }
 
 function updateBaccBankrollDisplay() {
@@ -5965,18 +6195,21 @@ function dealBaccarat() {
       resultEl.textContent = 'Player Wins';
       resultEl.className = 'bacc-result player-wins';
       _baccStats.p++;
+      _baccRoadHistory.push('p');
       payout += _baccBets.player * 2;  // 1:1 + original bet
       playBaccSound(_baccBets.player > 0 ? 'win' : 'lose');
     } else if (bFinal > pFinal) {
       resultEl.textContent = 'Banker Wins';
       resultEl.className = 'bacc-result banker-wins';
       _baccStats.b++;
+      _baccRoadHistory.push('b');
       payout += Math.floor(_baccBets.banker * 1.95);  // 0.95:1 (5% commission) + original bet
       playBaccSound(_baccBets.banker > 0 ? 'win' : 'lose');
     } else {
       resultEl.textContent = 'Tie';
       resultEl.className = 'bacc-result tie';
       _baccStats.t++;
+      _baccRoadHistory.push('t');
       payout += _baccBets.tie * 9;  // 8:1 + original bet
       // Tie returns Player/Banker bets (push)
       payout += _baccBets.player + _baccBets.banker;
@@ -6002,6 +6235,7 @@ function dealBaccarat() {
     }
 
     updateBaccStats();
+    renderBaccRoad();
     _baccDealing = false;
     _baccBets = { player: 0, tie: 0, banker: 0 };
     updateBaccBetDisplay();
@@ -6126,8 +6360,12 @@ document.getElementById('bacc-reset-btn').addEventListener('click', function() {
   _baccBankroll = 10000;
   _baccBets = { player: 0, tie: 0, banker: 0 };
   _baccDealing = false;
+  _baccStats = { p: 0, b: 0, t: 0 };
+  _baccRoadHistory = [];
   updateBaccBankrollDisplay();
   updateBaccBetDisplay();
+  updateBaccStats();
+  renderBaccRoad();
   document.getElementById('bacc-reset-btn').style.display = 'none';
   document.getElementById('bacc-payout-msg').textContent = '';
 });
@@ -10728,6 +10966,7 @@ function addSkyCabs(viewer) {
     { icon: '🚌', text: 'Spot open-top sightseeing buses touring the Peninsula and Cotai between 9 AM-3 PM Macau time' },
     { icon: '☁️', text: 'Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk' },
     { icon: '🚢', text: 'Watch illuminated dinner cruise ships glide through the harbour from 7-11 PM Macau time' },
+    { icon: '🏖️', text: isTouch ? 'Explore Coloane Island — Hac Sa Beach, the village, and giant pandas at Seac Pai Van Park' : 'Press 9 or 0 to visit Coloane — Hac Sa Beach, the village chapel, and giant pandas' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

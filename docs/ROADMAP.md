@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-23 (Session 98)*
+*This document evolves every session. Last updated: 2026-03-24 (Session 102)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -106,3 +106,5 @@
 - Drifting cloud wisps: 7 animated CSS cloud wisps across the sky, weather-reactive opacity from real cloud cover, dawn/dusk tinting (Session 96)
 - Evening dinner cruise: 2 illuminated multi-deck cruise vessels on harbour route, evening-only (7-11 PM), warm deck lights and water reflections (Session 97)
 - Thunderstorm lightning: forked lightning bolts with screen flash and procedural thunder sound during storms/typhoons (Session 98)
+- Baccarat Big Road scorecard: traditional 路紙/大路 result tracking grid with authentic column-based pattern display, dragon tail, tie marks (Session 101)
+- Rain splash ripples: CSS-animated ground-level ripple effects during rainfall, matching rain intensity, integrated with weather and typhoon systems (Session 102)
