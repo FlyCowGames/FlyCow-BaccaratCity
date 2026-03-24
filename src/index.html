@@ -2417,6 +2417,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Estatua_de_Guan_Yin%2C_Macao%2C_2013-08-08%2C_DD_04.jpg/960px-Estatua_de_Guan_Yin%2C_Macao%2C_2013-08-08%2C_DD_04.jpg", caption: "Close-up of the 20-metre bronze Guanyin" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Kun_Iam_Ecumenical_Centre_02-05-2023.jpg/960px-Kun_Iam_Ecumenical_Centre_02-05-2023.jpg", caption: "Kun Iam Ecumenical Centre and causeway" },
     ] },
+  { name: "Golden Lotus Square", chinese: "\u91D1\u84EE\u82B1\u5EE3\u5834", emoji: "\uD83C\uDF3B",
+    lat: 22.1944, lon: 113.5535, type: "Monument & Square", year: "1999",
+    desc: "Golden Lotus Square (Pra\u00E7a da Flor de Lod\u00E3o) is an open plaza on the Macau waterfront dominated by the Shengshi Lotus \u2014 a 6-metre gilded bronze sculpture presented by China\u2019s State Council to commemorate the handover of Macau on 20 December 1999. The lotus flower is Macau\u2019s official emblem, appearing on its flag and coat of arms. The sculpture\u2019s three-layered granite base of 23 stones represents the three parts of the territory: Peninsula, Taipa, and Coloane. Every morning a flag-raising ceremony is held here, making it Macau\u2019s most symbolically important public space.",
+    facts: ["6-metre gilded bronze lotus sculpture weighing 6.5 tonnes", "Gifted by China\u2019s State Council for the 1999 handover ceremony", "Three-layered granite base (23 stones) represents Peninsula, Taipa, and Coloane", "Daily flag-raising ceremony \u2014 Macau\u2019s most important civic square"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Lotus_Flower_in_Full_Bloom%2C_Macau_%285234433341%29.jpg/960px-Lotus_Flower_in_Full_Bloom%2C_Macau_%285234433341%29.jpg", caption: "The gilded Shengshi Lotus sculpture" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Golden_Lotus_Square_28-01-2023.jpg/960px-Golden_Lotus_Square_28-01-2023.jpg", caption: "Golden Lotus Square and the waterfront" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Golden_Lotus_Square_05-09-2023.jpg/960px-Golden_Lotus_Square_05-09-2023.jpg", caption: "The square with Macau skyline behind" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -5579,6 +5588,7 @@ var ATTRACTIONS = {
     { name: "Macau Tower", chinese: "澳門旅遊塔", icon: "🗼", lat: 22.1801, lon: 113.5318, alt: 400, pitch: -25 },
     { name: "Senado Square", chinese: "議事亭前地", icon: "🏛️", lat: 22.1937, lon: 113.5390, alt: 200, pitch: -20 },
     { name: "Kun Iam Statue", chinese: "觀音蓮花苑", icon: "🙏", lat: 22.1872, lon: 113.5489, alt: 200, pitch: -15 },
+    { name: "Golden Lotus Square", chinese: "金蓮花廣場", icon: "🌻", lat: 22.1944, lon: 113.5535, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -12542,6 +12552,7 @@ function addSkyCabs(viewer) {
     { icon: '🎬', text: 'Visit Studio City — the Hollywood-themed casino with the world\'s first figure-8 Ferris wheel, the Golden Reel' },
     { icon: '🗼', text: isTouch ? 'Open Macau Tower info card and tap "View from Observation Deck" for a 360° panoramic view at 233m' : 'Open Macau Tower and click "View from Observation Deck" for a panoramic 360° view from 233 metres' },
     { icon: '🙏', text: 'Visit the Kun Iam Statue on the NAPE waterfront \u2014 a 20-metre bronze goddess of mercy on a lotus-shaped island' },
+    { icon: '🌻', text: 'Visit Golden Lotus Square \u2014 the gilded bronze lotus sculpture commemorating Macau\'s 1999 handover from Portugal to China' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

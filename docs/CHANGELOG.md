@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 126 — 2026-03-24 (Automated Agent)
+- Golden Lotus Square (金蓮花廣場) added as 16th landmark — the gilded bronze Shengshi Lotus sculpture at Praça da Flor de Lodão
+- 6-metre, 6.5-tonne gilded bronze lotus presented by China's State Council for the 1999 handover ceremony
+- 3 real Wikimedia Commons photos: lotus sculpture close-up, square with waterfront, skyline view
+- Info card with facts about 23-stone granite base representing Peninsula/Taipa/Coloane, daily flag-raising ceremony
+- Added to Landmarks section of Explore panel with Chinese/English search support
+- Feature tip for discoverability
+- Macau's most symbolically important civic space — complements Kun Iam Statue in the NAPE waterfront area
+
 ## Session 125 — 2026-03-24 (Automated Agent)
 - Kun Iam Statue (觀音蓮花苑) added as 15th landmark — 20m bronze Guanyin on lotus-shaped island at NAPE waterfront
 - 3 real Wikimedia Commons photos: waterfront panorama, close-up bronze statue, ecumenical centre and causeway

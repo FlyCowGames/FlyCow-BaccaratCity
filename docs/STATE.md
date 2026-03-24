@@ -2,12 +2,12 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-24 (Session 125)
+## Last Updated: 2026-03-24 (Session 126)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
 - Cinematic 7-stage flythrough with dramatic title cards: bird's eye > Cotai > Venetian > City of Dreams/Galaxy > Wynn Palace > Harbour > Grand Lisboa > Ruins of St. Paul's > overview. Each stage features multi-line cinematic labels with gold gradient title, Chinese subtitle, descriptive tagline, and staggered slide-up CSS animations
-- 15 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue
+- 16 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square
 - **Macau Tower Observation Deck viewpoint**: "View from Observation Deck" button in Macau Tower info card flies camera to 240m for a slow 360-degree panoramic orbit showcasing all of Macau from the tower's perspective, with cinematic overlay showing altitude and Chinese subtitle (Session 123)
 - Real-time day/night cycle driven by actual Macau time (UTC+8) via CesiumJS sun position
 - Live weather from Open-Meteo API: temperature, conditions, humidity, wind, cloud cover
@@ -75,6 +75,7 @@
 - **MGM Macau landmark**: Full clickable landmark for MGM Macau (美高梅) — the wave-shaped golden glass casino on the Peninsula waterfront. Info card with 3 Wikimedia Commons photos, description, facts. Enter Casino button for baccarat. Neon glow zone, sky beam, searchlight, water reflection, obstacle light. Added to Casinos in Explore panel (Session 121)
 - **Studio City landmark**: Full clickable landmark for Studio City (新濠影匯) — the Hollywood-themed Cotai casino with the iconic figure-8 Golden Reel Ferris wheel. Info card with 3 Wikimedia Commons photos, description, facts about Golden Reel (130m, world's first figure-8), US$3.2B investment, Phase 2 EPIC Tower. Enter Casino button for baccarat. Pink neon glow zone and sky beam (searchlight, LED facade, obstacle light pre-existing). Added to Casinos in Explore panel (Session 122)
 - **Kun Iam Statue landmark**: Full clickable landmark for Kun Iam Ecumenical Centre (觀音蓮花苑) — the 20m bronze Guanyin statue on a lotus-shaped island connected by 60m causeway to the NAPE waterfront. Info card with 3 Wikimedia Commons photos, description, facts about 50-tonne statue, Portuguese sculptor Cristina Rocha Leiria, UNESCO support. Added to Landmarks in Explore panel (Session 125)
+- **Golden Lotus Square landmark**: Full clickable landmark for Golden Lotus Square (金蓮花廣場) — the 6-metre gilded bronze Shengshi Lotus sculpture at Praça da Flor de Lodão on the Macau waterfront. Presented by China's State Council for the 1999 handover ceremony. Info card with 3 Wikimedia Commons photos, facts about 6.5-tonne sculpture, 23-stone granite base representing Peninsula/Taipa/Coloane, daily flag-raising ceremony. Added to Landmarks in Explore panel (Session 126)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
