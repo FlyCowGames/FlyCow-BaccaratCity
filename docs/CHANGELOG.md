@@ -818,6 +818,19 @@
 - Follows proven bridge lights pattern (CallbackProperty scale, glow gating, translucency/scale by distance)
 - File grew from ~11209 to ~11264 lines (+55 lines)
 
+## Session 107 — 2026-03-24 (Automated Agent)
+- Rainbow arc after rain: CSS radial-gradient rainbow visible when sun breaks through rain
+- 7 spectral bands (violet through red) with soft blur(4px) for natural appearance
+- Weather-reactive: appears during daytime light/moderate rain with <85% cloud cover
+- Also appears within 10 minutes after rain stops (post-rain rainbow)
+- Hidden during heavy rain, thunderstorms, typhoon simulation, and nighttime
+- Positioned as large semicircle in upper-right viewport area
+- Mobile-responsive: larger size (130vw) on small screens to maintain arc visibility
+- Smooth 12s opacity transition for gradual appearance/disappearance
+- Respects prefers-reduced-motion accessibility setting
+- Added rainbow tip to feature tips rotation system
+- File grew from ~11340 to ~11408 lines (+68 lines)
+
 ## Session 106 — 2026-03-24 (Automated Agent)
 - Golden hour sun rays (crepuscular rays): cinematic light beam overlay during dawn and golden hour
 - 10 CSS light rays radiating from bottom of viewport at varied angles

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-24 (Session 106)*
+*This document evolves every session. Last updated: 2026-03-24 (Session 107)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -111,3 +111,4 @@
 - Baccarat win chip celebration: cascading golden casino chips on winning hands, intensity scales with win amount, mobile-responsive (Session 103)
 - Aviation obstacle lights: red blinking beacon lights on 8 tallest buildings at night, authentic aviation safety detail (Session 105)
 - Golden hour sun rays: cinematic crepuscular light rays during dawn and golden hour with weather-reactive intensity (Session 106)
+- Rainbow arc after rain: weather-reactive rainbow visible when sun breaks through rain, 7 spectral bands, 12s fade (Session 107)

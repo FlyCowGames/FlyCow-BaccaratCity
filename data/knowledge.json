@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 106,
+  "last_updated_session": 107,
   "learnings": [
     {
       "type": "pattern",
@@ -30,11 +30,11 @@
       "domain": "rendering",
       "title": "CSS particle effects are lightweight alternatives to WebGL",
       "description": "CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.",
-      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays.",
+      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc.",
       "tags": ["performance", "css", "animation"],
       "weight": 0.8,
-      "times_applied": 6,
-      "times_successful": 6
+      "times_applied": 7,
+      "times_successful": 7
     },
     {
       "type": "pattern",
@@ -216,12 +216,12 @@
       "type": "pattern",
       "domain": "atmosphere",
       "title": "Layered weather effects compound for immersion",
-      "description": "Adding secondary effects to existing weather systems (splash ripples to rain drops, thunder to lightning) compounds the immersion without replacing the original. Each layer adds a distinct sensory channel. Key: keep secondary effects subtle — they should enhance, not compete with, the primary effect.",
-      "evidence": "Session 102: rain splash ripples added below existing rain drops. Session 98: thunder added to lightning bolts. Both integrate into the same weather/typhoon activation flow with minimal new code.",
+      "description": "Adding secondary effects to existing weather systems (splash ripples to rain drops, thunder to lightning, rainbow after rain) compounds the immersion without replacing the original. Each layer adds a distinct sensory channel. Key: keep secondary effects subtle — they should enhance, not compete with, the primary effect.",
+      "evidence": "Session 102: rain splash ripples added below existing rain drops. Session 98: thunder added to lightning bolts. Session 107: rainbow arc during/after rain. All integrate into the same weather/typhoon activation flow with minimal new code.",
       "tags": ["atmosphere", "weather", "css", "layering"],
-      "weight": 0.5,
-      "times_applied": 1,
-      "times_successful": 1
+      "weight": 0.6,
+      "times_applied": 2,
+      "times_successful": 2
     },
     {
       "type": "pattern",
@@ -252,6 +252,17 @@
       "description": "Multiple CSS div rays with linear-gradient backgrounds, blur filter, and transform rotation create convincing sun ray (god ray) effects. Time-gating to dawn and golden hour windows with smooth ramps, weather-reactive cloud dampening, and staggered pulse animations make them feel natural. Layering above color grading (z-index 43) lets rays shine 'through' the atmosphere overlay.",
       "evidence": "Session 106: 10 rays at varied angles (-35 to +38 deg), blur(6px), pulse animations 15-28s. Zero JS errors, visible on desktop and mobile, inactive during midday/night. Weather dampening from 1.0 (clear) to 0.2 (100% cloud cover).",
       "tags": ["css", "atmosphere", "golden-hour", "cinematic", "performance"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "CSS radial-gradient creates natural rainbow bands",
+      "description": "Using radial-gradient with concentric color stops at 2% intervals creates convincing rainbow spectral bands. Centered at bottom of element with the element positioned low in viewport shows only the upper arc. blur(4px) softens the bands to look natural. Condition-gating (daytime + rain + partial sun) ensures it appears realistically. 12s transition creates a slow, natural fade matching real rainbow appearance.",
+      "evidence": "Session 107: 7-band rainbow arc visible during/after rain. Zero JS errors, renders correctly on desktop and mobile. Integrates with existing weather data (currentWeather.cloud_cover, isRainyCode, isHeavyRain).",
+      "tags": ["css", "atmosphere", "weather", "radial-gradient"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
@@ -372,6 +383,12 @@
       "question": "How to add authentic skyline detail to tall buildings at night?",
       "chosen": "Red radial gradient billboard entities at building-top altitudes with slow blink via CallbackProperty, night-only glow gating",
       "rationale": "Aviation obstacle lights are mandatory on tall buildings worldwide — every Macau skyscraper has them. Follows exact bridge lights pattern (CallbackProperty scale, _currentGlowIntensity gating). Simple 3s blink cycle (1.5s on/1.5s dim) with staggered phases per building prevents synchronization. Small 12px canvas icon is visible from overview but unobtrusive.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add a rainbow weather effect to complement the rain system?",
+      "chosen": "CSS radial-gradient div with 7 spectral bands, condition-gated to daytime + light rain + partial sun, with 10-min post-rain memory",
+      "rationale": "CSS approach (no canvas/entity) follows proven weather overlay pattern. radial-gradient is simpler and more natural than conic-gradient for concentric rainbow bands. Post-rain memory (10 min window) is key — real rainbows often appear as rain stops, not during heavy rain. Cloud cover threshold (85%) ensures sun visibility is plausible.",
       "revisit_after_session": null
     }
   ]

@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-24 (Session 106)
+## Last Updated: 2026-03-24 (Session 107)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -63,6 +63,7 @@
 - **Rain splash ripples**: CSS-animated expanding elliptical ripples in the lower viewport during rainfall, matching rain intensity (light/moderate/heavy). Integrated with weather API and Typhoon Demo. Auto-cleanup after 750ms. Respects prefers-reduced-motion (Session 102)
 - **Aviation obstacle lights**: Red blinking beacon lights on 8 tallest buildings (Grand Lisboa, Macau Tower, Venetian, Galaxy, Wynn Palace, MGM Cotai, City of Dreams, Studio City) — mandatory aviation safety lights with slow 3s blink cycle, night-only, staggered phases (Session 105)
 - **Golden hour sun rays**: 10 cinematic crepuscular light rays radiating from bottom of viewport during dawn (5:00-7:30, pink-amber) and golden hour (16:30-19:00, warm gold). Weather-reactive intensity dampened by cloud cover. Gentle pulse animation with staggered cycles (Session 106)
+- **Rainbow arc after rain**: CSS radial-gradient rainbow with 7 spectral bands, visible during daytime light/moderate rain with partial sun (<85% cloud cover) or within 10 minutes after rain stops. Positioned as large semicircle arc in upper-right viewport. 12s fade transition, mobile-responsive (Session 107)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -71,7 +72,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~11340 lines, ~427KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~11408 lines, ~429KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 

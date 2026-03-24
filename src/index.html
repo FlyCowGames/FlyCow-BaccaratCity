@@ -354,6 +354,44 @@
   @media (prefers-reduced-motion: reduce) {
     .sun-ray { animation-duration: 0.01ms !important; }
     #sun-rays { transition-duration: 0.01ms !important; }
+    #rainbow-arc { transition-duration: 0.01ms !important; }
+  }
+
+  /* Rainbow arc after rain */
+  #rainbow-arc {
+    position: fixed;
+    pointer-events: none;
+    z-index: 41;
+    opacity: 0;
+    transition: opacity 12s ease;
+    bottom: -35%;
+    right: -10%;
+    width: 85vw;
+    height: 85vw;
+    max-width: 950px;
+    max-height: 950px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at 50% 50%,
+      transparent 52%,
+      rgba(148,0,211,0.10) 53%,
+      rgba(75,0,130,0.11) 55%,
+      rgba(0,80,255,0.12) 57%,
+      rgba(0,180,0,0.10) 59%,
+      rgba(255,255,0,0.10) 61%,
+      rgba(255,140,0,0.11) 63%,
+      rgba(255,0,0,0.10) 65%,
+      transparent 67%
+    );
+    filter: blur(4px);
+  }
+  #rainbow-arc.active { opacity: 1; }
+  @media (max-width: 600px) {
+    #rainbow-arc {
+      width: 130vw; height: 130vw;
+      right: -25%;
+      bottom: -40%;
+    }
   }
 
   /* Shooting star canvas */
@@ -1806,6 +1844,7 @@
 <div id="cloud-layer"></div>
 <div id="color-grading"></div>
 <div id="sun-rays"></div>
+<div id="rainbow-arc"></div>
 <div id="rain-overlay"></div>
 <div id="rain-splash-layer"></div>
 <canvas id="shootingstar-canvas"></canvas>
@@ -11254,6 +11293,50 @@ function addSkyCabs(viewer) {
   setTimeout(updateSunRays, 3000);
 })();
 
+// ── Rainbow Arc (after rain with sun) ──
+// Appears when light/moderate rain occurs during daytime with partial cloud cover (sun breaking through)
+(function() {
+  var arc = document.getElementById('rainbow-arc');
+  if (!arc) return;
+
+  var _lastRainTime = 0; // timestamp of last detected rain
+  var _rainActive = false;
+
+  function updateRainbow() {
+    var hour = getMacauHour();
+    var isDaytime = hour >= 7 && hour < 18;
+
+    // Track rain state
+    if (currentWeather && isRainyCode(currentWeather.weather_code)) {
+      _rainActive = true;
+      _lastRainTime = Date.now();
+    } else {
+      _rainActive = false;
+    }
+
+    // Rainbow conditions:
+    // 1. Daytime only (7 AM - 6 PM)
+    // 2. Light/moderate rain active OR rain stopped within last 10 minutes
+    // 3. Cloud cover < 85% (some sun breaking through)
+    // 4. Not during typhoon simulation
+    var clouds = currentWeather ? (currentWeather.cloud_cover || 0) : 100;
+    var recentRain = (Date.now() - _lastRainTime) < 600000; // 10 minutes
+    var isLightRain = _rainActive && currentWeather &&
+      !isHeavyRain(currentWeather.weather_code); // not heavy rain/thunderstorm
+    var sunVisible = clouds < 85;
+    var rainCondition = isLightRain || (!_rainActive && recentRain);
+
+    if (isDaytime && rainCondition && sunVisible && !_typhoonSimActive) {
+      arc.classList.add('active');
+    } else {
+      arc.classList.remove('active');
+    }
+  }
+
+  setInterval(updateRainbow, 5000);
+  setTimeout(updateRainbow, 4000);
+})();
+
 // ── Feature Tips (rotating discovery system) ──
 (function() {
   var isTouch = 'ontouchstart' in window;
@@ -11276,6 +11359,7 @@ function addSkyCabs(viewer) {
     { icon: '🪷', text: 'Spot floating lotus flowers on Nam Van Lake — Macau\'s official emblem' },
     { icon: '🧘', text: 'Look for morning tai chi groups in parks between 5-9 AM Macau time' },
     { icon: '🛶', text: 'Watch fishing sampans return to Inner Harbour in the afternoon (3-7 PM Macau time)' },
+    { icon: '🌈', text: 'Look for a rainbow arc when sun breaks through during or after rain' },
     { icon: '🚌', text: 'Spot open-top sightseeing buses touring the Peninsula and Cotai between 9 AM-3 PM Macau time' },
     { icon: '☁️', text: 'Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk' },
     { icon: '🚢', text: 'Watch illuminated dinner cruise ships glide through the harbour from 7-11 PM Macau time' },
