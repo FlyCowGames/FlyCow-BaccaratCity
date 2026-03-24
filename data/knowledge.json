@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 116,
+  "last_updated_session": 117,
   "learnings": [
     {
       "type": "pattern",
@@ -319,6 +319,17 @@
       "evidence": "Session 116: 6 shuttle buses on 3 routes with 3 distinct color schemes (gold/Lisboa, purple/Galaxy, blue/COD). Zero JS errors, passed desktop/mobile checks. Reuses proven CallbackProperty ping-pong pattern.",
       "tags": ["animation", "transport", "canvas", "cultural-authenticity", "billboard"],
       "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "landmarks",
+      "title": "Adding missing landmarks to LANDMARKS array fixes walk tour gaps",
+      "description": "The walk tour auto-opens landmark cards via LANDMARKS.find(l => l.name === stop.name). If a walk tour stop exists but the matching LANDMARKS entry does not, the tour silently skips the info card at that stop. Adding the missing LANDMARKS entry automatically creates the billboard, enables click-to-fly, and fixes the walk tour card — all from a single array entry. Always check that walk tour stops have matching LANDMARKS entries.",
+      "evidence": "Session 117: Senado Square was a walk tour stop but had no LANDMARKS entry. Adding the entry with photos, description, and facts instantly created billboard, info card, photo gallery, and fixed the walk tour gap. Zero JS errors, passed desktop/mobile checks.",
+      "tags": ["landmarks", "walk-tour", "data-driven", "composability"],
+      "weight": 0.6,
       "times_applied": 1,
       "times_successful": 1
     }
