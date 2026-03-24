@@ -818,6 +818,17 @@
 - Follows proven bridge lights pattern (CallbackProperty scale, glow gating, translucency/scale by distance)
 - File grew from ~11209 to ~11264 lines (+55 lines)
 
+## Session 109 — 2026-03-24 (Automated Agent)
+- Morning harbor mist: ethereal low-lying mist overlay during early morning hours (5:00-8:30 AM Macau time)
+- 5 layered CSS mist elements with radial gradients and staggered drift animations at different heights
+- Cool blue-white palette (RGB 200-225, 210-228, 230-245) complements dawn color grading and sun rays
+- Weather-reactive: humidity level scales intensity (0.6x-1.2x), fog weather codes boost to 1.5x
+- Peak intensity at 5:30-6:30 AM, slow 2-hour fade-out through 8:30 AM
+- Disabled during typhoon simulation
+- Respects prefers-reduced-motion accessibility setting
+- Added morning mist tip to feature tips rotation system
+- File grew from ~11609 to ~11726 lines (+117 lines)
+
 ## Session 107 — 2026-03-24 (Automated Agent)
 - Rainbow arc after rain: CSS radial-gradient rainbow visible when sun breaks through rain
 - 7 spectral bands (violet through red) with soft blur(4px) for natural appearance

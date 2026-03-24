@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 107,
+  "last_updated_session": 109,
   "learnings": [
     {
       "type": "pattern",
@@ -30,11 +30,11 @@
       "domain": "rendering",
       "title": "CSS particle effects are lightweight alternatives to WebGL",
       "description": "CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.",
-      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc.",
+      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc. Session 109: harbor mist.",
       "tags": ["performance", "css", "animation"],
       "weight": 0.8,
-      "times_applied": 7,
-      "times_successful": 7
+      "times_applied": 8,
+      "times_successful": 8
     },
     {
       "type": "pattern",
@@ -162,11 +162,11 @@
       "domain": "animation",
       "title": "Time-of-day gated features fill temporal gaps and add realism",
       "description": "Gating billboard entity visibility to specific time windows (e.g., morning 5-9 AM for tai chi) creates time-specific atmosphere that rewards exploration at different hours. Using getMacauHour() with smooth fade in/out at boundaries (0.5h ramp) prevents jarring appearance/disappearance. Most features are night-only or always-on — morning/afternoon-specific features fill temporal gaps.",
-      "evidence": "Session 91: tai chi 5-9 AM. Session 93: fishing sampans 15-19 PM. Session 97: dinner cruise 19-23. All use getMacauHour() with 30-min fade ramps. Zero JS errors every time.",
+      "evidence": "Session 91: tai chi 5-9 AM. Session 93: fishing sampans 15-19 PM. Session 97: dinner cruise 19-23. Session 109: harbor mist 5-8:30 AM. All use getMacauHour() with fade ramps. Zero JS errors every time.",
       "tags": ["animation", "time-of-day", "cultural-authenticity", "billboard"],
       "weight": 0.7,
-      "times_applied": 3,
-      "times_successful": 3
+      "times_applied": 4,
+      "times_successful": 4
     },
     {
       "type": "pattern",
@@ -252,6 +252,17 @@
       "description": "Multiple CSS div rays with linear-gradient backgrounds, blur filter, and transform rotation create convincing sun ray (god ray) effects. Time-gating to dawn and golden hour windows with smooth ramps, weather-reactive cloud dampening, and staggered pulse animations make them feel natural. Layering above color grading (z-index 43) lets rays shine 'through' the atmosphere overlay.",
       "evidence": "Session 106: 10 rays at varied angles (-35 to +38 deg), blur(6px), pulse animations 15-28s. Zero JS errors, visible on desktop and mobile, inactive during midday/night. Weather dampening from 1.0 (clear) to 0.2 (100% cloud cover).",
       "tags": ["css", "atmosphere", "golden-hour", "cinematic", "performance"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "Multi-layer CSS fog with staggered drift creates convincing mist",
+      "description": "Multiple overlapping div elements with radial gradients, large blur filters (35-60px), and different keyframe drift animations at different viewport heights create convincing atmospheric fog/mist. Each layer has distinct size, opacity, blur radius, color, and animation speed — preventing the uniform look that a single fog overlay would produce. Weather-reactive opacity scaling (humidity, fog codes) adds realism. Bottom-anchored radial gradients with transparent falloff naturally simulate low-lying ground fog.",
+      "evidence": "Session 109: 5 mist layers with 3 drift keyframes, blur 35-60px, radial-gradient anchored at bottom. Active class toggled by getMacauHour(). Zero JS errors, passes desktop and mobile checks.",
+      "tags": ["css", "atmosphere", "fog", "animation", "layering"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
@@ -383,6 +394,12 @@
       "question": "How to add authentic skyline detail to tall buildings at night?",
       "chosen": "Red radial gradient billboard entities at building-top altitudes with slow blink via CallbackProperty, night-only glow gating",
       "rationale": "Aviation obstacle lights are mandatory on tall buildings worldwide — every Macau skyscraper has them. Follows exact bridge lights pattern (CallbackProperty scale, _currentGlowIntensity gating). Simple 3s blink cycle (1.5s on/1.5s dim) with staggered phases per building prevents synchronization. Small 12px canvas icon is visible from overview but unobtrusive.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add early morning atmosphere beyond sun rays?",
+      "chosen": "Multi-layer CSS fog/mist overlay with radial gradients, blur filters, and staggered drift animations at bottom of viewport",
+      "rationale": "CSS approach avoids more CesiumJS entities. Multiple layers with different heights, speeds, and opacities create depth that a single fog div cannot. Humidity/fog weather reactivity makes it feel connected to real conditions. Complements (not competes with) the existing sun rays at dawn — rays are geometric beams above, mist is soft blanket below.",
       "revisit_after_session": null
     },
     {

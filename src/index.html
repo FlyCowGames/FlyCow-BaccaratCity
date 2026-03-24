@@ -394,6 +394,42 @@
     }
   }
 
+  /* Morning harbor mist */
+  #harbor-mist {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 45%;
+    pointer-events: none; z-index: 41;
+    opacity: 0; transition: opacity 10s ease;
+    overflow: hidden;
+  }
+  #harbor-mist.active { opacity: 1; }
+  .mist-layer {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    border-radius: 50%;
+    filter: blur(50px);
+    will-change: transform, opacity;
+  }
+  @keyframes mistDrift1 {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-15%); }
+    100% { transform: translateX(0); }
+  }
+  @keyframes mistDrift2 {
+    0% { transform: translateX(-10%); }
+    50% { transform: translateX(5%); }
+    100% { transform: translateX(-10%); }
+  }
+  @keyframes mistDrift3 {
+    0% { transform: translateX(5%); }
+    50% { transform: translateX(-10%); }
+    100% { transform: translateX(5%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mist-layer { animation-duration: 0.01ms !important; }
+    #harbor-mist { transition-duration: 0.01ms !important; }
+  }
+
   /* Shooting star canvas */
   #shootingstar-canvas {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -1845,6 +1881,7 @@
 <div id="color-grading"></div>
 <div id="sun-rays"></div>
 <div id="rainbow-arc"></div>
+<div id="harbor-mist"></div>
 <div id="rain-overlay"></div>
 <div id="rain-splash-layer"></div>
 <canvas id="shootingstar-canvas"></canvas>
@@ -11337,6 +11374,85 @@ function addSkyCabs(viewer) {
   setTimeout(updateRainbow, 4000);
 })();
 
+// ── Morning Harbor Mist ──
+// Low-lying mist over the harbour during early morning hours (5:00-8:30 AM)
+(function() {
+  var container = document.getElementById('harbor-mist');
+  if (!container) return;
+
+  // Create 5 mist layers at different heights with different drift speeds
+  var MIST_CONFIGS = [
+    { bottom: '-8%',  height: '55%', opacity: 0.12, blur: 60, anim: 'mistDrift1', dur: 45, color: [220,225,240] },
+    { bottom: '-3%',  height: '40%', opacity: 0.09, blur: 45, anim: 'mistDrift2', dur: 55, color: [210,215,235] },
+    { bottom: '5%',   height: '35%', opacity: 0.07, blur: 55, anim: 'mistDrift3', dur: 65, color: [200,210,230] },
+    { bottom: '12%',  height: '25%', opacity: 0.05, blur: 40, anim: 'mistDrift1', dur: 50, color: [215,220,240] },
+    { bottom: '20%',  height: '18%', opacity: 0.04, blur: 35, anim: 'mistDrift2', dur: 70, color: [225,228,245] },
+  ];
+
+  var layers = [];
+  for (var i = 0; i < MIST_CONFIGS.length; i++) {
+    var cfg = MIST_CONFIGS[i];
+    var el = document.createElement('div');
+    el.className = 'mist-layer';
+    el.style.bottom = cfg.bottom;
+    el.style.height = cfg.height;
+    el.style.filter = 'blur(' + cfg.blur + 'px)';
+    el.style.background = 'radial-gradient(ellipse 100% 100% at 50% 100%, rgba(' +
+      cfg.color.join(',') + ',' + cfg.opacity + ') 0%, rgba(' +
+      cfg.color.join(',') + ',0) 70%)';
+    el.style.animation = cfg.anim + ' ' + cfg.dur + 's ease-in-out ' + (i * 3) + 's infinite';
+    container.appendChild(el);
+    layers.push({ el: el, baseCfg: cfg });
+  }
+
+  function updateMist() {
+    var hour = getMacauHour();
+    var intensity = 0;
+
+    // Morning mist: 5:00-8:30 (peak at 5:30-6:30)
+    if (hour >= 5 && hour < 8.5) {
+      if (hour < 5.5) intensity = (hour - 5) / 0.5;         // 0->1 ramp in
+      else if (hour < 6.5) intensity = 1.0;                  // full
+      else intensity = 1.0 - (hour - 6.5) / 2.0;            // 1->0 slow ramp out
+    }
+
+    // Weather enhancement: higher humidity/fog = thicker mist
+    var weatherBoost = 1.0;
+    if (currentWeather) {
+      var humidity = currentWeather.humidity || 50;
+      weatherBoost = 0.6 + (humidity / 100) * 0.6; // 0.6 at 0% humidity to 1.2 at 100%
+      // Fog weather codes boost mist heavily
+      var wc = currentWeather.weather_code || 0;
+      if (wc === 45 || wc === 48) weatherBoost = 1.5; // fog or rime fog
+    }
+    intensity *= weatherBoost;
+    intensity = Math.min(intensity, 1.5);
+
+    // Typhoon sim overrides: no mist during storms
+    if (typeof _typhoonSimActive !== 'undefined' && _typhoonSimActive) intensity = 0;
+
+    if (intensity < 0.02) {
+      container.classList.remove('active');
+      return;
+    }
+
+    // Adjust layer opacities based on intensity
+    for (var i = 0; i < layers.length; i++) {
+      var base = layers[i].baseCfg;
+      var op = base.opacity * intensity;
+      var c = base.color;
+      layers[i].el.style.background = 'radial-gradient(ellipse 100% 100% at 50% 100%, rgba(' +
+        c.join(',') + ',' + op.toFixed(4) + ') 0%, rgba(' +
+        c.join(',') + ',0) 70%)';
+    }
+
+    container.classList.add('active');
+  }
+
+  setInterval(updateMist, 5000);
+  setTimeout(updateMist, 3500);
+})();
+
 // ── Feature Tips (rotating discovery system) ──
 (function() {
   var isTouch = 'ontouchstart' in window;
@@ -11363,6 +11479,7 @@ function addSkyCabs(viewer) {
     { icon: '🚌', text: 'Spot open-top sightseeing buses touring the Peninsula and Cotai between 9 AM-3 PM Macau time' },
     { icon: '☁️', text: 'Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk' },
     { icon: '🚢', text: 'Watch illuminated dinner cruise ships glide through the harbour from 7-11 PM Macau time' },
+    { icon: '🌫️', text: 'Morning mist drifts over the harbour at dawn (5-8 AM Macau time) — thicker on humid days' },
     { icon: '🏖️', text: isTouch ? 'Explore Coloane Island — Hac Sa Beach, the village, and giant pandas at Seac Pai Van Park' : 'Press 9 or 0 to visit Coloane — Hac Sa Beach, the village chapel, and giant pandas' },
   ];
   var el = document.getElementById('feature-tips');
