@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 118,
+  "last_updated_session": 121,
   "learnings": [
     {
       "type": "pattern",
@@ -330,6 +330,17 @@
       "evidence": "Session 117: Senado Square was a walk tour stop but had no LANDMARKS entry. Adding the entry with photos, description, and facts instantly created billboard, info card, photo gallery, and fixed the walk tour gap. Zero JS errors, passed desktop/mobile checks.",
       "tags": ["landmarks", "walk-tour", "data-driven", "composability"],
       "weight": 0.6,
+      "times_applied": 2,
+      "times_successful": 2
+    },
+    {
+      "type": "pattern",
+      "domain": "landmarks",
+      "title": "New landmark integrates with all existing night-effect systems automatically",
+      "description": "Adding a new landmark to the LANDMARKS array plus entries in NEON_ZONES, SKY_BEAM_CASINOS, SEARCHLIGHT_CASINOS, CASINO_REFLECTIONS, and OBSTACLE_LIGHT_BUILDINGS gives the landmark a fully integrated nighttime presence with zero new code. Each system iterates its array and creates entities — the data-driven architecture means adding array entries is all that's needed.",
+      "evidence": "Session 121: MGM Macau added to 6 arrays (LANDMARKS, ATTRACTIONS.casinos, NEON_ZONES, SKY_BEAM_CASINOS, SEARCHLIGHT_CASINOS, OBSTACLE_LIGHT_BUILDINGS, CASINO_REFLECTIONS). All systems picked it up automatically. Zero JS errors.",
+      "tags": ["landmarks", "data-driven", "architecture", "night-effects"],
+      "weight": 0.6,
       "times_applied": 1,
       "times_successful": 1
     }
@@ -491,6 +502,12 @@
       "question": "How to add traditional Chinese architectural elements to complement Portuguese heritage features?",
       "chosen": "Canvas-drawn paifang (牌坊) gateway arch billboards at 5 key Macau entrance locations, static (no animation)",
       "rationale": "Paifang are iconic Chinese architectural gateways found at important entrances throughout Macau. Complements Portuguese heritage (azulejo tiles, street signs) with Chinese counterpart. Static billboard pattern from S114 street signs — no setInterval needed for non-animated structures. Red/gold/green color palette provides warm contrast to blue-white Portuguese elements. 5 diverse locations (Border Gate, food street, temple, neighborhood, historic street) spread the feature geographically.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "Which landmark to add to complete the Prime Directive casino list?",
+      "chosen": "MGM Macau (Peninsula) as a full LANDMARKS entry with info card, photos, and integration into all night-effect systems",
+      "rationale": "MGM was the last casino explicitly named in the Prime Directive that was missing from LANDMARKS. The Peninsula location (not MGM Cotai) is the original and more iconic property with the wave-shaped golden facade and 10m lion. Adding it as a data-driven landmark (array entries only, no new code) leveraged the existing architecture for maximum impact with minimal risk.",
       "revisit_after_session": null
     }
   ]
