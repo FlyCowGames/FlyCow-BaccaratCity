@@ -1344,6 +1344,24 @@
       ],
       "linesAdded": 83,
       "agent": "automated"
+    },
+    {
+      "session": 116,
+      "date": "2026-03-24",
+      "title": "Casino Free Shuttle Buses",
+      "domain": "animation",
+      "summary": "6 casino shuttle buses (發財車) running 24/7 between ferry terminals and casinos on 3 routes.",
+      "details": [
+        "3 shuttle routes: Outer Harbour to Grand Lisboa, Outer Harbour to Cotai Strip, Taipa Ferry to City of Dreams",
+        "6 buses total (2 per route) with casino-branded colors (gold/Lisboa, purple/Galaxy, blue/COD)",
+        "Canvas-drawn shuttle bus icons with casino text labels, windows, and accent stripes",
+        "CallbackProperty ping-pong movement between ferry terminals and casinos",
+        "Always active (24/7 service matching real Macau operation)",
+        "Minimap tracking with magenta dots and legend entry",
+        "Casino Shuttles entry added to Transit section of Explore panel"
+      ],
+      "linesAdded": 120,
+      "agent": "automated"
     }
   ]
 }

@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 116 — 2026-03-24 (Automated Agent)
+- Casino free shuttle buses (發財車): 6 buses on 3 routes between ferry terminals and casinos
+- 3 routes: Outer Harbour → Grand Lisboa, Outer Harbour → Cotai Strip, Taipa Ferry → City of Dreams
+- Canvas-drawn casino-branded shuttle bus icons (gold/Lisboa, purple/Galaxy, blue/COD)
+- CallbackProperty ping-pong movement, always active (24/7 like real Macau)
+- Minimap tracking with magenta dots and legend entry
+- Casino Shuttles added to Transit section of Explore panel
+- Feature tip added for discoverability
+
 ## Session 0 — 2026-03-20 (Manual)
 - Initial project setup
 - Created procedural city with 17x17 grid, 12 building types

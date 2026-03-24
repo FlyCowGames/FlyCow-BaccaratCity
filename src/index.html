@@ -3188,6 +3188,8 @@ async function init() {
     addFishingSampans(viewer);
     addTourBuses(viewer);
     addDinnerCruise(viewer);
+    addShuttleBuses(viewer);
+    addKites(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -5350,6 +5352,7 @@ var ATTRACTIONS = {
     { name: "Fishing Sampans", chinese: "漁船", icon: "🛶", lat: 22.1870, lon: 113.5310, alt: 120, pitch: -20 },
     { name: "String Lights", chinese: "串燈", icon: "💡", lat: 22.1560, lon: 113.5580, alt: 80, pitch: -25 },
     { name: "Street Signs", chinese: "路牌", icon: "🪧", lat: 22.1936, lon: 113.5393, alt: 80, pitch: -25 },
+    { name: "Chinese Kites", chinese: "风筝", icon: "🪁", lat: 22.1840, lon: 113.5355, alt: 300, pitch: -20 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -5362,6 +5365,7 @@ var ATTRACTIONS = {
     { name: "Triciclo Pedicabs", chinese: "三輪車", icon: "🛺", lat: 22.1937, lon: 113.5388, alt: 120, pitch: -20 },
     { name: "Tour Buses", chinese: "觀光巴士", icon: "🚌", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
     { name: "Dinner Cruise", chinese: "海上晚餐", icon: "🚢", lat: 22.1850, lon: 113.5450, alt: 400, pitch: -25 },
+    { name: "Casino Shuttles", chinese: "發財車", icon: "🚐", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
   ],
   wildlife: [
     { name: "Harbor Seagulls", chinese: "海鷗", icon: "🕊️", lat: 22.1870, lon: 113.5400, alt: 300, pitch: -20 },
@@ -10819,6 +10823,323 @@ function addDinnerCruise(viewer) {
   }, 500);
 }
 
+// ── Traditional Chinese Kites — Daytime sky feature ──
+// Colorful kites flying high above parks and waterfront areas (9:00-17:00 Macau time)
+var KITE_SPOTS = [
+  { name: 'Nam Van Lake', lon: 113.5355, lat: 22.1840, alt: 120, color: 'red', shape: 'diamond', label: '福' },
+  { name: 'NAPE Waterfront', lon: 113.5480, lat: 22.1860, alt: 140, color: 'gold', shape: 'butterfly', label: '喜' },
+  { name: 'Camoes Garden', lon: 113.5390, lat: 22.1975, alt: 110, color: 'green', shape: 'diamond', label: '壽' },
+  { name: 'Taipa Central Park', lon: 113.5585, lat: 22.1560, alt: 130, color: 'blue', shape: 'butterfly', label: '樂' },
+  { name: 'Outer Harbour', lon: 113.5520, lat: 22.1920, alt: 150, color: 'red', shape: 'dragon', label: '龍' },
+  { name: 'Coloane Park', lon: 113.5620, lat: 22.1280, alt: 100, color: 'gold', shape: 'diamond', label: '春' },
+];
+
+var _kiteEntities = [];
+var _kiteInterval = null;
+
+function createKiteCanvas(kite, frame) {
+  var c = document.createElement('canvas');
+  c.width = 64;
+  c.height = 80;
+  var ctx = c.getContext('2d');
+  var t = frame || (Date.now() / 1000);
+
+  // Color palette per kite
+  var colors = {
+    red: { main: 'rgba(220,40,30,0.9)', accent: 'rgba(255,200,50,0.9)', dark: 'rgba(160,20,15,0.9)' },
+    gold: { main: 'rgba(212,175,55,0.9)', accent: 'rgba(255,240,180,0.9)', dark: 'rgba(160,120,20,0.9)' },
+    green: { main: 'rgba(40,160,60,0.9)', accent: 'rgba(200,255,100,0.9)', dark: 'rgba(20,100,35,0.9)' },
+    blue: { main: 'rgba(30,100,200,0.9)', accent: 'rgba(150,220,255,0.9)', dark: 'rgba(15,60,140,0.9)' },
+  };
+  var col = colors[kite.color] || colors.red;
+
+  ctx.save();
+  ctx.translate(32, 30);
+
+  if (kite.shape === 'diamond') {
+    // Traditional diamond kite with cross frame
+    ctx.fillStyle = col.main;
+    ctx.beginPath();
+    ctx.moveTo(0, -22);
+    ctx.lineTo(18, 0);
+    ctx.lineTo(0, 22);
+    ctx.lineTo(-18, 0);
+    ctx.closePath();
+    ctx.fill();
+    // Cross frame
+    ctx.strokeStyle = col.dark;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, -22); ctx.lineTo(0, 22);
+    ctx.moveTo(-18, 0); ctx.lineTo(18, 0);
+    ctx.stroke();
+    // Center character
+    ctx.font = 'bold 14px "Noto Sans SC", sans-serif';
+    ctx.fillStyle = col.accent;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(kite.label, 0, 0);
+    // Decorative corner dots
+    ctx.fillStyle = col.accent;
+    [[-9,-11],[9,-11],[-9,11],[9,11]].forEach(function(p) {
+      ctx.beginPath(); ctx.arc(p[0], p[1], 2, 0, Math.PI * 2); ctx.fill();
+    });
+  } else if (kite.shape === 'butterfly') {
+    // Butterfly kite with wing shapes
+    ctx.fillStyle = col.main;
+    // Left wing
+    ctx.beginPath();
+    ctx.moveTo(0, -5);
+    ctx.quadraticCurveTo(-22, -18, -16, 6);
+    ctx.quadraticCurveTo(-8, 12, 0, 5);
+    ctx.fill();
+    // Right wing
+    ctx.beginPath();
+    ctx.moveTo(0, -5);
+    ctx.quadraticCurveTo(22, -18, 16, 6);
+    ctx.quadraticCurveTo(8, 12, 0, 5);
+    ctx.fill();
+    // Wing accents
+    ctx.fillStyle = col.accent;
+    ctx.beginPath(); ctx.arc(-10, -4, 4, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(10, -4, 4, 0, Math.PI * 2); ctx.fill();
+    // Body
+    ctx.fillStyle = col.dark;
+    ctx.fillRect(-1.5, -10, 3, 18);
+    // Antennae
+    ctx.strokeStyle = col.dark;
+    ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(0, -10); ctx.lineTo(-6, -16); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, -10); ctx.lineTo(6, -16); ctx.stroke();
+  } else if (kite.shape === 'dragon') {
+    // Dragon head kite (simplified)
+    ctx.fillStyle = col.main;
+    ctx.beginPath();
+    ctx.moveTo(0, -20);
+    ctx.quadraticCurveTo(20, -10, 14, 10);
+    ctx.lineTo(0, 18);
+    ctx.lineTo(-14, 10);
+    ctx.quadraticCurveTo(-20, -10, 0, -20);
+    ctx.fill();
+    // Eyes
+    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.beginPath(); ctx.arc(-6, -6, 3.5, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(6, -6, 3.5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'rgba(10,10,10,0.9)';
+    ctx.beginPath(); ctx.arc(-6, -6, 1.8, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(6, -6, 1.8, 0, Math.PI * 2); ctx.fill();
+    // Horns
+    ctx.strokeStyle = col.dark;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(-8, -14); ctx.lineTo(-12, -22); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(8, -14); ctx.lineTo(12, -22); ctx.stroke();
+    // Character
+    ctx.font = 'bold 10px "Noto Sans SC", sans-serif';
+    ctx.fillStyle = col.accent;
+    ctx.textAlign = 'center';
+    ctx.fillText(kite.label, 0, 8);
+  }
+
+  ctx.restore();
+
+  // Tail streamer — wavy line below kite, animated
+  var tailWave = Math.sin(t * 2.5) * 6;
+  var tailWave2 = Math.sin(t * 3.2 + 1) * 4;
+  ctx.strokeStyle = col.main;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(32, 52);
+  ctx.quadraticCurveTo(32 + tailWave, 60, 32 + tailWave2, 70);
+  ctx.quadraticCurveTo(32 - tailWave * 0.5, 75, 32 + tailWave * 0.3, 78);
+  ctx.stroke();
+  // Tail bows/ribbons
+  ctx.fillStyle = col.accent;
+  ctx.beginPath(); ctx.arc(32 + tailWave, 60, 2, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(32 + tailWave2, 70, 1.5, 0, Math.PI * 2); ctx.fill();
+
+  return c;
+}
+
+// ── Casino Free Shuttle Buses (發財車 Fortune Buses) ──
+// Iconic Macau casino shuttle buses running 24/7 between ferry terminals and casinos
+var SHUTTLE_BUS_ROUTES = [
+  { // Route 1: Outer Harbour Ferry Terminal → Grand Lisboa / Wynn area
+    name: 'Outer Harbour - Peninsula Casinos',
+    casino: 'Grand Lisboa',
+    points: [
+      { lon: 113.5555, lat: 22.1920 }, // Outer Harbour Ferry Terminal
+      { lon: 113.5510, lat: 22.1910 },
+      { lon: 113.5460, lat: 22.1905 },
+      { lon: 113.5420, lat: 22.1900 },
+      { lon: 113.5399, lat: 22.1893 }, // Grand Lisboa
+    ],
+    durationSec: 70,
+    count: 2,
+    color: { body: 'rgba(180, 140, 30, 0.92)', accent: 'rgba(212, 175, 55, 0.9)', text: 'LISBOA' },
+  },
+  { // Route 2: Outer Harbour → Cotai Strip (Venetian/Galaxy)
+    name: 'Outer Harbour - Cotai Strip',
+    casino: 'Venetian/Galaxy',
+    points: [
+      { lon: 113.5555, lat: 22.1920 }, // Outer Harbour Ferry Terminal
+      { lon: 113.5530, lat: 22.1880 },
+      { lon: 113.5520, lat: 22.1780 },
+      { lon: 113.5540, lat: 22.1650 },
+      { lon: 113.5570, lat: 22.1530 },
+      { lon: 113.5590, lat: 22.1496 }, // Venetian area
+    ],
+    durationSec: 110,
+    count: 2,
+    color: { body: 'rgba(120, 60, 160, 0.92)', accent: 'rgba(180, 120, 220, 0.9)', text: 'GALAXY' },
+  },
+  { // Route 3: Taipa Ferry Terminal → City of Dreams / MGM
+    name: 'Taipa Ferry - Cotai',
+    casino: 'City of Dreams',
+    points: [
+      { lon: 113.5700, lat: 22.1560 }, // Taipa Ferry Terminal
+      { lon: 113.5660, lat: 22.1520 },
+      { lon: 113.5620, lat: 22.1480 },
+      { lon: 113.5580, lat: 22.1440 }, // City of Dreams area
+    ],
+    durationSec: 60,
+    count: 2,
+    color: { body: 'rgba(40, 100, 180, 0.92)', accent: 'rgba(80, 160, 240, 0.9)', text: 'COD' },
+  },
+];
+
+var _shuttleBusEntities = [];
+
+function createShuttleBusCanvas(routeColor) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 36;
+  canvas.height = 28;
+  var ctx = canvas.getContext('2d');
+
+  // Shadow
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+  ctx.beginPath();
+  ctx.ellipse(18, 24, 14, 2.5, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Bus body (rounded rectangle)
+  ctx.fillStyle = routeColor.body;
+  roundRect(ctx, 4, 8, 28, 14, 3);
+  ctx.fill();
+
+  // Roof
+  ctx.fillStyle = routeColor.accent;
+  roundRect(ctx, 4, 6, 28, 4, 2);
+  ctx.fill();
+
+  // Windows
+  ctx.fillStyle = 'rgba(180, 220, 255, 0.75)';
+  for (var w = 0; w < 4; w++) {
+    ctx.fillRect(7 + w * 6.5, 9, 4.5, 5);
+  }
+
+  // Windshield
+  ctx.fillStyle = 'rgba(200, 230, 255, 0.8)';
+  ctx.fillRect(4, 9, 3, 8);
+
+  // Wheels
+  ctx.fillStyle = 'rgba(40, 40, 40, 0.9)';
+  ctx.beginPath(); ctx.arc(10, 23, 2, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(26, 23, 2, 0, Math.PI * 2); ctx.fill();
+
+  // Casino text label on side
+  ctx.font = 'bold 5px sans-serif';
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+  ctx.textAlign = 'center';
+  ctx.fillText(routeColor.text, 18, 19);
+
+  // Accent stripe along bottom
+  ctx.fillStyle = routeColor.accent;
+  ctx.fillRect(4, 20, 28, 1.5);
+
+  return canvas;
+}
+
+function addShuttleBuses(viewer) {
+  var startTime = Date.now();
+
+  SHUTTLE_BUS_ROUTES.forEach(function(route) {
+    var busImage = createShuttleBusCanvas(route.color).toDataURL();
+
+    for (var i = 0; i < route.count; i++) {
+      var phaseOffset = i / route.count;
+
+      (function(offset, routeRef) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          // Ping-pong: shuttle goes to casino and back
+          var rawT = ((elapsed / routeRef.durationSec) + offset) % 2;
+          var t = rawT <= 1 ? rawT : 2 - rawT;
+          var pos = lerpPosition(routeRef.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 3);
+        }, false);
+
+        var entity = viewer.entities.add({
+          name: 'Casino Shuttle - ' + routeRef.casino,
+          position: positionCallback,
+          billboard: {
+            image: busImage,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scaleByDistance: new Cesium.NearFarScalar(50, 1.1, 4000, 0.0),
+            translucencyByDistance: new Cesium.NearFarScalar(30, 1.0, 3000, 0.0),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            scale: 1.0,
+          },
+        });
+        _shuttleBusEntities.push(entity);
+      })(phaseOffset, route);
+    }
+  });
+}
+
+function addKites(viewer) {
+  KITE_SPOTS.forEach(function(kite, idx) {
+    var entity = viewer.entities.add({
+      name: 'Kite ' + kite.name,
+      position: Cesium.Cartesian3.fromDegrees(kite.lon, kite.lat, kite.alt),
+      billboard: {
+        image: createKiteCanvas(kite).toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scaleByDistance: new Cesium.NearFarScalar(100, 1.5, 5000, 0.3),
+        translucencyByDistance: new Cesium.NearFarScalar(50, 1.0, 6000, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        scale: 1.0,
+      },
+    });
+    _kiteEntities.push(entity);
+  });
+
+  // Animate kite tails and control daytime visibility (9:00-17:00)
+  _kiteInterval = setInterval(function() {
+    var hour = getMacauHour();
+    var visible = hour >= 9 && hour < 17;
+    // Fade: 9:00-9:30 in, 16:30-17:00 out
+    var alpha = 1.0;
+    if (hour >= 9 && hour < 9.5) alpha = (hour - 9) * 2;
+    else if (hour >= 16.5 && hour < 17) alpha = (17 - hour) * 2;
+    else if (!visible) alpha = 0;
+
+    // Weather-reactive: hide during rain/typhoon
+    if (currentWeather && (isRainyCode(currentWeather.weather_code) || (currentWeather.wind_speed_10m || 0) > 50)) {
+      alpha = 0;
+    }
+
+    _kiteEntities.forEach(function(entity, idx) {
+      entity.show = alpha > 0;
+      if (alpha > 0) {
+        entity.billboard.image = createKiteCanvas(KITE_SPOTS[idx]).toDataURL();
+        entity.billboard.color = new Cesium.Color(1, 1, 1, alpha);
+      }
+    });
+  }, 300);
+}
+
 // ── Minimap Navigation ──
 var _minimapCanvas = null;
 var _minimapCtx = null;
@@ -11083,6 +11404,17 @@ function drawMinimap() {
     });
   }
 
+  // Casino shuttle buses — magenta dots (ping-pong, always active)
+  SHUTTLE_BUS_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var offset = i / route.count;
+      var rawT = ((elapsed / route.durationSec) + offset) % 2;
+      var t = rawT <= 1 ? rawT : 2 - rawT;
+      var pos = lerpPosition(route.points, t);
+      drawTransportDot(pos.lon, pos.lat, 'rgba(180, 100, 220, 0.9)', 3);
+    }
+  });
+
   // Dinner cruise — warm gold dots (ping-pong, evening only)
   var cruiseHour = getMacauHour();
   if (cruiseHour >= 19 || cruiseHour < 23) {
@@ -11109,6 +11441,7 @@ function drawMinimap() {
     { color: 'rgba(76, 175, 80, 0.9)', label: 'LRT' },
     { color: 'rgba(200, 150, 60, 0.9)', label: 'Triciclo' },
     { color: 'rgba(255, 140, 0, 0.9)', label: 'Bus' },
+    { color: 'rgba(180, 100, 220, 0.9)', label: 'Shuttle' },
     { color: 'rgba(255, 200, 80, 0.95)', label: 'Cruise' },
   ];
   ctx.font = '11px DM Mono, monospace';
@@ -11786,9 +12119,11 @@ function addSkyCabs(viewer) {
     { icon: '🔊', text: isTouch ? 'Enable sound — hear casino chimes near Cotai, temple bells near A-Ma, waves by the harbour' : 'Press M for sound — fly near casinos, temples, or harbour to hear spatial audio zones' },
     { icon: '🪷', text: 'Spot floating lotus flowers on Nam Van Lake — Macau\'s official emblem' },
     { icon: '🧘', text: 'Look for morning tai chi groups in parks between 5-9 AM Macau time' },
+    { icon: '🪁', text: 'Colorful Chinese kites fly above parks during daytime (9 AM-5 PM) — look for dragon and butterfly shapes' },
     { icon: '🛶', text: 'Watch fishing sampans return to Inner Harbour in the afternoon (3-7 PM Macau time)' },
     { icon: '🌈', text: 'Look for a rainbow arc when sun breaks through during or after rain' },
     { icon: '🚌', text: 'Spot open-top sightseeing buses touring the Peninsula and Cotai between 9 AM-3 PM Macau time' },
+    { icon: '🚐', text: 'Casino shuttle buses (發財車) run 24/7 between ferry terminals and casinos — track them on the minimap' },
     { icon: '☁️', text: 'Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk' },
     { icon: '🚢', text: 'Watch illuminated dinner cruise ships glide through the harbour from 7-11 PM Macau time' },
     { icon: '🌫️', text: 'Morning mist drifts over the harbour at dawn (5-8 AM Macau time) — thicker on humid days' },

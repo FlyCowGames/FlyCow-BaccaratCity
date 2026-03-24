@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 114,
+  "last_updated_session": 116,
   "learnings": [
     {
       "type": "pattern",
@@ -310,6 +310,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "animation",
+      "title": "Casino-branded shuttle buses with route-specific colors add transport variety",
+      "description": "Defining per-route color objects (body, accent, text) and passing them to a shared canvas drawing function creates visually distinct vehicles without duplicating drawing code. Casino text labels on the bus sides add identity. Always-active (24/7) shuttle buses fill a gap — most transit features are time-gated, but shuttles run continuously like real Macau.",
+      "evidence": "Session 116: 6 shuttle buses on 3 routes with 3 distinct color schemes (gold/Lisboa, purple/Galaxy, blue/COD). Zero JS errors, passed desktop/mobile checks. Reuses proven CallbackProperty ping-pong pattern.",
+      "tags": ["animation", "transport", "canvas", "cultural-authenticity", "billboard"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -457,6 +468,12 @@
       "question": "How to deepen Portuguese colonial heritage beyond decorative tiles?",
       "chosen": "Bilingual street name sign billboards at 8 famous intersections, canvas-drawn with tile border aesthetic, static (no animation)",
       "rationale": "Street name signs are one of the most photographed features of historic Macau. Blue-and-white tile style matches azulejo panels (S82). Static billboards (no setInterval) because signs don't animate. 6m altitude matches real sign height. Portuguese + Chinese text reinforces the bilingual identity. Complements azulejo tiles, food stalls, and red lanterns in the heritage district.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add iconic Macau ground transport beyond tour buses and triciclos?",
+      "chosen": "Casino free shuttle buses (發財車) on 3 routes between ferry terminals and casinos, always active with casino-branded colors",
+      "rationale": "Casino shuttles are the most ubiquitous Macau transport — every tourist uses them. Always-active (24/7) fills gap since tour buses are midday-only. Per-route casino branding (gold/Lisboa, purple/Galaxy, blue/COD) adds visual variety. Follows proven CallbackProperty ping-pong pattern from ferries/triciclos.",
       "revisit_after_session": null
     }
   ]
