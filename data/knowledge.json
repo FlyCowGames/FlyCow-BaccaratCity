@@ -1,18 +1,18 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 122,
+  "last_updated_session": 125,
   "learnings": [
     {
       "type": "pattern",
       "domain": "interactivity",
       "title": "Enhancing existing features is high-impact with low risk",
       "description": "Rather than building an entirely new feature, enhancing the existing walk tour with auto-opening photo galleries, orbit camera, and progress bar created a much richer experience by composing existing systems (landmark cards, photo gallery, orbit camera). Building on proven patterns is fast and reliable.",
-      "evidence": "Session 76: enhanced walk tour in ~70 lines by reusing showLandmarkCard(), existing orbit pattern, and existing WALK_TOUR_STOPS data. Session 122: Studio City already had searchlight/LED/obstacle light — adding landmark data + billboard + glow + beam completed it as a full landmark with minimal new code. Zero JS errors, passed mobile/desktop checks.",
+      "evidence": "Session 76: enhanced walk tour in ~70 lines by reusing showLandmarkCard(), existing orbit pattern, and existing WALK_TOUR_STOPS data. Session 122: Studio City already had searchlight/LED/obstacle light — adding landmark data + billboard + glow + beam completed it as a full landmark with minimal new code. Session 123: Added observation deck viewpoint to existing Macau Tower landmark by reusing orbit pattern and showLandmarkCard button pattern. Session 125: Kun Iam Statue added as 15th landmark by simply adding to LANDMARKS array + ATTRACTIONS — auto-created billboard, info card, photo gallery, explore panel entry. Zero JS errors every time.",
       "tags": ["architecture", "composability", "feature-enhancement"],
-      "weight": 0.65,
-      "times_applied": 3,
-      "times_successful": 3
+      "weight": 0.7,
+      "times_applied": 5,
+      "times_successful": 5
     },
     {
       "type": "pattern",
@@ -343,6 +343,28 @@
       "weight": 0.6,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "Landmark-specific action buttons extend info cards into interactive experiences",
+      "description": "Adding special-purpose buttons to landmark info cards (beyond Enter Casino) transforms passive info cards into interactive gateways. The landmark card is a natural place for contextual actions because the user is already engaged with that landmark. Different button colors (blue vs gold) visually distinguish different action types. The same orbit pattern used elsewhere works perfectly for point-of-interest viewpoints.",
+      "evidence": "Session 123: 'View from Observation Deck' button added to Macau Tower card. Reuses orbit pattern from flythrough/walk tour. Blue accent distinguishes from gold Enter Casino. Zero JS errors, passed desktop/mobile checks.",
+      "tags": ["interactivity", "ux", "landmarks", "viewpoints", "orbit"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "landmarks",
+      "title": "Non-casino cultural landmarks diversify the landmark collection",
+      "description": "Adding religious, cultural, or civic landmarks (Kun Iam Statue, Senado Square, A-Ma Temple) balances the casino-heavy landmark list and better represents Macau as a complete city. These landmarks follow the exact same LANDMARKS array pattern but don't need night-effect arrays (NEON_ZONES, SKY_BEAMS, etc.) — just the LANDMARKS entry and ATTRACTIONS entry are sufficient for a full experience with billboard, info card, photo gallery, and explore panel integration.",
+      "evidence": "Session 125: Kun Iam Statue added with just 2 array entries (LANDMARKS + ATTRACTIONS.landmarks) + 1 feature tip. Auto-created billboard, info card with 3 photos, explore panel entry. Zero JS errors, passed desktop/mobile checks.",
+      "tags": ["landmarks", "cultural-diversity", "data-driven", "simplicity"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -508,6 +530,12 @@
       "question": "Which landmark to add to complete the Prime Directive casino list?",
       "chosen": "MGM Macau (Peninsula) as a full LANDMARKS entry with info card, photos, and integration into all night-effect systems",
       "rationale": "MGM was the last casino explicitly named in the Prime Directive that was missing from LANDMARKS. The Peninsula location (not MGM Cotai) is the original and more iconic property with the wave-shaped golden facade and 10m lion. Adding it as a data-driven landmark (array entries only, no new code) leveraged the existing architecture for maximum impact with minimal risk.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to let visitors experience the iconic Macau Tower panoramic view?",
+      "chosen": "Camera flight to 240m + slow onTick orbit with cinematic CSS overlay, triggered by landmark card button",
+      "rationale": "The observation deck is Macau Tower's defining experience. Reusing the orbit pattern (separate _towerOrbitHandle like walk tour) keeps it independent from other sequences. Small orbit radius (0.0004°) keeps camera near the tower while rotating. Button in the existing landmark card is the natural discovery point. Blue accent color distinguishes from gold casino buttons. Future: could add similar viewpoints for other landmarks (e.g., Golden Reel ride at Studio City).",
       "revisit_after_session": null
     }
   ]

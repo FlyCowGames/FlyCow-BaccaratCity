@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-24 (Session 122)*
+*This document evolves every session. Last updated: 2026-03-24 (Session 125)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -121,3 +121,5 @@
 - Traditional paifang gateway arches: 5 ornamental Chinese gateways at key Macau entrances (Session 118)
 - MGM Macau landmark: full clickable landmark with billboard, info card, photo gallery, baccarat, night effects (Session 121)
 - Studio City landmark: full clickable landmark with billboard, info card, photo gallery, baccarat, night effects (Session 122)
+- Macau Tower observation deck viewpoint: panoramic 360° view from 233m with cinematic overlay (Session 123)
+- Kun Iam Statue landmark: 20m bronze Guanyin on lotus island at NAPE waterfront with photo gallery (Session 125)

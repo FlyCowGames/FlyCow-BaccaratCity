@@ -830,6 +830,35 @@
   }
   #stage-label.show .stage-tagline { opacity: 1; transform: translateY(0); }
 
+  /* Tower view overlay */
+  #tower-view-overlay {
+    position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+    text-align: center; pointer-events: none;
+    opacity: 0; transition: opacity 0.6s ease;
+    z-index: 110;
+  }
+  #tower-view-overlay.visible { opacity: 1; }
+  .tower-view-label {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: #8cc8ff;
+    text-shadow: 0 0 30px rgba(100,180,255,0.4), 0 2px 8px rgba(0,0,0,0.6);
+  }
+  .tower-view-sub {
+    font-family: 'Noto Sans SC', sans-serif; font-weight: 300;
+    font-size: clamp(0.7rem, 1.5vw, 1rem);
+    color: rgba(140,200,255,0.5);
+    letter-spacing: 0.4em; margin-top: 4px;
+  }
+  .tower-view-hint {
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: clamp(0.55rem, 1vw, 0.7rem);
+    color: rgba(200,220,240,0.3);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-top: 10px;
+  }
+
   /* Night glow indicator */
   #glow-indicator {
     position: absolute; top: 32px; left: 32px;
@@ -1198,6 +1227,18 @@
   .lm-card-enter-casino:hover {
     background: linear-gradient(135deg, rgba(212,175,55,0.35), rgba(212,175,55,0.2));
     border-color: #d4af37; box-shadow: 0 0 20px rgba(212,175,55,0.2);
+  }
+  .lm-card-view-tower {
+    display: block; margin: 4px 24px 20px; padding: 10px 0;
+    background: linear-gradient(135deg, rgba(100,180,255,0.15), rgba(100,180,255,0.08));
+    border: 1px solid rgba(100,180,255,0.35); border-radius: 3px;
+    color: #8cc8ff; font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.8rem; letter-spacing: 0.15em; text-align: center;
+    cursor: pointer; transition: all 0.3s ease; text-transform: uppercase;
+  }
+  .lm-card-view-tower:hover {
+    background: linear-gradient(135deg, rgba(100,180,255,0.3), rgba(100,180,255,0.15));
+    border-color: #8cc8ff; box-shadow: 0 0 20px rgba(100,180,255,0.2);
   }
 
   /* ── Baccarat Table Overlay ── */
@@ -1694,6 +1735,7 @@
     .lm-card-facts { padding: 6px 16px 16px; }
     .lm-card-facts li { font-size: 0.75rem; }
     .lm-card-enter-casino { margin: 4px 16px 16px; font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
+    .lm-card-view-tower { margin: 4px 16px 16px; font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
     .lm-card-divider { margin: 0 16px; }
 
     /* Baccarat overlay — scrollable on mobile so Big Road is reachable */
@@ -2099,6 +2141,7 @@
       <div class="lm-card-body" id="lmc-desc"></div>
       <ul class="lm-card-facts" id="lmc-facts"></ul>
       <button class="lm-card-enter-casino" id="lmc-enter-casino" style="display:none">Enter Casino</button>
+      <button class="lm-card-view-tower" id="lmc-view-tower" style="display:none">View from Observation Deck</button>
     </div>
   </div>
 
@@ -2364,6 +2407,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Studio_City_Macau_01.jpg/960px-Studio_City_Macau_01.jpg", caption: "Studio City's iconic figure-8 Golden Reel" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Studio_City_Macau_2.jpg/960px-Studio_City_Macau_2.jpg", caption: "Studio City exterior with Art Deco towers" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Studio_City_Macau_27-05-2024.jpg/960px-Studio_City_Macau_27-05-2024.jpg", caption: "Studio City and Phase 2 EPIC Tower" },
+    ] },
+  { name: "Kun Iam Statue", chinese: "\u89C0\u97F3\u84EE\u82B1\u82D1", emoji: "\uD83D\uDE4F",
+    lat: 22.1872, lon: 113.5489, type: "Religious Monument", year: "1999",
+    desc: "The Kun Iam Ecumenical Centre features a striking 20-metre bronze statue of Kun Iam (Guanyin), the Buddhist goddess of mercy, standing atop a lotus-shaped dome on an artificial island connected by a 60-metre causeway to the NAPE waterfront. Designed by Portuguese sculptor Cristina Rocha Leiria with UNESCO support and inaugurated in 1999, the statue symbolises the bridge between Eastern and Western cultures that defines Macau. The centre beneath houses a small library and ecumenical prayer space.",
+    facts: ["20-metre bronze statue weighing 50 tonnes \u2014 made of ~50 bronze castings", "Designed by Portuguese sculptor Cristina Rocha Leiria with UNESCO support", "Inaugurated 21 March 1999 to promote inter-cultural friendship", "Lotus-shaped dome base houses an ecumenical library and prayer space"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Estatua_de_Guan_Yin%2C_Macao%2C_2013-08-08%2C_DD_01.jpg/960px-Estatua_de_Guan_Yin%2C_Macao%2C_2013-08-08%2C_DD_01.jpg", caption: "Kun Iam statue and lotus dome on the NAPE waterfront" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Estatua_de_Guan_Yin%2C_Macao%2C_2013-08-08%2C_DD_04.jpg/960px-Estatua_de_Guan_Yin%2C_Macao%2C_2013-08-08%2C_DD_04.jpg", caption: "Close-up of the 20-metre bronze Guanyin" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Kun_Iam_Ecumenical_Centre_02-05-2023.jpg/960px-Kun_Iam_Ecumenical_Centre_02-05-2023.jpg", caption: "Kun Iam Ecumenical Centre and causeway" },
     ] },
 ];
 
@@ -3611,6 +3663,17 @@ function showLandmarkCard(lm) {
     };
   }
 
+  // Show "View from Observation Deck" button for Macau Tower
+  var towerBtn = document.getElementById('lmc-view-tower');
+  var isTower = lm.name === 'Macau Tower';
+  towerBtn.style.display = isTower ? 'block' : 'none';
+  if (isTower) {
+    towerBtn.onclick = function() {
+      hideLandmarkCard();
+      viewFromTower();
+    };
+  }
+
   card.classList.add('visible');
 }
 
@@ -3707,6 +3770,7 @@ function stopFlythrough() {
   }
   if (_tourRunning) stopTour();
   if (_walkTourRunning) stopWalkTour();
+  if (_towerViewActive) stopTowerView();
   if (_viewer) stopOrbit(_viewer);
   // Hide stage label
   var stageLabel = document.getElementById('stage-label');
@@ -3904,6 +3968,106 @@ function stopOrbit(viewer) {
   if (orbitHandle && viewer) {
     viewer.clock.onTick.removeEventListener(orbitHandle);
     orbitHandle = null;
+  }
+}
+
+// ── Macau Tower Observation Deck Viewpoint ──
+var _towerOrbitHandle = null;
+var _towerViewActive = false;
+
+function viewFromTower() {
+  if (!_viewer) return;
+  stopFlythrough();
+  stopTowerView();
+
+  _towerViewActive = true;
+
+  // Macau Tower coordinates: 22.1801N, 113.5318E — observation deck at 233m
+  var towerLon = 113.5318;
+  var towerLat = 22.1801;
+  var deckAlt = 240; // slightly above observation deck for clear view
+
+  // Fly camera to tower position looking outward (north toward peninsula)
+  _viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(towerLon, towerLat, deckAlt),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: Cesium.Math.toRadians(-5),
+      roll: 0
+    },
+    duration: 2.5,
+    complete: function() {
+      if (!_towerViewActive) return;
+      // Start slow 360-degree panoramic orbit from the tower
+      var angle = 0;
+      var speed = 0.0008; // slow rotation — full circle in ~131 seconds
+      var orbitRadius = 0.0004; // very small radius — stay near the tower
+
+      _towerOrbitHandle = function() {
+        if (!_towerViewActive) return;
+        angle += speed;
+        if (angle > Cesium.Math.TWO_PI) angle -= Cesium.Math.TWO_PI;
+
+        var camLon = towerLon + Math.cos(angle) * orbitRadius;
+        var camLat = towerLat + Math.sin(angle) * orbitRadius;
+
+        _viewer.camera.setView({
+          destination: Cesium.Cartesian3.fromDegrees(camLon, camLat, deckAlt),
+          orientation: {
+            heading: angle + Math.PI / 2, // look outward from tower center
+            pitch: Cesium.Math.toRadians(-8),
+            roll: 0
+          }
+        });
+      };
+
+      _viewer.clock.shouldAnimate = true;
+      _viewer.clock.onTick.addEventListener(_towerOrbitHandle);
+
+      // Show an indicator overlay
+      showTowerViewOverlay();
+
+      // Stop on user interaction
+      var canvas = _viewer.scene.canvas;
+      function onInteract() {
+        stopTowerView();
+        canvas.removeEventListener('pointerdown', onInteract);
+        canvas.removeEventListener('wheel', onInteract);
+      }
+      canvas.addEventListener('pointerdown', onInteract);
+      canvas.addEventListener('wheel', onInteract);
+    }
+  });
+}
+
+function stopTowerView() {
+  _towerViewActive = false;
+  if (_towerOrbitHandle && _viewer) {
+    _viewer.clock.onTick.removeEventListener(_towerOrbitHandle);
+    _towerOrbitHandle = null;
+  }
+  hideTowerViewOverlay();
+}
+
+function showTowerViewOverlay() {
+  var existing = document.getElementById('tower-view-overlay');
+  if (existing) existing.remove();
+
+  var el = document.createElement('div');
+  el.id = 'tower-view-overlay';
+  el.innerHTML = '<div class="tower-view-label">OBSERVATION DECK &mdash; 233M</div>' +
+    '<div class="tower-view-sub">Macau Tower 澳門旅遊塔</div>' +
+    '<div class="tower-view-hint">Tap anywhere to exit</div>';
+  document.getElementById('overlay').appendChild(el);
+
+  requestAnimationFrame(function() { el.classList.add('visible'); });
+}
+
+function hideTowerViewOverlay() {
+  var el = document.getElementById('tower-view-overlay');
+  if (el) {
+    el.classList.remove('visible');
+    setTimeout(function() { if (el.parentNode) el.remove(); }, 600);
   }
 }
 
@@ -5414,6 +5578,7 @@ var ATTRACTIONS = {
     { name: "A-Ma Temple", chinese: "媽閣廟", icon: "⛩️", lat: 22.1868, lon: 113.5311, alt: 180, pitch: -20 },
     { name: "Macau Tower", chinese: "澳門旅遊塔", icon: "🗼", lat: 22.1801, lon: 113.5318, alt: 400, pitch: -25 },
     { name: "Senado Square", chinese: "議事亭前地", icon: "🏛️", lat: 22.1937, lon: 113.5390, alt: 200, pitch: -20 },
+    { name: "Kun Iam Statue", chinese: "觀音蓮花苑", icon: "🙏", lat: 22.1872, lon: 113.5489, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -5917,6 +6082,7 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
         if (_timelapseRunning) { stopTimelapse(); return; }
         if (flythroughRunning) { stopFlythrough(); return; }
         if (_walkTourRunning) { stopWalkTour(); return; }
+        if (_towerViewActive) { stopTowerView(); return; }
         if (_streetMode) { exitStreetMode(); return; }
         hideLandmarkCard();
         break;
@@ -12374,6 +12540,8 @@ function addSkyCabs(viewer) {
     { icon: '⏩', text: isTouch ? 'Tap the 24H button by the clock to watch a full day cycle in 48 seconds — see dawn mist, tai chi, sunset, neon lights' : 'Press P to play a 24-hour time-lapse — watch dawn mist, morning tai chi, golden hour, and neon lights in 48 seconds' },
     { icon: '🦁', text: 'Visit MGM Macau — the golden wave-shaped casino with its iconic 10-metre lion statue at the entrance' },
     { icon: '🎬', text: 'Visit Studio City — the Hollywood-themed casino with the world\'s first figure-8 Ferris wheel, the Golden Reel' },
+    { icon: '🗼', text: isTouch ? 'Open Macau Tower info card and tap "View from Observation Deck" for a 360° panoramic view at 233m' : 'Open Macau Tower and click "View from Observation Deck" for a panoramic 360° view from 233 metres' },
+    { icon: '🙏', text: 'Visit the Kun Iam Statue on the NAPE waterfront \u2014 a 20-metre bronze goddess of mercy on a lotus-shaped island' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

@@ -1431,6 +1431,39 @@
       ],
       "linesAdded": 16,
       "agent": "automated"
+    },
+    {
+      "session": 123,
+      "date": "2026-03-24",
+      "title": "Macau Tower Observation Deck Viewpoint",
+      "domain": "interactivity",
+      "summary": "View from Observation Deck button in Macau Tower info card flies camera to 233m for a panoramic 360-degree orbit.",
+      "details": [
+        "Added 'View from Observation Deck' button to Macau Tower landmark card with blue accent styling",
+        "Camera flies to tower coordinates at 240m altitude, then begins slow 360-degree panoramic orbit",
+        "Cinematic overlay displays 'OBSERVATION DECK — 233M' with Chinese subtitle and exit hint",
+        "Escape key and touch/click interaction exit the tower view",
+        "Integrated with stopFlythrough() to prevent conflicts with other sequences",
+        "Feature tip added for discoverability"
+      ],
+      "linesAdded": 95,
+      "agent": "automated"
+    },
+    {
+      "session": 125,
+      "date": "2026-03-24",
+      "title": "Kun Iam Statue Landmark",
+      "domain": "landmarks",
+      "summary": "Added the Kun Iam Ecumenical Centre as a full clickable landmark with photo gallery on the NAPE waterfront.",
+      "details": [
+        "Kun Iam Statue (觀音蓮花苑) added as 15th landmark — 20m bronze Guanyin on lotus-shaped island",
+        "3 real Wikimedia Commons photos: waterfront view, close-up bronze statue, ecumenical centre",
+        "Info card with facts about 50-tonne statue, Portuguese sculptor Cristina Rocha Leiria, UNESCO support",
+        "Added to Landmarks section of Explore panel with search support",
+        "Feature tip added for discoverability"
+      ],
+      "linesAdded": 15,
+      "agent": "automated"
     }
   ]
 }

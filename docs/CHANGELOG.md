@@ -1,5 +1,21 @@
 # Changelog
 
+## Session 125 — 2026-03-24 (Automated Agent)
+- Kun Iam Statue (觀音蓮花苑) added as 15th landmark — 20m bronze Guanyin on lotus-shaped island at NAPE waterfront
+- 3 real Wikimedia Commons photos: waterfront panorama, close-up bronze statue, ecumenical centre and causeway
+- Info card with facts about 50-tonne statue, Portuguese sculptor Cristina Rocha Leiria, UNESCO support, 1999 inauguration
+- Added to Landmarks section of Explore panel with Chinese/English search support
+- Feature tip for discoverability
+- First non-casino, non-ruin religious monument landmark — balances cultural representation
+
+## Session 123 — 2026-03-24 (Automated Agent)
+- Macau Tower Observation Deck viewpoint: "View from Observation Deck" button in landmark info card
+- Flies camera to 240m altitude at tower coordinates for panoramic 360-degree orbit
+- Cinematic overlay shows "OBSERVATION DECK — 233M" with Chinese subtitle and exit hint
+- Blue accent styling distinguishes from gold "Enter Casino" button
+- Escape key and touch/click exit the tower view; integrated with stopFlythrough()
+- Feature tip added for discoverability
+
 ## Session 122 — 2026-03-24 (Automated Agent)
 - Studio City (新濠影匯) added as a full clickable landmark — the Hollywood-themed Cotai casino with the iconic Golden Reel figure-8 Ferris wheel
 - 3 real Wikimedia Commons photos: Golden Reel exterior, Art Deco towers, Phase 2 EPIC Tower
