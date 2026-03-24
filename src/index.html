@@ -139,6 +139,27 @@
     border-color: #d4af37;
     box-shadow: 0 0 6px rgba(212,175,55,0.3);
   }
+  #timelapse-btn {
+    font-family: 'DM Mono', monospace; font-weight: 400;
+    font-size: 0.55rem; color: #d4af37;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 3px; padding: 2px 6px;
+    cursor: pointer; letter-spacing: 0.1em;
+    pointer-events: auto;
+    transition: all 0.3s;
+  }
+  #timelapse-btn:hover { background: rgba(212,175,55,0.3); }
+  #timelapse-btn.active {
+    color: #0a0a12; background: rgba(212,175,55,0.8);
+    border-color: #d4af37;
+    box-shadow: 0 0 8px rgba(212,175,55,0.4);
+    animation: timelapsePulse 2s ease-in-out infinite;
+  }
+  @keyframes timelapsePulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(212,175,55,0.4); }
+    50% { box-shadow: 0 0 14px rgba(212,175,55,0.7); }
+  }
 
   /* Hints - bottom left */
   #hints {
@@ -1536,6 +1557,7 @@
     #clock-label { font-size: 0.7rem; }
     #time-slider { width: 80px; height: 24px; }
     #time-live-btn { font-size: 0.75rem; padding: 8px 12px; min-height: 44px; }
+    #timelapse-btn { font-size: 0.75rem; padding: 8px 10px; min-height: 44px; }
 
     /* Action prompt — stack vertically on mobile */
     #action-prompt {
@@ -1930,6 +1952,7 @@
     <div id="time-slider-block">
       <input type="range" id="time-slider" min="0" max="24" step="0.25" value="12" style="pointer-events: auto;">
       <button id="time-live-btn" class="active">LIVE</button>
+      <button id="timelapse-btn">&#9654; 24H</button>
     </div>
   </div>
 
@@ -1994,6 +2017,7 @@
       <div class="help-row"><span class="help-key">N</span><span class="help-desc">Preview night (22:00)</span></div>
       <div class="help-row"><span class="help-key">D</span><span class="help-desc">Preview day (12:00)</span></div>
       <div class="help-row"><span class="help-key">L</span><span class="help-desc">Return to live time</span></div>
+      <div class="help-row"><span class="help-key">P</span><span class="help-desc">Play 24-hour time-lapse</span></div>
       <div class="help-section">Features</div>
       <div class="help-row"><span class="help-key">T</span><span class="help-desc">Toggle auto-tour</span></div>
       <div class="help-row"><span class="help-key">W</span><span class="help-desc">Cinematic walking tour with photo galleries</span></div>
@@ -2338,6 +2362,7 @@ updateClock();
   slider.value = initHour;
 
   slider.addEventListener('input', function() {
+    if (_timelapseRunning) stopTimelapse();
     var hour = parseFloat(slider.value);
     _timeOverride = hour;
     isLive = false;
@@ -2366,6 +2391,75 @@ updateClock();
     }
   }, 5000);
 })();
+
+// ── Time-Lapse Day Cycle ──
+var _timelapseRunning = false;
+var _timelapseRaf = null;
+var _timelapseStart = 0;
+var _timelapseDuration = 48000; // 48 seconds for full 24h cycle (2s per hour)
+
+function startTimelapse() {
+  if (_timelapseRunning) { stopTimelapse(); return; }
+  stopFlythrough();
+  if (typeof _tourRunning !== 'undefined' && _tourRunning) stopTour();
+  if (typeof _walkTourRunning !== 'undefined' && _walkTourRunning) stopWalkTour();
+  _timelapseRunning = true;
+  var btn = document.getElementById('timelapse-btn');
+  var slider = document.getElementById('time-slider');
+  var liveBtn = document.getElementById('time-live-btn');
+  if (btn) btn.classList.add('active');
+  if (btn) btn.textContent = '\u25A0 STOP';
+  liveBtn.classList.remove('active');
+  _timelapseStart = performance.now();
+  // Start from hour 0 (midnight)
+  _timeOverride = 0;
+  updateCesiumClock(0);
+  slider.value = 0;
+  updateClock();
+  updateNeonGlow();
+
+  function tick(now) {
+    if (!_timelapseRunning) return;
+    var elapsed = now - _timelapseStart;
+    var progress = Math.min(elapsed / _timelapseDuration, 1);
+    var hour = progress * 24;
+    _timeOverride = hour >= 24 ? 23.99 : hour;
+    slider.value = _timeOverride;
+    updateCesiumClock(_timeOverride);
+    updateClock();
+    // Update neon glow every ~500ms worth of frames
+    if (Math.floor(elapsed / 500) !== Math.floor((elapsed - 16) / 500)) {
+      updateNeonGlow();
+    }
+    if (progress >= 1) {
+      // Finished — return to live
+      stopTimelapse();
+      return;
+    }
+    _timelapseRaf = requestAnimationFrame(tick);
+  }
+  _timelapseRaf = requestAnimationFrame(tick);
+}
+
+function stopTimelapse() {
+  _timelapseRunning = false;
+  if (_timelapseRaf) { cancelAnimationFrame(_timelapseRaf); _timelapseRaf = null; }
+  var btn = document.getElementById('timelapse-btn');
+  var slider = document.getElementById('time-slider');
+  var liveBtn = document.getElementById('time-live-btn');
+  if (btn) { btn.classList.remove('active'); btn.innerHTML = '&#9654; 24H'; }
+  // Return to live time
+  _timeOverride = null;
+  liveBtn.classList.add('active');
+  resetCesiumClock();
+  slider.value = getMacauHour();
+  updateClock();
+  updateNeonGlow();
+}
+
+document.getElementById('timelapse-btn').addEventListener('click', function() {
+  startTimelapse();
+});
 
 // ── Weather System ──
 var currentWeather = null;
@@ -3734,6 +3828,7 @@ var _tourStops = [];
 function startTour() {
   if (!_viewer) return;
   stopFlythrough(); // interrupt any running sequence
+  if (_timelapseRunning) stopTimelapse();
   _tourRunning = true;
   _tourStops = getAllTourStops();
   _tourIndex = -1;
@@ -3838,6 +3933,7 @@ var WALK_TOUR_STOPS = [
 function startWalkTour() {
   if (!_viewer) return;
   stopFlythrough();
+  if (_timelapseRunning) stopTimelapse();
   _walkTourRunning = true;
   _walkTourIndex = -1;
   document.getElementById('walk-btn').classList.add('active');
@@ -5692,7 +5788,12 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
         e.preventDefault();
         document.getElementById('typhoon-sim-btn').click();
         break;
+      case 'p': // Time-lapse
+        e.preventDefault();
+        startTimelapse();
+        break;
       case 'escape':
+        if (_timelapseRunning) { stopTimelapse(); return; }
         if (flythroughRunning) { stopFlythrough(); return; }
         if (_walkTourRunning) { stopWalkTour(); return; }
         if (_streetMode) { exitStreetMode(); return; }
@@ -11600,6 +11701,7 @@ function addSkyCabs(viewer) {
     { icon: '🚢', text: 'Watch illuminated dinner cruise ships glide through the harbour from 7-11 PM Macau time' },
     { icon: '🌫️', text: 'Morning mist drifts over the harbour at dawn (5-8 AM Macau time) — thicker on humid days' },
     { icon: '🏖️', text: isTouch ? 'Explore Coloane Island — Hac Sa Beach, the village, and giant pandas at Seac Pai Van Park' : 'Press 9 or 0 to visit Coloane — Hac Sa Beach, the village chapel, and giant pandas' },
+    { icon: '⏩', text: isTouch ? 'Tap the 24H button by the clock to watch a full day cycle in 48 seconds — see dawn mist, tai chi, sunset, neon lights' : 'Press P to play a 24-hour time-lapse — watch dawn mist, morning tai chi, golden hour, and neon lights in 48 seconds' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

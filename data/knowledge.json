@@ -277,9 +277,8 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
-    }
-  ],
-    ,{
+    },
+    {
       "type": "pattern",
       "domain": "landmarks",
       "title": "Complementary features in the same area compound visual richness",
@@ -287,6 +286,17 @@
       "evidence": "Session 111: 8 string light sets added to areas with existing food stalls (S81) and red lanterns (S38). Combined effect creates convincing night market ambiance at Rua do Cunha and Senado Square.",
       "tags": ["landmarks", "visual-richness", "complementary", "night-market"],
       "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "Time-lapse mode showcases time-gated features visitors would otherwise miss",
+      "description": "A requestAnimationFrame-driven time-lapse that smoothly advances _timeOverride from 0 to 24 over ~48 seconds lets visitors see all time-gated features (dawn mist, tai chi, midday buses, afternoon sampans, golden hour, neon lights, fireworks) in one sitting. Reuses the existing time override system (slider input, updateCesiumClock, updateNeonGlow) so zero new infrastructure is needed. Placed next to the existing time slider for contextual discoverability.",
+      "evidence": "Session 113: 72 lines of code, zero JS errors, smooth animation on desktop and mobile. Integrates cleanly with existing time slider, LIVE button, and all other sequences (Tour, Walk Tour, Flythrough).",
+      "tags": ["interactivity", "time-of-day", "ux", "showcase", "requestAnimationFrame"],
+      "weight": 0.6,
       "times_applied": 1,
       "times_successful": 1
     }
@@ -424,6 +434,12 @@
       "question": "How to add night market ambiance to food areas?",
       "chosen": "Canvas-drawn string light billboard entities with catenary wire and warm golden twinkle bulbs at 7-9m altitude",
       "rationale": "String lights are universally recognizable night market signifiers. Canvas + setInterval pattern is proven reliable. Placing at existing food/heritage locations (Rua do Cunha, Senado Square, etc.) compounds with food stalls and red lanterns for layered richness. Always-active with night boost means visible in all conditions.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to let visitors experience all time-gated features without visiting at different hours?",
+      "chosen": "requestAnimationFrame time-lapse animating _timeOverride 0-24 over 48 seconds, small play button next to time slider",
+      "rationale": "Reuses existing time override system (slider, updateCesiumClock, updateNeonGlow) — zero new infrastructure. Placing the button in the clock block (next to LIVE) is contextually obvious. 48s duration (2s/hour) is long enough to appreciate changes but short enough to watch in full. Returns to live time on completion for clean UX.",
       "revisit_after_session": null
     }
   ]

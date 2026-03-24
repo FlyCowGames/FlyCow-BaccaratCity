@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-24 (Session 111)
+## Last Updated: 2026-03-24 (Session 113)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -66,6 +66,7 @@
 - **Rainbow arc after rain**: CSS radial-gradient rainbow with 7 spectral bands, visible during daytime light/moderate rain with partial sun (<85% cloud cover) or within 10 minutes after rain stops. Positioned as large semicircle arc in upper-right viewport. 12s fade transition, mobile-responsive (Session 107)
 - **Morning harbor mist**: 5 layered CSS mist elements with radial gradients and drifting animation over the lower viewport during early morning (5:00-8:30 AM Macau time). Weather-reactive: humidity scales intensity, fog codes boost to 1.5x. Cool blue-white palette complements dawn atmosphere and sun rays. Peak at 5:30-6:30, slow 2h fade-out (Session 109)
 - **Festival string lights**: 8 warm golden string light sets draped across food streets and heritage areas (Rua do Cunha, Senado Square, Rua da Felicidade, Three Lamps District, A-Ma Temple approach). Canvas-drawn catenary wire with 7-10 bulbs, per-bulb twinkle animation, always active with night glow boost (Session 111)
+- **24-hour time-lapse**: Play button (24H) next to LIVE button in clock area animates through a full Macau day in 48 seconds (2s per hour). Showcases all time-gated features (dawn mist, tai chi, midday buses, sampans, golden hour, neon, fireworks). Keyboard shortcut P, returns to live time on completion (Session 113)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -74,7 +75,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~11726 lines, ~434KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~11917 lines, ~442KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -142,6 +143,7 @@
 - **Typhoon signal weather effects** — Real wind speed detection maps to Macau's T1/T3/T8/T10 typhoon signal system. Color-coded signal badge (green/yellow/orange/red) in weather block, red warning banner for T3+, wind-driven rain (CSS skew), animated wind streaks canvas, reduced visibility (fog + dark sky). Typhoon Demo button simulates T8 conditions. Keyboard shortcut Y.
 - **Night sky stars & shooting stars** — CesiumJS skyBox enabled for real star field at night. Animated shooting star canvas overlay with gradient meteor trails (white head → blue tail) spawning randomly every ~3 seconds during nighttime hours (19:00-05:00). Respects time slider override.
 - **Feature tips discovery system** — Rotating tip pill at bottom center shows device-aware tips about 30+ features (baccarat, street mode, tour, shortcuts, weather, etc.). Auto-starts after flythrough, rotates every 10 seconds, auto-hides after 5 minutes, dismissable. Gold-themed with backdrop blur, mobile-responsive.
+- **24-hour time-lapse** — 24H play button animates through a full day in 48 seconds, showcasing dawn, morning, midday, afternoon, golden hour, and night. Keyboard shortcut P, returns to live time on finish.
 - **Golden hour & cinematic color grading** — Full-screen CSS overlay applies time-of-day color grading across 8 phases: dawn pink/amber (4-7), morning fade (7-9), clear midday (9-15), afternoon warm (15-17), golden hour amber (17-18:30), dusk purple (18:30-20), twilight blue (20-21), night deep blue (21-4). Smooth 4-second transitions, updates every 5 seconds, responds to time slider preview.
 
 ## What's Missing (vs Prime Directive)

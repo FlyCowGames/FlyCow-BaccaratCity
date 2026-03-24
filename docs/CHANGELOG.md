@@ -818,6 +818,20 @@
 - Follows proven bridge lights pattern (CallbackProperty scale, glow gating, translucency/scale by distance)
 - File grew from ~11209 to ~11264 lines (+55 lines)
 
+## Session 113 — 2026-03-24 (Automated Agent)
+- 24-hour time-lapse day cycle: play button smoothly animates through a full Macau day in 48 seconds
+- Small "24H" play button added next to LIVE button in time slider block (bottom-right clock area)
+- Animates _timeOverride from 0 to 24 using requestAnimationFrame for smooth progression (2 seconds per hour)
+- Showcases all time-gated features: dawn mist (5-8:30), tai chi (5-9), midday buses (9-15), sampans (15-19), golden hour, neon lights, fireworks
+- Keyboard shortcut P to start/stop time-lapse, Escape to cancel
+- Returns to live Macau time when cycle completes or is manually stopped
+- Integrates with interaction rules: stops when Tour, Walk Tour, or Flythrough starts; stops on slider drag
+- Button shows active state with gold pulse animation during playback, changes text to "STOP"
+- Help overlay updated with P key entry under Time Control section
+- Feature tip added for discoverability on both touch and desktop
+- Mobile-responsive: 44px minimum touch target, proper sizing on small screens
+- File grew from ~11845 to ~11917 lines (+72 lines)
+
 ## Session 111 — 2026-03-24 (Automated Agent)
 - Festival string lights: warm golden string lights draped across food streets and heritage areas
 - 8 string light sets across 4 famous locations: Rua do Cunha (Taipa Village), Senado Square, Rua da Felicidade, Three Lamps District, A-Ma Temple approach
