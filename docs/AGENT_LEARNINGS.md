@@ -19,7 +19,7 @@ When adding a new orbit behavior (walk tour orbit), use a separate onTick handle
 ### CSS particle effects are lightweight alternatives to WebGL
 **Domain:** rendering | **Weight:** 0.8 | **Applied:** 6/6 times
 CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.
-**Evidence:** Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes.
+**Evidence:** Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays.
 **Tags:** performance, css, animation
 
 ### Staggered animation delays prevent mechanical feel
@@ -220,3 +220,7 @@ Parallax effects on mobile conflict with position:relative layouts and feel exag
 ### Q: How to add authentic skyline detail to tall buildings at night?
 **Decision:** Red radial gradient billboard entities at building-top altitudes with slow blink via CallbackProperty, night-only glow gating
 **Rationale:** Aviation obstacle lights are mandatory on tall buildings worldwide — every Macau skyscraper has them. Follows exact bridge lights pattern (CallbackProperty scale, _currentGlowIntensity gating). Simple 3s blink cycle (1.5s on/1.5s dim) with staggered phases per building prevents synchronization. Small 12px canvas icon is visible from overview but unobtrusive.
+
+### Q: How to add golden hour atmosphere without new CesiumJS entities?
+**Decision:** CSS crepuscular rays (god rays) with linear-gradient divs, blur filter, rotation transforms, time-gated to dawn/dusk windows, weather-reactive opacity
+**Rationale:** CSS approach continues the established pattern of using overlays for sky-level effects (clouds S96, color grading). Layering at z-index 43 (above color grading) lets rays appear to shine through the atmosphere. Weather dampening (1.0 clear to 0.2 overcast) ties the effect to live weather data. 10 rays at varied angles (-35 to +38 deg) with staggered pulse durations (15-28s) prevent mechanical feel.
