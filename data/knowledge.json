@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 109,
+  "last_updated_session": 111,
   "learnings": [
     {
       "type": "pattern",
@@ -85,11 +85,11 @@
       "domain": "rendering",
       "title": "Canvas text with shadowBlur creates convincing neon glow",
       "description": "Using canvas 2D context shadowBlur + shadowColor creates a convincing neon glow effect around text. Two passes (colored glow + white core) makes it look realistic. setInterval at 200ms for flicker is smooth without being expensive.",
-      "evidence": "Session 79: 8 neon signs with canvas-drawn Chinese text, colored glow halos, and flickering animation. Session 81: reused for food stall warm glow. Runs smoothly alongside 20 other entity systems.",
+      "evidence": "Session 79: 8 neon signs with canvas-drawn Chinese text, colored glow halos, and flickering animation. Session 81: reused for food stall warm glow. Session 111: reused for string light bulb glow. Runs smoothly alongside 20+ other entity systems.",
       "tags": ["canvas", "rendering", "neon", "performance"],
       "weight": 0.6,
-      "times_applied": 2,
-      "times_successful": 2
+      "times_applied": 3,
+      "times_successful": 3
     },
     {
       "type": "pattern",
@@ -279,6 +279,18 @@
       "times_successful": 1
     }
   ],
+    ,{
+      "type": "pattern",
+      "domain": "landmarks",
+      "title": "Complementary features in the same area compound visual richness",
+      "description": "Adding string lights to areas that already have food stalls and red lanterns creates a layered, cohesive night market atmosphere. Each feature is simple alone, but together they produce a visually rich scene that feels authentic. When planning new features, check what already exists in the target area and design to complement it.",
+      "evidence": "Session 111: 8 string light sets added to areas with existing food stalls (S81) and red lanterns (S38). Combined effect creates convincing night market ambiance at Rua do Cunha and Senado Square.",
+      "tags": ["landmarks", "visual-richness", "complementary", "night-market"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    }
+  ],
   "anti_patterns": [
     {
       "type": "anti_pattern",
@@ -406,6 +418,12 @@
       "question": "How to add a rainbow weather effect to complement the rain system?",
       "chosen": "CSS radial-gradient div with 7 spectral bands, condition-gated to daytime + light rain + partial sun, with 10-min post-rain memory",
       "rationale": "CSS approach (no canvas/entity) follows proven weather overlay pattern. radial-gradient is simpler and more natural than conic-gradient for concentric rainbow bands. Post-rain memory (10 min window) is key — real rainbows often appear as rain stops, not during heavy rain. Cloud cover threshold (85%) ensures sun visibility is plausible.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add night market ambiance to food areas?",
+      "chosen": "Canvas-drawn string light billboard entities with catenary wire and warm golden twinkle bulbs at 7-9m altitude",
+      "rationale": "String lights are universally recognizable night market signifiers. Canvas + setInterval pattern is proven reliable. Placing at existing food/heritage locations (Rua do Cunha, Senado Square, etc.) compounds with food stalls and red lanterns for layered richness. Always-active with night boost means visible in all conditions.",
       "revisit_after_session": null
     }
   ]

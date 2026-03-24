@@ -1634,8 +1634,11 @@
     .lm-card-enter-casino { margin: 4px 16px 16px; font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
     .lm-card-divider { margin: 0 16px; }
 
+    /* Baccarat overlay — scrollable on mobile so Big Road is reachable */
+    #baccarat-overlay { align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    #baccarat-backdrop { position: fixed; }
     /* Baccarat table — readable, tap-friendly */
-    .bacc-table { width: min(360px, 94vw); padding: 16px 14px 14px; border-radius: 120px 120px 10px 10px; }
+    .bacc-table { width: min(360px, 94vw); padding: 16px 14px 14px; border-radius: 120px 120px 10px 10px; margin: 40px auto; flex-shrink: 0; }
     .bacc-table::before { border-radius: 116px 116px 6px 6px; }
     .bacc-casino-name { font-size: 0.9rem; margin-bottom: 14px; }
     .bacc-hands { gap: 10px; }
@@ -3082,6 +3085,7 @@ async function init() {
     initNeonSigns(viewer);
     initFoodStalls(viewer);
     initAzulejoTiles(viewer);
+    initStringLights(viewer);
     addTriiciclos(viewer);
     addPromenadeLights(viewer);
     addObstacleLights(viewer);
@@ -5247,6 +5251,7 @@ var ATTRACTIONS = {
     { name: "Lotus Flowers", chinese: "蓮花", icon: "🪷", lat: 22.1855, lon: 113.5355, alt: 150, pitch: -25 },
     { name: "Morning Tai Chi", chinese: "太極晨練", icon: "🧘", lat: 22.1830, lon: 113.5360, alt: 120, pitch: -20 },
     { name: "Fishing Sampans", chinese: "漁船", icon: "🛶", lat: 22.1870, lon: 113.5310, alt: 120, pitch: -20 },
+    { name: "String Lights", chinese: "串燈", icon: "💡", lat: 22.1560, lon: 113.5580, alt: 80, pitch: -25 },
   ],
   bridges: [
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
@@ -9539,6 +9544,120 @@ function initAzulejoTiles(viewer) {
       item.entity.billboard.image = c.toDataURL();
     });
   }, 400);
+}
+
+// ── Festival String Lights — Food & Heritage Streets ──
+// Warm golden string lights draped across famous food streets and heritage areas
+var STRING_LIGHTS = [
+  // Rua do Cunha, Taipa Village — most famous food street
+  { lon: 113.5580, lat: 22.1562, alt: 8, heading: 15, bulbs: 9 },
+  { lon: 113.5578, lat: 22.1555, alt: 9, heading: -20, bulbs: 8 },
+  // Senado Square — main pedestrian area
+  { lon: 113.5387, lat: 22.1935, alt: 9, heading: 45, bulbs: 10 },
+  { lon: 113.5391, lat: 22.1938, alt: 8, heading: -10, bulbs: 8 },
+  // Rua da Felicidade — historic Happiness Street
+  { lon: 113.5375, lat: 22.1919, alt: 7, heading: 5, bulbs: 9 },
+  { lon: 113.5378, lat: 22.1923, alt: 8, heading: -35, bulbs: 7 },
+  // Three Lamps District — local food hub
+  { lon: 113.5432, lat: 22.2008, alt: 8, heading: 25, bulbs: 8 },
+  // A-Ma Temple approach — heritage street
+  { lon: 113.5311, lat: 22.1872, alt: 7, heading: 15, bulbs: 7 },
+];
+
+function createStringLightCanvas(light, time) {
+  var w = 128, h = 48;
+  var c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  var ctx = c.getContext('2d');
+  var bulbs = light.bulbs;
+  var spacing = (w - 16) / (bulbs - 1);
+  var startX = 8;
+  var nightBoost = _currentGlowIntensity;
+
+  // Wire — dark catenary cable
+  ctx.strokeStyle = 'rgba(60,50,40,' + (0.4 + nightBoost * 0.3) + ')';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, 10);
+  for (var i = 0; i < bulbs; i++) {
+    var x = startX + i * spacing;
+    var sag = 5 * Math.sin(Math.PI * i / (bulbs - 1));
+    ctx.lineTo(x, 10 + sag);
+  }
+  ctx.lineTo(w, 10);
+  ctx.stroke();
+
+  // Bulbs with warm golden glow
+  for (var j = 0; j < bulbs; j++) {
+    var bx = startX + j * spacing;
+    var bsag = 5 * Math.sin(Math.PI * j / (bulbs - 1));
+    var by = 12 + bsag;
+
+    // Per-bulb twinkle (slightly different phase per bulb)
+    var twinkle = 0.7 + 0.3 * Math.sin(time * 2.1 + j * 1.4) * Math.sin(time * 1.3 + j * 0.9);
+    var brightness = (0.4 + nightBoost * 0.6) * twinkle;
+
+    // Glow halo
+    var glowR = 8 + nightBoost * 6;
+    var glow = ctx.createRadialGradient(bx, by, 0, bx, by, glowR);
+    glow.addColorStop(0, 'rgba(255,220,120,' + (0.35 * brightness) + ')');
+    glow.addColorStop(0.5, 'rgba(255,190,80,' + (0.15 * brightness) + ')');
+    glow.addColorStop(1, 'rgba(255,160,50,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(bx, by, glowR, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Bulb body — bright warm core
+    ctx.fillStyle = 'rgba(255,230,140,' + (0.6 + 0.4 * brightness) + ')';
+    ctx.beginPath();
+    ctx.arc(bx, by, 2.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Bright center point
+    ctx.fillStyle = 'rgba(255,255,220,' + (0.8 * brightness) + ')';
+    ctx.beginPath();
+    ctx.arc(bx, by, 1, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  return c;
+}
+
+function initStringLights(viewer) {
+  var startTime = performance.now() / 1000;
+  var entities = [];
+
+  STRING_LIGHTS.forEach(function(light) {
+    var initialCanvas = createStringLightCanvas(light, 0);
+    var entity = viewer.entities.add({
+      name: 'String Lights',
+      position: Cesium.Cartesian3.fromDegrees(light.lon, light.lat, light.alt),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 128,
+        height: 48,
+        scale: new Cesium.CallbackProperty(function() {
+          return 0.6 + _currentGlowIntensity * 0.4;
+        }, false),
+        scaleByDistance: new Cesium.NearFarScalar(20, 2.5, 1500, 0.15),
+        translucencyByDistance: new Cesium.NearFarScalar(15, 1.0, 2500, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    entities.push({ entity: entity, light: light });
+  });
+
+  // Animate warm twinkle
+  setInterval(function() {
+    var elapsed = performance.now() / 1000 - startTime;
+    entities.forEach(function(item, i) {
+      var c = createStringLightCanvas(item.light, elapsed + i * 0.7);
+      item.entity.billboard.image = c.toDataURL();
+    });
+  }, 200);
 }
 
 // ── Macau Triciclo Pedicabs ──

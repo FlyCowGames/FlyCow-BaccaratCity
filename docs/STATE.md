@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-24 (Session 109)
+## Last Updated: 2026-03-24 (Session 111)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -65,6 +65,7 @@
 - **Golden hour sun rays**: 10 cinematic crepuscular light rays radiating from bottom of viewport during dawn (5:00-7:30, pink-amber) and golden hour (16:30-19:00, warm gold). Weather-reactive intensity dampened by cloud cover. Gentle pulse animation with staggered cycles (Session 106)
 - **Rainbow arc after rain**: CSS radial-gradient rainbow with 7 spectral bands, visible during daytime light/moderate rain with partial sun (<85% cloud cover) or within 10 minutes after rain stops. Positioned as large semicircle arc in upper-right viewport. 12s fade transition, mobile-responsive (Session 107)
 - **Morning harbor mist**: 5 layered CSS mist elements with radial gradients and drifting animation over the lower viewport during early morning (5:00-8:30 AM Macau time). Weather-reactive: humidity scales intensity, fog codes boost to 1.5x. Cool blue-white palette complements dawn atmosphere and sun rays. Peak at 5:30-6:30, slow 2h fade-out (Session 109)
+- **Festival string lights**: 8 warm golden string light sets draped across food streets and heritage areas (Rua do Cunha, Senado Square, Rua da Felicidade, Three Lamps District, A-Ma Temple approach). Canvas-drawn catenary wire with 7-10 bulbs, per-bulb twinkle animation, always active with night glow boost (Session 111)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-24 (Session 109)*
+*This document evolves every session. Last updated: 2026-03-24 (Session 111)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -113,3 +113,4 @@
 - Golden hour sun rays: cinematic crepuscular light rays during dawn and golden hour with weather-reactive intensity (Session 106)
 - Rainbow arc after rain: weather-reactive rainbow visible when sun breaks through rain, 7 spectral bands, 12s fade (Session 107)
 - Morning harbor mist: 5 layered CSS fog at dawn (5-8:30 AM), humidity/fog-reactive, cool blue-white drift (Session 109)
+- Festival string lights: 8 warm golden string light sets across food streets and heritage areas with twinkling bulbs (Session 111)
