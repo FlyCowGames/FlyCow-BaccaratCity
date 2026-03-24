@@ -1,0 +1,22 @@
+project:
+  name: "Baccarat City"
+  domain: baccaratcity.com
+  dir: /home/ec2-user/GitHub/FlyCow-BaccaratCity
+
+deploy:
+  s3_bucket: baccaratcity-site
+  cloudfront_id: E3V8V12C6EPFK6
+  main_file: src/index.html
+  s3_key: index.html
+
+schedule:
+  times: ["08:00", "20:00"]
+  stagger_minutes: 10
+
+llm:
+  default: claude-opus-4-6
+  audit: claude-opus-4-6
+  audit_interval: 10
+
+knowledge:
+  domains: "rendering|atmosphere|animation|landmarks|events|interactivity|audio|infrastructure"
