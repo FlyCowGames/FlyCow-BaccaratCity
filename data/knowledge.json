@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 103,
+  "last_updated_session": 105,
   "learnings": [
     {
       "type": "pattern",
@@ -233,6 +233,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "Regulatory/safety details add skyline authenticity",
+      "description": "Adding real-world regulatory elements (aviation obstacle lights, warning lights, signal markers) creates an 'uncanny familiarity' — visitors may not consciously notice them, but their absence would make the scene feel subtly wrong. These features are simple to implement (single billboard entity per location) but add significant authenticity to night scenes.",
+      "evidence": "Session 105: 8 red beacon lights on tall buildings using bridge lights pattern. ~55 lines of code, zero JS errors, follows proven CallbackProperty + glow gating approach.",
+      "tags": ["atmosphere", "authenticity", "night", "billboard", "regulatory"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -344,6 +355,12 @@
       "question": "How to deepen the baccarat experience beyond card dealing?",
       "chosen": "Big Road (大路) scorecard below stats — CSS Grid with explicit cell placement, column-based streaks, tie marks as green dot overlays",
       "rationale": "Big Road is THE most iconic visual element of Macau casinos — every baccarat table has electronic scorecards. Enhances existing feature rather than building new entity. CSS Grid handles the column/row placement naturally. Small visual footprint (54px height) doesn't crowd the already-full baccarat overlay. Future: could add Bead Plate, Big Eye Boy, Small Road, Cockroach Pig for complete scorecard set.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add authentic skyline detail to tall buildings at night?",
+      "chosen": "Red radial gradient billboard entities at building-top altitudes with slow blink via CallbackProperty, night-only glow gating",
+      "rationale": "Aviation obstacle lights are mandatory on tall buildings worldwide — every Macau skyscraper has them. Follows exact bridge lights pattern (CallbackProperty scale, _currentGlowIntensity gating). Simple 3s blink cycle (1.5s on/1.5s dim) with staggered phases per building prevents synchronization. Small 12px canvas icon is visible from overview but unobtrusive.",
       "revisit_after_session": null
     }
   ]

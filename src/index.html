@@ -177,6 +177,52 @@
   #feature-tips .tip-dismiss { margin-left: 10px; opacity: 0.4; font-size: 0.85rem; padding: 8px; min-width: 36px; min-height: 36px; display: inline-flex; align-items: center; justify-content: center; }
   #feature-tips .tip-dismiss:hover { opacity: 0.8; }
 
+  /* Post-flythrough action prompt */
+  #action-prompt {
+    position: absolute; bottom: 140px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 16px; align-items: center;
+    pointer-events: auto;
+    opacity: 0; visibility: hidden;
+    transition: opacity 1s ease, visibility 0s linear 1s;
+    z-index: 102;
+  }
+  #action-prompt.visible {
+    opacity: 1; visibility: visible;
+    transition: opacity 1s ease, visibility 0s linear 0s;
+  }
+  .action-prompt-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: #d4af37; background: rgba(10,10,18,0.75);
+    border: 1px solid rgba(212,175,55,0.25);
+    padding: 14px 22px 12px; border-radius: 4px;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+  }
+  .action-prompt-btn:hover {
+    background: rgba(212,175,55,0.12);
+    border-color: rgba(212,175,55,0.5);
+    box-shadow: 0 0 24px rgba(212,175,55,0.15);
+    transform: translateY(-2px);
+  }
+  .action-prompt-btn .action-icon {
+    font-size: 1.6rem; line-height: 1;
+  }
+  .action-prompt-btn .action-label {
+    white-space: nowrap;
+  }
+  #action-prompt-hint {
+    position: absolute; bottom: -24px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.6rem; color: rgba(212,175,55,0.3);
+    letter-spacing: 0.15em; white-space: nowrap;
+  }
+
   /* Weather display - top right */
   #weather-block {
     position: absolute; top: 32px; right: 32px;
@@ -1390,6 +1436,18 @@
     #time-slider { width: 80px; height: 24px; }
     #time-live-btn { font-size: 0.75rem; padding: 8px 12px; min-height: 44px; }
 
+    /* Action prompt — stack vertically on mobile */
+    #action-prompt {
+      flex-direction: row; gap: 8px;
+      bottom: calc(130px + env(safe-area-inset-bottom));
+    }
+    .action-prompt-btn {
+      padding: 12px 14px 10px; min-width: 100px; min-height: 44px;
+      font-size: 0.75rem; letter-spacing: 0.08em;
+    }
+    .action-prompt-btn .action-icon { font-size: 1.5rem; }
+    #action-prompt-hint { font-size: 0.55rem; bottom: -20px; }
+
     /* Bottom buttons — 3+2 grid, tap-friendly 44px minimum */
     #replay-btn, #tour-btn, #walk-btn, #share-btn, #street-btn {
       font-size: 0.65rem; letter-spacing: 0.1em;
@@ -1781,6 +1839,13 @@
   </div>
 
   <div id="feature-tips"></div>
+
+  <div id="action-prompt">
+    <button class="action-prompt-btn" data-action="explore"><span class="action-icon">&#127961;</span><span class="action-label">Explore</span></button>
+    <button class="action-prompt-btn" data-action="baccarat"><span class="action-icon">&#127183;</span><span class="action-label">Play Baccarat</span></button>
+    <button class="action-prompt-btn" data-action="walktour"><span class="action-icon">&#128694;</span><span class="action-label">Walk Tour</span></button>
+    <span id="action-prompt-hint">choose an experience</span>
+  </div>
 
   <div id="bacc-ticker">
     <div id="bacc-ticker-label">LIVE TABLES</div>
@@ -2915,6 +2980,7 @@ async function init() {
     initAzulejoTiles(viewer);
     addTriiciclos(viewer);
     addPromenadeLights(viewer);
+    addObstacleLights(viewer);
     addTaiChiGroups(viewer);
     addFishingSampans(viewer);
     addTourBuses(viewer);
@@ -3343,6 +3409,7 @@ function _flythroughCleanup(viewer) {
   document.getElementById('share-btn').classList.add('visible');
   document.getElementById('street-btn').classList.add('visible');
   showMinimap();
+  window.dispatchEvent(new Event('flythroughComplete'));
 }
 
 // ── Flythrough ──
@@ -5061,6 +5128,7 @@ var ATTRACTIONS = {
     { name: "Harbor Reflections", chinese: "海港倒影", icon: "✨", lat: 22.1865, lon: 113.5420, alt: 400, pitch: -35 },
     { name: "Neon Signs", chinese: "霓虹招牌", icon: "💡", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -20 },
     { name: "Promenade Lights", chinese: "海濱步道燈", icon: "💫", lat: 22.1810, lon: 113.5375, alt: 500, pitch: -35 },
+    { name: "Obstacle Lights", chinese: "航空障礙燈", icon: "🔴", lat: 22.1893, lon: 113.5399, alt: 600, pitch: -30 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -9602,6 +9670,71 @@ function addPromenadeLights(viewer) {
   });
 }
 
+// ── Aviation Obstacle Lights ──
+// Red blinking beacon lights on top of tall buildings — mandatory aviation safety lights
+// Authentic detail: every building over ~150m in real Macau has these
+var OBSTACLE_LIGHT_BUILDINGS = [
+  { name: 'Grand Lisboa',  lon: 113.5399, lat: 22.1893, alt: 260 }, // 258m tower
+  { name: 'Macau Tower',   lon: 113.5318, lat: 22.1801, alt: 340 }, // 338m tower
+  { name: 'The Venetian',  lon: 113.5590, lat: 22.1494, alt: 160 }, // ~150m rooftop
+  { name: 'Galaxy Macau',  lon: 113.5544, lat: 22.1487, alt: 165 }, // ~160m
+  { name: 'Wynn Palace',   lon: 113.5628, lat: 22.1472, alt: 155 }, // ~150m
+  { name: 'MGM Cotai',     lon: 113.5567, lat: 22.1463, alt: 155 }, // ~150m
+  { name: 'City of Dreams',lon: 113.5560, lat: 22.1510, alt: 160 }, // ~155m
+  { name: 'Studio City',   lon: 113.5620, lat: 22.1340, alt: 145 }, // ~140m (figure-eight)
+];
+
+var _obstacleLightEntities = [];
+
+function createObstacleLightIcon(size) {
+  var canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  var ctx = canvas.getContext('2d');
+  var cx = size / 2, cy = size / 2, r = size / 2;
+  var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+  grad.addColorStop(0, 'rgba(255, 30, 30, 0.95)');
+  grad.addColorStop(0.2, 'rgba(255, 20, 20, 0.6)');
+  grad.addColorStop(0.5, 'rgba(255, 10, 10, 0.15)');
+  grad.addColorStop(1, 'rgba(255, 0, 0, 0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fill();
+  return canvas;
+}
+
+function addObstacleLights(viewer) {
+  var startTime = Date.now();
+  var icon = createObstacleLightIcon(12).toDataURL();
+
+  OBSTACLE_LIGHT_BUILDINGS.forEach(function(bldg, idx) {
+    var phase = idx * 1.1; // offset so they don't all blink together
+    var entity = viewer.entities.add({
+      name: 'Obstacle Light ' + bldg.name,
+      position: Cesium.Cartesian3.fromDegrees(bldg.lon, bldg.lat, bldg.alt),
+      billboard: {
+        image: icon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: new Cesium.CallbackProperty(function() {
+          var glow = _currentGlowIntensity;
+          if (glow < 0.05) return 0; // invisible during day
+          var t = (Date.now() - startTime) / 1000;
+          // Slow blink: on for ~1.5s, off for ~1.5s (aviation standard ~30 flashes/min)
+          var cycle = (t + phase) % 3.0;
+          var blink = cycle < 1.5 ? 1.0 : 0.05; // dim but not fully invisible when "off"
+          return blink * glow * 1.2;
+        }, false),
+        translucencyByDistance: new Cesium.NearFarScalar(300, 1.0, 25000, 0.0),
+        scaleByDistance: new Cesium.NearFarScalar(300, 2.0, 20000, 0.5),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    _obstacleLightEntities.push(entity);
+  });
+}
+
 // ── Morning Tai Chi Groups ──
 // Traditional Chinese morning exercise in parks and waterfront areas (5:00-9:00 Macau time)
 var TAI_CHI_SPOTS = [
@@ -11070,6 +11203,71 @@ function addSkyCabs(viewer) {
       el.style.opacity = '0';
     }
   });
+})();
+
+// ── Post-Flythrough Action Prompt ──
+(function() {
+  var prompt = document.getElementById('action-prompt');
+  if (!prompt) return;
+  var _actionPromptShown = false;
+  var _actionPromptTimer = null;
+
+  function showActionPrompt() {
+    if (_actionPromptShown) return;
+    _actionPromptShown = true;
+    prompt.classList.add('visible');
+    // Auto-hide after 15 seconds
+    _actionPromptTimer = setTimeout(hideActionPrompt, 15000);
+  }
+
+  function hideActionPrompt() {
+    prompt.classList.remove('visible');
+    if (_actionPromptTimer) { clearTimeout(_actionPromptTimer); _actionPromptTimer = null; }
+  }
+
+  // Don't show for shared URLs (they skip flythrough)
+  if (window.location.hash && window.location.hash.length > 5) return;
+
+  // Show prompt 2.5 seconds after flythrough completes
+  window.addEventListener('flythroughComplete', function() {
+    if (!_actionPromptShown) setTimeout(showActionPrompt, 2500);
+  }, { once: true });
+
+  // Handle button clicks
+  prompt.addEventListener('click', function(e) {
+    var btn = e.target.closest('.action-prompt-btn');
+    if (!btn) return;
+    var action = btn.dataset.action;
+    hideActionPrompt();
+    if (action === 'explore') {
+      document.getElementById('attractions-toggle').click();
+    } else if (action === 'baccarat') {
+      openBaccarat('Grand Lisboa');
+    } else if (action === 'walktour') {
+      startWalkTour();
+    }
+  });
+
+  // Hide prompt if user interacts with the scene
+  var canvas = document.querySelector('#cesiumContainer canvas');
+  if (canvas) {
+    canvas.addEventListener('pointerdown', function() {
+      if (_actionPromptShown) hideActionPrompt();
+    }, { once: true });
+  }
+
+  // Hide if any other button is clicked
+  ['replay-btn', 'tour-btn', 'walk-btn', 'share-btn', 'street-btn'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('click', function() { hideActionPrompt(); });
+  });
+
+  // Hide on keyboard shortcut
+  document.addEventListener('keydown', function(e) {
+    if (_actionPromptShown && !e.target.matches('input, textarea, select')) {
+      hideActionPrompt();
+    }
+  }, { once: true });
 })();
 
 // ── Live Baccarat Ticker ──

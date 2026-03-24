@@ -806,6 +806,18 @@
 - Directly serves Prime Directive #8 ("Baccarat is the Soul") — winning feels rewarding
 - File grew from ~11118 to ~11209 lines (+91 lines)
 
+## Session 105 — 2026-03-24 (Automated Agent)
+- Aviation obstacle lights: red blinking beacon lights on top of 8 tallest buildings
+- Buildings equipped: Grand Lisboa (260m), Macau Tower (340m), Venetian (160m), Galaxy (165m), Wynn Palace (155m), MGM Cotai (155m), City of Dreams (160m), Studio City (145m)
+- Slow blink pattern: on 1.5s / dim 1.5s cycle (~30 flashes/min), matching real aviation standards
+- Night-only visibility gated by _currentGlowIntensity (same as bridge lights, promenade lights)
+- Staggered phase offsets per building so lights don't synchronize
+- Canvas-drawn radial gradient icon (12px) in red with glow falloff
+- Visible from bird's-eye view at night up to 25km distance
+- Added to Explore panel Atmosphere section as "Obstacle Lights" / "航空障礙燈"
+- Follows proven bridge lights pattern (CallbackProperty scale, glow gating, translucency/scale by distance)
+- File grew from ~11209 to ~11264 lines (+55 lines)
+
 ## Pre-Session Notes
 - Current code is at /tmp/nxt49/baccarat-city.html (198KB, 5098 lines)
 - Also deployed to s3://nxt49-ca-site/baccarat-city.html
