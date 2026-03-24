@@ -1,5 +1,6 @@
 project:
   name: "Baccarat City"
+  slug: baccarat-city
   domain: baccaratcity.com
   dir: /home/ec2-user/GitHub/FlyCow-BaccaratCity
 
