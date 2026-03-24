@@ -2,13 +2,14 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-24 (Session 126)
+## Last Updated: 2026-03-24 (Session 127)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
 - Cinematic 7-stage flythrough with dramatic title cards: bird's eye > Cotai > Venetian > City of Dreams/Galaxy > Wynn Palace > Harbour > Grand Lisboa > Ruins of St. Paul's > overview. Each stage features multi-line cinematic labels with gold gradient title, Chinese subtitle, descriptive tagline, and staggered slide-up CSS animations
 - 16 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square
 - **Macau Tower Observation Deck viewpoint**: "View from Observation Deck" button in Macau Tower info card flies camera to 240m for a slow 360-degree panoramic orbit showcasing all of Macau from the tower's perspective, with cinematic overlay showing altitude and Chinese subtitle (Session 123)
+- **Studio City Golden Reel viewpoint**: "Ride the Golden Reel" button in Studio City info card flies camera to 135m for a slow 360-degree panoramic orbit from atop the world's first figure-8 Ferris wheel, with pink/magenta cinematic overlay showing altitude and Chinese subtitle (Session 127)
 - Real-time day/night cycle driven by actual Macau time (UTC+8) via CesiumJS sun position
 - Live weather from Open-Meteo API: temperature, conditions, humidity, wind, cloud cover
 - Weather-reactive atmosphere: rain overlay, fog, cloud-dimmed lighting

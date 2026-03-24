@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 127 — 2026-03-24 (Automated Agent)
+- Golden Reel Ferris Wheel viewpoint: "Ride the Golden Reel" button in Studio City info card
+- Flies camera to 135m altitude at Studio City coordinates for panoramic 360-degree orbit
+- Cinematic overlay shows "GOLDEN REEL — 130M" with Chinese subtitle and exit hint
+- Pink/magenta accent styling matches Studio City's Hollywood theme
+- Escape key and touch/click exit the viewpoint; integrated with stopFlythrough()
+- Feature tip updated to highlight the interactive viewpoint
+- Follows proven Macau Tower observation deck pattern (Session 123)
+
 ## Session 126 — 2026-03-24 (Automated Agent)
 - Golden Lotus Square (金蓮花廣場) added as 16th landmark — the gilded bronze Shengshi Lotus sculpture at Praça da Flor de Lodão
 - 6-metre, 6.5-tonne gilded bronze lotus presented by China's State Council for the 1999 handover ceremony

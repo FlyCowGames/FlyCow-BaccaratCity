@@ -1240,6 +1240,47 @@
     background: linear-gradient(135deg, rgba(100,180,255,0.3), rgba(100,180,255,0.15));
     border-color: #8cc8ff; box-shadow: 0 0 20px rgba(100,180,255,0.2);
   }
+  .lm-card-view-reel {
+    display: block; margin: 4px 24px 20px; padding: 10px 0;
+    background: linear-gradient(135deg, rgba(255,150,200,0.15), rgba(255,150,200,0.08));
+    border: 1px solid rgba(255,150,200,0.35); border-radius: 3px;
+    color: #ffaad4; font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.8rem; letter-spacing: 0.15em; text-align: center;
+    cursor: pointer; transition: all 0.3s ease; text-transform: uppercase;
+  }
+  .lm-card-view-reel:hover {
+    background: linear-gradient(135deg, rgba(255,150,200,0.3), rgba(255,150,200,0.15));
+    border-color: #ffaad4; box-shadow: 0 0 20px rgba(255,150,200,0.2);
+  }
+
+  /* Golden Reel view overlay */
+  #reel-view-overlay {
+    position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+    text-align: center; pointer-events: none;
+    opacity: 0; transition: opacity 0.6s ease;
+    z-index: 110;
+  }
+  #reel-view-overlay.visible { opacity: 1; }
+  .reel-view-label {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: #ffaad4;
+    text-shadow: 0 0 30px rgba(255,150,200,0.4), 0 2px 8px rgba(0,0,0,0.6);
+  }
+  .reel-view-sub {
+    font-family: 'Noto Sans SC', sans-serif; font-weight: 300;
+    font-size: clamp(0.7rem, 1.5vw, 1rem);
+    color: rgba(255,170,212,0.5);
+    letter-spacing: 0.4em; margin-top: 4px;
+  }
+  .reel-view-hint {
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: clamp(0.55rem, 1vw, 0.7rem);
+    color: rgba(255,200,230,0.3);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-top: 10px;
+  }
 
   /* ── Baccarat Table Overlay ── */
   #baccarat-overlay {
@@ -1736,6 +1777,7 @@
     .lm-card-facts li { font-size: 0.75rem; }
     .lm-card-enter-casino { margin: 4px 16px 16px; font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
     .lm-card-view-tower { margin: 4px 16px 16px; font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
+    .lm-card-view-reel { margin: 4px 16px 16px; font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
     .lm-card-divider { margin: 0 16px; }
 
     /* Baccarat overlay — scrollable on mobile so Big Road is reachable */
@@ -2142,6 +2184,7 @@
       <ul class="lm-card-facts" id="lmc-facts"></ul>
       <button class="lm-card-enter-casino" id="lmc-enter-casino" style="display:none">Enter Casino</button>
       <button class="lm-card-view-tower" id="lmc-view-tower" style="display:none">View from Observation Deck</button>
+      <button class="lm-card-view-reel" id="lmc-view-reel" style="display:none">Ride the Golden Reel</button>
     </div>
   </div>
 
@@ -3683,6 +3726,17 @@ function showLandmarkCard(lm) {
     };
   }
 
+  // Show "Ride the Golden Reel" button for Studio City
+  var reelBtn = document.getElementById('lmc-view-reel');
+  var isStudioCity = lm.name === 'Studio City';
+  reelBtn.style.display = isStudioCity ? 'block' : 'none';
+  if (isStudioCity) {
+    reelBtn.onclick = function() {
+      hideLandmarkCard();
+      viewFromGoldenReel();
+    };
+  }
+
   card.classList.add('visible');
 }
 
@@ -3780,6 +3834,7 @@ function stopFlythrough() {
   if (_tourRunning) stopTour();
   if (_walkTourRunning) stopWalkTour();
   if (_towerViewActive) stopTowerView();
+  if (_reelViewActive) stopReelView();
   if (_viewer) stopOrbit(_viewer);
   // Hide stage label
   var stageLabel = document.getElementById('stage-label');
@@ -4074,6 +4129,105 @@ function showTowerViewOverlay() {
 
 function hideTowerViewOverlay() {
   var el = document.getElementById('tower-view-overlay');
+  if (el) {
+    el.classList.remove('visible');
+    setTimeout(function() { if (el.parentNode) el.remove(); }, 600);
+  }
+}
+
+// ── Studio City Golden Reel Viewpoint ──
+var _reelOrbitHandle = null;
+var _reelViewActive = false;
+
+function viewFromGoldenReel() {
+  if (!_viewer) return;
+  stopFlythrough();
+  stopReelView();
+
+  _reelViewActive = true;
+
+  // Golden Reel at Studio City: 22.1435N, 113.5550E — top of figure-8 at ~130m
+  var reelLon = 113.5550;
+  var reelLat = 22.1435;
+  var reelAlt = 135; // top of the 130m figure-8 Ferris wheel
+
+  // Fly camera to Golden Reel position looking outward
+  _viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(reelLon, reelLat, reelAlt),
+    orientation: {
+      heading: Cesium.Math.toRadians(320), // northwest toward peninsula
+      pitch: Cesium.Math.toRadians(-5),
+      roll: 0
+    },
+    duration: 2.5,
+    complete: function() {
+      if (!_reelViewActive) return;
+      // Start slow 360-degree panoramic orbit from the wheel
+      var angle = Cesium.Math.toRadians(320);
+      var speed = 0.0008; // same speed as tower — full circle in ~131s
+      var orbitRadius = 0.0005; // slightly wider than tower for better Cotai views
+
+      _reelOrbitHandle = function() {
+        if (!_reelViewActive) return;
+        angle += speed;
+        if (angle > Cesium.Math.TWO_PI) angle -= Cesium.Math.TWO_PI;
+
+        var camLon = reelLon + Math.cos(angle) * orbitRadius;
+        var camLat = reelLat + Math.sin(angle) * orbitRadius;
+
+        _viewer.camera.setView({
+          destination: Cesium.Cartesian3.fromDegrees(camLon, camLat, reelAlt),
+          orientation: {
+            heading: angle + Math.PI / 2, // look outward from center
+            pitch: Cesium.Math.toRadians(-8),
+            roll: 0
+          }
+        });
+      };
+
+      _viewer.clock.shouldAnimate = true;
+      _viewer.clock.onTick.addEventListener(_reelOrbitHandle);
+
+      showReelViewOverlay();
+
+      // Stop on user interaction
+      var canvas = _viewer.scene.canvas;
+      function onInteract() {
+        stopReelView();
+        canvas.removeEventListener('pointerdown', onInteract);
+        canvas.removeEventListener('wheel', onInteract);
+      }
+      canvas.addEventListener('pointerdown', onInteract);
+      canvas.addEventListener('wheel', onInteract);
+    }
+  });
+}
+
+function stopReelView() {
+  _reelViewActive = false;
+  if (_reelOrbitHandle && _viewer) {
+    _viewer.clock.onTick.removeEventListener(_reelOrbitHandle);
+    _reelOrbitHandle = null;
+  }
+  hideReelViewOverlay();
+}
+
+function showReelViewOverlay() {
+  var existing = document.getElementById('reel-view-overlay');
+  if (existing) existing.remove();
+
+  var el = document.createElement('div');
+  el.id = 'reel-view-overlay';
+  el.innerHTML = '<div class="reel-view-label">GOLDEN REEL &mdash; 130M</div>' +
+    '<div class="reel-view-sub">Studio City \u65B0\u6FE0\u5F71\u532F</div>' +
+    '<div class="reel-view-hint">Tap anywhere to exit</div>';
+  document.getElementById('overlay').appendChild(el);
+
+  requestAnimationFrame(function() { el.classList.add('visible'); });
+}
+
+function hideReelViewOverlay() {
+  var el = document.getElementById('reel-view-overlay');
   if (el) {
     el.classList.remove('visible');
     setTimeout(function() { if (el.parentNode) el.remove(); }, 600);
@@ -6093,6 +6247,7 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
         if (flythroughRunning) { stopFlythrough(); return; }
         if (_walkTourRunning) { stopWalkTour(); return; }
         if (_towerViewActive) { stopTowerView(); return; }
+        if (_reelViewActive) { stopReelView(); return; }
         if (_streetMode) { exitStreetMode(); return; }
         hideLandmarkCard();
         break;
@@ -12549,7 +12704,7 @@ function addSkyCabs(viewer) {
     { icon: '🏖️', text: isTouch ? 'Explore Coloane Island — Hac Sa Beach, the village, and giant pandas at Seac Pai Van Park' : 'Press 0 to visit Hac Sa Beach on Coloane Island — black sand, village chapel, and giant pandas' },
     { icon: '⏩', text: isTouch ? 'Tap the 24H button by the clock to watch a full day cycle in 48 seconds — see dawn mist, tai chi, sunset, neon lights' : 'Press P to play a 24-hour time-lapse — watch dawn mist, morning tai chi, golden hour, and neon lights in 48 seconds' },
     { icon: '🦁', text: 'Visit MGM Macau — the golden wave-shaped casino with its iconic 10-metre lion statue at the entrance' },
-    { icon: '🎬', text: 'Visit Studio City — the Hollywood-themed casino with the world\'s first figure-8 Ferris wheel, the Golden Reel' },
+    { icon: '🎬', text: isTouch ? 'Open Studio City info card and tap "Ride the Golden Reel" for a panoramic 360° view from 130 metres atop the figure-8 Ferris wheel' : 'Open Studio City and click "Ride the Golden Reel" for a panoramic view from 130m atop the world\'s first figure-8 Ferris wheel' },
     { icon: '🗼', text: isTouch ? 'Open Macau Tower info card and tap "View from Observation Deck" for a 360° panoramic view at 233m' : 'Open Macau Tower and click "View from Observation Deck" for a panoramic 360° view from 233 metres' },
     { icon: '🙏', text: 'Visit the Kun Iam Statue on the NAPE waterfront \u2014 a 20-metre bronze goddess of mercy on a lotus-shaped island' },
     { icon: '🌻', text: 'Visit Golden Lotus Square \u2014 the gilded bronze lotus sculpture commemorating Macau\'s 1999 handover from Portugal to China' },

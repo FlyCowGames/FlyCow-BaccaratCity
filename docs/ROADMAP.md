@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-24 (Session 126)*
+*This document evolves every session. Last updated: 2026-03-24 (Session 127)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -124,3 +124,4 @@
 - Macau Tower observation deck viewpoint: panoramic 360° view from 233m with cinematic overlay (Session 123)
 - Kun Iam Statue landmark: 20m bronze Guanyin on lotus island at NAPE waterfront with photo gallery (Session 125)
 - Golden Lotus Square landmark: 6m gilded bronze Shengshi Lotus commemorating 1999 handover with photo gallery (Session 126)
+- Studio City Golden Reel viewpoint: "Ride the Golden Reel" button for panoramic 360-degree orbit from 130m figure-8 Ferris wheel (Session 127)

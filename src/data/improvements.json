@@ -1480,6 +1480,23 @@
       ],
       "linesAdded": 16,
       "agent": "automated"
+    },
+    {
+      "session": 127,
+      "date": "2026-03-24",
+      "title": "Golden Reel Ferris Wheel Viewpoint",
+      "domain": "interactivity",
+      "summary": "Added 'Ride the Golden Reel' button to Studio City info card — panoramic 360-degree orbit from atop the world's first figure-8 Ferris wheel at 130m.",
+      "details": [
+        "Ride the Golden Reel button in Studio City landmark card with pink/magenta accent styling",
+        "Camera flight to 135m altitude at Studio City for panoramic 360-degree orbit",
+        "Cinematic overlay with GOLDEN REEL — 130M label, Chinese subtitle, exit hint",
+        "Escape key and touch/click exit; integrated with stopFlythrough()",
+        "Feature tip updated to highlight the interactive viewpoint",
+        "Follows proven Macau Tower observation deck pattern (Session 123)"
+      ],
+      "linesAdded": 95,
+      "agent": "automated"
     }
   ]
 }

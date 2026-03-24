@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 126,
+  "last_updated_session": 127,
   "learnings": [
     {
       "type": "pattern",
@@ -348,12 +348,12 @@
       "type": "pattern",
       "domain": "interactivity",
       "title": "Landmark-specific action buttons extend info cards into interactive experiences",
-      "description": "Adding special-purpose buttons to landmark info cards (beyond Enter Casino) transforms passive info cards into interactive gateways. The landmark card is a natural place for contextual actions because the user is already engaged with that landmark. Different button colors (blue vs gold) visually distinguish different action types. The same orbit pattern used elsewhere works perfectly for point-of-interest viewpoints.",
-      "evidence": "Session 123: 'View from Observation Deck' button added to Macau Tower card. Reuses orbit pattern from flythrough/walk tour. Blue accent distinguishes from gold Enter Casino. Zero JS errors, passed desktop/mobile checks.",
+      "description": "Adding special-purpose buttons to landmark info cards (beyond Enter Casino) transforms passive info cards into interactive gateways. The landmark card is a natural place for contextual actions because the user is already engaged with that landmark. Different button colors (blue=tower, pink=reel, gold=casino) visually distinguish different action types. The same orbit pattern used elsewhere works perfectly for point-of-interest viewpoints.",
+      "evidence": "Session 123: 'View from Observation Deck' button added to Macau Tower card (blue accent). Session 127: 'Ride the Golden Reel' button added to Studio City card (pink accent). Both reuse orbit pattern, zero JS errors, passed desktop/mobile checks.",
       "tags": ["interactivity", "ux", "landmarks", "viewpoints", "orbit"],
-      "weight": 0.5,
-      "times_applied": 1,
-      "times_successful": 1
+      "weight": 0.6,
+      "times_applied": 2,
+      "times_successful": 2
     },
     {
       "type": "pattern",
