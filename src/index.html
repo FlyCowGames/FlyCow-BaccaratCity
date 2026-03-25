@@ -2586,6 +2586,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/MandarinHouse1.jpg/960px-MandarinHouse1.jpg", caption: "Traditional Chinese architectural details" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Mandarin%27s_House_in_Macau.jpg/960px-Mandarin%27s_House_in_Macau.jpg", caption: "The restored compound from the courtyard" },
     ] },
+  { name: "St. Dominic's Church", chinese: "\u73AB\u7470\u5802", emoji: "\u26EA",
+    lat: 22.1942, lon: 113.5389, type: "UNESCO Heritage", year: "1587",
+    desc: "The Church of St. Dominic (Igreja de S\u00E3o Domingos) is one of Macau's most beautiful baroque churches, standing at the top of Senado Square. Founded in 1587 by three Spanish Dominican friars from Acapulco, the church was originally built from wood and later reconstructed in stone in the 17th century. Its striking cream-and-white neoclassical facade with green shuttered windows is one of the most photographed sights in Macau. The church played a significant role in Portuguese and Chinese history \u2014 in 1822, the first Portuguese-language newspaper in China, 'A Abelha da China' (The China Bee), was published here. The interior features an ornate baroque altar with gilded wooden carvings and a statue of Our Lady of the Rosary (Nossa Senhora do Ros\u00E1rio), from which the Chinese name \u73AB\u7470\u5802 (Rose Church) derives. Since 1997, the bell tower houses the Museum of Sacred Art (Museu de Arte Sacra), displaying over 300 works of Catholic religious art from Macau's churches and convents. It was inscribed as a UNESCO World Heritage Site in 2005 as part of the Historic Centre of Macau.",
+    facts: ["Founded 1587 by three Spanish Dominican friars from Acapulco \u2014 originally built from wood, later reconstructed in stone", "Houses the Museum of Sacred Art since 1997 \u2014 over 300 pieces of Catholic religious art in the bell tower", "UNESCO World Heritage Site since 2005 \u2014 one of the finest examples of baroque church architecture in China", "Site where China's first Portuguese-language newspaper 'A Abelha da China' was published in 1822"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Iglesia_de_Santo_Domingo%2C_Macao%2C_2013-08-08%2C_DD_01.jpg/960px-Iglesia_de_Santo_Domingo%2C_Macao%2C_2013-08-08%2C_DD_01.jpg", caption: "St. Dominic's Church baroque facade" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Igreja_de_S._Domingos%2C_Macao_%282052652784%29.jpg/960px-Igreja_de_S._Domingos%2C_Macao_%282052652784%29.jpg", caption: "The cream-and-white neoclassical exterior" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Macau_-_Iglesia_de_Santo_Domingo_%2826092180771%29.jpg/960px-Macau_-_Iglesia_de_Santo_Domingo_%2826092180771%29.jpg", caption: "St. Dominic's Church from Senado Square" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -5979,6 +5988,7 @@ var ATTRACTIONS = {
     { name: "Penha Church", chinese: "主教山小堂", icon: "⛪", lat: 22.1876, lon: 113.5348, alt: 200, pitch: -15 },
     { name: "Guia Fortress", chinese: "東望洋炮台", icon: "⛰️", lat: 22.1967, lon: 113.5480, alt: 250, pitch: -20 },
     { name: "Mandarin's House", chinese: "鄭家大屋", icon: "🏠", lat: 22.1894, lon: 113.5333, alt: 200, pitch: -15 },
+    { name: "St. Dominic's Church", chinese: "玫瑰堂", icon: "⛪", lat: 22.1942, lon: 113.5389, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -13115,6 +13125,7 @@ function addSkyCabs(viewer) {
     { icon: '\u26EA', text: 'Visit Penha Church (主教山小堂) \u2014 a 1622 hilltop chapel with panoramic views over Nam Van Lake, Macau Tower, and the Cotai skyline' },
     { icon: '\u26F0\uFE0F', text: 'Explore Guia Fortress (東望洋炮台) \u2014 a 1638 hilltop fortress with the oldest lighthouse on the China coast and rare 17th-century frescoes' },
     { icon: '🏠', text: 'Visit the Mandarin\'s House (鄭家大屋) \u2014 Macau\'s largest traditional Chinese compound, built in 1869 by reformist Zheng Guanying, UNESCO World Heritage' },
+    { icon: '\u26EA', text: 'Discover St. Dominic\'s Church (玫瑰堂) \u2014 a stunning 1587 baroque church at Senado Square, home to the Museum of Sacred Art with 300+ works, UNESCO World Heritage' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

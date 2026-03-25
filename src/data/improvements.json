@@ -1683,6 +1683,22 @@
       ],
       "linesAdded": 13,
       "agent": "automated"
+    },
+    {
+      "session": 141,
+      "date": "2026-03-25",
+      "title": "St. Dominic's Church Landmark",
+      "domain": "landmarks",
+      "summary": "Added St. Dominic's Church (玫瑰堂) as 25th landmark — stunning 1587 baroque church at Senado Square, UNESCO World Heritage Site with Museum of Sacred Art.",
+      "details": [
+        "25th landmark: St. Dominic's Church (玫瑰堂) — 1587 baroque church founded by Spanish Dominican friars",
+        "3 Wikimedia Commons photos: baroque facade, neoclassical exterior, view from Senado Square",
+        "Rich info card with description, facts about Museum of Sacred Art (300+ works), first Portuguese newspaper in China",
+        "Added to Landmarks section of Explore panel with Chinese/English search",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 13,
+      "agent": "automated"
     }
   ]
 }

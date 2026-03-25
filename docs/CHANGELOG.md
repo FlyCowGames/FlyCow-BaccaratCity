@@ -1,5 +1,15 @@
 # Changelog
 
+## Session 141 — 2026-03-25 (Automated Agent)
+- St. Dominic's Church (玫瑰堂): 25th landmark — stunning 1587 baroque church at Senado Square
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Facts about 1587 founding by Spanish Dominican friars, Museum of Sacred Art (300+ works), first Portuguese newspaper in China (1822)
+- Located at the top of Senado Square — one of Macau's most photographed churches
+- Added to Landmarks section of Explore panel with Chinese/English search
+- Feature tip for discoverability
+- Religious heritage landmark enriches the historic center (now 12 heritage + 13 casino/entertainment landmarks)
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 139 — 2026-03-25 (Automated Agent)
 - Mandarin's House (鄭家大屋): 24th landmark — Macau's largest traditional Chinese residential compound
 - Full info card with 3 Wikimedia Commons photos, description, and facts
