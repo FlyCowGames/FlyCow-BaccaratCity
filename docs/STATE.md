@@ -2,12 +2,12 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-25 (Session 148)
+## Last Updated: 2026-03-25 (Session 152)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
 - Cinematic 7-stage flythrough with dramatic title cards: bird's eye > Cotai > Venetian > City of Dreams/Galaxy > Wynn Palace > Harbour > Grand Lisboa > Ruins of St. Paul's > overview. Each stage features multi-line cinematic labels with gold gradient title, Chinese subtitle, descriptive tagline, and staggered slide-up CSS animations
-- 29 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square, The Parisian, Wynn Macau, Sands Macao, Monte Fort, Taipa Houses-Museum, Penha Church, Guia Fortress, Mandarin's House, St. Dominic's Church, Lou Kau Mansion, Na Tcha Temple, Sé Cathedral, Dom Pedro V Theatre
+- 30 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square, The Parisian, Wynn Macau, Sands Macao, Monte Fort, Taipa Houses-Museum, Penha Church, Guia Fortress, Mandarin's House, St. Dominic's Church, Lou Kau Mansion, Na Tcha Temple, Sé Cathedral, Dom Pedro V Theatre, St. Augustine's Church
 - **Macau Tower Observation Deck viewpoint**: "View from Observation Deck" button in Macau Tower info card flies camera to 240m for a slow 360-degree panoramic orbit showcasing all of Macau from the tower's perspective, with cinematic overlay showing altitude and Chinese subtitle (Session 123)
 - **Studio City Golden Reel viewpoint**: "Ride the Golden Reel" button in Studio City info card flies camera to 135m for a slow 360-degree panoramic orbit from atop the world's first figure-8 Ferris wheel, with pink/magenta cinematic overlay showing altitude and Chinese subtitle (Session 127)
 - **Grand Lisboa Sky Lounge viewpoint**: "View from Sky Lounge" button in Grand Lisboa info card flies camera to 265m for a slow 360-degree panoramic orbit from atop Macau's tallest building, with gold gradient cinematic overlay showing altitude and Chinese subtitle (Session 128)
@@ -20,7 +20,7 @@
 - **Neon casino glow**: 11 glow zones with bloom post-processing, active at night (19:00-05:00) with dusk/dawn ramps
 - **Ambient audio with spatial zones**: 7-layer procedural soundscape via Web Audio API — base layers (ocean, wind, city hum) plus 4 position-aware zone layers (casino chimes, slot noise, temple bells, harbour foghorn). Volumes respond to camera position (proximity to Cotai, temples, harbour), altitude (fade above 500m), time of day (casino louder at night, temple at dawn), and weather (foghorn boosted in fog). Mix updates every 3 seconds.
 - **Landmark info cards with photo gallery**: click any landmark to see a rich popup with photo gallery (3 real Wikimedia Commons images, swipeable on mobile), description, history, facts, type, and year
-- **Interactive baccarat with betting + sound + Big Road + win celebration**: click any casino → "Enter Casino" → play baccarat with HK$10,000 virtual bankroll, chip selection ($100-$10K), bet on Player/Banker/Tie with authentic payouts, procedural sound effects (deal, flip, chip, win/lose/tie chimes), Big Road scorecard (路紙) tracking result history with authentic column-based pattern display (Session 101), golden chip cascade celebration on wins with intensity scaling (Session 103)
+- **Interactive baccarat with betting + sound + Big Road + win celebration + persistent bankroll**: click any casino → "Enter Casino" → play baccarat with HK$10,000 virtual bankroll, chip selection ($100-$10K), bet on Player/Banker/Tie with authentic payouts, procedural sound effects (deal, flip, chip, win/lose/tie chimes), Big Road scorecard (路紙) tracking result history with authentic column-based pattern display (Session 101), golden chip cascade celebration on wins with intensity scaling (Session 103). **Bankroll persists between visits via localStorage** — tracks hands played, biggest win, and peak bankroll. "Welcome back" indicator for returning players. Reset button to start fresh (Session 152)
 - **Firework sound effects**: procedural Web Audio API launch whoosh (rising sine sweep + noise) and burst pop (explosive thump + crackle tail) synchronized with visual fireworks, randomized per firework for natural variation
 - **Harbor fireworks**: particle-based firework display over the harbor at night (20:00-01:00), 6 color palettes, 3 burst types
 - **Animated pedestrians**: ~26 walking figures near 6 popular areas (Senado Square, Ruins, Grand Lisboa, Cotai, A-Ma Temple, Macau Tower)
@@ -100,7 +100,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~13745 lines, ~543KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~13800 lines, ~549KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 

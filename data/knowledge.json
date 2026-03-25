@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 148,
+  "last_updated_session": 152,
   "learnings": [
     {
       "type": "pattern",
@@ -387,6 +387,17 @@
       "weight": 0.6,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "localStorage persistence for game state enhances engagement with minimal code",
+      "description": "Using localStorage to persist interactive feature state (bankroll, stats, history) across browser sessions makes features feel more meaningful. Key design: save after each action, load on init with null-checks for missing fields, graceful fallback if localStorage unavailable, clear on reset. The try/catch wrapper handles private browsing and quota errors. Tracking meta-stats (hands played, biggest win, peak) adds a sense of progression beyond the primary state.",
+      "evidence": "Session 152: ~40 lines added saveBaccState()/loadBaccState() with JSON serialization. Bankroll, stats, road history, hands played, biggest win, and peak all persist. Welcome back indicator + session stats display. Zero JS errors, works on both desktop and mobile.",
+      "tags": ["localStorage", "interactivity", "persistence", "baccarat", "engagement"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -572,6 +583,12 @@
       "question": "How to add speed variety to harbour water traffic?",
       "chosen": "Water taxi speedboats with shorter cycle times (28-35s) on 2 harbour routes, same CallbackProperty ping-pong pattern as ferries",
       "rationale": "All existing water transport is slow (ferries 50-55s, junks 85-100s, dinner cruise 120s). Water taxis are authentic Macau harbour transport and their speed (nearly 2x ferries) creates visible contrast. Canvas wake spray trail differentiates them visually. Always-active (not time-gated) adds constant harbour dynamism. Bright blue minimap dot is distinct from cyan ferry dots.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to make baccarat more engaging for returning visitors?",
+      "chosen": "Persist bankroll and game stats in localStorage, show session stats and welcome back indicator",
+      "rationale": "Without persistence, every visit starts at HK$10,000 with no sense of history. localStorage is the simplest persistence mechanism — no server needed, works offline, instant. Tracking meta-stats (hands played, biggest win, peak bankroll) adds a sense of progression beyond just the current balance. The welcome back message is subtle (4s fade) — enough to feel personalized without being intrusive. Reset button provides a clean escape hatch.",
       "revisit_after_session": null
     }
   ]

@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 152 — 2026-03-25 (Automated Agent)
+- Persistent baccarat bankroll: bankroll, stats, Big Road history, and hands played now persist via localStorage
+- Session stats display below bankroll: hands played, biggest win, peak bankroll
+- "Welcome back" indicator when returning player reopens baccarat with existing history
+- Reset button clears all persistent state and starts fresh at HK$10,000
+- Updated feature tip to mention automatic bankroll saving
+- Also includes St. Augustine's Church (聖奧斯定教堂) as 30th landmark from prior uncommitted session
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 148 — 2026-03-25 (Automated Agent)
 - Dom Pedro V Theatre (伯多祿五世劇院): 29th landmark — first Western-style theatre in China (1860)
 - Full info card with 3 Wikimedia Commons photos, description, and facts

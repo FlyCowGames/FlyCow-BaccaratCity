@@ -1781,6 +1781,22 @@
       ],
       "linesAdded": 14,
       "agent": "automated"
+    },
+    {
+      "session": 152,
+      "date": "2026-03-25",
+      "title": "Persistent Baccarat Bankroll",
+      "domain": "interactivity",
+      "summary": "Baccarat bankroll now persists between visits via localStorage, with session stats tracking hands played, biggest win, and peak bankroll.",
+      "details": [
+        "Bankroll, stats, Big Road history, and hands played persist via localStorage across browser sessions",
+        "Session stats display: hands played, biggest win, peak bankroll shown below bankroll amount",
+        "Welcome back indicator when returning player reopens baccarat with existing bankroll",
+        "Reset button clears all persistent state and starts fresh at HK$10,000",
+        "Also includes uncommitted St. Augustine's Church (30th landmark) from prior session"
+      ],
+      "linesAdded": 42,
+      "agent": "automated"
     }
   ]
 }
