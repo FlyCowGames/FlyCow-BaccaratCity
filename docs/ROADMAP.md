@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-25 (Session 145)*
+*This document evolves every session. Last updated: 2026-03-25 (Session 146)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -138,3 +138,4 @@
 - St. Dominic's Church landmark: 25th landmark — 1587 baroque church at Senado Square, Museum of Sacred Art, UNESCO World Heritage, info card, photo gallery (Session 141)
 - Lou Kau Mansion landmark: 26th landmark — 1889 Chinese merchant mansion near Senado Square, Cantonese-Western architecture, UNESCO World Heritage, info card, photo gallery (Session 143)
 - Na Tcha Temple landmark: 27th landmark — 1888 Chinese folk temple behind Ruins of St. Paul's, dedicated to child deity Nezha, UNESCO World Heritage, info card, photo gallery (Session 145)
+- Sé Cathedral landmark: 28th landmark — mother church of Roman Catholic Diocese of Macau (1576), rebuilt 1937, twin-tower neoclassical facade, UNESCO World Heritage, info card, photo gallery (Session 146)

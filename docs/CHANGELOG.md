@@ -1,5 +1,15 @@
 # Changelog
 
+## Session 146 — 2026-03-25 (Automated Agent)
+- Sé Cathedral (主教座堂): 28th landmark — mother church of one of Asia's oldest Catholic dioceses (est. 1576)
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Facts about 1576 diocese establishment, 1622 original construction, 1937 concrete rebuild, Cathedral Square ceremonies
+- Located on Largo da Sé (Cathedral Square) — ceremonial heart of Portuguese Macau
+- Added to Landmarks section of Explore panel with Chinese/English search
+- Feature tip for discoverability
+- Religious heritage landmark completes major Historic Centre churches (now 15 heritage + 13 casino/entertainment landmarks)
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 145 — 2026-03-25 (Automated Agent)
 - Na Tcha Temple (哪吒廟): 27th landmark — tiny 1888 Chinese folk temple behind the Ruins of St. Paul's
 - Full info card with 3 Wikimedia Commons photos, description, and facts

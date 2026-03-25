@@ -2613,6 +2613,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Na_Tcha_Temple_in_Macau.JPG/960px-Na_Tcha_Temple_in_Macau.JPG", caption: "The tiny temple with traditional Lingnan architecture" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Na_Tcha_Temple_and_Ruins_of_St._Paul%27s.jpg/960px-Na_Tcha_Temple_and_Ruins_of_St._Paul%27s.jpg", caption: "Na Tcha Temple with the Ruins facade behind" },
     ] },
+  { name: "Sé Cathedral", chinese: "主教座堂", emoji: "⛪",
+    lat: 22.1919, lon: 113.5407, type: "UNESCO Heritage", year: "1622",
+    desc: "The Cathedral of the Nativity of Our Lady (Catedral da Natividade de Nossa Senhora), commonly known as Sé Cathedral, is the mother church of the Roman Catholic Diocese of Macau. Originally built in 1622 from rammed earth and wood, the church was rebuilt several times — first in 1780 and then completely reconstructed in reinforced concrete in 1937, giving it the austere neoclassical facade seen today. The twin-towered granite-clad exterior houses a surprisingly intimate interior with stained glass windows from the original structure and a small pipe organ. The cathedral sits on the elevated Largo da Sé (Cathedral Square), once the ceremonial heart of Portuguese Macau where colonial governors were formally invested. The remains of Japanese and Vietnamese Catholic martyrs were once interred here before being transferred to other churches. Despite its relatively plain exterior compared to Macau's more ornate baroque churches, the Sé holds unique symbolic importance as the seat of one of Asia's oldest Catholic dioceses, established in 1576 — older than any diocese in mainland China, Japan, or Korea.",
+    facts: ["Mother church of the Roman Catholic Diocese of Macau — one of Asia's oldest dioceses, established 1576", "Originally built 1622, rebuilt in reinforced concrete 1937 with austere neoclassical twin-tower facade", "UNESCO World Heritage Site since 2005 — part of the Historic Centre of Macau", "Cathedral Square (Largo da Sé) was the ceremonial centre where Portuguese colonial governors were invested"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Catedral_da_S%C3%A9_%28Macau%29.jpg/960px-Catedral_da_S%C3%A9_%28Macau%29.jpg", caption: "Sé Cathedral's neoclassical twin-tower facade" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Cathedral_of_the_Nativity_of_Our_Lady_Macau.jpg/960px-Cathedral_of_the_Nativity_of_Our_Lady_Macau.jpg", caption: "The cathedral on Largo da Sé (Cathedral Square)" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Se_Cathedral_Macau_Interior.jpg/960px-Se_Cathedral_Macau_Interior.jpg", caption: "Interior with stained glass windows" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -6010,6 +6019,7 @@ var ATTRACTIONS = {
     { name: "St. Dominic's Church", chinese: "玫瑰堂", icon: "⛪", lat: 22.1942, lon: 113.5389, alt: 200, pitch: -15 },
     { name: "Lou Kau Mansion", chinese: "盧家大屋", icon: "🏛️", lat: 22.1933, lon: 113.5393, alt: 200, pitch: -15 },
     { name: "Na Tcha Temple", chinese: "哪吒廟", icon: "⛩️", lat: 22.1976, lon: 113.5413, alt: 200, pitch: -15 },
+    { name: "Sé Cathedral", chinese: "主教座堂", icon: "⛪", lat: 22.1919, lon: 113.5407, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -13332,6 +13342,7 @@ function addSkyCabs(viewer) {
     { icon: '\u26EA', text: 'Discover St. Dominic\'s Church (玫瑰堂) \u2014 a stunning 1587 baroque church at Senado Square, home to the Museum of Sacred Art with 300+ works, UNESCO World Heritage' },
     { icon: '\uD83C\uDFDB\uFE0F', text: 'Discover Lou Kau Mansion (盧家大屋) \u2014 an 1889 merchant mansion near Senado Square, blending Cantonese and Western design, UNESCO World Heritage' },
     { icon: '\u26E9\uFE0F', text: 'Visit Na Tcha Temple (哪吒廟) \u2014 a tiny 1888 Chinese folk temple right behind the Ruins of St. Paul\'s, symbolising Macau\'s cultural duality, UNESCO World Heritage' },
+    { icon: '\u26EA', text: 'Visit Sé Cathedral (主教座堂) \u2014 mother church of one of Asia\'s oldest Catholic dioceses (1576), rebuilt 1937 with twin-tower neoclassical facade, UNESCO World Heritage' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

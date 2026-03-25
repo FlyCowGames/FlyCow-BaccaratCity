@@ -1731,6 +1731,22 @@
       ],
       "linesAdded": 14,
       "agent": "automated"
+    },
+    {
+      "session": 146,
+      "date": "2026-03-25",
+      "title": "Sé Cathedral Landmark",
+      "domain": "landmarks",
+      "summary": "Added Sé Cathedral (主教座堂) as 28th landmark — mother church of one of Asia's oldest Catholic dioceses (1576), rebuilt 1937, UNESCO World Heritage Site.",
+      "details": [
+        "28th landmark: Sé Cathedral (主教座堂) — Cathedral of the Nativity of Our Lady, seat of the Diocese of Macau",
+        "3 Wikimedia Commons photos: twin-tower neoclassical facade, Cathedral Square, interior with stained glass",
+        "Rich info card with description, facts about 1576 diocese, 1622 original construction, 1937 rebuild",
+        "Added to Landmarks section of Explore panel with Chinese/English search",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 14,
+      "agent": "automated"
     }
   ]
 }
