@@ -12,7 +12,7 @@ Vary animation-delay and animation-duration per element to prevent synchronized 
 ### Web Audio API for procedural sound without external files (weight: 0.8, domain: audio, 5/5)
 Web Audio API generates convincing ambient and interactive sounds procedurally — no audio files needed. Must start muted and require user click (browser autoplay policy). Evidence: Sessions 9, 58, 63, 83, 98: ambient soundscape, baccarat sounds, firework sounds, spatial audio zones, thunder — all procedurally generated
 
-### Enhancing existing features is high-impact with low risk (weight: 0.7, domain: interactivity, 8/8)
+### Enhancing existing features is high-impact with low risk (weight: 0.7, domain: interactivity, 9/9)
 Rather than building an entirely new feature, enhancing the existing walk tour with auto-opening photo galleries, orbit camera, and progress bar created a much richer experience by composing existing systems (landmark cards, photo gallery, orbit camera). Building on proven patterns is fast and reliable. Evidence: Session 76: enhanced walk tour in ~70 lines by reusing showLandmarkCard(), existing orbit pattern, and existing WALK_TOUR_STOPS data. Session 122: Studio City already had searchlight/LED/obstacle light — adding landmark data + billboard + glow + beam completed it as a full landmark with minimal new code. Session 123: Added observation deck viewpoint to existing Macau Tower landmark by reusing orbit pattern and showLandmarkCard button pattern. Session 125: Kun Iam Statue added as 15th landmark by simply adding to LANDMARKS array + ATTRACTIONS. Session 126: Golden Lotus Square added as 16th landmark with same pattern. Session 128: Grand Lisboa Sky Lounge viewpoint added by reusing exact tower/reel viewpoint pattern. Session 131: The Parisian Macao added as 17th landmark with all night-effect arrays — zero JS errors every time.
 
 ### Cultural balance through complementary heritage elements (weight: 0.7, domain: landmarks, 3/3)
@@ -21,7 +21,7 @@ When a digital twin represents a multicultural city, actively balance representa
 ### Time-of-day gated features fill temporal gaps and add realism (weight: 0.7, domain: animation, 4/4)
 Gating billboard entity visibility to specific time windows (e.g., morning 5-9 AM for tai chi) creates time-specific atmosphere that rewards exploration at different hours. Using getMacauHour() with smooth fade in/out at boundaries (0.5h ramp) prevents jarring appearance/disappearance. Most features are night-only or always-on — morning/afternoon-specific features fill temporal gaps. Evidence: Session 91: tai chi 5-9 AM. Session 93: fishing sampans 15-19 PM. Session 97: dinner cruise 19-23. Session 109: harbor mist 5-8:30 AM. All use getMacauHour() with fade ramps. Zero JS errors every time.
 
-### New landmark integrates with all existing night-effect systems automatically (weight: 0.7, domain: landmarks, 2/2)
+### New landmark integrates with all existing night-effect systems automatically (weight: 0.7, domain: landmarks, 3/3)
 Adding a new landmark to the LANDMARKS array plus entries in NEON_ZONES, SKY_BEAM_CASINOS, SEARCHLIGHT_CASINOS, CASINO_REFLECTIONS, and OBSTACLE_LIGHT_BUILDINGS gives the landmark a fully integrated nighttime presence with zero new code. Each system iterates its array and creates entities — the data-driven architecture means adding array entries is all that's needed. Evidence: Session 121: MGM Macau added to 6 arrays (LANDMARKS, ATTRACTIONS.casinos, NEON_ZONES, SKY_BEAM_CASINOS, SEARCHLIGHT_CASINOS, OBSTACLE_LIGHT_BUILDINGS, CASINO_REFLECTIONS). Session 131: The Parisian Macao added to 7 arrays (LANDMARKS, ATTRACTIONS.casinos, NEON_ZONES, SKY_BEAM_CASINOS, SEARCHLIGHT_CASINOS, OBSTACLE_LIGHT_BUILDINGS, LED_FACADES) plus TICKER_CASINOS. All systems picked it up automatically. Zero JS errors both times.
 
 ### Staggered CSS transitions create cinematic reveal effects (weight: 0.6, domain: rendering, 1/1)
@@ -200,4 +200,4 @@ Chosen: Camera flight to 240m + slow onTick orbit with cinematic CSS overlay, tr
 Chosen: Water taxi speedboats with shorter cycle times (28-35s) on 2 harbour routes, same CallbackProperty ping-pong pattern as ferries. Rationale: All existing water transport is slow (ferries 50-55s, junks 85-100s, dinner cruise 120s). Water taxis are authentic Macau harbour transport and their speed (nearly 2x ferries) creates visible contrast. Canvas wake spray trail differentiates them visually. Always-active (not time-gated) adds constant harbour dynamism. Bright blue minimap dot is distinct from cyan ferry dots.
 
 ---
-*Last updated: Session 131*
+*Last updated: Session 132*
