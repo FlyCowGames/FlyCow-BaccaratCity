@@ -2604,6 +2604,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Lou_Kau_Mansion_07.JPG/960px-Lou_Kau_Mansion_07.JPG", caption: "Interior courtyard and ornate details" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Lou_Kau_Mansion_in_Macau.jpg/960px-Lou_Kau_Mansion_in_Macau.jpg", caption: "The restored mansion from the street" },
     ] },
+  { name: "Na Tcha Temple", chinese: "\u54ea\u5412\u5e99", emoji: "\u26e9\ufe0f",
+    lat: 22.1976, lon: 113.5413, type: "UNESCO Heritage", year: "1888",
+    desc: "Na Tcha Temple (Templo de Na Tcha) is a tiny but culturally significant Chinese folk temple nestled right behind the Ruins of St. Paul\u2019s. Built in 1888 during a plague epidemic, the temple is dedicated to the child deity Na Tcha (Nezha), a popular figure in Chinese mythology believed to ward off evil and protect children. Despite its diminutive size \u2014 just a single chamber barely 8 metres wide \u2014 it is one of Macau\u2019s most symbolically important structures. Its juxtaposition with the grand stone facade of the ruined Jesuit church directly beside it perfectly encapsulates Macau\u2019s extraordinary cultural duality: centuries of Chinese and Portuguese traditions existing side by side in mutual respect. The temple features traditional Lingnan-style architecture with a curved green-tile roof, ornamental ridge decorations, and a small forecourt with incense burners. It was inscribed as a UNESCO World Heritage Site in 2005 alongside the adjacent Section of the Old City Walls, as part of the Historic Centre of Macau.",
+    facts: ["Built in 1888 during a plague epidemic \u2014 dedicated to child deity Na Tcha (Nezha), protector against evil", "One of the smallest UNESCO World Heritage Sites \u2014 a single chamber barely 8 metres wide", "Stands directly behind the Ruins of St. Paul\u2019s \u2014 symbolising Macau\u2019s Chinese-Portuguese cultural coexistence", "Lingnan-style architecture with curved green-tile roof, ornamental ridges, and incense burners"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Na_Tcha_Temple_Exterior.jpg/960px-Na_Tcha_Temple_Exterior.jpg", caption: "Na Tcha Temple beside the Ruins of St. Paul's" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Na_Tcha_Temple_in_Macau.JPG/960px-Na_Tcha_Temple_in_Macau.JPG", caption: "The tiny temple with traditional Lingnan architecture" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Na_Tcha_Temple_and_Ruins_of_St._Paul%27s.jpg/960px-Na_Tcha_Temple_and_Ruins_of_St._Paul%27s.jpg", caption: "Na Tcha Temple with the Ruins facade behind" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -6000,6 +6009,7 @@ var ATTRACTIONS = {
     { name: "Mandarin's House", chinese: "鄭家大屋", icon: "🏠", lat: 22.1894, lon: 113.5333, alt: 200, pitch: -15 },
     { name: "St. Dominic's Church", chinese: "玫瑰堂", icon: "⛪", lat: 22.1942, lon: 113.5389, alt: 200, pitch: -15 },
     { name: "Lou Kau Mansion", chinese: "盧家大屋", icon: "🏛️", lat: 22.1933, lon: 113.5393, alt: 200, pitch: -15 },
+    { name: "Na Tcha Temple", chinese: "哪吒廟", icon: "⛩️", lat: 22.1976, lon: 113.5413, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -13321,6 +13331,7 @@ function addSkyCabs(viewer) {
     { icon: '🏠', text: 'Visit the Mandarin\'s House (鄭家大屋) \u2014 Macau\'s largest traditional Chinese compound, built in 1869 by reformist Zheng Guanying, UNESCO World Heritage' },
     { icon: '\u26EA', text: 'Discover St. Dominic\'s Church (玫瑰堂) \u2014 a stunning 1587 baroque church at Senado Square, home to the Museum of Sacred Art with 300+ works, UNESCO World Heritage' },
     { icon: '\uD83C\uDFDB\uFE0F', text: 'Discover Lou Kau Mansion (盧家大屋) \u2014 an 1889 merchant mansion near Senado Square, blending Cantonese and Western design, UNESCO World Heritage' },
+    { icon: '\u26E9\uFE0F', text: 'Visit Na Tcha Temple (哪吒廟) \u2014 a tiny 1888 Chinese folk temple right behind the Ruins of St. Paul\'s, symbolising Macau\'s cultural duality, UNESCO World Heritage' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

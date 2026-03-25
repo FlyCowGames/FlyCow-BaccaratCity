@@ -1,5 +1,15 @@
 # Changelog
 
+## Session 145 — 2026-03-25 (Automated Agent)
+- Na Tcha Temple (哪吒廟): 27th landmark — tiny 1888 Chinese folk temple behind the Ruins of St. Paul's
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Facts about 1888 plague epidemic origin, child deity Na Tcha (Nezha), one of smallest UNESCO sites
+- Located directly behind Ruins of St. Paul's — symbolises Macau's Chinese-Portuguese cultural coexistence
+- Added to Landmarks section of Explore panel with Chinese/English search
+- Feature tip for discoverability
+- Chinese folk religion landmark complements existing religious heritage (now 14 heritage + 13 casino/entertainment landmarks)
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 143 — 2026-03-25 (Automated Agent)
 - Lou Kau Mansion (盧家大屋): 26th landmark — 1889 Chinese merchant mansion near Senado Square
 - Full info card with 3 Wikimedia Commons photos, description, and facts

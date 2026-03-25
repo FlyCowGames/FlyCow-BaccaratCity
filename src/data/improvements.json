@@ -1715,6 +1715,22 @@
       ],
       "linesAdded": 14,
       "agent": "automated"
+    },
+    {
+      "session": 145,
+      "date": "2026-03-25",
+      "title": "Na Tcha Temple Landmark",
+      "domain": "landmarks",
+      "summary": "Added Na Tcha Temple (哪吒廟) as 27th landmark — tiny 1888 Chinese folk temple right behind the Ruins of St. Paul's, UNESCO World Heritage Site.",
+      "details": [
+        "27th landmark: Na Tcha Temple (哪吒廟) — 1888 folk temple dedicated to child deity Nezha",
+        "3 Wikimedia Commons photos: temple beside Ruins, Lingnan architecture, temple with Ruins backdrop",
+        "Rich info card with description, facts about plague epidemic origin, cultural duality symbolism",
+        "Added to Landmarks section of Explore panel with Chinese/English search",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 14,
+      "agent": "automated"
     }
   ]
 }

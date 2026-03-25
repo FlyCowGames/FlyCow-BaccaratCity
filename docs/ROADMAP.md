@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-25 (Session 143)*
+*This document evolves every session. Last updated: 2026-03-25 (Session 145)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -137,3 +137,4 @@
 - Mandarin's House landmark: 24th landmark — Macau's largest Chinese residential compound, built 1869 by Zheng Guanying, UNESCO World Heritage, info card, photo gallery (Session 139)
 - St. Dominic's Church landmark: 25th landmark — 1587 baroque church at Senado Square, Museum of Sacred Art, UNESCO World Heritage, info card, photo gallery (Session 141)
 - Lou Kau Mansion landmark: 26th landmark — 1889 Chinese merchant mansion near Senado Square, Cantonese-Western architecture, UNESCO World Heritage, info card, photo gallery (Session 143)
+- Na Tcha Temple landmark: 27th landmark — 1888 Chinese folk temple behind Ruins of St. Paul's, dedicated to child deity Nezha, UNESCO World Heritage, info card, photo gallery (Session 145)
