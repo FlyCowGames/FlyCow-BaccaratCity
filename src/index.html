@@ -1252,6 +1252,18 @@
     background: linear-gradient(135deg, rgba(255,150,200,0.3), rgba(255,150,200,0.15));
     border-color: #ffaad4; box-shadow: 0 0 20px rgba(255,150,200,0.2);
   }
+  .lm-card-view-skylounge {
+    display: block; margin: 4px 24px 20px; padding: 10px 0;
+    background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.08));
+    border: 1px solid rgba(212,175,55,0.35); border-radius: 3px;
+    color: #d4af37; font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.8rem; letter-spacing: 0.15em; text-align: center;
+    cursor: pointer; transition: all 0.3s ease; text-transform: uppercase;
+  }
+  .lm-card-view-skylounge:hover {
+    background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(212,175,55,0.15));
+    border-color: #d4af37; box-shadow: 0 0 20px rgba(212,175,55,0.2);
+  }
 
   /* Golden Reel view overlay */
   #reel-view-overlay {
@@ -1278,6 +1290,37 @@
     font-family: 'DM Mono', monospace; font-weight: 300;
     font-size: clamp(0.55rem, 1vw, 0.7rem);
     color: rgba(255,200,230,0.3);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  /* Grand Lisboa Sky Lounge view overlay */
+  #skylounge-view-overlay {
+    position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+    text-align: center; pointer-events: none;
+    opacity: 0; transition: opacity 0.6s ease;
+    z-index: 110;
+  }
+  #skylounge-view-overlay.visible { opacity: 1; }
+  .skylounge-view-label {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+    letter-spacing: 0.3em; text-transform: uppercase;
+    background: linear-gradient(135deg, #d4af37 0%, #f5e6a3 50%, #d4af37 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(212,175,55,0.5)) drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+  }
+  .skylounge-view-sub {
+    font-family: 'Noto Sans SC', sans-serif; font-weight: 300;
+    font-size: clamp(0.7rem, 1.5vw, 1rem);
+    color: rgba(212,175,55,0.5);
+    letter-spacing: 0.4em; margin-top: 4px;
+  }
+  .skylounge-view-hint {
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: clamp(0.55rem, 1vw, 0.7rem);
+    color: rgba(212,175,55,0.3);
     letter-spacing: 0.15em; text-transform: uppercase;
     margin-top: 10px;
   }
@@ -1778,6 +1821,7 @@
     .lm-card-enter-casino { margin: 4px 16px 16px; font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
     .lm-card-view-tower { margin: 4px 16px 16px; font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
     .lm-card-view-reel { margin: 4px 16px 16px; font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
+    .lm-card-view-skylounge { margin: 4px 16px 16px; font-size: 0.8rem; padding: 12px 0; min-height: 44px; }
     .lm-card-divider { margin: 0 16px; }
 
     /* Baccarat overlay — scrollable on mobile so Big Road is reachable */
@@ -2185,6 +2229,7 @@
       <button class="lm-card-enter-casino" id="lmc-enter-casino" style="display:none">Enter Casino</button>
       <button class="lm-card-view-tower" id="lmc-view-tower" style="display:none">View from Observation Deck</button>
       <button class="lm-card-view-reel" id="lmc-view-reel" style="display:none">Ride the Golden Reel</button>
+      <button class="lm-card-view-skylounge" id="lmc-view-skylounge" style="display:none">View from Sky Lounge</button>
     </div>
   </div>
 
@@ -3737,6 +3782,17 @@ function showLandmarkCard(lm) {
     };
   }
 
+  // Show "View from Sky Lounge" button for Grand Lisboa
+  var skyBtn = document.getElementById('lmc-view-skylounge');
+  var isGrandLisboa = lm.name === 'Grand Lisboa';
+  skyBtn.style.display = isGrandLisboa ? 'block' : 'none';
+  if (isGrandLisboa) {
+    skyBtn.onclick = function() {
+      hideLandmarkCard();
+      viewFromSkyLounge();
+    };
+  }
+
   card.classList.add('visible');
 }
 
@@ -3835,6 +3891,7 @@ function stopFlythrough() {
   if (_walkTourRunning) stopWalkTour();
   if (_towerViewActive) stopTowerView();
   if (_reelViewActive) stopReelView();
+  if (_skyLoungeViewActive) stopSkyLoungeView();
   if (_viewer) stopOrbit(_viewer);
   // Hide stage label
   var stageLabel = document.getElementById('stage-label');
@@ -4228,6 +4285,105 @@ function showReelViewOverlay() {
 
 function hideReelViewOverlay() {
   var el = document.getElementById('reel-view-overlay');
+  if (el) {
+    el.classList.remove('visible');
+    setTimeout(function() { if (el.parentNode) el.remove(); }, 600);
+  }
+}
+
+// ── Grand Lisboa Sky Lounge Viewpoint ──
+var _skyLoungeOrbitHandle = null;
+var _skyLoungeViewActive = false;
+
+function viewFromSkyLounge() {
+  if (!_viewer) return;
+  stopFlythrough();
+  stopSkyLoungeView();
+
+  _skyLoungeViewActive = true;
+
+  // Grand Lisboa: 22.1893N, 113.5399E — Sky Lounge near top of 258m lotus tower
+  var lisboaLon = 113.5399;
+  var lisboaLat = 22.1893;
+  var loungeAlt = 265; // just above the 258m tower for clear panoramic view
+
+  // Fly camera to sky lounge position looking north toward peninsula
+  _viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(lisboaLon, lisboaLat, loungeAlt),
+    orientation: {
+      heading: Cesium.Math.toRadians(0),
+      pitch: Cesium.Math.toRadians(-5),
+      roll: 0
+    },
+    duration: 2.5,
+    complete: function() {
+      if (!_skyLoungeViewActive) return;
+      // Start slow 360-degree panoramic orbit from the tower top
+      var angle = 0;
+      var speed = 0.0008; // same speed as other viewpoints — full circle in ~131s
+      var orbitRadius = 0.0004; // tight orbit around the tower
+
+      _skyLoungeOrbitHandle = function() {
+        if (!_skyLoungeViewActive) return;
+        angle += speed;
+        if (angle > Cesium.Math.TWO_PI) angle -= Cesium.Math.TWO_PI;
+
+        var camLon = lisboaLon + Math.cos(angle) * orbitRadius;
+        var camLat = lisboaLat + Math.sin(angle) * orbitRadius;
+
+        _viewer.camera.setView({
+          destination: Cesium.Cartesian3.fromDegrees(camLon, camLat, loungeAlt),
+          orientation: {
+            heading: angle + Math.PI / 2, // look outward from tower center
+            pitch: Cesium.Math.toRadians(-8),
+            roll: 0
+          }
+        });
+      };
+
+      _viewer.clock.shouldAnimate = true;
+      _viewer.clock.onTick.addEventListener(_skyLoungeOrbitHandle);
+
+      showSkyLoungeViewOverlay();
+
+      // Stop on user interaction
+      var canvas = _viewer.scene.canvas;
+      function onInteract() {
+        stopSkyLoungeView();
+        canvas.removeEventListener('pointerdown', onInteract);
+        canvas.removeEventListener('wheel', onInteract);
+      }
+      canvas.addEventListener('pointerdown', onInteract);
+      canvas.addEventListener('wheel', onInteract);
+    }
+  });
+}
+
+function stopSkyLoungeView() {
+  _skyLoungeViewActive = false;
+  if (_skyLoungeOrbitHandle && _viewer) {
+    _viewer.clock.onTick.removeEventListener(_skyLoungeOrbitHandle);
+    _skyLoungeOrbitHandle = null;
+  }
+  hideSkyLoungeViewOverlay();
+}
+
+function showSkyLoungeViewOverlay() {
+  var existing = document.getElementById('skylounge-view-overlay');
+  if (existing) existing.remove();
+
+  var el = document.createElement('div');
+  el.id = 'skylounge-view-overlay';
+  el.innerHTML = '<div class="skylounge-view-label">SKY LOUNGE &mdash; 258M</div>' +
+    '<div class="skylounge-view-sub">Grand Lisboa \u65B0\u8461\u4EAC</div>' +
+    '<div class="skylounge-view-hint">Tap anywhere to exit</div>';
+  document.getElementById('overlay').appendChild(el);
+
+  requestAnimationFrame(function() { el.classList.add('visible'); });
+}
+
+function hideSkyLoungeViewOverlay() {
+  var el = document.getElementById('skylounge-view-overlay');
   if (el) {
     el.classList.remove('visible');
     setTimeout(function() { if (el.parentNode) el.remove(); }, 600);
@@ -6248,6 +6404,7 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
         if (_walkTourRunning) { stopWalkTour(); return; }
         if (_towerViewActive) { stopTowerView(); return; }
         if (_reelViewActive) { stopReelView(); return; }
+        if (_skyLoungeViewActive) { stopSkyLoungeView(); return; }
         if (_streetMode) { exitStreetMode(); return; }
         hideLandmarkCard();
         break;
@@ -12706,6 +12863,7 @@ function addSkyCabs(viewer) {
     { icon: '🦁', text: 'Visit MGM Macau — the golden wave-shaped casino with its iconic 10-metre lion statue at the entrance' },
     { icon: '🎬', text: isTouch ? 'Open Studio City info card and tap "Ride the Golden Reel" for a panoramic 360° view from 130 metres atop the figure-8 Ferris wheel' : 'Open Studio City and click "Ride the Golden Reel" for a panoramic view from 130m atop the world\'s first figure-8 Ferris wheel' },
     { icon: '🗼', text: isTouch ? 'Open Macau Tower info card and tap "View from Observation Deck" for a 360° panoramic view at 233m' : 'Open Macau Tower and click "View from Observation Deck" for a panoramic 360° view from 233 metres' },
+    { icon: '🏛', text: isTouch ? 'Open Grand Lisboa info card and tap "View from Sky Lounge" for a panoramic 360° view from 258m atop the iconic lotus tower' : 'Open Grand Lisboa and click "View from Sky Lounge" for a panoramic 360° view from 258m atop Macau\'s tallest building' },
     { icon: '🙏', text: 'Visit the Kun Iam Statue on the NAPE waterfront \u2014 a 20-metre bronze goddess of mercy on a lotus-shaped island' },
     { icon: '🌻', text: 'Visit Golden Lotus Square \u2014 the gilded bronze lotus sculpture commemorating Macau\'s 1999 handover from Portugal to China' },
   ];

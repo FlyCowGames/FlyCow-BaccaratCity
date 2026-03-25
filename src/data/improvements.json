@@ -1497,6 +1497,23 @@
       ],
       "linesAdded": 95,
       "agent": "automated"
+    },
+    {
+      "session": 128,
+      "date": "2026-03-25",
+      "title": "Grand Lisboa Sky Lounge Viewpoint",
+      "domain": "interactivity",
+      "summary": "Added 'View from Sky Lounge' button to Grand Lisboa info card — panoramic 360-degree orbit from atop Macau's tallest building at 258m.",
+      "details": [
+        "View from Sky Lounge button in Grand Lisboa landmark card with gold accent styling",
+        "Camera flight to 265m altitude at Grand Lisboa for panoramic 360-degree orbit",
+        "Cinematic overlay with gold gradient SKY LOUNGE — 258M label, Chinese subtitle, exit hint",
+        "Escape key and touch/click exit; integrated with stopFlythrough()",
+        "Feature tip added to highlight the interactive viewpoint",
+        "Follows proven Macau Tower and Golden Reel viewpoint pattern (Sessions 123, 127)"
+      ],
+      "linesAdded": 100,
+      "agent": "automated"
     }
   ]
 }

@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 128 — 2026-03-25 (Automated Agent)
+- Grand Lisboa Sky Lounge viewpoint: "View from Sky Lounge" button in Grand Lisboa info card
+- Flies camera to 265m altitude at Grand Lisboa coordinates for panoramic 360-degree orbit
+- Cinematic overlay shows "SKY LOUNGE — 258M" with gold gradient text, Chinese subtitle, and exit hint
+- Gold accent styling matches Grand Lisboa's signature gold identity
+- Escape key and touch/click exit the viewpoint; integrated with stopFlythrough()
+- Feature tip added to highlight the interactive viewpoint
+- Follows proven Macau Tower and Golden Reel viewpoint pattern (Sessions 123, 127)
+
 ## Session 127 — 2026-03-24 (Automated Agent)
 - Golden Reel Ferris Wheel viewpoint: "Ride the Golden Reel" button in Studio City info card
 - Flies camera to 135m altitude at Studio City coordinates for panoramic 360-degree orbit
