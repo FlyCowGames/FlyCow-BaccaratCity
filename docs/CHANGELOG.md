@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 133 — 2026-03-25 (Automated Agent)
+- Sands Macao: 19th landmark — the first Western-operated casino in Macau (2004)
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Enter Casino button for baccarat play
+- Night effects: neon glow zone, sky beam, searchlight, water reflection, obstacle light
+- Added to Explore panel casinos section and baccarat ticker
+- Feature tip for discoverability
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 132 — 2026-03-25 (Automated Agent)
 - Wynn Macau: 18th landmark — the first Las Vegas-style casino in Macau (2006)
 - Full info card with 3 Wikimedia Commons photos, description, and facts

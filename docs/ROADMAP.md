@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-25 (Session 132)*
+*This document evolves every session. Last updated: 2026-03-25 (Session 133)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -129,3 +129,4 @@
 - Water taxi speedboats: 3 fast harbour water taxis on 2 routes with wake spray, minimap tracking (Session 129)
 - The Parisian Macao landmark: 17th landmark with half-scale Eiffel Tower, info card, photo gallery, baccarat, full night effects (Session 131)
 - Wynn Macau landmark: 18th landmark — first Las Vegas-style casino in Macau, info card, photo gallery, baccarat, night effects (Session 132)
+- Sands Macao landmark: 19th landmark — first Western-operated casino in Macau (2004), info card, photo gallery, baccarat, full night effects (Session 133)

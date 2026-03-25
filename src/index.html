@@ -2514,6 +2514,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Wynn_Casino%2C_Macau.JPG/960px-Wynn_Casino%2C_Macau.JPG", caption: "Wynn Macau's distinctive golden facade" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Wynn_Macau_%285234397967%29.jpg/960px-Wynn_Macau_%285234397967%29.jpg", caption: "Wynn Macau tower at night" },
     ] },
+  { name: "Sands Macao", chinese: "\u6FB3\u9580\u91D1\u6C99", emoji: "\uD83C\uDFB0",
+    lat: 22.1917, lon: 113.5544, type: "Casino & Hotel", year: "2004",
+    desc: "Sands Macao was the first Western-operated casino in Macau and the catalyst that launched the modern gaming boom. Opened on 18 May 2004 by Sheldon Adelson\u2019s Las Vegas Sands Corporation, the casino earned back its US$265 million construction cost in less than one year. Located on the NAPE waterfront near the Outer Harbour Ferry Terminal, the 229-room hotel tower and 229,000 sq ft gaming floor proved that Macau could rival Las Vegas, inspiring billions in investment from competitors.",
+    facts: ["First Western-operated casino in Macau \u2014 opened 18 May 2004", "Recouped its US$265 million construction cost in under one year", "229,000 sq ft gaming floor with 740 gaming tables at peak", "Catalyst for Macau\u2019s transformation into the world\u2019s largest gaming market"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Casino_Sands%2C_Macao%2C_2013-08-08%2C_DD_01.jpg/960px-Casino_Sands%2C_Macao%2C_2013-08-08%2C_DD_01.jpg", caption: "Sands Macao on the NAPE waterfront" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Sands_Macau_2009.jpg/960px-Sands_Macau_2009.jpg", caption: "Sands Macao building and surroundings" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Sands_macau_night.JPG/960px-Sands_macau_night.JPG", caption: "Sands Macao illuminated at night" },
+    ] },
   { name: "Kun Iam Statue", chinese: "\u89C0\u97F3\u84EE\u82B1\u82D1", emoji: "\uD83D\uDE4F",
     lat: 22.1872, lon: 113.5489, type: "Religious Monument", year: "1999",
     desc: "The Kun Iam Ecumenical Centre features a striking 20-metre bronze statue of Kun Iam (Guanyin), the Buddhist goddess of mercy, standing atop a lotus-shaped dome on an artificial island connected by a 60-metre causeway to the NAPE waterfront. Designed by Portuguese sculptor Cristina Rocha Leiria with UNESCO support and inaugurated in 1999, the statue symbolises the bridge between Eastern and Western cultures that defines Macau. The centre beneath houses a small library and ecumenical prayer space.",
@@ -5789,6 +5798,7 @@ var NEON_ZONES = [
   { name: 'MGM Macau Glow',     lon: 113.5417, lat: 22.1848, color: [255, 210, 80],  intensity: 0.75 },
   { name: 'NAPE District',      lon: 113.5440, lat: 22.1870, color: [255, 200, 120], intensity: 0.5 },
   { name: 'Fisherman\'s Wharf', lon: 113.5510, lat: 22.1920, color: [200, 180, 140], intensity: 0.4 },
+  { name: 'Sands Macao Glow',  lon: 113.5544, lat: 22.1917, color: [255, 220, 120], intensity: 0.7 },
   // Cotai south
   { name: 'Studio City Glow',  lon: 113.5550, lat: 22.1435, color: [255, 180, 220], intensity: 0.8 },
   { name: 'Parisian Glow',    lon: 113.5570, lat: 22.1465, color: [200, 180, 255], intensity: 0.75 },
@@ -5939,6 +5949,7 @@ var ATTRACTIONS = {
     { name: "Wynn Macau", chinese: "永利澳門", icon: "🎰", lat: 22.1920, lon: 113.5413, alt: 300, pitch: -25 },
     { name: "Studio City", chinese: "新濠影匯", icon: "🎬", lat: 22.1435, lon: 113.5550, alt: 300, pitch: -25 },
     { name: "The Parisian", chinese: "澳門巴黎人", icon: "🗼", lat: 22.1465, lon: 113.5570, alt: 300, pitch: -25 },
+    { name: "Sands Macao", chinese: "澳門金沙", icon: "🎰", lat: 22.1917, lon: 113.5544, alt: 300, pitch: -25 },
   ],
   development: [
     { name: "Zone A New Town", chinese: "新城A區", icon: "🏗", lat: 22.2050, lon: 113.5485, alt: 400, pitch: -30 },
@@ -7460,6 +7471,8 @@ var CASINO_REFLECTIONS = [
   // Outer Harbour waterfront
   { name: 'Outer Harbour Reflection', lon: 113.5530, lat: 22.1905, color: [200, 185, 150], length: 1.8 },
   { name: 'Outer Harbour Reflection 2', lon: 113.5490, lat: 22.1880, color: [220, 200, 130], length: 2 },
+  // Sands Macao — reflects into Outer Harbour
+  { name: 'Sands Macao Reflection', lon: 113.5550, lat: 22.1900, color: [255, 220, 100], length: 2.2 },
 ];
 
 var _reflectionEntities = [];
@@ -7894,6 +7907,7 @@ var SKY_BEAM_CASINOS = [
   { name: 'Wynn Macau Beam',   lon: 113.5413, lat: 22.1920, color: [255, 190, 80],  height: 250, swaySpeed: 0.06, swayAmp: 0.00014 },
   { name: 'Studio City Beam', lon: 113.5550, lat: 22.1435, color: [255, 150, 200], height: 270, swaySpeed: 0.075, swayAmp: 0.00014 },
   { name: 'Parisian Beam',   lon: 113.5570, lat: 22.1465, color: [180, 160, 255], height: 280, swaySpeed: 0.06, swayAmp: 0.00016 },
+  { name: 'Sands Macao Beam', lon: 113.5544, lat: 22.1917, color: [255, 220, 100], height: 240, swaySpeed: 0.055, swayAmp: 0.00015 },
 ];
 
 var _skyBeamEntities = [];
@@ -7991,6 +8005,7 @@ var SEARCHLIGHT_CASINOS = [
   { name: 'MGM Macau Searchlight',  lon: 113.5417, lat: 22.1848, alt: 130, color: [255, 215, 100], period: 11.5, phase: 4.2, sweep: 2.1 },
   { name: 'Parisian Searchlight',  lon: 113.5574, lat: 22.1468, alt: 120, color: [200, 180, 255], period: 12.5, phase: 2.0, sweep: 2.3 },
   { name: 'Wynn Macau Searchlight', lon: 113.5415, lat: 22.1924, alt: 120, color: [255, 210, 150], period: 13, phase: 1.5, sweep: 2.1 },
+  { name: 'Sands Macao Searchlight', lon: 113.5548, lat: 22.1920, alt: 100, color: [255, 230, 150], period: 12, phase: 3.0, sweep: 2.0 },
 ];
 
 var _searchlightEntities = [];
@@ -10741,6 +10756,7 @@ var OBSTACLE_LIGHT_BUILDINGS = [
   { name: 'MGM Macau',    lon: 113.5417, lat: 22.1848, alt: 155 }, // ~154m (35 storeys)
   { name: 'The Parisian', lon: 113.5570, lat: 22.1465, alt: 165 }, // ~162m (Eiffel Tower replica)
   { name: 'Wynn Macau',  lon: 113.5413, lat: 22.1920, alt: 110 }, // ~100m (28 storeys)
+  { name: 'Sands Macao', lon: 113.5544, lat: 22.1917, alt: 100 }, // ~90m hotel tower
 ];
 
 var _obstacleLightEntities = [];
@@ -13043,6 +13059,7 @@ function addSkyCabs(viewer) {
     { icon: '🌻', text: 'Visit Golden Lotus Square \u2014 the gilded bronze lotus sculpture commemorating Macau\'s 1999 handover from Portugal to China' },
     { icon: '🚤', text: 'Watch water taxi speedboats zip across the harbour \u2014 much faster than the ferries! Track them as blue dots on the minimap' },
     { icon: '🎰', text: 'Visit Wynn Macau \u2014 the first Las Vegas-style casino in Macau, with its iconic golden facade on the Peninsula waterfront' },
+    { icon: '🎰', text: 'Explore Sands Macao \u2014 the casino that started it all, the first Western-operated casino that launched Macau\u2019s gaming revolution in 2004' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;
@@ -13160,7 +13177,7 @@ function addSkyCabs(viewer) {
     { name: 'Galaxy Macau', chinese: '銀河', table: 'Floor-7' },
     { name: 'City of Dreams', chinese: '新濠天地', table: 'Premium-5' },
     { name: 'MGM Cotai', chinese: '美高梅', table: 'Table-22' },
-    { name: 'Sands Cotai', chinese: '金沙', table: 'VIP-8' },
+    { name: 'Sands Macao', chinese: '澳門金沙', table: 'Main-8' },
     { name: 'Studio City', chinese: '新濠影匯', table: 'Main-4' },
     { name: 'The Parisian', chinese: '澳門巴黎人', table: 'Salon-6' },
     { name: 'Wynn Macau', chinese: '永利澳門', table: 'VIP-9' },

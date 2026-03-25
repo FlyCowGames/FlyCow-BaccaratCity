@@ -1582,6 +1582,23 @@
       ],
       "linesAdded": 16,
       "agent": "automated"
+    },
+    {
+      "session": 133,
+      "date": "2026-03-25",
+      "title": "Sands Macao Landmark",
+      "domain": "landmarks",
+      "summary": "Added Sands Macao as 19th landmark — the first Western-operated casino in Macau that launched the modern gaming revolution in 2004.",
+      "details": [
+        "19th landmark: Sands Macao (澳門金沙) — the casino that started it all (2004)",
+        "3 Wikimedia Commons photos, rich info card with description and facts",
+        "Enter Casino button for baccarat at Sands Macao",
+        "Night effects: neon glow zone, sky beam, searchlight, water reflection, obstacle light",
+        "Added to Explore panel casinos section and baccarat ticker",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 18,
+      "agent": "automated"
     }
   ]
 }
