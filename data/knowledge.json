@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 155,
+  "last_updated_session": 156,
   "learnings": [
     {
       "type": "pattern",
@@ -395,9 +395,9 @@
       "description": "Using localStorage to persist interactive feature state (bankroll, stats, history) across browser sessions makes features feel more meaningful. Key design: save after each action, load on init with null-checks for missing fields, graceful fallback if localStorage unavailable, clear on reset. The try/catch wrapper handles private browsing and quota errors. Tracking meta-stats (hands played, biggest win, peak) adds a sense of progression beyond the primary state.",
       "evidence": "Session 152: ~40 lines added saveBaccState()/loadBaccState() with JSON serialization. Bankroll, stats, road history, hands played, biggest win, and peak all persist. Welcome back indicator + session stats display. Zero JS errors, works on both desktop and mobile.",
       "tags": ["localStorage", "interactivity", "persistence", "baccarat", "engagement"],
-      "weight": 0.5,
-      "times_applied": 1,
-      "times_successful": 1
+      "weight": 0.6,
+      "times_applied": 2,
+      "times_successful": 2
     },
     {
       "type": "pattern",
@@ -407,6 +407,17 @@
       "evidence": "Session 155: City Pulse with 11 features, ~140 lines of CSS/JS. Reads getMacauHour(), integrates with time slider. Zero JS errors, passed desktop/mobile. The toggle button provides passive awareness (active count) while the expanded list provides active exploration.",
       "tags": ["interactivity", "ux", "discoverability", "meta-ui", "time-of-day"],
       "weight": 0.6,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "Gamification via discovery tracking encourages exploration of existing content",
+      "description": "Adding a progress tracker that records which landmarks a user has visited turns passive browsing into active exploration. The key ingredients are: localStorage persistence (reuse baccarat pattern), hook into existing showLandmarkCard() to register discoveries automatically, progress bar + counter in the Explore panel for ambient awareness, toast notifications for immediate feedback, and checkmarks on discovered items for persistent visual status. The gamification layer adds engagement value without any new 3D entities or features — it purely leverages existing content.",
+      "evidence": "Session 156: discovery tracker with ~110 lines. localStorage Set persistence, progress bar, checkmarks, toast notifications, completion celebration. Zero JS errors, passed desktop and mobile checks. Integrates cleanly with existing showLandmarkCard() and buildAttractionItem() functions.",
+      "tags": ["gamification", "localStorage", "engagement", "ux", "exploration"],
+      "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
     }
@@ -606,6 +617,12 @@
       "question": "How to make the time-gated feature system more discoverable?",
       "chosen": "City Pulse expandable overlay with feature list, active/inactive status, click-to-fly, and next-up preview",
       "rationale": "The project has 11+ time-gated features but visitors only see what's active at the current Macau hour. A meta-UI that reads getMacauHour() against feature time windows surfaces the temporal system without adding entities. The collapsed toggle provides passive awareness (count), while the expanded list enables active exploration. Integration with the time slider means visitors can scrub through the day and see features light up. Click-to-fly reuses the existing flyToAttraction pattern for zero new camera logic.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to encourage visitors to explore all 30 landmarks?",
+      "chosen": "Gamification via discovery progress tracker — localStorage Set, progress bar in Explore panel, checkmarks, toast notifications, completion celebration",
+      "rationale": "With 30 landmarks, most visitors will only click a few. A progress tracker turns passive browsing into active exploration by showing how many remain undiscovered. The pattern follows the proven localStorage approach from Session 152 (baccarat bankroll). Hooking into the existing showLandmarkCard() means zero new user actions needed — any existing interaction counts. The Explore panel is the natural home for the progress bar since that's where landmarks are listed.",
       "revisit_after_session": null
     }
   ]

@@ -1167,6 +1167,64 @@
     color: rgba(255,180,80,0.9);
     animation: eventPulse 2s ease-in-out infinite;
   }
+
+  /* ── Landmark Discovery Progress ── */
+  .discovery-progress {
+    padding: 6px 16px 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(212,175,55,0.5);
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .discovery-bar {
+    flex: 1;
+    height: 3px;
+    background: rgba(212,175,55,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .discovery-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #d4af37, #f5e6a3);
+    border-radius: 2px;
+    transition: width 0.8s ease;
+    width: 0%;
+  }
+  .discovery-check {
+    color: #d4af37;
+    font-size: 0.7em;
+    flex-shrink: 0;
+    opacity: 0.6;
+    margin-left: auto;
+  }
+  #discovery-toast {
+    position: fixed;
+    bottom: 170px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: #d4af37;
+    background: rgba(10,10,18,0.85);
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 20px;
+    padding: 10px 24px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 200;
+    white-space: nowrap;
+    letter-spacing: 0.08em;
+  }
+  #discovery-toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
   @keyframes eventPulse {
     0%, 100% { opacity: 0.8; }
     50% { opacity: 1; }
@@ -1973,6 +2031,8 @@
     .panel-section-title { font-size: 0.7rem; padding: 10px 12px; min-height: 44px; display: flex; align-items: center; }
     .attraction-item { padding: 10px 12px; font-size: 0.8em; min-height: 44px; display: flex; align-items: center; }
     .attraction-icon { font-size: 1em; width: 20px; }
+    .discovery-progress { padding: 5px 12px 6px; font-size: 0.62rem; }
+    #discovery-toast { bottom: calc(220px + env(safe-area-inset-bottom)); font-size: 0.72rem; padding: 8px 18px; max-width: 90vw; }
 
     /* Landmark info card — readable */
     .lm-card { width: min(340px, 92vw); max-height: 85vh; overflow-y: auto; }
@@ -2315,6 +2375,7 @@
   </div>
 
   <div id="feature-tips"></div>
+  <div id="discovery-toast"></div>
 
   <div id="action-prompt">
     <button class="action-prompt-btn" data-action="explore"><span class="action-icon">&#127961;</span><span class="action-label">Explore</span></button>
@@ -2509,6 +2570,11 @@
     <div id="panel-search-wrap">
       <input type="text" id="panel-search" placeholder="Search landmarks..." autocomplete="off" />
       <button id="panel-search-clear">&times;</button>
+    </div>
+    <div class="discovery-progress">
+      <span id="discovery-counter">0/30</span>
+      <div class="discovery-bar"><div class="discovery-bar-fill" id="discovery-bar-fill"></div></div>
+      <span style="opacity:0.4">Discovered</span>
     </div>
     <div id="live-events-section" class="panel-section" style="display:none;">
       <div class="panel-section-title">Live &amp; Upcoming</div>
@@ -2848,6 +2914,87 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Largo_de_Santo_Agostinho_Macau.jpg/960px-Largo_de_Santo_Agostinho_Macau.jpg", caption: "St. Augustine's Square — one of Macau's most atmospheric heritage plazas" },
     ] },
 ];
+
+// ── Landmark Discovery Progress ──
+var _discoveredLandmarks = new Set();
+var _discoveryToastTimer = null;
+
+function saveDiscovery() {
+  try {
+    localStorage.setItem('baccarat_discovered', JSON.stringify(Array.from(_discoveredLandmarks)));
+  } catch(e) {}
+}
+
+function loadDiscovery() {
+  try {
+    var saved = localStorage.getItem('baccarat_discovered');
+    if (saved) {
+      var arr = JSON.parse(saved);
+      if (Array.isArray(arr)) arr.forEach(function(n) { _discoveredLandmarks.add(n); });
+    }
+  } catch(e) {}
+}
+
+function discoverLandmark(name) {
+  // Only track landmarks that exist in the LANDMARKS array
+  if (!LANDMARKS.find(function(l) { return l.name === name; })) return;
+  if (_discoveredLandmarks.has(name)) return;
+  _discoveredLandmarks.add(name);
+  saveDiscovery();
+  updateDiscoveryUI();
+  showDiscoveryToast(name);
+}
+
+function showDiscoveryToast(name) {
+  var toast = document.getElementById('discovery-toast');
+  if (!toast) return;
+  var count = _discoveredLandmarks.size;
+  var total = LANDMARKS.length;
+  toast.textContent = '\u2605 ' + name + ' \u2014 ' + count + '/' + total + ' Discovered';
+  toast.classList.add('visible');
+  clearTimeout(_discoveryToastTimer);
+  _discoveryToastTimer = setTimeout(function() {
+    toast.classList.remove('visible');
+    // Completion celebration
+    if (count >= total) {
+      setTimeout(function() {
+        toast.textContent = '\u2605 All ' + total + ' Landmarks Discovered! \u2605';
+        toast.style.borderColor = 'rgba(212,175,55,0.6)';
+        toast.classList.add('visible');
+        clearTimeout(_discoveryToastTimer);
+        _discoveryToastTimer = setTimeout(function() {
+          toast.classList.remove('visible');
+          toast.style.borderColor = '';
+        }, 5000);
+      }, 600);
+    }
+  }, 3000);
+}
+
+function updateDiscoveryUI() {
+  var count = _discoveredLandmarks.size;
+  var total = LANDMARKS.length;
+  // Progress bar
+  var bar = document.getElementById('discovery-bar-fill');
+  if (bar) bar.style.width = (count / total * 100) + '%';
+  // Counter
+  var counter = document.getElementById('discovery-counter');
+  if (counter) counter.textContent = count + '/' + total;
+  // Checkmarks on attraction items
+  var items = document.querySelectorAll('.attraction-item[data-name]');
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var nm = item.getAttribute('data-name');
+    if (_discoveredLandmarks.has(nm) && !item.querySelector('.discovery-check')) {
+      var check = document.createElement('span');
+      check.className = 'discovery-check';
+      check.textContent = '\u2713';
+      item.appendChild(check);
+    }
+  }
+}
+
+loadDiscovery();
 
 // ── Clock & Day/Night UI ──
 var _timeOverride = null; // null = real Macau time, number = overridden hour (0-24)
@@ -4097,6 +4244,8 @@ document.getElementById('lmc-gallery-next').addEventListener('click', function(e
 })();
 
 function showLandmarkCard(lm) {
+  // Track landmark discovery
+  discoverLandmark(lm.name);
   var card = document.getElementById('landmark-card');
   document.getElementById('lmc-emoji').textContent = lm.emoji || '';
   document.getElementById('lmc-name').textContent = lm.name;
@@ -6561,10 +6710,12 @@ function flyToAttraction(item) {
 function buildAttractionItem(item, badge) {
   var div = document.createElement('div');
   div.className = 'attraction-item';
+  div.setAttribute('data-name', item.name);
+  var checkHtml = _discoveredLandmarks.has(item.name) ? '<span class="discovery-check">\u2713</span>' : '';
   div.innerHTML = '<span class="attraction-icon">' + item.icon + '</span>'
     + '<span class="attraction-name">' + item.name
     + '<br><span class="attraction-chinese">' + item.chinese + '</span></span>'
-    + (badge || '');
+    + (badge || '') + checkHtml;
   div.addEventListener('click', function() { flyToAttraction(item); });
   return div;
 }
@@ -6639,6 +6790,8 @@ function populateAttractions() {
 
   // Live events
   updateLiveEvents();
+  // Initialize discovery progress UI
+  updateDiscoveryUI();
 }
 
 function updateLiveEvents() {
@@ -13958,6 +14111,7 @@ function addSkyCabs(viewer) {
     { icon: '\u26EA', text: 'Visit St. Augustine\'s Church (聖奧斯定教堂) \u2014 one of Macau\'s oldest churches (1591), home to the annual Procession of Our Lord of Passos, UNESCO World Heritage' },
     { icon: '\uD83E\uDDED', text: isTouch ? 'Tap the compass rose (top-left) to orient north \u2014 it rotates as you look around' : 'Click the compass rose (top-left) to snap camera to north \u2014 watch it rotate as you orbit' },
     { icon: '\u26A1', text: isTouch ? 'Tap City Pulse (bottom-right) to see what\'s happening now \u2014 features change with the time of day' : 'Click City Pulse (bottom-right) to see what\'s active now \u2014 features change with the hour, click any to fly there' },
+    { icon: '\u2605', text: 'Discover all 30 landmarks \u2014 open the Explore panel to track your progress. Your discoveries save automatically!' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

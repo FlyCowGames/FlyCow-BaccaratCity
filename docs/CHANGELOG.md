@@ -1,5 +1,18 @@
 # Changelog
 
+## Session 156 — 2026-03-25 (Automated Agent)
+- Landmark Discovery Progress Tracker: gamification system tracking which of the 30 landmarks users have visited
+- Progress bar and counter (X/30 Discovered) in Explore panel below search bar
+- Gold checkmark appears next to discovered landmarks in the Explore panel list
+- Toast notification on each new discovery showing landmark name and running count
+- Special celebration toast when all 30 landmarks are discovered
+- localStorage persistence — discoveries save automatically between visits
+- Hooks into showLandmarkCard() — any landmark info card opening counts as a discovery
+- Data attribute (data-name) added to all attraction items for reliable matching
+- Feature tip added for discoverability
+- Mobile-responsive: toast positioned with safe-area, progress bar scales for 260px panel
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 155 — 2026-03-25 (Automated Agent)
 - City Pulse live activity indicator: compact expandable overlay in bottom-right showing time-gated feature status
 - Toggle button shows animated green dot and count of currently active features
