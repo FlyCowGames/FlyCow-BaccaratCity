@@ -1,5 +1,16 @@
 # Changelog
 
+## Session 155 — 2026-03-25 (Automated Agent)
+- City Pulse live activity indicator: compact expandable overlay in bottom-right showing time-gated feature status
+- Toggle button shows animated green dot and count of currently active features
+- Expanded list shows all 11 time-gated features with active (ON) / inactive (time range) status
+- Click any feature to fly camera to its location (Harbor Mist, Tai Chi, Tour Buses, Sampans, Dinner Cruise, Neon, Fireworks, etc.)
+- "Next up" preview at bottom shows upcoming feature and countdown
+- Responds to time slider changes in real-time — explore what's active at different hours
+- Feature tip added for discoverability
+- Mobile-responsive: 44px touch targets, safe-area positioning, compact list at 390px
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 152 — 2026-03-25 (Automated Agent)
 - Persistent baccarat bankroll: bankroll, stats, Big Road history, and hands played now persist via localStorage
 - Session stats display below bankroll: hands played, biggest win, peak bankroll

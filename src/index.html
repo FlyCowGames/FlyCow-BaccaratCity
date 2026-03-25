@@ -161,6 +161,73 @@
     50% { box-shadow: 0 0 14px rgba(212,175,55,0.7); }
   }
 
+  /* City Pulse — live activity indicator */
+  #city-pulse {
+    position: absolute; bottom: 100px; right: 32px;
+    font-family: 'DM Mono', monospace;
+    pointer-events: auto;
+    z-index: 110;
+  }
+  #city-pulse-toggle {
+    font-family: 'DM Mono', monospace; font-weight: 400;
+    font-size: 0.6rem; color: rgba(212,175,55,0.7);
+    background: rgba(10,10,18,0.6);
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 12px; padding: 4px 12px;
+    cursor: pointer; letter-spacing: 0.08em;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+  #city-pulse-toggle:hover { border-color: rgba(212,175,55,0.4); color: #d4af37; }
+  #city-pulse-toggle .pulse-dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: #4ade80; border-radius: 50%;
+    margin-right: 6px; vertical-align: middle;
+    animation: pulseDot 2s ease-in-out infinite;
+  }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 0.6; } 50% { opacity: 1; box-shadow: 0 0 4px #4ade80; }
+  }
+  #city-pulse-list {
+    display: none; margin-top: 6px;
+    background: rgba(10,10,18,0.85);
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 8px; padding: 8px 0;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    max-width: 220px; min-width: 180px;
+  }
+  #city-pulse.expanded #city-pulse-list { display: block; }
+  .pulse-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 4px 12px; font-size: 0.6rem;
+    cursor: pointer; transition: background 0.2s;
+    color: rgba(212,175,55,0.6);
+  }
+  .pulse-item:hover { background: rgba(212,175,55,0.08); }
+  .pulse-item.active { color: rgba(212,175,55,0.9); }
+  .pulse-item .pi-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .pulse-item.active .pi-dot { background: #4ade80; }
+  .pulse-item:not(.active) .pi-dot { background: rgba(255,255,255,0.15); }
+  .pulse-item .pi-icon { font-size: 0.75rem; flex-shrink: 0; width: 16px; text-align: center; }
+  .pulse-item .pi-name { flex: 1; letter-spacing: 0.04em; }
+  .pulse-item .pi-time { font-size: 0.5rem; opacity: 0.5; flex-shrink: 0; }
+  .pulse-next {
+    padding: 5px 12px 3px; font-size: 0.5rem;
+    color: rgba(212,175,55,0.35); letter-spacing: 0.06em;
+    border-top: 1px solid rgba(212,175,55,0.08);
+    margin-top: 4px;
+  }
+
+  @media (max-width: 600px) {
+    #city-pulse { bottom: 90px; right: 16px; }
+    #city-pulse-list { max-width: 200px; min-width: 160px; }
+    #city-pulse-toggle { font-size: 0.55rem; padding: 3px 10px; }
+  }
+
   /* Hints - bottom left */
   #hints {
     position: absolute; bottom: 32px; left: 32px;
@@ -943,6 +1010,29 @@
   }
   #minimap-canvas {
     width: 100%; height: 100%;
+  }
+
+  /* Compass rose */
+  #compass-container {
+    position: absolute; top: 60px; left: 32px;
+    width: 56px; height: 56px;
+    pointer-events: auto; cursor: pointer;
+    z-index: 101;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+  #compass-container.visible { opacity: 1; visibility: visible; }
+  #compass-container:hover { transform: scale(1.08); }
+  #compass-canvas { width: 56px; height: 56px; }
+  #compass-fwd {
+    position: absolute; top: -4px; left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid #d4af37;
+    filter: drop-shadow(0 0 3px rgba(212,175,55,0.5));
+    pointer-events: none;
   }
 
   /* Audio toggle button */
@@ -1780,6 +1870,10 @@
     #time-live-btn { font-size: 0.75rem; padding: 8px 12px; min-height: 44px; }
     #timelapse-btn { font-size: 0.75rem; padding: 8px 10px; min-height: 44px; }
 
+    /* City Pulse — above clock on mobile */
+    #city-pulse { bottom: calc(110px + env(safe-area-inset-bottom)); right: calc(12px + env(safe-area-inset-right)); }
+    #city-pulse-toggle { min-height: 44px; min-width: 44px; display: flex; align-items: center; justify-content: center; }
+
     /* Action prompt — stack vertically on mobile */
     #action-prompt {
       flex-direction: row; gap: 8px;
@@ -1850,6 +1944,14 @@
     }
     #minimap-canvas { width: 82px; height: 80px; }
     #minimap-label { font-size: 0.6rem; }
+
+    /* Compass — mobile */
+    #compass-container {
+      top: calc(50px + env(safe-area-inset-top)); left: calc(12px + env(safe-area-inset-left));
+      width: 48px; height: 48px;
+    }
+    #compass-canvas { width: 48px; height: 48px; }
+    #compass-fwd { top: -3px; border-left-width: 4px; border-right-width: 4px; border-top-width: 6px; }
 
     /* Audio toggle — tap-friendly */
     #audio-toggle {
@@ -2171,6 +2273,11 @@
 
   <div id="glow-indicator"></div>
 
+  <div id="compass-container">
+    <div id="compass-fwd"></div>
+    <canvas id="compass-canvas" width="112" height="112"></canvas>
+  </div>
+
   <div id="weather-block">
     <div id="weather-icon"></div>
     <div id="weather-temp"></div>
@@ -2178,6 +2285,11 @@
     <div id="weather-details"></div>
     <div id="typhoon-signal"></div>
     <button id="typhoon-sim-btn">Typhoon Demo</button>
+  </div>
+
+  <div id="city-pulse">
+    <div id="city-pulse-toggle"><span class="pulse-dot"></span>CITY PULSE</div>
+    <div id="city-pulse-list"></div>
   </div>
 
   <div id="clock-block">
@@ -2288,6 +2400,7 @@
       <div class="help-row"><span class="help-key">M</span><span class="help-desc">Toggle sound (spatial audio zones)</span></div>
       <div class="help-row"><span class="help-key">G</span><span class="help-desc">Street-level view</span></div>
       <div class="help-row"><span class="help-key">Y</span><span class="help-desc">Toggle typhoon demo</span></div>
+      <div class="help-row"><span class="help-key">C</span><span class="help-desc">Orient camera north (compass)</span></div>
       <div class="help-row"><span class="help-key">W</span><span class="help-key">A</span><span class="help-key">S</span><span class="help-key">D</span><span class="help-desc">Walk in street mode</span></div>
       <div class="help-row"><span class="help-key">?</span><span class="help-desc">Show/hide this help</span></div>
       <div class="help-row"><span class="help-key">Esc</span><span class="help-desc">Stop sequence / close overlay</span></div>
@@ -2793,6 +2906,117 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
+// ── City Pulse — Live Activity Indicator ──
+var CITY_PULSE_FEATURES = [
+  { name: 'Harbor Mist', chinese: '晨霧', icon: '🌫', start: 5, end: 8.5,
+    lat: 22.1850, lon: 113.5370, alt: 300, pitch: -25 },
+  { name: 'Morning Tai Chi', chinese: '太極', icon: '🧘', start: 5, end: 9,
+    lat: 22.1830, lon: 113.5360, alt: 120, pitch: -20 },
+  { name: 'Dawn Sun Rays', chinese: '晨曦', icon: '🌅', start: 5, end: 7.5,
+    lat: 22.1893, lon: 113.5399, alt: 500, pitch: -20 },
+  { name: 'Tour Buses', chinese: '觀光巴士', icon: '🚌', start: 9, end: 15,
+    lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
+  { name: 'Fishing Sampans', chinese: '漁船', icon: '🛶', start: 15, end: 19,
+    lat: 22.1870, lon: 113.5310, alt: 120, pitch: -20 },
+  { name: 'Golden Hour', chinese: '黃金時刻', icon: '🌇', start: 16.5, end: 19,
+    lat: 22.1893, lon: 113.5399, alt: 500, pitch: -20 },
+  { name: 'Dinner Cruise', chinese: '海上晚餐', icon: '🚢', start: 19, end: 23,
+    lat: 22.1850, lon: 113.5450, alt: 400, pitch: -25 },
+  { name: 'Neon Casino Glow', chinese: '霓虹', icon: '✨', start: 19, end: 5,
+    lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
+  { name: 'Harbor Fireworks', chinese: '煙花', icon: '🎆', start: 20, end: 1,
+    lat: 22.1870, lon: 113.5380, alt: 500, pitch: -20 },
+  { name: 'Sky Lanterns', chinese: '天燈', icon: '🏮', start: 19, end: 5,
+    lat: 22.1850, lon: 113.5370, alt: 300, pitch: -20 },
+  { name: 'Shooting Stars', chinese: '流星', icon: '💫', start: 19, end: 5,
+    lat: 22.1893, lon: 113.5399, alt: 600, pitch: -15 },
+];
+
+function isFeatureActive(f, hour) {
+  if (f.start < f.end) return hour >= f.start && hour < f.end;
+  return hour >= f.start || hour < f.end; // wraps midnight
+}
+
+function formatHourRange(start, end) {
+  var s = String(Math.floor(start) % 24).padStart(2,'0') + ':' + String(Math.round((start % 1) * 60)).padStart(2,'0');
+  var e = String(Math.floor(end) % 24).padStart(2,'0') + ':' + String(Math.round((end % 1) * 60)).padStart(2,'0');
+  return s + '-' + e;
+}
+
+function getNextFeature(hour) {
+  var best = null, bestDist = 99;
+  CITY_PULSE_FEATURES.forEach(function(f) {
+    if (isFeatureActive(f, hour)) return;
+    var dist = f.start - hour;
+    if (dist < 0) dist += 24;
+    if (dist < bestDist) { bestDist = dist; best = f; }
+  });
+  if (!best) return null;
+  var hrs = Math.floor(bestDist);
+  var mins = Math.round((bestDist - hrs) * 60);
+  return { feature: best, inText: (hrs > 0 ? hrs + 'h ' : '') + mins + 'm' };
+}
+
+var _cityPulseExpanded = false;
+function updateCityPulse() {
+  var hour = getMacauHour();
+  var activeCount = 0;
+  var listEl = document.getElementById('city-pulse-list');
+  if (!listEl) return;
+  var html = '';
+  CITY_PULSE_FEATURES.forEach(function(f) {
+    var active = isFeatureActive(f, hour);
+    if (active) activeCount++;
+    html += '<div class="pulse-item' + (active ? ' active' : '') + '" data-pulse-lon="' + f.lon + '" data-pulse-lat="' + f.lat + '" data-pulse-alt="' + f.alt + '" data-pulse-pitch="' + f.pitch + '">'
+      + '<span class="pi-dot"></span>'
+      + '<span class="pi-icon">' + f.icon + '</span>'
+      + '<span class="pi-name">' + f.name + '</span>'
+      + '<span class="pi-time">' + (active ? 'ON' : formatHourRange(f.start, f.end)) + '</span>'
+      + '</div>';
+  });
+  var next = getNextFeature(hour);
+  if (next) {
+    html += '<div class="pulse-next">Next: ' + next.feature.icon + ' ' + next.feature.name + ' in ' + next.inText + '</div>';
+  }
+  listEl.innerHTML = html;
+  // Update toggle text
+  var toggle = document.getElementById('city-pulse-toggle');
+  if (toggle) toggle.innerHTML = '<span class="pulse-dot"></span>CITY PULSE \u00B7 ' + activeCount;
+  // Bind click-to-fly on items
+  listEl.querySelectorAll('.pulse-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      if (!_viewer) return;
+      stopFlythrough();
+      _viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(
+          parseFloat(item.dataset.pulseLon),
+          parseFloat(item.dataset.pulseLat),
+          parseFloat(item.dataset.pulseAlt) || 300
+        ),
+        orientation: {
+          heading: Cesium.Math.toRadians(30),
+          pitch: Cesium.Math.toRadians(parseFloat(item.dataset.pulsePitch) || -25),
+          roll: 0.0,
+        },
+        duration: 3,
+        easingFunction: Cesium.EasingFunction.CUBIC_IN_OUT,
+      });
+    });
+  });
+}
+
+// Toggle expand/collapse
+document.getElementById('city-pulse-toggle').addEventListener('click', function() {
+  var el = document.getElementById('city-pulse');
+  _cityPulseExpanded = !_cityPulseExpanded;
+  el.classList.toggle('expanded', _cityPulseExpanded);
+  if (_cityPulseExpanded) updateCityPulse();
+});
+// Update every 30s and on time slider change
+setInterval(function() { if (_cityPulseExpanded) updateCityPulse(); }, 30000);
+// Initial update
+setTimeout(updateCityPulse, 2000);
+
 // ── Time Slider ──
 (function() {
   var slider = document.getElementById('time-slider');
@@ -2813,6 +3037,7 @@ updateClock();
     updateClock();
     // Force immediate neon glow + feature updates
     updateNeonGlow();
+    if (_cityPulseExpanded) updateCityPulse();
   });
 
   liveBtn.addEventListener('click', function() {
@@ -2824,6 +3049,7 @@ updateClock();
     slider.value = getMacauHour();
     updateClock();
     updateNeonGlow();
+    if (_cityPulseExpanded) updateCityPulse();
   });
 
   // Keep slider in sync with real time when live
@@ -3663,6 +3889,7 @@ async function init() {
           document.getElementById('share-btn').classList.add('visible');
           document.getElementById('street-btn').classList.add('visible');
           showMinimap();
+          showCompass();
         },
       });
     } else {
@@ -3672,6 +3899,9 @@ async function init() {
 
     // Init minimap navigation
     initMinimap();
+
+    // Init compass rose
+    initCompass();
 
     // Init camera sharing (URL hash tracking)
     initCameraSharing();
@@ -4130,6 +4360,7 @@ function _flythroughCleanup(viewer) {
   document.getElementById('share-btn').classList.add('visible');
   document.getElementById('street-btn').classList.add('visible');
   showMinimap();
+  showCompass();
   window.dispatchEvent(new Event('flythroughComplete'));
 }
 
@@ -4146,6 +4377,7 @@ async function runFlythrough(viewer) {
   document.getElementById('share-btn').classList.remove('visible');
   document.getElementById('street-btn').classList.remove('visible');
   document.getElementById('minimap-container').classList.remove('visible');
+  document.getElementById('compass-container').classList.remove('visible');
   viewer.scene.screenSpaceCameraController.enableInputs = false;
 
   // Stage 1: Bird's eye — slow pan across all Macau
@@ -6696,6 +6928,10 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
       case 'p': // Time-lapse
         e.preventDefault();
         startTimelapse();
+        break;
+      case 'c': // Orient camera north (compass)
+        e.preventDefault();
+        document.getElementById('compass-container').click();
         break;
       case 'escape':
         if (_timelapseRunning) { stopTimelapse(); return; }
@@ -12936,6 +13172,142 @@ function showMinimap() {
   if (el) el.classList.add('visible');
 }
 
+// ── Compass Rose ──
+var _compassCanvas = null;
+var _compassCtx = null;
+
+function initCompass() {
+  _compassCanvas = document.getElementById('compass-canvas');
+  if (!_compassCanvas) return;
+  _compassCtx = _compassCanvas.getContext('2d');
+  drawCompassFace();
+
+  // Click to orient north
+  document.getElementById('compass-container').addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (!_viewer) return;
+    stopFlythrough();
+    _viewer.camera.flyTo({
+      destination: _viewer.camera.positionWC,
+      orientation: {
+        heading: 0,
+        pitch: _viewer.camera.pitch,
+        roll: 0.0,
+      },
+      duration: 0.6,
+      easingFunction: Cesium.EasingFunction.QUADRATIC_IN_OUT,
+    });
+  });
+
+  // Update rotation every 200ms
+  setInterval(updateCompassRotation, 200);
+}
+
+function drawCompassFace() {
+  var c = _compassCanvas;
+  var ctx = _compassCtx;
+  var w = c.width, h = c.height;
+  var cx = w / 2, cy = h / 2;
+  var r = (w / 2) - 4;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Background circle
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(10, 10, 18, 0.75)';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Inner ring
+  ctx.beginPath();
+  ctx.arc(cx, cy, r - 6, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
+  ctx.lineWidth = 0.5;
+  ctx.stroke();
+
+  // Cardinal tick marks (N/E/S/W)
+  var cardinals = [
+    { angle: 0, label: 'N', color: '#d4af37', bold: true },
+    { angle: 90, label: 'E', color: 'rgba(212,175,55,0.5)', bold: false },
+    { angle: 180, label: 'S', color: 'rgba(212,175,55,0.5)', bold: false },
+    { angle: 270, label: 'W', color: 'rgba(212,175,55,0.5)', bold: false },
+  ];
+
+  // Intercardinal tick marks
+  for (var i = 0; i < 8; i++) {
+    var a = (i * 45) * Math.PI / 180 - Math.PI / 2;
+    var isCardinal = (i % 2 === 0);
+    var innerR = isCardinal ? r - 14 : r - 10;
+    var outerR = r - 3;
+    ctx.beginPath();
+    ctx.moveTo(cx + Math.cos(a) * innerR, cy + Math.sin(a) * innerR);
+    ctx.lineTo(cx + Math.cos(a) * outerR, cy + Math.sin(a) * outerR);
+    ctx.strokeStyle = isCardinal ? 'rgba(212,175,55,0.6)' : 'rgba(212,175,55,0.2)';
+    ctx.lineWidth = isCardinal ? 1.5 : 0.8;
+    ctx.stroke();
+  }
+
+  // Cardinal letters
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  cardinals.forEach(function(c2) {
+    var a = c2.angle * Math.PI / 180 - Math.PI / 2;
+    var labelR = r - 24;
+    var x = cx + Math.cos(a) * labelR;
+    var y = cy + Math.sin(a) * labelR;
+    ctx.font = c2.bold ? 'bold 14px "DM Mono", monospace' : '10px "DM Mono", monospace';
+    ctx.fillStyle = c2.color;
+    if (c2.bold) {
+      ctx.shadowColor = 'rgba(212, 175, 55, 0.6)';
+      ctx.shadowBlur = 6;
+    }
+    ctx.fillText(c2.label, x, y);
+    ctx.shadowBlur = 0;
+  });
+
+  // North arrow (red triangle pointing up from center)
+  var arrowLen = r - 30;
+  var arrowAngle = -Math.PI / 2; // North
+  ctx.beginPath();
+  ctx.moveTo(cx + Math.cos(arrowAngle) * arrowLen, cy + Math.sin(arrowAngle) * arrowLen);
+  ctx.lineTo(cx + Math.cos(arrowAngle + 2.8) * 6, cy + Math.sin(arrowAngle + 2.8) * 6);
+  ctx.lineTo(cx + Math.cos(arrowAngle - 2.8) * 6, cy + Math.sin(arrowAngle - 2.8) * 6);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.7)';
+  ctx.fill();
+
+  // South half (dimmer)
+  var sArrowAngle = Math.PI / 2;
+  ctx.beginPath();
+  ctx.moveTo(cx + Math.cos(sArrowAngle) * (arrowLen * 0.6), cy + Math.sin(sArrowAngle) * (arrowLen * 0.6));
+  ctx.lineTo(cx + Math.cos(sArrowAngle + 2.8) * 5, cy + Math.sin(sArrowAngle + 2.8) * 5);
+  ctx.lineTo(cx + Math.cos(sArrowAngle - 2.8) * 5, cy + Math.sin(sArrowAngle - 2.8) * 5);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.25)';
+  ctx.fill();
+
+  // Center dot
+  ctx.beginPath();
+  ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+  ctx.fillStyle = '#d4af37';
+  ctx.fill();
+}
+
+function updateCompassRotation() {
+  if (!_viewer || !_compassCanvas) return;
+  var heading = _viewer.camera.heading;
+  var deg = -Cesium.Math.toDegrees(heading);
+  _compassCanvas.style.transform = 'rotate(' + deg + 'deg)';
+}
+
+function showCompass() {
+  var el = document.getElementById('compass-container');
+  if (el) el.classList.add('visible');
+}
+
 // ── Camera Position URL Sharing ──
 var _shareHashUpdateTimeout = null;
 
@@ -13584,6 +13956,8 @@ function addSkyCabs(viewer) {
     { icon: '\u26EA', text: 'Visit Sé Cathedral (主教座堂) \u2014 mother church of one of Asia\'s oldest Catholic dioceses (1576), rebuilt 1937 with twin-tower neoclassical facade, UNESCO World Heritage' },
     { icon: '\uD83C\uDFAD', text: 'Discover Dom Pedro V Theatre (伯多祿五世劇院) \u2014 first Western-style theatre in China (1860), mint-green neoclassical gem at St. Augustine\'s Square, UNESCO World Heritage' },
     { icon: '\u26EA', text: 'Visit St. Augustine\'s Church (聖奧斯定教堂) \u2014 one of Macau\'s oldest churches (1591), home to the annual Procession of Our Lord of Passos, UNESCO World Heritage' },
+    { icon: '\uD83E\uDDED', text: isTouch ? 'Tap the compass rose (top-left) to orient north \u2014 it rotates as you look around' : 'Click the compass rose (top-left) to snap camera to north \u2014 watch it rotate as you orbit' },
+    { icon: '\u26A1', text: isTouch ? 'Tap City Pulse (bottom-right) to see what\'s happening now \u2014 features change with the time of day' : 'Click City Pulse (bottom-right) to see what\'s active now \u2014 features change with the hour, click any to fly there' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

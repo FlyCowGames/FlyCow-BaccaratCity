@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-25 (Session 152)*
+*This document evolves every session. Last updated: 2026-03-25 (Session 155)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -141,3 +141,4 @@
 - Sé Cathedral landmark: 28th landmark — mother church of Roman Catholic Diocese of Macau (1576), rebuilt 1937, twin-tower neoclassical facade, UNESCO World Heritage, info card, photo gallery (Session 146)
 - Themed walk tour routes: 3 selectable routes — Heritage Trail (10 UNESCO sites), Casino Tour (10 mega-resorts), Classic Tour (8 mixed) — with route picker overlay (Session 147)
 - Dom Pedro V Theatre landmark: 29th landmark — first Western-style theatre in China (1860), mint-green neoclassical at St. Augustine's Square, UNESCO World Heritage, info card, photo gallery (Session 148)
+- City Pulse live activity indicator: compact expandable overlay showing 11 time-gated features with active/inactive status, click-to-fly, next-up preview, time slider responsive (Session 155)

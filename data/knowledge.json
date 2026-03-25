@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 152,
+  "last_updated_session": 155,
   "learnings": [
     {
       "type": "pattern",
@@ -398,6 +398,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "Meta-UI that surfaces existing features increases perceived value",
+      "description": "Building a dashboard/status overlay that reads existing feature state (time-gated activations, weather conditions, etc.) and presents it as a live indicator adds perceived value without adding any new 3D entities. The City Pulse reads getMacauHour() against a simple feature time-window array and renders active/inactive status. Click-to-fly reuses the existing flyToAttraction pattern. This pattern works whenever a project has many features that visitors may not discover independently.",
+      "evidence": "Session 155: City Pulse with 11 features, ~140 lines of CSS/JS. Reads getMacauHour(), integrates with time slider. Zero JS errors, passed desktop/mobile. The toggle button provides passive awareness (active count) while the expanded list provides active exploration.",
+      "tags": ["interactivity", "ux", "discoverability", "meta-ui", "time-of-day"],
+      "weight": 0.6,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -589,6 +600,12 @@
       "question": "How to make baccarat more engaging for returning visitors?",
       "chosen": "Persist bankroll and game stats in localStorage, show session stats and welcome back indicator",
       "rationale": "Without persistence, every visit starts at HK$10,000 with no sense of history. localStorage is the simplest persistence mechanism — no server needed, works offline, instant. Tracking meta-stats (hands played, biggest win, peak bankroll) adds a sense of progression beyond just the current balance. The welcome back message is subtle (4s fade) — enough to feel personalized without being intrusive. Reset button provides a clean escape hatch.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to make the time-gated feature system more discoverable?",
+      "chosen": "City Pulse expandable overlay with feature list, active/inactive status, click-to-fly, and next-up preview",
+      "rationale": "The project has 11+ time-gated features but visitors only see what's active at the current Macau hour. A meta-UI that reads getMacauHour() against feature time windows surfaces the temporal system without adding entities. The collapsed toggle provides passive awareness (count), while the expanded list enables active exploration. Integration with the time slider means visitors can scrub through the day and see features light up. Click-to-fly reuses the existing flyToAttraction pattern for zero new camera logic.",
       "revisit_after_session": null
     }
   ]

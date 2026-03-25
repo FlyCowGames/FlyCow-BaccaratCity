@@ -1,6 +1,6 @@
 # Agent Learnings
 
-*Auto-generated from data/knowledge.json — do NOT edit directly.*
+*Auto-generated from data/knowledge.json. Do NOT edit directly.*
 
 ## Patterns (what works)
 
@@ -20,6 +20,7 @@
 - **[w=0.6]** Landmark-specific action buttons extend info cards into interactive experiences — Adding special-purpose buttons to landmark info cards (beyond Enter Casino) transforms passive info cards into interacti...
 - **[w=0.6]** Non-casino cultural landmarks diversify the landmark collection — Adding religious, cultural, or civic landmarks (Kun Iam Statue, Golden Lotus Square, Senado Square, A-Ma Temple) balance...
 - **[w=0.6]** Audit sessions catch mobile UI overlap regressions that accumulate over time — As new UI elements are added over many sessions (action-prompt, feature-tips, minimap, clock, ticker), their absolute-po...
+- **[w=0.6]** Meta-UI that surfaces existing features increases perceived value — Building a dashboard/status overlay that reads existing feature state (time-gated activations, weather conditions, etc.)...
 - **[w=0.5]** Separate tick handlers for independent orbit systems — When adding a new orbit behavior (walk tour orbit), use a separate onTick handler rather than reusing the global orbit s...
 - **[w=0.5]** Progress indicators improve guided experience UX — Adding a visual progress bar and stop counter to guided tours gives users context about where they are in the experience...
 - **[w=0.5]** Canvas steam/smoke wisps add life to static billboards — Drawing small animated circles with varying opacity on canvas creates convincing steam/smoke wisps. Using sin() with dif...
@@ -43,36 +44,37 @@
 
 ## Anti-Patterns (what to avoid)
 
-- **[HIGH]** CesiumJS bloom post-processing with Google 3D Tiles — Use billboard entities with canvas radial gradients for glow effects instead of scene-wide bloom
-- **[HIGH]** CallbackProperty for billboard image causes black rectangles — Use direct billboard.image = canvas.toDataURL() assignment in setInterval instead
-- **[MEDIUM]** Parallax on mobile breaks layout — Disable parallax on mobile via media query or JS check
-- **[HIGH]** Accumulating absolute-positioned bottom UI elements cause mobile overlap — After adding any new bottom-positioned UI element, check ALL bottom elements for overlap — not just 
+- **[HIGH]** CesiumJS bloom post-processing with Google 3D Tiles — CesiumJS bloom applies to entire scene causing severe oversaturation/washout with Google 3D Tiles. T... Fix: Use billboard entities with canvas radial gradients for glow effects instead of 
+- **[HIGH]** CallbackProperty for billboard image causes black rectangles — Using CesiumJS CallbackProperty to dynamically update billboard.image with canvas elements renders a... Fix: Use direct billboard.image = canvas.toDataURL() assignment in setInterval instea
+- **[MEDIUM]** Parallax on mobile breaks layout — Parallax effects on mobile conflict with position:relative layouts and feel exaggerated on small vie... Fix: Disable parallax on mobile via media query or JS check
+- **[HIGH]** Accumulating absolute-positioned bottom UI elements cause mobile overlap — When multiple UI elements use position:absolute with bottom offsets on mobile, adding new elements o... Fix: After adding any new bottom-positioned UI element, check ALL bottom elements for
 
 ## Decisions
 
-- **How to enhance walk tour for documentary feel?** → Compose existing systems: auto-open landmark cards (with S75 photo gallery), add slow orbit camera, add progress bar/counter
+- **How to enhance walk tour for documentary feel?** → Compose existing systems: auto-open landmark cards (with S75 photo gallery), add slow orbit camera, 
 - **How to make flythrough labels more cinematic?** → Multi-line HTML with staggered CSS transitions — title + Chinese + tagline + decorative lines
 - **How to add neon signage to the city?** → Canvas-drawn billboard entities with Chinese text + glow halos, setInterval for flicker animation
-- **How to represent street food culture?** → Canvas-drawn billboard entities with warm lantern awnings, Chinese food names, and animated steam wisps
-- **How to represent Portuguese colonial heritage?** → Canvas-drawn azulejo tile panel billboards with traditional blue-and-white patterns, Portuguese place names, and 4 tile motifs
-- **How to add lotus flower cultural symbolism to the scene?** → Canvas-drawn lotus billboard entities with CallbackProperty drift and scale animation on water surfaces
+- **How to represent street food culture?** → Canvas-drawn billboard entities with warm lantern awnings, Chinese food names, and animated steam wi
+- **How to represent Portuguese colonial heritage?** → Canvas-drawn azulejo tile panel billboards with traditional blue-and-white patterns, Portuguese plac
+- **How to add lotus flower cultural symbolism to the scene?** → Canvas-drawn lotus billboard entities with CallbackProperty drift and scale animation on water surfa
 - **How to add heritage district ground-level movement?** → Triciclo pedicab billboard entities with CallbackProperty ping-pong movement on 3 heritage routes
-- **How to add waterfront ambient lighting?** → Distributed small radial gradient billboard entities along 5 promenade paths at 3m altitude, night-only via _currentGlowIntensity
-- **How to add morning-specific cultural life to the scene?** → Animated tai chi billboard groups at 5 park/waterfront locations, visible 5-9 AM with fade ramps, setInterval canvas redraw for pose animation
-- **How to fill the afternoon temporal gap (12-7 PM)?** → Fishing sampan billboard entities on Inner Harbour routes, time-gated 15:00-19:00, with canvas bobbing animation and minimap tracking
+- **How to add waterfront ambient lighting?** → Distributed small radial gradient billboard entities along 5 promenade paths at 3m altitude, night-o
+- **How to add morning-specific cultural life to the scene?** → Animated tai chi billboard groups at 5 park/waterfront locations, visible 5-9 AM with fade ramps, se
+- **How to fill the afternoon temporal gap (12-7 PM)?** → Fishing sampan billboard entities on Inner Harbour routes, time-gated 15:00-19:00, with canvas bobbi
 - **How to add sky-level atmosphere without more CesiumJS billboard entities?** → CSS cloud div overlay with blur filter and keyframe drift animation at z-index below color grading
 - **How to add a prominent evening harbour feature?** → Large dinner cruise vessels with detailed canvas rendering, night-specific glow, and 19-23 time gate
-- **How to add dramatic storm effects beyond rain and wind?** → Canvas-drawn forked lightning bolts + CSS screen flash + Web Audio API thunder, triggered by WMO thunderstorm codes and typhoon T8+
-- **How to deepen the baccarat experience beyond card dealing?** → Big Road (大路) scorecard below stats — CSS Grid with explicit cell placement, column-based streaks, tie marks as green dot overlays
-- **How to add authentic skyline detail to tall buildings at night?** → Red radial gradient billboard entities at building-top altitudes with slow blink via CallbackProperty, night-only glow gating
-- **How to add early morning atmosphere beyond sun rays?** → Multi-layer CSS fog/mist overlay with radial gradients, blur filters, and staggered drift animations at bottom of viewport
-- **How to add a rainbow weather effect to complement the rain system?** → CSS radial-gradient div with 7 spectral bands, condition-gated to daytime + light rain + partial sun, with 10-min post-rain memory
-- **How to add night market ambiance to food areas?** → Canvas-drawn string light billboard entities with catenary wire and warm golden twinkle bulbs at 7-9m altitude
-- **How to let visitors experience all time-gated features without visiting at different hours?** → requestAnimationFrame time-lapse animating _timeOverride 0-24 over 48 seconds, small play button next to time slider
-- **How to deepen Portuguese colonial heritage beyond decorative tiles?** → Bilingual street name sign billboards at 8 famous intersections, canvas-drawn with tile border aesthetic, static (no animation)
-- **How to add iconic Macau ground transport beyond tour buses and triciclos?** → Casino free shuttle buses (發財車) on 3 routes between ferry terminals and casinos, always active with casino-branded colors
-- **How to add traditional Chinese architectural elements to complement Portuguese heritage features?** → Canvas-drawn paifang (牌坊) gateway arch billboards at 5 key Macau entrance locations, static (no animation)
-- **Which landmark to add to complete the Prime Directive casino list?** → MGM Macau (Peninsula) as a full LANDMARKS entry with info card, photos, and integration into all night-effect systems
-- **How to let visitors experience the iconic Macau Tower panoramic view?** → Camera flight to 240m + slow onTick orbit with cinematic CSS overlay, triggered by landmark card button
-- **How to add speed variety to harbour water traffic?** → Water taxi speedboats with shorter cycle times (28-35s) on 2 harbour routes, same CallbackProperty ping-pong pattern as ferries
+- **How to add dramatic storm effects beyond rain and wind?** → Canvas-drawn forked lightning bolts + CSS screen flash + Web Audio API thunder, triggered by WMO thu
+- **How to deepen the baccarat experience beyond card dealing?** → Big Road (大路) scorecard below stats — CSS Grid with explicit cell placement, column-based streaks, t
+- **How to add authentic skyline detail to tall buildings at night?** → Red radial gradient billboard entities at building-top altitudes with slow blink via CallbackPropert
+- **How to add early morning atmosphere beyond sun rays?** → Multi-layer CSS fog/mist overlay with radial gradients, blur filters, and staggered drift animations
+- **How to add a rainbow weather effect to complement the rain system?** → CSS radial-gradient div with 7 spectral bands, condition-gated to daytime + light rain + partial sun
+- **How to add night market ambiance to food areas?** → Canvas-drawn string light billboard entities with catenary wire and warm golden twinkle bulbs at 7-9
+- **How to let visitors experience all time-gated features without visiting at different hours?** → requestAnimationFrame time-lapse animating _timeOverride 0-24 over 48 seconds, small play button nex
+- **How to deepen Portuguese colonial heritage beyond decorative tiles?** → Bilingual street name sign billboards at 8 famous intersections, canvas-drawn with tile border aesth
+- **How to add iconic Macau ground transport beyond tour buses and triciclos?** → Casino free shuttle buses (發財車) on 3 routes between ferry terminals and casinos, always active with 
+- **How to add traditional Chinese architectural elements to complement Portuguese heritage features?** → Canvas-drawn paifang (牌坊) gateway arch billboards at 5 key Macau entrance locations, static (no anim
+- **Which landmark to add to complete the Prime Directive casino list?** → MGM Macau (Peninsula) as a full LANDMARKS entry with info card, photos, and integration into all nig
+- **How to let visitors experience the iconic Macau Tower panoramic view?** → Camera flight to 240m + slow onTick orbit with cinematic CSS overlay, triggered by landmark card but
+- **How to add speed variety to harbour water traffic?** → Water taxi speedboats with shorter cycle times (28-35s) on 2 harbour routes, same CallbackProperty p
 - **How to make baccarat more engaging for returning visitors?** → Persist bankroll and game stats in localStorage, show session stats and welcome back indicator
+- **How to make the time-gated feature system more discoverable?** → City Pulse expandable overlay with feature list, active/inactive status, click-to-fly, and next-up p

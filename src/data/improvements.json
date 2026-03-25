@@ -1797,6 +1797,23 @@
       ],
       "linesAdded": 42,
       "agent": "automated"
+    },
+    {
+      "session": 155,
+      "date": "2026-03-25",
+      "title": "City Pulse Live Activity Indicator",
+      "domain": "interactivity",
+      "summary": "Compact expandable overlay showing which time-gated features are currently active, with click-to-fly and next-up preview.",
+      "details": [
+        "City Pulse toggle button in bottom-right shows active feature count with animated green dot",
+        "Expandable list shows all 11 time-gated features with active/inactive status and time ranges",
+        "Click any feature to fly camera to its location — integrates with stopFlythrough()",
+        "Next feature preview shows what's coming and how soon",
+        "Responds to time slider changes in real-time for seamless preview exploration",
+        "Mobile-responsive with 44px touch targets and safe-area positioning"
+      ],
+      "linesAdded": 140,
+      "agent": "automated"
     }
   ]
 }
