@@ -2595,6 +2595,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Igreja_de_S._Domingos%2C_Macao_%282052652784%29.jpg/960px-Igreja_de_S._Domingos%2C_Macao_%282052652784%29.jpg", caption: "The cream-and-white neoclassical exterior" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Macau_-_Iglesia_de_Santo_Domingo_%2826092180771%29.jpg/960px-Macau_-_Iglesia_de_Santo_Domingo_%2826092180771%29.jpg", caption: "St. Dominic's Church from Senado Square" },
     ] },
+  { name: "Lou Kau Mansion", chinese: "\u76e7\u5bb6\u5927\u5c4b", emoji: "\uD83C\uDFDB\uFE0F",
+    lat: 22.1933, lon: 113.5393, type: "UNESCO Heritage", year: "1889",
+    desc: "Lou Kau Mansion (Casa de Lou Kau) is one of Macau's finest surviving examples of traditional Chinese residential architecture. Built around 1889 by the wealthy merchant Lou Kau (Lu Jiuwan), a prominent comprador who served as both a Chinese and Portuguese consul, the two-storey grey-brick mansion combines Cantonese residential design with Western decorative elements. The open-plan layout features a central courtyard flanked by halls, bedrooms, and a rooftop terrace with ornate window grilles, carved wooden screens, and coloured glass panes. Located on Travessa da S\u00e9 near Senado Square and the Cathedral, it was carefully restored by the Macau government and opened to the public in 2005. It was inscribed as a UNESCO World Heritage Site the same year as part of the Historic Centre of Macau.",
+    facts: ["Built c.1889 by wealthy merchant Lou Kau \u2014 comprador, consul to both China and Portugal", "Two-storey grey-brick mansion blending Cantonese residential style with Western decorative elements", "UNESCO World Heritage Site since 2005 \u2014 part of the Historic Centre of Macau", "Features ornate carved wooden screens, coloured glass windows, and a central courtyard layout"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Lou_Kau_Mansion_01.JPG/960px-Lou_Kau_Mansion_01.JPG", caption: "Lou Kau Mansion entrance facade" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Lou_Kau_Mansion_07.JPG/960px-Lou_Kau_Mansion_07.JPG", caption: "Interior courtyard and ornate details" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Lou_Kau_Mansion_in_Macau.jpg/960px-Lou_Kau_Mansion_in_Macau.jpg", caption: "The restored mansion from the street" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -3494,6 +3503,7 @@ async function init() {
     addShuttleBuses(viewer);
     addWaterTaxis(viewer);
     initPaifangArches(viewer);
+    initWavingFlags(viewer);
     addKites(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
@@ -5989,6 +5999,7 @@ var ATTRACTIONS = {
     { name: "Guia Fortress", chinese: "東望洋炮台", icon: "⛰️", lat: 22.1967, lon: 113.5480, alt: 250, pitch: -20 },
     { name: "Mandarin's House", chinese: "鄭家大屋", icon: "🏠", lat: 22.1894, lon: 113.5333, alt: 200, pitch: -15 },
     { name: "St. Dominic's Church", chinese: "玫瑰堂", icon: "⛪", lat: 22.1942, lon: 113.5389, alt: 200, pitch: -15 },
+    { name: "Lou Kau Mansion", chinese: "盧家大屋", icon: "🏛️", lat: 22.1933, lon: 113.5393, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -12062,6 +12073,188 @@ function initPaifangArches(viewer) {
   });
 }
 
+// ── Animated Waving Flags — Macau SAR + China flags at government/public locations ──
+var FLAG_LOCATIONS = [
+  { name: 'Golden Lotus Square', chinese: '金蓮花廣場', lon: 113.5487, lat: 22.1983, alt: 18,
+    desc: 'Daily flag-raising ceremony', types: ['china', 'macau'] },
+  { name: 'Government HQ', chinese: '政府總部', lon: 113.5387, lat: 22.1907, alt: 22,
+    desc: 'Sede do Governo', types: ['china', 'macau'] },
+  { name: 'Border Gate', chinese: '關閘', lon: 113.5515, lat: 22.2065, alt: 16,
+    desc: 'Portas do Cerco', types: ['china', 'macau'] },
+  { name: 'Macau Tower Plaza', chinese: '旅遊塔前地', lon: 113.5319, lat: 22.1802, alt: 14,
+    desc: 'Convention Centre', types: ['macau'] },
+  { name: 'Senado Square', chinese: '議事亭前地', lon: 113.5388, lat: 22.1935, alt: 12,
+    desc: 'Leal Senado', types: ['macau'] },
+];
+
+function drawChinaFlag(ctx, x, y, w, h, wavePhase) {
+  // Red background with wave distortion
+  ctx.fillStyle = '#de2910';
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  for (var i = 0; i <= w; i++) {
+    var wave = Math.sin((i / w) * Math.PI * 2 + wavePhase) * 2;
+    ctx.lineTo(x + i, y + wave);
+  }
+  for (var i = w; i >= 0; i--) {
+    var wave = Math.sin((i / w) * Math.PI * 2 + wavePhase) * 2;
+    ctx.lineTo(x + i, y + h + wave);
+  }
+  ctx.closePath();
+  ctx.fill();
+
+  // Large yellow star
+  var starX = x + w * 0.2, starY = y + h * 0.35;
+  var wv = Math.sin(wavePhase) * 1;
+  drawStar(ctx, starX + wv, starY, 4, '#ffde00');
+  // Small stars
+  drawStar(ctx, x + w * 0.38 + wv * 0.7, y + h * 0.18, 1.8, '#ffde00');
+  drawStar(ctx, x + w * 0.44 + wv * 0.6, y + h * 0.32, 1.8, '#ffde00');
+  drawStar(ctx, x + w * 0.44 + wv * 0.5, y + h * 0.52, 1.8, '#ffde00');
+  drawStar(ctx, x + w * 0.38 + wv * 0.4, y + h * 0.66, 1.8, '#ffde00');
+}
+
+function drawMacauFlag(ctx, x, y, w, h, wavePhase) {
+  // Green background with wave distortion
+  ctx.fillStyle = '#006033';
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  for (var i = 0; i <= w; i++) {
+    var wave = Math.sin((i / w) * Math.PI * 2 + wavePhase) * 2;
+    ctx.lineTo(x + i, y + wave);
+  }
+  for (var i = w; i >= 0; i--) {
+    var wave = Math.sin((i / w) * Math.PI * 2 + wavePhase) * 2;
+    ctx.lineTo(x + i, y + h + wave);
+  }
+  ctx.closePath();
+  ctx.fill();
+
+  // Lotus flower — stylized white lotus (Macau emblem)
+  var cx = x + w * 0.5, cy = y + h * 0.42;
+  var wv = Math.sin(wavePhase) * 0.8;
+  ctx.fillStyle = '#ffffff';
+  // 5 petals
+  for (var p = 0; p < 5; p++) {
+    var angle = -Math.PI / 2 + (p * Math.PI * 2 / 5);
+    var px = cx + wv + Math.cos(angle) * 3;
+    var py = cy + Math.sin(angle) * 3;
+    ctx.beginPath();
+    ctx.ellipse(px, py, 2.5, 4, angle + Math.PI / 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // Centre dot
+  ctx.beginPath();
+  ctx.arc(cx + wv, cy, 1.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Stars above lotus
+  drawStar(ctx, cx + wv - 4, cy - 7, 1.2, '#ffde00');
+  drawStar(ctx, cx + wv, cy - 8, 1.6, '#ffde00');
+  drawStar(ctx, cx + wv + 4, cy - 7, 1.2, '#ffde00');
+  drawStar(ctx, cx + wv - 2, cy - 5.5, 1, '#ffde00');
+  drawStar(ctx, cx + wv + 2, cy - 5.5, 1, '#ffde00');
+
+  // Bridge arc below lotus
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.arc(cx + wv, cy + 10, 8, Math.PI + 0.3, -0.3);
+  ctx.stroke();
+
+  // Water waves
+  ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+  ctx.lineWidth = 0.6;
+  for (var wl = 0; wl < 2; wl++) {
+    ctx.beginPath();
+    var wy = cy + 12 + wl * 2.5;
+    for (var wx = -8; wx <= 8; wx += 1) {
+      var wpy = wy + Math.sin(wx * 0.8 + wavePhase) * 0.8;
+      if (wx === -8) ctx.moveTo(cx + wv + wx, wpy);
+      else ctx.lineTo(cx + wv + wx, wpy);
+    }
+    ctx.stroke();
+  }
+}
+
+function drawStar(ctx, cx, cy, r, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  for (var i = 0; i < 5; i++) {
+    var angle = -Math.PI / 2 + (i * Math.PI * 2 / 5);
+    var x = cx + Math.cos(angle) * r;
+    var y = cy + Math.sin(angle) * r;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+    var innerAngle = angle + Math.PI / 5;
+    var ix = cx + Math.cos(innerAngle) * r * 0.4;
+    var iy = cy + Math.sin(innerAngle) * r * 0.4;
+    ctx.lineTo(ix, iy);
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
+function createFlagCanvas(type, wavePhase) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 64;
+  canvas.height = 56;
+  var ctx = canvas.getContext('2d');
+
+  // Flagpole
+  ctx.fillStyle = '#c0c0c0';
+  ctx.fillRect(4, 2, 2, 52);
+  // Pole cap (gold ball)
+  ctx.fillStyle = '#d4af37';
+  ctx.beginPath();
+  ctx.arc(5, 3, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Flag attached to pole
+  if (type === 'china') {
+    drawChinaFlag(ctx, 8, 5, 40, 26, wavePhase);
+  } else {
+    drawMacauFlag(ctx, 8, 5, 40, 26, wavePhase);
+  }
+
+  return canvas;
+}
+
+function initWavingFlags(viewer) {
+  var flagEntities = [];
+
+  FLAG_LOCATIONS.forEach(function(loc) {
+    loc.types.forEach(function(type, ti) {
+      var entity = viewer.entities.add({
+        name: 'Flag: ' + type + ' at ' + loc.name,
+        position: Cesium.Cartesian3.fromDegrees(loc.lon + ti * 0.00015, loc.lat, loc.alt),
+        billboard: {
+          image: createFlagCanvas(type, 0).toDataURL(),
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+          width: 64,
+          height: 56,
+          scale: 0.8,
+          scaleByDistance: new Cesium.NearFarScalar(20, 2.5, 800, 0.15),
+          translucencyByDistance: new Cesium.NearFarScalar(10, 1.0, 1200, 0.0),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+      flagEntities.push({ entity: entity, type: type });
+    });
+  });
+
+  // Animate waving every 250ms
+  var waveFrame = 0;
+  setInterval(function() {
+    waveFrame++;
+    var phase = waveFrame * 0.4;
+    flagEntities.forEach(function(f) {
+      f.entity.billboard.image = createFlagCanvas(f.type, phase).toDataURL();
+    });
+  }, 250);
+}
+
 function addKites(viewer) {
   KITE_SPOTS.forEach(function(kite, idx) {
     var entity = viewer.entities.add({
@@ -13104,6 +13297,7 @@ function addSkyCabs(viewer) {
     { icon: '🚌', text: 'Spot open-top sightseeing buses touring the Peninsula and Cotai between 9 AM-3 PM Macau time' },
     { icon: '🚐', text: 'Casino shuttle buses (發財車) run 24/7 between ferry terminals and casinos — track them on the minimap' },
     { icon: '⛩️', text: 'Spot traditional Chinese paifang (牌坊) gateway arches at famous Macau entrances — Border Gate, Rua do Cunha, Barra Square' },
+    { icon: '🇨🇳', text: 'Animated waving flags fly at Golden Lotus Square, Government HQ, Border Gate, Macau Tower, and Senado Square — Macau SAR and China national flags' },
     { icon: '☁️', text: 'Cloud wisps drift across the sky — thicker when Macau has real cloud cover, tinted at dawn and dusk' },
     { icon: '🚢', text: 'Watch illuminated dinner cruise ships glide through the harbour from 7-11 PM Macau time' },
     { icon: '🌫️', text: 'Morning mist drifts over the harbour at dawn (5-8 AM Macau time) — thicker on humid days' },
@@ -13126,6 +13320,7 @@ function addSkyCabs(viewer) {
     { icon: '\u26F0\uFE0F', text: 'Explore Guia Fortress (東望洋炮台) \u2014 a 1638 hilltop fortress with the oldest lighthouse on the China coast and rare 17th-century frescoes' },
     { icon: '🏠', text: 'Visit the Mandarin\'s House (鄭家大屋) \u2014 Macau\'s largest traditional Chinese compound, built in 1869 by reformist Zheng Guanying, UNESCO World Heritage' },
     { icon: '\u26EA', text: 'Discover St. Dominic\'s Church (玫瑰堂) \u2014 a stunning 1587 baroque church at Senado Square, home to the Museum of Sacred Art with 300+ works, UNESCO World Heritage' },
+    { icon: '\uD83C\uDFDB\uFE0F', text: 'Discover Lou Kau Mansion (盧家大屋) \u2014 an 1889 merchant mansion near Senado Square, blending Cantonese and Western design, UNESCO World Heritage' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

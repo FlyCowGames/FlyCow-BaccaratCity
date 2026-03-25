@@ -2,12 +2,12 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-25 (Session 141)
+## Last Updated: 2026-03-25 (Session 143)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
 - Cinematic 7-stage flythrough with dramatic title cards: bird's eye > Cotai > Venetian > City of Dreams/Galaxy > Wynn Palace > Harbour > Grand Lisboa > Ruins of St. Paul's > overview. Each stage features multi-line cinematic labels with gold gradient title, Chinese subtitle, descriptive tagline, and staggered slide-up CSS animations
-- 25 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square, The Parisian, Wynn Macau, Sands Macao, Monte Fort, Taipa Houses-Museum, Penha Church, Guia Fortress, Mandarin's House, St. Dominic's Church
+- 26 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square, The Parisian, Wynn Macau, Sands Macao, Monte Fort, Taipa Houses-Museum, Penha Church, Guia Fortress, Mandarin's House, St. Dominic's Church, Lou Kau Mansion
 - **Macau Tower Observation Deck viewpoint**: "View from Observation Deck" button in Macau Tower info card flies camera to 240m for a slow 360-degree panoramic orbit showcasing all of Macau from the tower's perspective, with cinematic overlay showing altitude and Chinese subtitle (Session 123)
 - **Studio City Golden Reel viewpoint**: "Ride the Golden Reel" button in Studio City info card flies camera to 135m for a slow 360-degree panoramic orbit from atop the world's first figure-8 Ferris wheel, with pink/magenta cinematic overlay showing altitude and Chinese subtitle (Session 127)
 - **Grand Lisboa Sky Lounge viewpoint**: "View from Sky Lounge" button in Grand Lisboa info card flies camera to 265m for a slow 360-degree panoramic orbit from atop Macau's tallest building, with gold gradient cinematic overlay showing altitude and Chinese subtitle (Session 128)
@@ -88,6 +88,7 @@
 - **Guia Fortress landmark**: Full clickable landmark for Fortaleza da Guia (東望洋炮台) — 1638 military fortress atop Guia Hill (91m), the peninsula's highest point. Houses the Guia Lighthouse (1865, oldest on China coast) and Chapel of Our Lady of Guia with rare 17th-century frescoes. Info card with 3 Wikimedia Commons photos, UNESCO World Heritage status. Ties existing Guia Lighthouse beam animation to a full landmark. Added to Landmarks in Explore panel (Session 138)
 - **Mandarin's House landmark**: Full clickable landmark for Casa do Mandarim (鄭家大屋) — Macau's largest traditional Chinese residential compound, built c.1869 by reformist Zheng Guanying. Over 4,000 sq metres with 60+ rooms around multiple courtyards, blending Cantonese and Western architecture. Info card with 3 Wikimedia Commons photos, facts about 8-year restoration and UNESCO World Heritage status. Added to Landmarks in Explore panel (Session 139)
 - **St. Dominic's Church landmark**: Full clickable landmark for Igreja de São Domingos (玫瑰堂) — a stunning 1587 baroque church at the top of Senado Square, founded by three Spanish Dominican friars from Acapulco. Cream-and-white neoclassical facade with green shuttered windows. Houses the Museum of Sacred Art (300+ works) in the bell tower since 1997. Site of China's first Portuguese-language newspaper (1822). Info card with 3 Wikimedia Commons photos, UNESCO World Heritage status. Added to Landmarks in Explore panel (Session 141)
+- **Lou Kau Mansion landmark**: Full clickable landmark for Casa de Lou Kau (盧家大屋) — an 1889 Chinese merchant mansion on Travessa da Sé near Senado Square. Built by wealthy comprador Lou Kau, the two-storey grey-brick mansion blends Cantonese residential design with Western decorative elements. Features carved wooden screens, coloured glass windows, and central courtyard. Info card with 3 Wikimedia Commons photos, UNESCO World Heritage status. Added to Landmarks in Explore panel (Session 143)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 

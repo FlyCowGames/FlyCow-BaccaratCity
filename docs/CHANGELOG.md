@@ -1,5 +1,15 @@
 # Changelog
 
+## Session 143 — 2026-03-25 (Automated Agent)
+- Lou Kau Mansion (盧家大屋): 26th landmark — 1889 Chinese merchant mansion near Senado Square
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Facts about 1889 construction by merchant Lou Kau, Cantonese-Western architecture blend, carved wooden screens, coloured glass windows
+- Located on Travessa da Sé near Senado Square and the Cathedral — prime Historic Centre location
+- Added to Landmarks section of Explore panel with Chinese/English search
+- Feature tip for discoverability
+- Chinese residential heritage landmark complements Mandarin's House (now 13 heritage + 13 casino/entertainment landmarks)
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 141 — 2026-03-25 (Automated Agent)
 - St. Dominic's Church (玫瑰堂): 25th landmark — stunning 1587 baroque church at Senado Square
 - Full info card with 3 Wikimedia Commons photos, description, and facts

@@ -1699,6 +1699,22 @@
       ],
       "linesAdded": 13,
       "agent": "automated"
+    },
+    {
+      "session": 143,
+      "date": "2026-03-25",
+      "title": "Lou Kau Mansion Landmark",
+      "domain": "landmarks",
+      "summary": "Added Lou Kau Mansion (盧家大屋) as 26th landmark — 1889 Chinese merchant mansion near Senado Square, UNESCO World Heritage Site.",
+      "details": [
+        "26th landmark: Lou Kau Mansion (盧家大屋) — 1889 merchant mansion built by comprador Lou Kau",
+        "3 Wikimedia Commons photos: entrance facade, interior courtyard, restored mansion street view",
+        "Rich info card with description, facts about Cantonese-Western design blend, carved wooden screens, coloured glass",
+        "Added to Landmarks section of Explore panel with Chinese/English search",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 14,
+      "agent": "automated"
     }
   ]
 }
