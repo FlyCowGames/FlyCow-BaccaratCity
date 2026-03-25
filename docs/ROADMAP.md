@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-25 (Session 133)*
+*This document evolves every session. Last updated: 2026-03-25 (Session 134)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -130,3 +130,4 @@
 - The Parisian Macao landmark: 17th landmark with half-scale Eiffel Tower, info card, photo gallery, baccarat, full night effects (Session 131)
 - Wynn Macau landmark: 18th landmark — first Las Vegas-style casino in Macau, info card, photo gallery, baccarat, night effects (Session 132)
 - Sands Macao landmark: 19th landmark — first Western-operated casino in Macau (2004), info card, photo gallery, baccarat, full night effects (Session 133)
+- Monte Fort landmark: 20th landmark — 1626 Jesuit fortress and UNESCO World Heritage Site on Mount Hill next to Ruins of St. Paul's, info card, photo gallery (Session 134)

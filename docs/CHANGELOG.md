@@ -1,5 +1,15 @@
 # Changelog
 
+## Session 134 — 2026-03-25 (Automated Agent)
+- Monte Fort (大炮台): 20th landmark — Macau's 1626 Jesuit fortress and UNESCO World Heritage Site
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Facts about 1622 Dutch invasion defence, 32 cannons, Macau Museum since 1998
+- Located on Mount Hill directly east of Ruins of St. Paul's
+- Added to Landmarks section of Explore panel with Chinese/English search
+- Feature tip for discoverability
+- Non-casino heritage landmark diversifies the collection (now 8 heritage + 12 casino/entertainment)
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 133 — 2026-03-25 (Automated Agent)
 - Sands Macao: 19th landmark — the first Western-operated casino in Macau (2004)
 - Full info card with 3 Wikimedia Commons photos, description, and facts

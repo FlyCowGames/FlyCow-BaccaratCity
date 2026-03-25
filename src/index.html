@@ -2541,6 +2541,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Golden_Lotus_Square_28-01-2023.jpg/960px-Golden_Lotus_Square_28-01-2023.jpg", caption: "Golden Lotus Square and the waterfront" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Golden_Lotus_Square_05-09-2023.jpg/960px-Golden_Lotus_Square_05-09-2023.jpg", caption: "The square with Macau skyline behind" },
     ] },
+  { name: "Monte Fort", chinese: "\u5927\u70AE\u53F0", emoji: "\uD83C\uDFF0",
+    lat: 22.1971, lon: 113.5424, type: "Historic Fortress", year: "1626",
+    desc: "Fortaleza do Monte (Monte Fort) is the historical military centre of Macau, built between 1617 and 1626 by the Jesuits atop 52-metre Mount Hill, directly east of the Ruins of St. Paul\u2019s. The fortress occupies roughly 8,000 square metres and is ringed by 32 muzzle-loading cannons. Its only military action came in 1622 when a lucky cannon shot struck a Dutch gunpowder barrel, repelling a full-scale invasion. The fort later served as the governor\u2019s residence (1623\u20131740), a police barracks, and a weather observatory before becoming the Macau Museum in 1998. As part of the Historic Centre of Macau, it is a UNESCO World Heritage Site.",
+    facts: ["Built 1617\u20131626 by Jesuits \u2014 Macau\u2019s principal military defence for over 300 years", "32 muzzle-loading cannons ring the fortress walls with panoramic city views", "Repelled the 1622 Dutch invasion with a single lucky cannon shot to a gunpowder store", "Houses the Macau Museum since 1998 \u2014 UNESCO World Heritage Site"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Fortaleza_del_Monte%2C_Macao%2C_2013-08-08%2C_DD_01.jpg/960px-Fortaleza_del_Monte%2C_Macao%2C_2013-08-08%2C_DD_01.jpg", caption: "Fortaleza do Monte with cannons overlooking the city" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cannons_in_Fortaleza_do_Monte.jpg/960px-Cannons_in_Fortaleza_do_Monte.jpg", caption: "Historic cannons along the fortress ramparts" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Fortaleza_do_Monte_09-02-2023%281%29.jpg/960px-Fortaleza_do_Monte_09-02-2023%281%29.jpg", caption: "Monte Fort and the Macau Museum" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -5929,6 +5938,7 @@ var ATTRACTIONS = {
     { name: "Senado Square", chinese: "議事亭前地", icon: "🏛️", lat: 22.1937, lon: 113.5390, alt: 200, pitch: -20 },
     { name: "Kun Iam Statue", chinese: "觀音蓮花苑", icon: "🙏", lat: 22.1872, lon: 113.5489, alt: 200, pitch: -15 },
     { name: "Golden Lotus Square", chinese: "金蓮花廣場", icon: "🌻", lat: 22.1944, lon: 113.5535, alt: 200, pitch: -15 },
+    { name: "Monte Fort", chinese: "大炮台", icon: "🏰", lat: 22.1971, lon: 113.5424, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -13060,6 +13070,7 @@ function addSkyCabs(viewer) {
     { icon: '🚤', text: 'Watch water taxi speedboats zip across the harbour \u2014 much faster than the ferries! Track them as blue dots on the minimap' },
     { icon: '🎰', text: 'Visit Wynn Macau \u2014 the first Las Vegas-style casino in Macau, with its iconic golden facade on the Peninsula waterfront' },
     { icon: '🎰', text: 'Explore Sands Macao \u2014 the casino that started it all, the first Western-operated casino that launched Macau\u2019s gaming revolution in 2004' },
+    { icon: '🏰', text: 'Visit Monte Fort (大炮台) \u2014 the 1626 Jesuit fortress with 32 cannons that repelled a Dutch invasion, now a UNESCO World Heritage Site next to the Ruins' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

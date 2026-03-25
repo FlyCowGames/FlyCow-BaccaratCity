@@ -1599,6 +1599,23 @@
       ],
       "linesAdded": 18,
       "agent": "automated"
+    },
+    {
+      "session": 134,
+      "date": "2026-03-25",
+      "title": "Monte Fort Landmark",
+      "domain": "landmarks",
+      "summary": "Added Fortaleza do Monte (Monte Fort) as 20th landmark — the 1626 Jesuit fortress and UNESCO World Heritage Site next to the Ruins of St. Paul's.",
+      "details": [
+        "20th landmark: Monte Fort (大炮台) — Macau's historical military centre (1617-1626)",
+        "3 Wikimedia Commons photos: fortress panorama, cannons, and Macau Museum",
+        "Rich info card with description, facts about 1622 Dutch invasion defence",
+        "Added to Landmarks section of Explore panel with Chinese/English search",
+        "Feature tip for discoverability",
+        "Non-casino heritage landmark diversifies the 20-landmark collection"
+      ],
+      "linesAdded": 12,
+      "agent": "automated"
     }
   ]
 }
