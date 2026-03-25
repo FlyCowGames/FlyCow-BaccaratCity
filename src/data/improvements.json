@@ -1633,6 +1633,23 @@
       ],
       "linesAdded": 14,
       "agent": "automated"
+    },
+    {
+      "session": 137,
+      "date": "2026-03-25",
+      "title": "Penha Church Landmark",
+      "domain": "landmarks",
+      "summary": "Added Chapel of Our Lady of Penha (主教山小堂) as 22nd landmark — iconic 1622 hilltop church with panoramic views over Nam Van Lake and the Macau skyline.",
+      "details": [
+        "22nd landmark: Penha Church (主教山小堂) — 1622 Portuguese chapel on Penha Hill",
+        "3 Wikimedia Commons photos: hilltop church, panoramic views, neo-classical facade",
+        "Rich info card with description, facts about 1622 founding, 1935 rebuild, Bishop's Palace",
+        "Added to Landmarks section of Explore panel with Chinese/English search",
+        "Feature tip for discoverability",
+        "Religious heritage landmark adds spiritual dimension to the collection"
+      ],
+      "linesAdded": 11,
+      "agent": "automated"
     }
   ]
 }

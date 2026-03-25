@@ -2559,6 +2559,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Taipa_Houses%E2%80%93Museum.jpg/960px-Taipa_Houses%E2%80%93Museum.jpg", caption: "Taipa Houses-Museum colonial facade and gardens" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Museu_da_Taipa_e_Coloane_noclutter.jpg/960px-Museu_da_Taipa_e_Coloane_noclutter.jpg", caption: "Interior courtyard and museum entrance" },
     ] },
+  { name: "Penha Church", chinese: "\u4E3B\u6559\u5C71\u5C0F\u5802", emoji: "\u26EA",
+    lat: 22.1876, lon: 113.5348, type: "Historic Church", year: "1622",
+    desc: "The Chapel of Our Lady of Penha (Igreja de Nossa Senhora da Penha) crowns Penha Hill, one of the highest points on the Macau Peninsula. Originally built in 1622 by Portuguese sailors as a simple chapel of thanksgiving for safe voyages, it was rebuilt multiple times — most recently in 1935 in its current neo-classical form with a distinctive cream-and-white facade and bell tower. The hilltop site offers some of the most spectacular panoramic views in Macau, overlooking Nam Van Lake, the Macau Tower, the Taipa bridges, and the Cotai skyline. A statue of Our Lady stands atop the facade, gazing over the city. The adjacent Bishop's Palace (Paço Episcopal), built in 1837, served as the residence of Macau's Catholic bishops. Together they form one of Macau's most romantic and photographed heritage sites, particularly at sunset.",
+    facts: ["Founded in 1622 by Portuguese sailors giving thanks for safe sea voyages \u2014 one of Macau\u2019s oldest churches", "Rebuilt in 1935 in neo-classical style with cream facade, bell tower, and statue of Our Lady on top", "Panoramic hilltop views over Nam Van Lake, Macau Tower, three bridges, and the Cotai Strip skyline", "Adjacent 1837 Bishop\u2019s Palace (Pa\u00E7o Episcopal) \u2014 the residence of Macau\u2019s Catholic bishops for over a century"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Penha_Church_Mo707.JPG/960px-Penha_Church_Mo707.JPG", caption: "Chapel of Our Lady of Penha on Penha Hill" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Penha_Hill_2.jpg/960px-Penha_Hill_2.jpg", caption: "Penha Hill with panoramic views of Macau" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/%E8%A5%BF%E6%9C%9B%E6%B4%8B%E5%B1%B1_%E4%B8%BB%E6%95%99%E5%B1%B1%E5%B0%8F%E5%A0%82.jpg/960px-%E8%A5%BF%E6%9C%9B%E6%B4%8B%E5%B1%B1_%E4%B8%BB%E6%95%99%E5%B1%B1%E5%B0%8F%E5%A0%82.jpg", caption: "The neo-classical church facade and bell tower" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -5949,6 +5958,7 @@ var ATTRACTIONS = {
     { name: "Golden Lotus Square", chinese: "金蓮花廣場", icon: "🌻", lat: 22.1944, lon: 113.5535, alt: 200, pitch: -15 },
     { name: "Monte Fort", chinese: "大炮台", icon: "🏰", lat: 22.1971, lon: 113.5424, alt: 200, pitch: -15 },
     { name: "Taipa Houses-Museum", chinese: "龍環葡韻", icon: "🏠", lat: 22.1536, lon: 113.5582, alt: 200, pitch: -15 },
+    { name: "Penha Church", chinese: "主教山小堂", icon: "⛪", lat: 22.1876, lon: 113.5348, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -13082,6 +13092,7 @@ function addSkyCabs(viewer) {
     { icon: '🎰', text: 'Explore Sands Macao \u2014 the casino that started it all, the first Western-operated casino that launched Macau\u2019s gaming revolution in 2004' },
     { icon: '🏰', text: 'Visit Monte Fort (大炮台) \u2014 the 1626 Jesuit fortress with 32 cannons that repelled a Dutch invasion, now a UNESCO World Heritage Site next to the Ruins' },
     { icon: '🏠', text: 'Discover the Taipa Houses-Museum (龍環葡韻) \u2014 five pastel-green Portuguese colonial houses from 1921, one of Macau\u2019s most photographed heritage sites' },
+    { icon: '\u26EA', text: 'Visit Penha Church (主教山小堂) \u2014 a 1622 hilltop chapel with panoramic views over Nam Van Lake, Macau Tower, and the Cotai skyline' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

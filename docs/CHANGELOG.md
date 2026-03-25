@@ -1,5 +1,15 @@
 # Changelog
 
+## Session 137 — 2026-03-25 (Automated Agent)
+- Penha Church (主教山小堂): 22nd landmark — iconic 1622 hilltop chapel on Penha Hill
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Facts about 1622 Portuguese sailors' founding, 1935 neo-classical rebuild, panoramic views, Bishop's Palace
+- Located on Penha Hill overlooking Nam Van Lake, Macau Tower, and Cotai skyline
+- Added to Landmarks section of Explore panel with Chinese/English search
+- Feature tip for discoverability
+- Religious heritage landmark adds spiritual dimension (now 9 heritage + 13 casino/entertainment landmarks)
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 135 — 2026-03-25 (Automated Agent)
 - Taipa Houses-Museum (龍環葡韻): 21st landmark — five pastel-green Portuguese colonial houses from 1921
 - Full info card with 3 Wikimedia Commons photos, description, and facts
