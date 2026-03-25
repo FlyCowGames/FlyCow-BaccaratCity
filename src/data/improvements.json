@@ -1616,6 +1616,23 @@
       ],
       "linesAdded": 12,
       "agent": "automated"
+    },
+    {
+      "session": 135,
+      "date": "2026-03-25",
+      "title": "Taipa Houses-Museum Landmark",
+      "domain": "landmarks",
+      "summary": "Added Taipa Houses-Museum (Casas-Museu da Taipa) as 21st landmark — five pastel-green Portuguese colonial houses from 1921, one of Macau's most photographed heritage sites.",
+      "details": [
+        "21st landmark: Taipa Houses-Museum (龍環葡韻) — 1921 Portuguese colonial residences",
+        "3 Wikimedia Commons photos: colonial facades, gardens, and museum entrance",
+        "Rich info card with description, facts about 5 themed houses and wedding photography",
+        "Added to Landmarks section of Explore panel with Chinese/English search",
+        "Feature tip for discoverability",
+        "Portuguese colonial heritage landmark adds cultural balance in Taipa area"
+      ],
+      "linesAdded": 14,
+      "agent": "automated"
     }
   ]
 }

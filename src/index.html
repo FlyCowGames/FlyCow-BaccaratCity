@@ -2550,6 +2550,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Cannons_in_Fortaleza_do_Monte.jpg/960px-Cannons_in_Fortaleza_do_Monte.jpg", caption: "Historic cannons along the fortress ramparts" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Fortaleza_do_Monte_09-02-2023%281%29.jpg/960px-Fortaleza_do_Monte_09-02-2023%281%29.jpg", caption: "Monte Fort and the Macau Museum" },
     ] },
+  { name: "Taipa Houses-Museum", chinese: "\u9f8d\u74b0\u8461\u97fb", emoji: "\uD83C\uDFE0",
+    lat: 22.1536, lon: 113.5582, type: "Heritage Museum", year: "1921",
+    desc: "The Taipa Houses\u2013Museum (Casas-Museu da Taipa) comprises five pastel-green Portuguese colonial houses along Avenida da Praia in Taipa, originally built in 1921 as residences for senior Macanese civil servants. Restored and opened to the public in 1999, they now serve as a museum complex showcasing Macanese domestic life, Portuguese traditions, and local cultural heritage. The five houses are named: Macanese Living Museum, House of the Islands, House of the Portuguese Regions, Exhibition Gallery, and House for Receptions. Surrounded by banyan trees and overlooking the former Taipa waterfront, they are one of Macau\u2019s most photographed heritage sites and a beloved setting for wedding photography.",
+    facts: ["Five pastel-green colonial houses built in 1921 for senior Macanese officials", "Restored and opened as a museum complex in 1999 \u2014 Macau\u2019s best-preserved colonial residential architecture", "Each house has a distinct theme: Macanese living, island history, Portuguese regions, exhibitions, and receptions", "One of Macau\u2019s most popular wedding photography locations, surrounded by century-old banyan trees"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Taipa_Houses%E2%80%93Museum_2.jpg/960px-Taipa_Houses%E2%80%93Museum_2.jpg", caption: "The iconic pastel-green Taipa Houses along Avenida da Praia" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Taipa_Houses%E2%80%93Museum.jpg/960px-Taipa_Houses%E2%80%93Museum.jpg", caption: "Taipa Houses-Museum colonial facade and gardens" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Museu_da_Taipa_e_Coloane_noclutter.jpg/960px-Museu_da_Taipa_e_Coloane_noclutter.jpg", caption: "Interior courtyard and museum entrance" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -5939,6 +5948,7 @@ var ATTRACTIONS = {
     { name: "Kun Iam Statue", chinese: "觀音蓮花苑", icon: "🙏", lat: 22.1872, lon: 113.5489, alt: 200, pitch: -15 },
     { name: "Golden Lotus Square", chinese: "金蓮花廣場", icon: "🌻", lat: 22.1944, lon: 113.5535, alt: 200, pitch: -15 },
     { name: "Monte Fort", chinese: "大炮台", icon: "🏰", lat: 22.1971, lon: 113.5424, alt: 200, pitch: -15 },
+    { name: "Taipa Houses-Museum", chinese: "龍環葡韻", icon: "🏠", lat: 22.1536, lon: 113.5582, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -13071,6 +13081,7 @@ function addSkyCabs(viewer) {
     { icon: '🎰', text: 'Visit Wynn Macau \u2014 the first Las Vegas-style casino in Macau, with its iconic golden facade on the Peninsula waterfront' },
     { icon: '🎰', text: 'Explore Sands Macao \u2014 the casino that started it all, the first Western-operated casino that launched Macau\u2019s gaming revolution in 2004' },
     { icon: '🏰', text: 'Visit Monte Fort (大炮台) \u2014 the 1626 Jesuit fortress with 32 cannons that repelled a Dutch invasion, now a UNESCO World Heritage Site next to the Ruins' },
+    { icon: '🏠', text: 'Discover the Taipa Houses-Museum (龍環葡韻) \u2014 five pastel-green Portuguese colonial houses from 1921, one of Macau\u2019s most photographed heritage sites' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

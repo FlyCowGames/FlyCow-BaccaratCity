@@ -1,5 +1,15 @@
 # Changelog
 
+## Session 135 — 2026-03-25 (Automated Agent)
+- Taipa Houses-Museum (龍環葡韻): 21st landmark — five pastel-green Portuguese colonial houses from 1921
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Facts about 5 themed houses, wedding photography, century-old banyan trees
+- Located on Avenida da Praia in Taipa — best-preserved colonial residential architecture
+- Added to Landmarks section of Explore panel with Chinese/English search
+- Feature tip for discoverability
+- Portuguese colonial heritage landmark adds cultural balance in under-represented Taipa area
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 134 — 2026-03-25 (Automated Agent)
 - Monte Fort (大炮台): 20th landmark — Macau's 1626 Jesuit fortress and UNESCO World Heritage Site
 - Full info card with 3 Wikimedia Commons photos, description, and facts

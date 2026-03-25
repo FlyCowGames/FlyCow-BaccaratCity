@@ -200,4 +200,4 @@ Chosen: Camera flight to 240m + slow onTick orbit with cinematic CSS overlay, tr
 Chosen: Water taxi speedboats with shorter cycle times (28-35s) on 2 harbour routes, same CallbackProperty ping-pong pattern as ferries. Rationale: All existing water transport is slow (ferries 50-55s, junks 85-100s, dinner cruise 120s). Water taxis are authentic Macau harbour transport and their speed (nearly 2x ferries) creates visible contrast. Canvas wake spray trail differentiates them visually. Always-active (not time-gated) adds constant harbour dynamism. Bright blue minimap dot is distinct from cyan ferry dots.
 
 ---
-*Last updated: Session 132*
+*Last updated: Session 135*
