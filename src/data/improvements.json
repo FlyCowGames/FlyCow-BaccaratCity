@@ -1667,6 +1667,22 @@
       ],
       "linesAdded": 12,
       "agent": "automated"
+    },
+    {
+      "session": 139,
+      "date": "2026-03-25",
+      "title": "Mandarin's House Landmark",
+      "domain": "landmarks",
+      "summary": "Added Mandarin's House (鄭家大屋) as 24th landmark — Macau's largest traditional Chinese residential compound, built 1869 by reformist Zheng Guanying, UNESCO World Heritage Site.",
+      "details": [
+        "24th landmark: Mandarin's House (鄭家大屋) — 1869 Chinese compound, 4,000 sq metres with 60+ rooms",
+        "3 Wikimedia Commons photos: main courtyard, architectural details, restored compound",
+        "Rich info card with description, facts about Zheng Guanying, 8-year restoration, UNESCO status",
+        "Added to Landmarks section of Explore panel with Chinese/English search",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 13,
+      "agent": "automated"
     }
   ]
 }

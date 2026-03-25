@@ -2577,6 +2577,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/d/d9/Guiafortress.jpg", caption: "Guia Fortress walls and entrance" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Guia_Fort_and_Lighthouse_%E6%9D%B1%E6%9C%9B%E6%B4%8B%E7%A0%B2%E5%8F%B0%E5%8F%8A%E7%87%88%E5%A1%94_-_panoramio.jpg", caption: "Guia Fort and Lighthouse overlooking Macau" },
     ] },
+  { name: "Mandarin's House", chinese: "\u912D\u5BB6\u5927\u5C4B", emoji: "\u{1F3E0}",
+    lat: 22.1894, lon: 113.5333, type: "Historic Residence", year: "1869",
+    desc: "The Mandarin's House (Casa do Mandarim) is the largest residential compound in Macau and one of the most significant examples of traditional Chinese architecture in the city. Built around 1869 by Zheng Guanying (\u912D\u89C0\u61C9), a renowned Chinese thinker, reformist, and comprador who authored the influential treatise 'Words of Warning in a Prosperous Age' (\u76DB\u4E16\u5371\u8A00) — a book that profoundly influenced Sun Yat-sen and Mao Zedong. The sprawling 4,000-square-metre compound features over 60 rooms arranged around multiple courtyards, blending traditional Cantonese residential design with Western architectural elements reflecting Macau's cultural fusion. After decades of neglect and subdivision into tenements, the Macau government undertook a meticulous 8-year restoration completed in 2010. The compound includes two main residential wings, a library, a moon gate, granite-framed doorways, grey brick walls with oyster-shell mortar, and intricate wooden lattice windows. It was inscribed as a UNESCO World Heritage Site in 2005 as part of the Historic Centre of Macau.",
+    facts: ["Built c.1869 by Zheng Guanying (\u912D\u89C0\u61C9) \u2014 Chinese reformist whose treatise '\u76DB\u4E16\u5371\u8A00' influenced Sun Yat-sen and Mao Zedong", "Largest traditional Chinese residential compound in Macau \u2014 over 4,000 sq metres with 60+ rooms around multiple courtyards", "UNESCO World Heritage Site since 2005 \u2014 masterpiece of Cantonese-Western architectural fusion with moon gates and granite doorways", "Meticulously restored over 8 years (2002\u20132010) after decades as subdivided tenements \u2014 now open free to the public"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Mandarin%27s_House_01.JPG/960px-Mandarin%27s_House_01.JPG", caption: "Mandarin's House main courtyard and facade" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/MandarinHouse1.jpg/960px-MandarinHouse1.jpg", caption: "Traditional Chinese architectural details" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Mandarin%27s_House_in_Macau.jpg/960px-Mandarin%27s_House_in_Macau.jpg", caption: "The restored compound from the courtyard" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -5969,6 +5978,7 @@ var ATTRACTIONS = {
     { name: "Taipa Houses-Museum", chinese: "龍環葡韻", icon: "🏠", lat: 22.1536, lon: 113.5582, alt: 200, pitch: -15 },
     { name: "Penha Church", chinese: "主教山小堂", icon: "⛪", lat: 22.1876, lon: 113.5348, alt: 200, pitch: -15 },
     { name: "Guia Fortress", chinese: "東望洋炮台", icon: "⛰️", lat: 22.1967, lon: 113.5480, alt: 250, pitch: -20 },
+    { name: "Mandarin's House", chinese: "鄭家大屋", icon: "🏠", lat: 22.1894, lon: 113.5333, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -13104,6 +13114,7 @@ function addSkyCabs(viewer) {
     { icon: '🏠', text: 'Discover the Taipa Houses-Museum (龍環葡韻) \u2014 five pastel-green Portuguese colonial houses from 1921, one of Macau\u2019s most photographed heritage sites' },
     { icon: '\u26EA', text: 'Visit Penha Church (主教山小堂) \u2014 a 1622 hilltop chapel with panoramic views over Nam Van Lake, Macau Tower, and the Cotai skyline' },
     { icon: '\u26F0\uFE0F', text: 'Explore Guia Fortress (東望洋炮台) \u2014 a 1638 hilltop fortress with the oldest lighthouse on the China coast and rare 17th-century frescoes' },
+    { icon: '🏠', text: 'Visit the Mandarin\'s House (鄭家大屋) \u2014 Macau\'s largest traditional Chinese compound, built in 1869 by reformist Zheng Guanying, UNESCO World Heritage' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

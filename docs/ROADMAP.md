@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-25 (Session 138)*
+*This document evolves every session. Last updated: 2026-03-25 (Session 139)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -134,3 +134,4 @@
 - Taipa Houses-Museum landmark: 21st landmark — five pastel-green 1921 Portuguese colonial houses on Avenida da Praia in Taipa, info card, photo gallery (Session 135)
 - Penha Church landmark: 22nd landmark — 1622 hilltop chapel on Penha Hill with panoramic views, info card, photo gallery (Session 137)
 - Guia Fortress landmark: 23rd landmark — 1638 hilltop fortress with oldest lighthouse on China coast, rare frescoes, UNESCO World Heritage, info card, photo gallery (Session 138)
+- Mandarin's House landmark: 24th landmark — Macau's largest Chinese residential compound, built 1869 by Zheng Guanying, UNESCO World Heritage, info card, photo gallery (Session 139)

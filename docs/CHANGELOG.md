@@ -1,5 +1,15 @@
 # Changelog
 
+## Session 139 — 2026-03-25 (Automated Agent)
+- Mandarin's House (鄭家大屋): 24th landmark — Macau's largest traditional Chinese residential compound
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Facts about 1869 construction by Zheng Guanying, 4,000 sq metres with 60+ rooms, 8-year restoration, UNESCO World Heritage
+- Located near Lilau Square in St. Lawrence parish — historic Chinese residential area
+- Added to Landmarks section of Explore panel with Chinese/English search
+- Feature tip for discoverability
+- Chinese heritage landmark balances recent Portuguese heritage additions (now 11 heritage + 13 casino/entertainment landmarks)
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 138 — 2026-03-25 (Automated Agent)
 - Guia Fortress (東望洋炮台): 23rd landmark — 1638 hilltop fortress with the oldest lighthouse on the China coast
 - Full info card with 3 Wikimedia Commons photos, description, and facts
