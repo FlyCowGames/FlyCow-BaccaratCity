@@ -2505,6 +2505,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/The_Parisian_Macao_at_night.jpg/960px-The_Parisian_Macao_at_night.jpg", caption: "The Parisian illuminated at night" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/The_Parisian_Macao_tower_and_hotel.jpg/960px-The_Parisian_Macao_tower_and_hotel.jpg", caption: "Eiffel Tower and hotel towers" },
     ] },
+  { name: "Wynn Macau", chinese: "\u6C38\u5229\u6FB3\u9580", emoji: "\uD83C\uDFB0",
+    lat: 22.1920, lon: 113.5413, type: "Casino & Hotel", year: "2006",
+    desc: "Wynn Macau is a luxury casino resort on the Macau Peninsula waterfront, the first Las Vegas-style integrated resort in the territory. Opened in 2006 by Steve Wynn, the curved bronze-glass tower rises 28 storeys and is instantly recognizable by its glowing golden facade at night. The resort is famed for its Tree of Prosperity \u2014 an animatronic golden tree that rises from the atrium floor \u2014 and the Rotunda ceiling with its zodiac-themed LED show. The Wynn name is synonymous with luxury gaming worldwide.",
+    facts: ["First Las Vegas-style integrated resort in Macau \u2014 opened September 2006", "Curved 28-storey bronze-glass tower with Performance Lake at the entrance", "Tree of Prosperity: golden animatronic tree rising from the atrium floor every 30 minutes", "Encore tower expansion added 410 suites in 2010, doubling the resort\u2019s capacity"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Wynn_09-04-2023.jpg/960px-Wynn_09-04-2023.jpg", caption: "Wynn Macau on the Peninsula waterfront" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Wynn_Casino%2C_Macau.JPG/960px-Wynn_Casino%2C_Macau.JPG", caption: "Wynn Macau's distinctive golden facade" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Wynn_Macau_%285234397967%29.jpg/960px-Wynn_Macau_%285234397967%29.jpg", caption: "Wynn Macau tower at night" },
+    ] },
   { name: "Kun Iam Statue", chinese: "\u89C0\u97F3\u84EE\u82B1\u82D1", emoji: "\uD83D\uDE4F",
     lat: 22.1872, lon: 113.5489, type: "Religious Monument", year: "1999",
     desc: "The Kun Iam Ecumenical Centre features a striking 20-metre bronze statue of Kun Iam (Guanyin), the Buddhist goddess of mercy, standing atop a lotus-shaped dome on an artificial island connected by a 60-metre causeway to the NAPE waterfront. Designed by Portuguese sculptor Cristina Rocha Leiria with UNESCO support and inaugurated in 1999, the statue symbolises the bridge between Eastern and Western cultures that defines Macau. The centre beneath houses a small library and ecumenical prayer space.",
@@ -5927,6 +5936,7 @@ var ATTRACTIONS = {
     { name: "Wynn Palace", chinese: "永利皇宮", icon: "🎰", lat: 22.1478, lon: 113.5630, alt: 300, pitch: -25 },
     { name: "City of Dreams", chinese: "新濠天地", icon: "🎰", lat: 22.1486, lon: 113.5586, alt: 300, pitch: -25 },
     { name: "MGM Macau", chinese: "美高梅", icon: "🎰", lat: 22.1848, lon: 113.5417, alt: 300, pitch: -25 },
+    { name: "Wynn Macau", chinese: "永利澳門", icon: "🎰", lat: 22.1920, lon: 113.5413, alt: 300, pitch: -25 },
     { name: "Studio City", chinese: "新濠影匯", icon: "🎬", lat: 22.1435, lon: 113.5550, alt: 300, pitch: -25 },
     { name: "The Parisian", chinese: "澳門巴黎人", icon: "🗼", lat: 22.1465, lon: 113.5570, alt: 300, pitch: -25 },
   ],
@@ -7881,6 +7891,7 @@ var SKY_BEAM_CASINOS = [
   { name: 'Wynn Palace Beam', lon: 113.5630, lat: 22.1478, color: [255, 180, 60],  height: 300, swaySpeed: 0.08, swayAmp: 0.00016 },
   { name: 'City of Dreams Beam', lon: 113.5586, lat: 22.1486, color: [180, 140, 255], height: 280, swaySpeed: 0.055, swayAmp: 0.00017 },
   { name: 'MGM Macau Beam',    lon: 113.5417, lat: 22.1848, color: [255, 200, 50],  height: 260, swaySpeed: 0.065, swayAmp: 0.00015 },
+  { name: 'Wynn Macau Beam',   lon: 113.5413, lat: 22.1920, color: [255, 190, 80],  height: 250, swaySpeed: 0.06, swayAmp: 0.00014 },
   { name: 'Studio City Beam', lon: 113.5550, lat: 22.1435, color: [255, 150, 200], height: 270, swaySpeed: 0.075, swayAmp: 0.00014 },
   { name: 'Parisian Beam',   lon: 113.5570, lat: 22.1465, color: [180, 160, 255], height: 280, swaySpeed: 0.06, swayAmp: 0.00016 },
 ];
@@ -7979,6 +7990,7 @@ var SEARCHLIGHT_CASINOS = [
   { name: 'Studio City Searchlight', lon: 113.5520, lat: 22.1382, alt: 115, color: [255, 180, 220], period: 13, phase: 0.7, sweep: 2.6 },
   { name: 'MGM Macau Searchlight',  lon: 113.5417, lat: 22.1848, alt: 130, color: [255, 215, 100], period: 11.5, phase: 4.2, sweep: 2.1 },
   { name: 'Parisian Searchlight',  lon: 113.5574, lat: 22.1468, alt: 120, color: [200, 180, 255], period: 12.5, phase: 2.0, sweep: 2.3 },
+  { name: 'Wynn Macau Searchlight', lon: 113.5415, lat: 22.1924, alt: 120, color: [255, 210, 150], period: 13, phase: 1.5, sweep: 2.1 },
 ];
 
 var _searchlightEntities = [];
@@ -10728,6 +10740,7 @@ var OBSTACLE_LIGHT_BUILDINGS = [
   { name: 'Studio City',   lon: 113.5620, lat: 22.1340, alt: 145 }, // ~140m (figure-eight)
   { name: 'MGM Macau',    lon: 113.5417, lat: 22.1848, alt: 155 }, // ~154m (35 storeys)
   { name: 'The Parisian', lon: 113.5570, lat: 22.1465, alt: 165 }, // ~162m (Eiffel Tower replica)
+  { name: 'Wynn Macau',  lon: 113.5413, lat: 22.1920, alt: 110 }, // ~100m (28 storeys)
 ];
 
 var _obstacleLightEntities = [];
@@ -13029,6 +13042,7 @@ function addSkyCabs(viewer) {
     { icon: '🙏', text: 'Visit the Kun Iam Statue on the NAPE waterfront \u2014 a 20-metre bronze goddess of mercy on a lotus-shaped island' },
     { icon: '🌻', text: 'Visit Golden Lotus Square \u2014 the gilded bronze lotus sculpture commemorating Macau\'s 1999 handover from Portugal to China' },
     { icon: '🚤', text: 'Watch water taxi speedboats zip across the harbour \u2014 much faster than the ferries! Track them as blue dots on the minimap' },
+    { icon: '🎰', text: 'Visit Wynn Macau \u2014 the first Las Vegas-style casino in Macau, with its iconic golden facade on the Peninsula waterfront' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;
@@ -13149,6 +13163,7 @@ function addSkyCabs(viewer) {
     { name: 'Sands Cotai', chinese: '金沙', table: 'VIP-8' },
     { name: 'Studio City', chinese: '新濠影匯', table: 'Main-4' },
     { name: 'The Parisian', chinese: '澳門巴黎人', table: 'Salon-6' },
+    { name: 'Wynn Macau', chinese: '永利澳門', table: 'VIP-9' },
   ];
 
   var tickerResults = [];

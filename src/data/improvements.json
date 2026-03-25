@@ -1565,6 +1565,23 @@
       ],
       "linesAdded": 18,
       "agent": "automated"
+    },
+    {
+      "session": 132,
+      "date": "2026-03-25",
+      "title": "Wynn Macau Landmark",
+      "domain": "landmarks",
+      "summary": "Added Wynn Macau as 18th landmark — the first Las Vegas-style casino in Macau with its iconic golden facade on the Peninsula waterfront.",
+      "details": [
+        "18th landmark: Wynn Macau (永利澳門) — Peninsula's original Wynn property (2006)",
+        "3 Wikimedia Commons photos, rich info card with description and facts",
+        "Enter Casino button for baccarat at Wynn Macau",
+        "Night effects: sky beam, searchlight, obstacle light (neon glow and water reflection pre-existing)",
+        "Added to Explore panel casinos section and baccarat ticker",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 16,
+      "agent": "automated"
     }
   ]
 }

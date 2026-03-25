@@ -2,12 +2,12 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-25 (Session 131)
+## Last Updated: 2026-03-25 (Session 132)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
 - Cinematic 7-stage flythrough with dramatic title cards: bird's eye > Cotai > Venetian > City of Dreams/Galaxy > Wynn Palace > Harbour > Grand Lisboa > Ruins of St. Paul's > overview. Each stage features multi-line cinematic labels with gold gradient title, Chinese subtitle, descriptive tagline, and staggered slide-up CSS animations
-- 17 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square, The Parisian
+- 18 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square, The Parisian, Wynn Macau
 - **Macau Tower Observation Deck viewpoint**: "View from Observation Deck" button in Macau Tower info card flies camera to 240m for a slow 360-degree panoramic orbit showcasing all of Macau from the tower's perspective, with cinematic overlay showing altitude and Chinese subtitle (Session 123)
 - **Studio City Golden Reel viewpoint**: "Ride the Golden Reel" button in Studio City info card flies camera to 135m for a slow 360-degree panoramic orbit from atop the world's first figure-8 Ferris wheel, with pink/magenta cinematic overlay showing altitude and Chinese subtitle (Session 127)
 - **Grand Lisboa Sky Lounge viewpoint**: "View from Sky Lounge" button in Grand Lisboa info card flies camera to 265m for a slow 360-degree panoramic orbit from atop Macau's tallest building, with gold gradient cinematic overlay showing altitude and Chinese subtitle (Session 128)
@@ -80,6 +80,7 @@
 - **Golden Lotus Square landmark**: Full clickable landmark for Golden Lotus Square (金蓮花廣場) — the 6-metre gilded bronze Shengshi Lotus sculpture at Praça da Flor de Lodão on the Macau waterfront. Presented by China's State Council for the 1999 handover ceremony. Info card with 3 Wikimedia Commons photos, facts about 6.5-tonne sculpture, 23-stone granite base representing Peninsula/Taipa/Coloane, daily flag-raising ceremony. Added to Landmarks in Explore panel (Session 126)
 - **Water taxi speedboats**: 3 fast harbour water taxis (快艇) on 2 routes (Inner Harbour Express, Outer Harbour to east coast) with canvas-drawn white/blue speedboat, V-shaped wake spray, 28-35s cycles (much faster than ferries), bright blue minimap tracking, always active (Session 129)
 - **The Parisian Macao landmark**: Full clickable landmark for The Parisian Macao (澳門巴黎人) — the French-themed Cotai casino with its iconic half-scale Eiffel Tower replica (162m, 6,600 lights). Info card with 3 Wikimedia Commons photos, description, facts about US$2.7B investment. Enter Casino button for baccarat. Purple neon glow zone, sky beam, searchlight, LED facade, obstacle light. Added to Casinos in Explore panel and baccarat ticker (Session 131)
+- **Wynn Macau landmark**: Full clickable landmark for Wynn Macau (永利澳門) — the first Las Vegas-style integrated resort in Macau, opened 2006 by Steve Wynn. Curved 28-storey bronze-glass tower on the Peninsula waterfront. Info card with 3 Wikimedia Commons photos, description, facts about Tree of Prosperity and Encore expansion. Enter Casino button for baccarat. Sky beam, searchlight, obstacle light (neon glow and water reflection pre-existing). Added to Casinos in Explore panel and baccarat ticker (Session 132)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 

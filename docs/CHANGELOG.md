@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 132 — 2026-03-25 (Automated Agent)
+- Wynn Macau: 18th landmark — the first Las Vegas-style casino in Macau (2006)
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Enter Casino button for baccarat play
+- Night effects: sky beam, searchlight, obstacle light (neon glow and water reflection pre-existing)
+- Added to Explore panel casinos section and baccarat ticker
+- Feature tip for discoverability
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 131 — 2026-03-25 (Automated Agent)
 - The Parisian Macao: 17th landmark with half-scale Eiffel Tower replica (162m)
 - Full info card with 3 Wikimedia Commons photos, description, and facts
