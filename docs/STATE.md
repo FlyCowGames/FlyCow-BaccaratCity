@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-25 (Session 156)
+## Last Updated: 2026-03-25 (Session 157)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -172,6 +172,7 @@
 - **Golden hour & cinematic color grading** — Full-screen CSS overlay applies time-of-day color grading across 8 phases: dawn pink/amber (4-7), morning fade (7-9), clear midday (9-15), afternoon warm (15-17), golden hour amber (17-18:30), dusk purple (18:30-20), twilight blue (20-21), night deep blue (21-4). Smooth 4-second transitions, updates every 5 seconds, responds to time slider preview.
 - **City Pulse live activity indicator** — Compact expandable overlay in bottom-right showing which of 11 time-gated features are currently active (green dot = ON) or inactive (shows time range). Click any feature to fly camera to its location. "Next up" preview shows upcoming feature with countdown. Responds to time slider changes in real-time. Toggle shows animated pulse dot and active count. Mobile-responsive with 44px touch targets (Session 155)
 - **Landmark Discovery Progress Tracker** — Gamification system tracking which of 30 landmarks the user has visited (clicked). Progress bar and counter (X/30) in Explore panel, gold checkmarks on discovered landmarks, toast notification on new discoveries, completion celebration. Persists via localStorage between visits. Hooks into showLandmarkCard() — any landmark info card opening counts as discovery (Session 156)
+- **Wet neon road reflections** — When it rains at night, animated neon-colored light streaks shimmer at the bottom 30% of the viewport, simulating wet pavement reflecting casino lights. 12 casino-matched neon colors (gold/Grand Lisboa, magenta/Studio City, cyan/City of Dreams, emerald/MGM, purple/Galaxy, red/Wynn, etc.) with base wet sheen layer. Intensity scales with rain level (8/11/16 streaks for light/moderate/heavy). Active when night (glow intensity > 0.1) AND raining (weather API or typhoon demo). Gradient mask fade, staggered shimmer animation, prefers-reduced-motion respected (Session 157)
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

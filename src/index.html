@@ -620,6 +620,42 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .rain-splash { animation-duration: 0.01ms !important; }
+    .neon-streak { animation-duration: 0.01ms !important; }
+    #neon-reflections { transition-duration: 0.01ms !important; }
+  }
+
+  /* Wet neon road reflections — visible during rainy nights */
+  #neon-reflections {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 30%;
+    pointer-events: none; z-index: 52;
+    opacity: 0; transition: opacity 3s ease;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+  }
+  #neon-reflections.active { opacity: 1; }
+  #neon-reflections .neon-sheen {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(20,15,40,0.35), rgba(10,8,20,0.15), transparent);
+    animation: sheenPulse 4s ease-in-out infinite alternate;
+  }
+  @keyframes sheenPulse {
+    0% { opacity: 0.6; }
+    100% { opacity: 0.9; }
+  }
+  .neon-streak {
+    position: absolute;
+    bottom: 0;
+    width: var(--streak-w, 80px);
+    height: 100%;
+    filter: blur(var(--streak-blur, 18px));
+    animation: neonShimmer var(--shimmer-dur, 3s) ease-in-out infinite alternate;
+    animation-delay: var(--shimmer-delay, 0s);
+  }
+  @keyframes neonShimmer {
+    0% { opacity: var(--streak-min, 0.2); transform: scaleX(0.85); }
+    50% { opacity: var(--streak-max, 0.5); transform: scaleX(1.15); }
+    100% { opacity: var(--streak-min, 0.2); transform: scaleX(0.9); }
   }
 
   /* Replay button */
@@ -2305,6 +2341,7 @@
 <div id="harbor-mist"></div>
 <div id="rain-overlay"></div>
 <div id="rain-splash-layer"></div>
+<div id="neon-reflections"></div>
 <canvas id="shootingstar-canvas"></canvas>
 <canvas id="wind-canvas"></canvas>
 <div id="lightning-flash"></div>
@@ -13975,6 +14012,100 @@ function addSkyCabs(viewer) {
   setTimeout(updateRainbow, 4000);
 })();
 
+// ── Wet Neon Road Reflections ──
+// Simulates wet pavement reflecting casino neon lights during rainy nights
+(function() {
+  var container = document.getElementById('neon-reflections');
+  if (!container) return;
+  var _active = false;
+  var _currentIntensity = '';
+
+  var NEON_COLORS = [
+    'rgba(212,175,55,0.4)',   // gold (Grand Lisboa)
+    'rgba(255,51,153,0.35)',  // magenta (Studio City)
+    'rgba(0,204,255,0.3)',    // cyan (City of Dreams)
+    'rgba(0,204,136,0.3)',    // emerald (MGM)
+    'rgba(255,221,170,0.25)', // warm white (Venetian)
+    'rgba(153,68,255,0.3)',   // purple (Galaxy)
+    'rgba(255,68,68,0.3)',    // red (Wynn)
+    'rgba(170,221,255,0.25)', // blue-white (Sands)
+    'rgba(255,170,0,0.3)',    // amber (Parisian)
+    'rgba(212,175,55,0.3)',   // gold dim
+    'rgba(0,204,255,0.25)',   // cyan dim
+    'rgba(255,51,153,0.3)',   // magenta dim
+    'rgba(0,204,136,0.25)',   // emerald dim
+    'rgba(153,68,255,0.25)',  // purple dim
+  ];
+
+  function createStreaks(intensity) {
+    container.innerHTML = '';
+    // Base wet sheen layer
+    var sheen = document.createElement('div');
+    sheen.className = 'neon-sheen';
+    container.appendChild(sheen);
+    // Neon streaks
+    var count = intensity === 'heavy' ? 16 : intensity === 'moderate' ? 11 : 8;
+    for (var i = 0; i < count; i++) {
+      var streak = document.createElement('div');
+      streak.className = 'neon-streak';
+      var color = NEON_COLORS[i % NEON_COLORS.length];
+      var w = 60 + Math.random() * 120;
+      var x = Math.random() * 100;
+      var blur = 12 + Math.random() * 20;
+      var dur = 2 + Math.random() * 3;
+      var delay = Math.random() * 3;
+      var minOp = 0.2 + Math.random() * 0.15;
+      var maxOp = 0.4 + Math.random() * 0.2;
+      streak.style.cssText =
+        '--streak-w:' + w + 'px;' +
+        '--streak-blur:' + blur + 'px;' +
+        '--shimmer-dur:' + dur + 's;' +
+        '--shimmer-delay:' + delay + 's;' +
+        '--streak-min:' + minOp + ';' +
+        '--streak-max:' + maxOp + ';' +
+        'left:' + x + '%;' +
+        'background:linear-gradient(to top, ' + color + ', transparent);';
+      container.appendChild(streak);
+    }
+    _currentIntensity = intensity;
+  }
+
+  function update() {
+    var isNight = _currentGlowIntensity > 0.1;
+    var isRaining = false;
+    var rainIntensity = 'light';
+
+    if (_typhoonSimActive) {
+      isRaining = true;
+      rainIntensity = _typhoonSignalLevel >= 8 ? 'heavy' : 'moderate';
+    } else if (currentWeather && isRainyCode(currentWeather.weather_code)) {
+      isRaining = true;
+      rainIntensity = isHeavyRain(currentWeather.weather_code) ? 'heavy' :
+        currentWeather.weather_code >= 61 ? 'moderate' : 'light';
+    }
+
+    if (isNight && isRaining) {
+      if (!_active || _currentIntensity !== rainIntensity) {
+        _active = true;
+        createStreaks(rainIntensity);
+        container.classList.add('active');
+      }
+    } else {
+      if (_active) {
+        _active = false;
+        _currentIntensity = '';
+        container.classList.remove('active');
+        setTimeout(function() {
+          if (!_active) container.innerHTML = '';
+        }, 3500);
+      }
+    }
+  }
+
+  setInterval(update, 5000);
+  setTimeout(update, 6000);
+})();
+
 // ── Morning Harbor Mist ──
 // Low-lying mist over the harbour during early morning hours (5:00-8:30 AM)
 (function() {
@@ -14112,6 +14243,7 @@ function addSkyCabs(viewer) {
     { icon: '\uD83E\uDDED', text: isTouch ? 'Tap the compass rose (top-left) to orient north \u2014 it rotates as you look around' : 'Click the compass rose (top-left) to snap camera to north \u2014 watch it rotate as you orbit' },
     { icon: '\u26A1', text: isTouch ? 'Tap City Pulse (bottom-right) to see what\'s happening now \u2014 features change with the time of day' : 'Click City Pulse (bottom-right) to see what\'s active now \u2014 features change with the hour, click any to fly there' },
     { icon: '\u2605', text: 'Discover all 30 landmarks \u2014 open the Explore panel to track your progress. Your discoveries save automatically!' },
+    { icon: '\uD83C\uDF03', text: 'When it rains at night, watch for neon reflections shimmering on the wet streets \u2014 casino lights glow on the pavement' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

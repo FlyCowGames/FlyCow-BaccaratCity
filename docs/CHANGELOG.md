@@ -1,5 +1,17 @@
 # Changelog
 
+## Session 157 — 2026-03-25 (Automated Agent)
+- Wet neon road reflections: when it rains at night, colored neon light streaks shimmer at the bottom of the viewport
+- Simulates wet pavement reflecting casino neon lights — the classic "cyberpunk wet city" effect
+- 12 casino-matched neon colors (gold, magenta, cyan, emerald, purple, red, amber, warm white)
+- Base wet sheen layer creates dark reflective surface, animated gradient streaks shimmer on top
+- Intensity scales with rain: 8 streaks (light), 11 (moderate), 16 (heavy rain/typhoon)
+- Active only when night (neon glow > 0.1) AND raining (weather API or typhoon demo)
+- Responds to time slider — preview by setting night + activating typhoon demo
+- Gradient mask fades naturally from bottom to top, prefers-reduced-motion respected
+- Feature tip added for discoverability
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 156 — 2026-03-25 (Automated Agent)
 - Landmark Discovery Progress Tracker: gamification system tracking which of the 30 landmarks users have visited
 - Progress bar and counter (X/30 Discovered) in Explore panel below search bar

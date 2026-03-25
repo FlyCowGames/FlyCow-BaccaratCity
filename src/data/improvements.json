@@ -1832,6 +1832,26 @@
       ],
       "linesAdded": 110,
       "agent": "automated"
+    },
+    {
+      "session": 157,
+      "date": "2026-03-25",
+      "title": "Wet Neon Road Reflections",
+      "domain": "atmosphere",
+      "summary": "When it rains at night, colored neon light streaks shimmer on the wet pavement — casino lights reflected on rain-slicked streets.",
+      "details": [
+        "CSS overlay at bottom 30% of viewport with animated neon-colored gradient streaks",
+        "Active only when night (glow intensity > 0.1) AND raining (weather API or typhoon demo)",
+        "12 casino-matched neon colors: gold, magenta, cyan, emerald, purple, red, amber, warm white",
+        "Base wet sheen layer creates dark reflective surface, neon streaks shimmer on top",
+        "Intensity scales with rain level: 8 streaks (light), 11 (moderate), 16 (heavy)",
+        "Integrates with typhoon demo — heavy rain reflections during T8+ storms",
+        "Responds to time slider — preview the effect by setting night + activating typhoon",
+        "Gradient mask fades naturally from bottom to top, prefers-reduced-motion respected",
+        "Feature tip added for discoverability"
+      ],
+      "linesAdded": 85,
+      "agent": "automated"
     }
   ]
 }
