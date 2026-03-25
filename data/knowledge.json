@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 156,
+  "last_updated_session": 157,
   "learnings": [
     {
       "type": "pattern",
@@ -217,11 +217,11 @@
       "domain": "atmosphere",
       "title": "Layered weather effects compound for immersion",
       "description": "Adding secondary effects to existing weather systems (splash ripples to rain drops, thunder to lightning, rainbow after rain) compounds the immersion without replacing the original. Each layer adds a distinct sensory channel. Key: keep secondary effects subtle — they should enhance, not compete with, the primary effect.",
-      "evidence": "Session 102: rain splash ripples added below existing rain drops. Session 98: thunder added to lightning bolts. Session 107: rainbow arc during/after rain. All integrate into the same weather/typhoon activation flow with minimal new code.",
+      "evidence": "Session 102: rain splash ripples added below existing rain drops. Session 98: thunder added to lightning bolts. Session 107: rainbow arc during/after rain. Session 157: wet neon road reflections during rainy nights. All integrate into the same weather/typhoon activation flow with minimal new code.",
       "tags": ["atmosphere", "weather", "css", "layering"],
       "weight": 0.6,
-      "times_applied": 2,
-      "times_successful": 2
+      "times_applied": 3,
+      "times_successful": 3
     },
     {
       "type": "pattern",
@@ -417,6 +417,17 @@
       "description": "Adding a progress tracker that records which landmarks a user has visited turns passive browsing into active exploration. The key ingredients are: localStorage persistence (reuse baccarat pattern), hook into existing showLandmarkCard() to register discoveries automatically, progress bar + counter in the Explore panel for ambient awareness, toast notifications for immediate feedback, and checkmarks on discovered items for persistent visual status. The gamification layer adds engagement value without any new 3D entities or features — it purely leverages existing content.",
       "evidence": "Session 156: discovery tracker with ~110 lines. localStorage Set persistence, progress bar, checkmarks, toast notifications, completion celebration. Zero JS errors, passed desktop and mobile checks. Integrates cleanly with existing showLandmarkCard() and buildAttractionItem() functions.",
       "tags": ["gamification", "localStorage", "engagement", "ux", "exploration"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "Conditional compound weather effects add cinematic depth",
+      "description": "Layering a new atmospheric effect that requires MULTIPLE conditions (night AND rain) creates rare, cinematic moments that reward exploration at the right time. The wet neon reflection effect compounds existing rain drops + splash ripples with a bottom-viewport neon glow layer. Using _currentGlowIntensity as the night gate (rather than hour check) ensures it responds correctly to the time slider. The IIFE-with-setInterval pattern (5s check cycle, 6s initial delay) matches rainbow and mist updaters. A base sheen layer under the neon streaks establishes the 'wet surface' foundation, making the colored streaks read as reflections rather than random color blobs.",
+      "evidence": "Session 157: wet neon road reflections with 12 casino-matched colors, base sheen layer, gradient mask fade. Active during rainy nights + typhoon demo. ~85 lines of CSS+JS. Zero JS errors, passed desktop and mobile checks. Effect properly activates/deactivates when conditions change.",
+      "tags": ["atmosphere", "weather", "css", "night", "compound-conditions", "cinematic"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
@@ -623,6 +634,12 @@
       "question": "How to encourage visitors to explore all 30 landmarks?",
       "chosen": "Gamification via discovery progress tracker — localStorage Set, progress bar in Explore panel, checkmarks, toast notifications, completion celebration",
       "rationale": "With 30 landmarks, most visitors will only click a few. A progress tracker turns passive browsing into active exploration by showing how many remain undiscovered. The pattern follows the proven localStorage approach from Session 152 (baccarat bankroll). Hooking into the existing showLandmarkCard() means zero new user actions needed — any existing interaction counts. The Explore panel is the natural home for the progress bar since that's where landmarks are listed.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add wet-road neon reflection effect during rainy nights?",
+      "chosen": "CSS overlay at bottom 30% with gradient mask, base dark sheen layer + animated neon-colored gradient streaks, gated by _currentGlowIntensity > 0.1 AND rain detection, IIFE with 5s setInterval",
+      "rationale": "CSS approach follows proven atmospheric effect pattern (rain splashes, harbor mist, sun rays). Using _currentGlowIntensity as night gate rather than raw hour check ensures consistency with time slider and existing neon system. Base sheen layer establishes the 'wet surface' so streaks read as reflections. IIFE self-containment matches rainbow/mist pattern. 12 casino-matched colors connect the effect to the city's actual landmarks.",
       "revisit_after_session": null
     }
   ]
