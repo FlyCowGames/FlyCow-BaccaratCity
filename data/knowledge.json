@@ -1,18 +1,18 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 146,
+  "last_updated_session": 148,
   "learnings": [
     {
       "type": "pattern",
       "domain": "interactivity",
       "title": "Enhancing existing features is high-impact with low risk",
       "description": "Rather than building an entirely new feature, enhancing the existing walk tour with auto-opening photo galleries, orbit camera, and progress bar created a much richer experience by composing existing systems (landmark cards, photo gallery, orbit camera). Building on proven patterns is fast and reliable.",
-      "evidence": "Session 76: enhanced walk tour in ~70 lines by reusing showLandmarkCard(), existing orbit pattern, and existing WALK_TOUR_STOPS data. Session 122: Studio City already had searchlight/LED/obstacle light — adding landmark data + billboard + glow + beam completed it as a full landmark with minimal new code. Session 123: Added observation deck viewpoint to existing Macau Tower landmark by reusing orbit pattern and showLandmarkCard button pattern. Session 125: Kun Iam Statue added as 15th landmark by simply adding to LANDMARKS array + ATTRACTIONS. Session 126: Golden Lotus Square added as 16th landmark with same pattern. Session 128: Grand Lisboa Sky Lounge viewpoint added by reusing exact tower/reel viewpoint pattern. Session 131: The Parisian Macao added as 17th landmark with all night-effect arrays. Session 132: Wynn Macau added as 18th landmark leveraging pre-existing neon glow and water reflection. Session 133: Sands Macao added as 19th landmark with all 5 night-effect arrays. Session 134: Monte Fort added as 20th landmark (heritage, no night-effect arrays needed). Session 135: Taipa Houses-Museum added as 21st landmark (Portuguese colonial heritage in Taipa). Session 137: Penha Church added as 22nd landmark (religious heritage on Penha Hill). Session 138: Guia Fortress added as 23rd landmark — ties existing Guia Lighthouse beam animation to a full clickable landmark. Session 139: Mandarin's House added as 24th landmark (Chinese residential heritage). Session 141: St. Dominic's Church added as 25th landmark (baroque religious heritage at Senado Square). Session 143: Lou Kau Mansion added as 26th landmark (Chinese merchant mansion heritage). Session 145: Na Tcha Temple added as 27th landmark (Chinese folk religion, behind Ruins of St. Paul's). Session 146: Sé Cathedral added as 28th landmark (mother church of Diocese of Macau) — zero JS errors every time.",
+      "evidence": "Session 76: enhanced walk tour in ~70 lines by reusing showLandmarkCard(), existing orbit pattern, and existing WALK_TOUR_STOPS data. Session 122: Studio City already had searchlight/LED/obstacle light — adding landmark data + billboard + glow + beam completed it as a full landmark with minimal new code. Session 123: Added observation deck viewpoint to existing Macau Tower landmark by reusing orbit pattern and showLandmarkCard button pattern. Session 125: Kun Iam Statue added as 15th landmark by simply adding to LANDMARKS array + ATTRACTIONS. Session 126: Golden Lotus Square added as 16th landmark with same pattern. Session 128: Grand Lisboa Sky Lounge viewpoint added by reusing exact tower/reel viewpoint pattern. Session 131: The Parisian Macao added as 17th landmark with all night-effect arrays. Session 132: Wynn Macau added as 18th landmark leveraging pre-existing neon glow and water reflection. Session 133: Sands Macao added as 19th landmark with all 5 night-effect arrays. Session 134: Monte Fort added as 20th landmark (heritage, no night-effect arrays needed). Session 135: Taipa Houses-Museum added as 21st landmark (Portuguese colonial heritage in Taipa). Session 137: Penha Church added as 22nd landmark (religious heritage on Penha Hill). Session 138: Guia Fortress added as 23rd landmark — ties existing Guia Lighthouse beam animation to a full clickable landmark. Session 139: Mandarin's House added as 24th landmark (Chinese residential heritage). Session 141: St. Dominic's Church added as 25th landmark (baroque religious heritage at Senado Square). Session 143: Lou Kau Mansion added as 26th landmark (Chinese merchant mansion heritage). Session 145: Na Tcha Temple added as 27th landmark (Chinese folk religion, behind Ruins of St. Paul's). Session 146: Sé Cathedral added as 28th landmark (mother church of Diocese of Macau). Session 148: Dom Pedro V Theatre added as 29th landmark (performing arts heritage, first Western theatre in China) — zero JS errors every time.",
       "tags": ["architecture", "composability", "feature-enhancement"],
       "weight": 0.7,
-      "times_applied": 19,
-      "times_successful": 19
+      "times_applied": 20,
+      "times_successful": 20
     },
     {
       "type": "pattern",
@@ -360,11 +360,11 @@
       "domain": "landmarks",
       "title": "Non-casino cultural landmarks diversify the landmark collection",
       "description": "Adding religious, cultural, or civic landmarks (Kun Iam Statue, Golden Lotus Square, Senado Square, A-Ma Temple) balances the casino-heavy landmark list and better represents Macau as a complete city. These landmarks follow the exact same LANDMARKS array pattern but don't need night-effect arrays (NEON_ZONES, SKY_BEAMS, etc.) — just the LANDMARKS entry and ATTRACTIONS entry are sufficient for a full experience with billboard, info card, photo gallery, and explore panel integration.",
-      "evidence": "Session 125: Kun Iam Statue added with just 2 array entries (LANDMARKS + ATTRACTIONS.landmarks) + 1 feature tip. Session 126: Golden Lotus Square added same way — 16th landmark. Session 134: Monte Fort (大炮台) added as 20th landmark — UNESCO heritage fortress next to Ruins of St. Paul's, 3 Wikimedia photos. Session 135: Taipa Houses-Museum (龍環葡韻) added as 21st landmark — 1921 Portuguese colonial houses in Taipa, adds geographic diversity. All zero JS errors, passed desktop/mobile checks.",
+      "evidence": "Session 125: Kun Iam Statue added with just 2 array entries (LANDMARKS + ATTRACTIONS.landmarks) + 1 feature tip. Session 126: Golden Lotus Square added same way — 16th landmark. Session 134: Monte Fort (大炮台) added as 20th landmark — UNESCO heritage fortress next to Ruins of St. Paul's, 3 Wikimedia photos. Session 135: Taipa Houses-Museum (龍環葡韻) added as 21st landmark — 1921 Portuguese colonial houses in Taipa, adds geographic diversity. Session 148: Dom Pedro V Theatre added as 29th landmark — performing arts heritage, first Western theatre in China (1860). All zero JS errors, passed desktop/mobile checks.",
       "tags": ["landmarks", "cultural-diversity", "data-driven", "simplicity"],
       "weight": 0.6,
-      "times_applied": 4,
-      "times_successful": 4
+      "times_applied": 5,
+      "times_successful": 5
     },
     {
       "type": "pattern",

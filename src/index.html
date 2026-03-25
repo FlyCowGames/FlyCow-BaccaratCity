@@ -759,6 +759,54 @@
     letter-spacing: 0.05em;
   }
 
+  /* Walk tour route picker */
+  #walk-route-picker {
+    position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+    z-index: 120; pointer-events: auto;
+    background: rgba(10,10,18,0.92); border: 1px solid rgba(212,175,55,0.35);
+    border-radius: 6px; padding: 12px 16px;
+    backdrop-filter: blur(12px);
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    display: flex; flex-direction: column; gap: 6px;
+    min-width: 260px;
+  }
+  #walk-route-picker.visible { opacity: 1; visibility: visible; }
+  #walk-route-picker-title {
+    font-family: 'Cinzel', serif; font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(212,175,55,0.6); text-align: center;
+    margin-bottom: 4px;
+  }
+  .walk-route-option {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; border-radius: 4px; cursor: pointer;
+    border: 1px solid rgba(212,175,55,0.15);
+    background: rgba(212,175,55,0.04);
+    transition: all 0.2s ease;
+    min-height: 44px;
+  }
+  .walk-route-option:hover {
+    background: rgba(212,175,55,0.12);
+    border-color: rgba(212,175,55,0.4);
+  }
+  .walk-route-icon {
+    font-size: 1.2rem; flex-shrink: 0; width: 28px; text-align: center;
+  }
+  .walk-route-info { flex: 1; }
+  .walk-route-name {
+    font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700;
+    color: #d4af37; letter-spacing: 0.1em;
+  }
+  .walk-route-desc {
+    font-family: 'DM Mono', monospace; font-size: 0.58rem;
+    color: rgba(255,255,255,0.45); margin-top: 2px;
+  }
+  .walk-route-stops {
+    font-family: 'DM Mono', monospace; font-size: 0.55rem;
+    color: rgba(212,175,55,0.5); flex-shrink: 0;
+  }
+
   /* Walk tour progress bar */
   #walk-tour-progress {
     position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
@@ -1762,6 +1810,16 @@
       transform: translateX(calc(-50% + 54px));
     }
 
+    /* Walk route picker mobile */
+    #walk-route-picker {
+      bottom: calc(70px + env(safe-area-inset-bottom));
+      min-width: unset; width: calc(100vw - 32px); max-width: 340px;
+      padding: 10px 12px;
+    }
+    .walk-route-option { padding: 10px 10px; min-height: 48px; }
+    .walk-route-name { font-size: 0.68rem; }
+    .walk-route-desc { font-size: 0.55rem; }
+
     /* Tour label */
     #tour-label { font-size: 0.8rem; bottom: calc(120px + env(safe-area-inset-bottom)); }
     #tour-label .tour-chinese { font-size: 0.7rem; }
@@ -2152,6 +2210,33 @@
   </div>
 
   <button id="walk-btn">&#128694; Walk Tour</button>
+  <div id="walk-route-picker">
+    <div id="walk-route-picker-title">Choose a Route</div>
+    <div class="walk-route-option" data-route="heritage">
+      <span class="walk-route-icon">&#127963;</span>
+      <div class="walk-route-info">
+        <div class="walk-route-name">Heritage Trail</div>
+        <div class="walk-route-desc">UNESCO World Heritage walking route</div>
+      </div>
+      <span class="walk-route-stops">10 stops</span>
+    </div>
+    <div class="walk-route-option" data-route="casino">
+      <span class="walk-route-icon">&#127920;</span>
+      <div class="walk-route-info">
+        <div class="walk-route-name">Casino Tour</div>
+        <div class="walk-route-desc">Peninsula to Cotai mega-resorts</div>
+      </div>
+      <span class="walk-route-stops">10 stops</span>
+    </div>
+    <div class="walk-route-option" data-route="classic">
+      <span class="walk-route-icon">&#11088;</span>
+      <div class="walk-route-info">
+        <div class="walk-route-name">Classic Tour</div>
+        <div class="walk-route-desc">Best of temples, towers &amp; casinos</div>
+      </div>
+      <span class="walk-route-stops">8 stops</span>
+    </div>
+  </div>
   <button id="replay-btn">&#9654; Replay Flythrough</button>
   <button id="tour-btn">&#9654; Tour</button>
   <button id="share-btn">&#128279; Share View</button>
@@ -2621,6 +2706,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Catedral_da_S%C3%A9_%28Macau%29.jpg/960px-Catedral_da_S%C3%A9_%28Macau%29.jpg", caption: "Sé Cathedral's neoclassical twin-tower facade" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Cathedral_of_the_Nativity_of_Our_Lady_Macau.jpg/960px-Cathedral_of_the_Nativity_of_Our_Lady_Macau.jpg", caption: "The cathedral on Largo da Sé (Cathedral Square)" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Se_Cathedral_Macau_Interior.jpg/960px-Se_Cathedral_Macau_Interior.jpg", caption: "Interior with stained glass windows" },
+    ] },
+  { name: "Dom Pedro V Theatre", chinese: "伯多祿五世劇院", emoji: "🎭",
+    lat: 22.1926, lon: 113.5375, type: "UNESCO Heritage", year: "1860",
+    desc: "The Dom Pedro V Theatre (Teatro Dom Pedro V) is a historic 300-seat playhouse at Largo de Santo Agostinho (St. Augustine's Square), built in 1860 by local Portuguese residents and named after the reigning King of Portugal. It is the first Western-style theatre in China and one of the first in East Asia, predating similar venues in Hong Kong, Shanghai, and Tokyo. The elegant neoclassical facade — painted in its distinctive mint green with white Ionic columns, pediment, and wrought-iron balconies — fronts an intimate European-style auditorium with horseshoe-shaped balcony tiers and crystal chandeliers. The theatre has hosted plays, concerts, and significant civic ceremonies for over 160 years and remains an active performance venue today. After a major renovation in 1873 and restoration in 1993, the building retains its 19th-century character while meeting modern standards. The surrounding St. Augustine's Square — one of the most atmospheric plazas in Macau — also contains St. Augustine's Church, the Sir Robert Ho Tung Library, and the Seminary of St. Joseph, forming a cluster of UNESCO World Heritage sites that exemplifies the unique Sino-Portuguese cultural fusion of Macau.",
+    facts: ["First Western-style theatre in China and among the first in East Asia — built 1860, named after King Pedro V of Portugal", "Neoclassical facade with mint-green paint, white Ionic columns, pediment, and wrought-iron balconies on Largo de Santo Agostinho", "UNESCO World Heritage Site since 2005 — part of the Historic Centre of Macau cluster at St. Augustine's Square", "300-seat intimate auditorium with horseshoe balcony tiers and crystal chandeliers — still hosts performances today after 160+ years"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Dom_Pedro_V_Theatre.jpg/960px-Dom_Pedro_V_Theatre.jpg", caption: "Dom Pedro V Theatre's neoclassical mint-green facade" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Teatro_Dom_Pedro_V_Interior.jpg/960px-Teatro_Dom_Pedro_V_Interior.jpg", caption: "The intimate 300-seat auditorium with horseshoe balcony" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Largo_de_Santo_Agostinho_Macau.jpg/960px-Largo_de_Santo_Agostinho_Macau.jpg", caption: "St. Augustine's Square with the theatre and surrounding heritage buildings" },
     ] },
 ];
 
@@ -4624,19 +4718,52 @@ var _walkTourTimeout = null;
 var _walkTourIndex = -1;
 var _walkTourOrbitHandle = null;
 
-var WALK_TOUR_STOPS = [
-  { name: "A-Ma Temple", chinese: "\u5ABD\u95A3\u5EDF", lon: 113.5320, lat: 22.1862, heading: 310, pitch: 5, desc: "Macau's oldest temple, dedicated to the sea goddess Mazu" },
-  { name: "Senado Square", chinese: "\u8B70\u4E8B\u4EAD\u524D\u5730", lon: 113.5383, lat: 22.1930, heading: 25, pitch: 5, desc: "The heart of historic Macau, with its iconic wave-pattern pavement" },
-  { name: "Ruins of St. Paul's", chinese: "\u5927\u4E09\u5DF4", lon: 113.5404, lat: 22.1968, heading: 340, pitch: 15, desc: "The iconic facade of the largest Catholic church in old East Asia" },
-  { name: "Grand Lisboa", chinese: "\u65B0\u8461\u4EAC", lon: 113.5390, lat: 22.1885, heading: 30, pitch: 20, desc: "The lotus-shaped tower dominating the peninsula skyline" },
-  { name: "Macau Tower", chinese: "\u6FB3\u9580\u65C5\u904A\u5854", lon: 113.5325, lat: 22.1808, heading: 350, pitch: 25, desc: "338 metres tall with the world's highest commercial bungee jump" },
-  { name: "Galaxy Macau", chinese: "\u9280\u6CB3", lon: 113.5535, lat: 22.1480, heading: 45, pitch: 10, desc: "Home to the world's largest rooftop wave pool" },
-  { name: "The Venetian", chinese: "\u5A01\u5C3C\u65AF\u4EBA", lon: 113.5580, lat: 22.1500, heading: 30, pitch: 10, desc: "The largest casino in the world by floor area" },
-  { name: "Wynn Palace", chinese: "\u6C38\u5229\u7687\u5BAE", lon: 113.5620, lat: 22.1472, heading: 320, pitch: 10, desc: "Known for its spectacular Performance Lake fountain show" },
-];
+var WALK_TOUR_ROUTES = {
+  heritage: [
+    { name: "A-Ma Temple", chinese: "\u5ABD\u95A3\u5EDF", lon: 113.5311, lat: 22.1868, heading: 310, pitch: 5, desc: "Macau's oldest temple (1488), dedicated to the sea goddess Mazu" },
+    { name: "Mandarin's House", chinese: "\u912D\u5BB6\u5927\u5C4B", lon: 113.5333, lat: 22.1894, heading: 60, pitch: 5, desc: "Macau's largest Chinese residential compound, built c.1869" },
+    { name: "Penha Church", chinese: "\u4E3B\u6559\u5C71\u5C0F\u5802", lon: 113.5348, lat: 22.1876, heading: 30, pitch: 10, desc: "1622 hilltop chapel with panoramic views over Macau" },
+    { name: "Senado Square", chinese: "\u8B70\u4E8B\u4EAD\u524D\u5730", lon: 113.5388, lat: 22.1935, heading: 25, pitch: 5, desc: "The cultural heart of Macau with wave-pattern pavement" },
+    { name: "St. Dominic's Church", chinese: "\u73AB\u7470\u5802", lon: 113.5389, lat: 22.1942, heading: 350, pitch: 8, desc: "Stunning 1587 baroque church at the top of Senado Square" },
+    { name: "Lou Kau Mansion", chinese: "\u76e7\u5bb6\u5927\u5c4b", lon: 113.5393, lat: 22.1933, heading: 280, pitch: 5, desc: "1889 Chinese merchant mansion with carved screens and glass" },
+    { name: "S\u00e9 Cathedral", chinese: "\u4E3B\u6559\u5EA7\u5802", lon: 113.5407, lat: 22.1919, heading: 15, pitch: 8, desc: "Mother church of one of Asia's oldest Catholic dioceses (1576)" },
+    { name: "Ruins of St. Paul's", chinese: "\u5927\u4E09\u5DF4", lon: 113.5410, lat: 22.1974, heading: 340, pitch: 15, desc: "Iconic facade of the largest Catholic church in old East Asia" },
+    { name: "Na Tcha Temple", chinese: "\u54ea\u5412\u5e99", lon: 113.5413, lat: 22.1976, heading: 200, pitch: 5, desc: "Tiny 1888 folk temple behind the Ruins \u2014 Chinese-Portuguese duality" },
+    { name: "Monte Fort", chinese: "\u5927\u70AE\u53F0", lon: 113.5424, lat: 22.1971, heading: 45, pitch: 12, desc: "1626 Jesuit fortress with cannons and panoramic city views" },
+  ],
+  casino: [
+    { name: "Grand Lisboa", chinese: "\u65B0\u8461\u4EAC", lon: 113.5399, lat: 22.1893, heading: 30, pitch: 20, desc: "The lotus-shaped tower \u2014 Macau's most iconic building (258m)" },
+    { name: "Wynn Macau", chinese: "\u6C38\u5229\u6FB3\u9580", lon: 113.5413, lat: 22.1920, heading: 200, pitch: 10, desc: "First Las Vegas-style integrated resort in Macau (2006)" },
+    { name: "Sands Macao", chinese: "\u6FB3\u9580\u91D1\u6C99", lon: 113.5544, lat: 22.1917, heading: 240, pitch: 10, desc: "First Western casino in Macau \u2014 catalyst of the gaming boom" },
+    { name: "MGM Macau", chinese: "\u7F8E\u9AD8\u6885", lon: 113.5417, lat: 22.1848, heading: 150, pitch: 10, desc: "Wave-shaped golden glass facade on the waterfront" },
+    { name: "Galaxy Macau", chinese: "\u9280\u6CB3", lon: 113.5544, lat: 22.1487, heading: 45, pitch: 10, desc: "Mega-resort with the world's largest rooftop wave pool" },
+    { name: "The Venetian", chinese: "\u5A01\u5C3C\u65AF\u4EBA", lon: 113.5590, lat: 22.1494, heading: 30, pitch: 10, desc: "World's largest casino by floor area, with indoor canals" },
+    { name: "City of Dreams", chinese: "\u65B0\u6FE0\u5929\u5730", lon: 113.5586, lat: 22.1486, heading: 320, pitch: 12, desc: "Home to the Morpheus tower by Zaha Hadid" },
+    { name: "The Parisian", chinese: "\u6FB3\u9580\u5DF4\u9ECE\u4EBA", lon: 113.5570, lat: 22.1465, heading: 10, pitch: 15, desc: "Half-scale Eiffel Tower replica (162m, 6,600 lights)" },
+    { name: "Studio City", chinese: "\u65B0\u6FE0\u5F71\u532F", lon: 113.5550, lat: 22.1435, heading: 350, pitch: 12, desc: "Hollywood-themed resort with the Golden Reel Ferris wheel" },
+    { name: "Wynn Palace", chinese: "\u6C38\u5229\u7687\u5BAE", lon: 113.5630, lat: 22.1478, heading: 320, pitch: 10, desc: "Performance Lake fountain show and SkyCab cable cars" },
+  ],
+  classic: [
+    { name: "A-Ma Temple", chinese: "\u5ABD\u95A3\u5EDF", lon: 113.5311, lat: 22.1868, heading: 310, pitch: 5, desc: "Macau's oldest temple, dedicated to the sea goddess Mazu" },
+    { name: "Senado Square", chinese: "\u8B70\u4E8B\u4EAD\u524D\u5730", lon: 113.5388, lat: 22.1935, heading: 25, pitch: 5, desc: "The heart of historic Macau, with its iconic wave-pattern pavement" },
+    { name: "Ruins of St. Paul's", chinese: "\u5927\u4E09\u5DF4", lon: 113.5410, lat: 22.1974, heading: 340, pitch: 15, desc: "The iconic facade of the largest Catholic church in old East Asia" },
+    { name: "Grand Lisboa", chinese: "\u65B0\u8461\u4EAC", lon: 113.5399, lat: 22.1893, heading: 30, pitch: 20, desc: "The lotus-shaped tower dominating the peninsula skyline" },
+    { name: "Macau Tower", chinese: "\u6FB3\u9580\u65C5\u904A\u5854", lon: 113.5318, lat: 22.1801, heading: 350, pitch: 25, desc: "338 metres tall with the world's highest commercial bungee jump" },
+    { name: "Galaxy Macau", chinese: "\u9280\u6CB3", lon: 113.5544, lat: 22.1487, heading: 45, pitch: 10, desc: "Home to the world's largest rooftop wave pool" },
+    { name: "The Venetian", chinese: "\u5A01\u5C3C\u65AF\u4EBA", lon: 113.5590, lat: 22.1494, heading: 30, pitch: 10, desc: "The largest casino in the world by floor area" },
+    { name: "Wynn Palace", chinese: "\u6C38\u5229\u7687\u5BAE", lon: 113.5630, lat: 22.1478, heading: 320, pitch: 10, desc: "Known for its spectacular Performance Lake fountain show" },
+  ],
+};
+var WALK_TOUR_STOPS = WALK_TOUR_ROUTES.classic;
+var _walkTourActiveRoute = 'classic';
 
-function startWalkTour() {
+function startWalkTour(routeKey) {
   if (!_viewer) return;
+  if (routeKey && WALK_TOUR_ROUTES[routeKey]) {
+    _walkTourActiveRoute = routeKey;
+    WALK_TOUR_STOPS = WALK_TOUR_ROUTES[routeKey];
+  }
+  hideWalkRoutePicker();
   stopFlythrough();
   if (_timelapseRunning) stopTimelapse();
   _walkTourRunning = true;
@@ -4652,11 +4779,19 @@ function startWalkTour() {
   walkTourNext();
 }
 
+function showWalkRoutePicker() {
+  document.getElementById('walk-route-picker').classList.add('visible');
+}
+function hideWalkRoutePicker() {
+  document.getElementById('walk-route-picker').classList.remove('visible');
+}
+
 function stopWalkTour() {
   _walkTourRunning = false;
   if (_walkTourTimeout) { clearTimeout(_walkTourTimeout); _walkTourTimeout = null; }
   stopWalkTourOrbit();
   hideLandmarkCard();
+  hideWalkRoutePicker();
   document.getElementById('walk-btn').classList.remove('active');
   document.getElementById('walk-btn').innerHTML = '&#128694; Walk Tour';
   document.getElementById('tour-label').style.opacity = '0';
@@ -4721,7 +4856,8 @@ function walkTourNext() {
   // Update progress bar
   var pct = ((_walkTourIndex + 1) / total) * 100;
   document.getElementById('walk-tour-progress-fill').style.width = pct + '%';
-  document.getElementById('walk-tour-counter').textContent = 'STOP ' + (_walkTourIndex + 1) + ' / ' + total;
+  var routeLabel = _walkTourActiveRoute === 'heritage' ? 'HERITAGE' : _walkTourActiveRoute === 'casino' ? 'CASINO' : 'CLASSIC';
+  document.getElementById('walk-tour-counter').textContent = routeLabel + ' \u00B7 STOP ' + (_walkTourIndex + 1) + ' / ' + total;
 
   // Show label with description
   var label = document.getElementById('tour-label');
@@ -4765,7 +4901,24 @@ function walkTourNext() {
 }
 
 document.getElementById('walk-btn').addEventListener('click', function() {
-  if (_walkTourRunning) { stopWalkTour(); } else { startWalkTour(); }
+  if (_walkTourRunning) { stopWalkTour(); } else { showWalkRoutePicker(); }
+});
+
+// Route picker option clicks
+document.querySelectorAll('.walk-route-option').forEach(function(opt) {
+  opt.addEventListener('click', function() {
+    var route = this.getAttribute('data-route');
+    startWalkTour(route);
+  });
+});
+
+// Close picker on outside click
+document.addEventListener('click', function(e) {
+  var picker = document.getElementById('walk-route-picker');
+  if (!picker.classList.contains('visible')) return;
+  if (!picker.contains(e.target) && e.target.id !== 'walk-btn') {
+    hideWalkRoutePicker();
+  }
 });
 
 // ── Street-Level Exploration Mode ──
@@ -6020,6 +6173,7 @@ var ATTRACTIONS = {
     { name: "Lou Kau Mansion", chinese: "盧家大屋", icon: "🏛️", lat: 22.1933, lon: 113.5393, alt: 200, pitch: -15 },
     { name: "Na Tcha Temple", chinese: "哪吒廟", icon: "⛩️", lat: 22.1976, lon: 113.5413, alt: 200, pitch: -15 },
     { name: "Sé Cathedral", chinese: "主教座堂", icon: "⛪", lat: 22.1919, lon: 113.5407, alt: 200, pitch: -15 },
+    { name: "Dom Pedro V Theatre", chinese: "伯多祿五世劇院", icon: "🎭", lat: 22.1926, lon: 113.5375, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -6509,7 +6663,7 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
         break;
       case 'w': // Walking tour
         e.preventDefault();
-        if (_walkTourRunning) { stopWalkTour(); } else { startWalkTour(); }
+        if (_walkTourRunning) { stopWalkTour(); } else { showWalkRoutePicker(); }
         break;
       case 'g': // Street-level view
         e.preventDefault();
@@ -13305,7 +13459,7 @@ function addSkyCabs(viewer) {
     { icon: '⌨️', text: isTouch ? 'Explore panel has 30+ landmarks to visit' : 'Press ? to see all keyboard shortcuts' },
     { icon: '🏃', text: isTouch ? 'Use the joystick in street mode to walk around' : 'Use WASD keys to walk around in street mode' },
     { icon: '🌊', text: 'Try Typhoon Demo to see T8 signal storm effects' },
-    { icon: '🚶', text: isTouch ? 'Tap Walk Tour for a cinematic guided tour with photos at each landmark' : 'Press W for a cinematic walking tour — auto-opens photo galleries at each stop' },
+    { icon: '🚶', text: isTouch ? 'Tap Walk Tour to choose Heritage Trail, Casino Tour, or Classic route' : 'Press W to choose a walk tour route — Heritage Trail, Casino Tour, or Classic' },
     { icon: '🌠', text: 'Look up at night for shooting stars across the sky' },
     { icon: '📍', text: isTouch ? 'Tap any landmark for photos, videos, and history — swipe the gallery' : 'Click any landmark for photos, videos, and history — watch fountain shows, bungee jumps, and more' },
     { icon: '🔊', text: isTouch ? 'Enable sound — hear casino chimes near Cotai, temple bells near A-Ma, waves by the harbour' : 'Press M for sound — fly near casinos, temples, or harbour to hear spatial audio zones' },
@@ -13343,6 +13497,7 @@ function addSkyCabs(viewer) {
     { icon: '\uD83C\uDFDB\uFE0F', text: 'Discover Lou Kau Mansion (盧家大屋) \u2014 an 1889 merchant mansion near Senado Square, blending Cantonese and Western design, UNESCO World Heritage' },
     { icon: '\u26E9\uFE0F', text: 'Visit Na Tcha Temple (哪吒廟) \u2014 a tiny 1888 Chinese folk temple right behind the Ruins of St. Paul\'s, symbolising Macau\'s cultural duality, UNESCO World Heritage' },
     { icon: '\u26EA', text: 'Visit Sé Cathedral (主教座堂) \u2014 mother church of one of Asia\'s oldest Catholic dioceses (1576), rebuilt 1937 with twin-tower neoclassical facade, UNESCO World Heritage' },
+    { icon: '\uD83C\uDFAD', text: 'Discover Dom Pedro V Theatre (伯多祿五世劇院) \u2014 first Western-style theatre in China (1860), mint-green neoclassical gem at St. Augustine\'s Square, UNESCO World Heritage' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;
@@ -13425,7 +13580,7 @@ function addSkyCabs(viewer) {
     } else if (action === 'baccarat') {
       openBaccarat('Grand Lisboa');
     } else if (action === 'walktour') {
-      startWalkTour();
+      showWalkRoutePicker();
     }
   });
 

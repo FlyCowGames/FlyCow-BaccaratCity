@@ -1,5 +1,26 @@
 # Changelog
 
+## Session 148 — 2026-03-25 (Automated Agent)
+- Dom Pedro V Theatre (伯多祿五世劇院): 29th landmark — first Western-style theatre in China (1860)
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Facts about 1860 founding named after King Pedro V, neoclassical mint-green facade with Ionic columns, 300-seat horseshoe auditorium
+- Located at Largo de Santo Agostinho (St. Augustine's Square) — cluster of UNESCO World Heritage sites
+- Added to Landmarks section of Explore panel with Chinese/English search
+- Feature tip for discoverability
+- Performing arts heritage landmark adds new cultural dimension (now 16 heritage + 13 casino/entertainment landmarks)
+- Zero JavaScript errors, passed desktop and mobile checks
+
+## Session 147 — 2026-03-25 (Automated Agent)
+- Themed walk tour routes: Walk Tour now offers 3 selectable routes instead of 1
+- Heritage Trail (10 stops): A-Ma Temple, Mandarin's House, Penha Church, Senado Square, St. Dominic's, Lou Kau Mansion, Se Cathedral, Ruins of St. Paul's, Na Tcha Temple, Monte Fort
+- Casino Tour (10 stops): Grand Lisboa, Wynn Macau, Sands Macao, MGM Macau, Galaxy, Venetian, City of Dreams, The Parisian, Studio City, Wynn Palace
+- Classic Tour (8 stops): original mixed highlights tour preserved as default
+- Route picker overlay with gold/dark theme, mobile-responsive (340px width, 48px+ touch targets)
+- Route name shown in progress counter (e.g. "HERITAGE · STOP 3 / 10")
+- Updated feature tips and keyboard shortcut W to show route picker
+- Leverages all 28 landmarks across the themed routes
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 146 — 2026-03-25 (Automated Agent)
 - Sé Cathedral (主教座堂): 28th landmark — mother church of one of Asia's oldest Catholic dioceses (est. 1576)
 - Full info card with 3 Wikimedia Commons photos, description, and facts

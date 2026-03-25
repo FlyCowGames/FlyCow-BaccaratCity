@@ -2,12 +2,12 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-25 (Session 146)
+## Last Updated: 2026-03-25 (Session 148)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
 - Cinematic 7-stage flythrough with dramatic title cards: bird's eye > Cotai > Venetian > City of Dreams/Galaxy > Wynn Palace > Harbour > Grand Lisboa > Ruins of St. Paul's > overview. Each stage features multi-line cinematic labels with gold gradient title, Chinese subtitle, descriptive tagline, and staggered slide-up CSS animations
-- 28 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square, The Parisian, Wynn Macau, Sands Macao, Monte Fort, Taipa Houses-Museum, Penha Church, Guia Fortress, Mandarin's House, St. Dominic's Church, Lou Kau Mansion, Na Tcha Temple, Sé Cathedral
+- 29 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square, The Parisian, Wynn Macau, Sands Macao, Monte Fort, Taipa Houses-Museum, Penha Church, Guia Fortress, Mandarin's House, St. Dominic's Church, Lou Kau Mansion, Na Tcha Temple, Sé Cathedral, Dom Pedro V Theatre
 - **Macau Tower Observation Deck viewpoint**: "View from Observation Deck" button in Macau Tower info card flies camera to 240m for a slow 360-degree panoramic orbit showcasing all of Macau from the tower's perspective, with cinematic overlay showing altitude and Chinese subtitle (Session 123)
 - **Studio City Golden Reel viewpoint**: "Ride the Golden Reel" button in Studio City info card flies camera to 135m for a slow 360-degree panoramic orbit from atop the world's first figure-8 Ferris wheel, with pink/magenta cinematic overlay showing altitude and Chinese subtitle (Session 127)
 - **Grand Lisboa Sky Lounge viewpoint**: "View from Sky Lounge" button in Grand Lisboa info card flies camera to 265m for a slow 360-degree panoramic orbit from atop Macau's tallest building, with gold gradient cinematic overlay showing altitude and Chinese subtitle (Session 128)
@@ -91,6 +91,7 @@
 - **Lou Kau Mansion landmark**: Full clickable landmark for Casa de Lou Kau (盧家大屋) — an 1889 Chinese merchant mansion on Travessa da Sé near Senado Square. Built by wealthy comprador Lou Kau, the two-storey grey-brick mansion blends Cantonese residential design with Western decorative elements. Features carved wooden screens, coloured glass windows, and central courtyard. Info card with 3 Wikimedia Commons photos, UNESCO World Heritage status. Added to Landmarks in Explore panel (Session 143)
 - **Na Tcha Temple landmark**: Full clickable landmark for Templo de Na Tcha (哪吒廟) — a tiny but culturally significant 1888 Chinese folk temple directly behind the Ruins of St. Paul's. Built during a plague epidemic, dedicated to child deity Na Tcha (Nezha). One of the smallest UNESCO World Heritage Sites. Its juxtaposition with the Jesuit church ruins symbolises Macau's Chinese-Portuguese cultural coexistence. Info card with 3 Wikimedia Commons photos, Lingnan architecture details. Added to Landmarks in Explore panel (Session 145)
 - **Sé Cathedral landmark**: Full clickable landmark for the Cathedral of the Nativity of Our Lady (主教座堂) — mother church of the Roman Catholic Diocese of Macau, one of Asia's oldest dioceses (established 1576). Originally built 1622, rebuilt in reinforced concrete 1937 with austere neoclassical twin-tower facade. Info card with 3 Wikimedia Commons photos, description, facts about Cathedral Square ceremonies. UNESCO World Heritage Site. Added to Landmarks in Explore panel (Session 146)
+- **Dom Pedro V Theatre landmark**: Full clickable landmark for the Teatro Dom Pedro V (伯多祿五世劇院) — the first Western-style theatre in China and one of the first in East Asia, built 1860, named after King Pedro V of Portugal. Neoclassical mint-green facade with Ionic columns at St. Augustine's Square. Info card with 3 Wikimedia Commons photos, facts about 300-seat horseshoe auditorium, 160+ years of continuous performance. UNESCO World Heritage Site. Added to Landmarks in Explore panel (Session 148)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -99,7 +100,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~13579 lines, ~530KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~13745 lines, ~543KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 

@@ -4,7 +4,7 @@
 
 ## Patterns
 
-- **[w=0.7, applied=19/19]** Enhancing existing features is high-impact with low risk (interactivity)
+- **[w=0.7, applied=20/20]** Enhancing existing features is high-impact with low risk (interactivity)
 - **[w=0.5, applied=1/1]** Separate tick handlers for independent orbit systems (interactivity)
 - **[w=0.8, applied=8/8]** CSS particle effects are lightweight alternatives to WebGL (rendering)
 - **[w=0.8, applied=10/10]** Staggered animation delays prevent mechanical feel (animation)
@@ -36,7 +36,7 @@
 - **[w=0.6, applied=2/2]** Adding missing landmarks to LANDMARKS array fixes walk tour gaps (landmarks)
 - **[w=0.7, applied=4/4]** New landmark integrates with all existing night-effect systems automatically (landmarks)
 - **[w=0.6, applied=2/2]** Landmark-specific action buttons extend info cards into interactive experiences (interactivity)
-- **[w=0.6, applied=4/4]** Non-casino cultural landmarks diversify the landmark collection (landmarks)
+- **[w=0.6, applied=5/5]** Non-casino cultural landmarks diversify the landmark collection (landmarks)
 - **[w=0.5, applied=1/1]** Speed variation in transport entities adds visual dynamism (animation)
 - **[w=0.6, applied=1/1]** Audit sessions catch mobile UI overlap regressions that accumulate over time (interactivity)
 

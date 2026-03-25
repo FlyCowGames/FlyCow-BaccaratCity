@@ -1747,6 +1747,40 @@
       ],
       "linesAdded": 14,
       "agent": "automated"
+    },
+    {
+      "session": 147,
+      "date": "2026-03-25",
+      "title": "Themed Walk Tour Routes",
+      "domain": "interactivity",
+      "summary": "Walk Tour now offers 3 themed routes: Heritage Trail (10 UNESCO sites), Casino Tour (10 mega-resorts), and Classic Tour (8 mixed highlights).",
+      "details": [
+        "Route picker overlay with 3 themed options appears when clicking Walk Tour button",
+        "Heritage Trail: 10-stop walking route through UNESCO World Heritage sites (A-Ma Temple to Monte Fort)",
+        "Casino Tour: 10-stop route from Peninsula casinos to Cotai Strip mega-resorts",
+        "Classic Tour: original 8-stop mixed tour of temples, towers, and casinos",
+        "Route name shown in progress counter (e.g. HERITAGE · STOP 3/10)",
+        "Mobile-responsive picker with 48px+ touch targets, fits within 390px viewport",
+        "Updated feature tips and keyboard shortcut W to show route picker"
+      ],
+      "linesAdded": 75,
+      "agent": "automated"
+    },
+    {
+      "session": 148,
+      "date": "2026-03-25",
+      "title": "Dom Pedro V Theatre Landmark",
+      "domain": "landmarks",
+      "summary": "Added Dom Pedro V Theatre (伯多祿五世劇院) as 29th landmark — first Western-style theatre in China (1860), UNESCO World Heritage Site at St. Augustine's Square.",
+      "details": [
+        "29th landmark: Dom Pedro V Theatre (伯多祿五世劇院) — first Western-style theatre in China, built 1860",
+        "3 Wikimedia Commons photos: mint-green neoclassical facade, 300-seat auditorium, St. Augustine's Square",
+        "Rich info card with description, facts about 1860 founding, Ionic columns, horseshoe balcony, active venue",
+        "Added to Landmarks section of Explore panel with Chinese/English search",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 14,
+      "agent": "automated"
     }
   ]
 }
