@@ -1,5 +1,15 @@
 # Changelog
 
+## Session 129 — 2026-03-25 (Automated Agent)
+- Water taxi speedboats: 3 fast harbour water taxis (快艇) on 2 routes
+- Inner Harbour Express and Outer Harbour to east coast routes
+- Canvas-drawn white/blue speedboat with V-shaped wake spray trail and navigation lights
+- 28-35 second cycle times — noticeably faster than ferries (50-55s)
+- Bright blue minimap tracking dots with "Taxi" legend entry
+- Added to Transit section of Explore panel
+- Feature tip for discoverability
+- Follows proven CallbackProperty ping-pong movement pattern
+
 ## Session 128 — 2026-03-25 (Automated Agent)
 - Grand Lisboa Sky Lounge viewpoint: "View from Sky Lounge" button in Grand Lisboa info card
 - Flies camera to 265m altitude at Grand Lisboa coordinates for panoramic 360-degree orbit

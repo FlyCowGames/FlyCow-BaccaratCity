@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-25 (Session 128)
+## Last Updated: 2026-03-25 (Session 129)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -78,6 +78,7 @@
 - **Studio City landmark**: Full clickable landmark for Studio City (新濠影匯) — the Hollywood-themed Cotai casino with the iconic figure-8 Golden Reel Ferris wheel. Info card with 3 Wikimedia Commons photos, description, facts about Golden Reel (130m, world's first figure-8), US$3.2B investment, Phase 2 EPIC Tower. Enter Casino button for baccarat. Pink neon glow zone and sky beam (searchlight, LED facade, obstacle light pre-existing). Added to Casinos in Explore panel (Session 122)
 - **Kun Iam Statue landmark**: Full clickable landmark for Kun Iam Ecumenical Centre (觀音蓮花苑) — the 20m bronze Guanyin statue on a lotus-shaped island connected by 60m causeway to the NAPE waterfront. Info card with 3 Wikimedia Commons photos, description, facts about 50-tonne statue, Portuguese sculptor Cristina Rocha Leiria, UNESCO support. Added to Landmarks in Explore panel (Session 125)
 - **Golden Lotus Square landmark**: Full clickable landmark for Golden Lotus Square (金蓮花廣場) — the 6-metre gilded bronze Shengshi Lotus sculpture at Praça da Flor de Lodão on the Macau waterfront. Presented by China's State Council for the 1999 handover ceremony. Info card with 3 Wikimedia Commons photos, facts about 6.5-tonne sculpture, 23-stone granite base representing Peninsula/Taipa/Coloane, daily flag-raising ceremony. Added to Landmarks in Explore panel (Session 126)
+- **Water taxi speedboats**: 3 fast harbour water taxis (快艇) on 2 routes (Inner Harbour Express, Outer Harbour to east coast) with canvas-drawn white/blue speedboat, V-shaped wake spray, 28-35s cycles (much faster than ferries), bright blue minimap tracking, always active (Session 129)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -86,7 +87,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~13111 lines, ~492KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~13216 lines, ~497KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 

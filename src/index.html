@@ -3411,6 +3411,7 @@ async function init() {
     addTourBuses(viewer);
     addDinnerCruise(viewer);
     addShuttleBuses(viewer);
+    addWaterTaxis(viewer);
     initPaifangArches(viewer);
     addKites(viewer);
     updateNeonGlow(); // apply immediately
@@ -5966,6 +5967,7 @@ var ATTRACTIONS = {
     { name: "Tour Buses", chinese: "觀光巴士", icon: "🚌", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
     { name: "Dinner Cruise", chinese: "海上晚餐", icon: "🚢", lat: 22.1850, lon: 113.5450, alt: 400, pitch: -25 },
     { name: "Casino Shuttles", chinese: "發財車", icon: "🚐", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
+    { name: "Water Taxis", chinese: "快艇", icon: "🚤", lat: 22.1830, lon: 113.5430, alt: 400, pitch: -25 },
   ],
   wildlife: [
     { name: "Harbor Seagulls", chinese: "海鷗", icon: "🕊️", lat: 22.1870, lon: 113.5400, alt: 300, pitch: -20 },
@@ -11706,6 +11708,136 @@ function addShuttleBuses(viewer) {
   });
 }
 
+// ── Water Taxi Speedboats (快艇) ──
+// Fast harbour water taxis zipping between Peninsula and islands — much faster than ferries
+var WATER_TAXI_ROUTES = [
+  { // Route 1: Inner Harbour to Taipa (fast cross-harbour)
+    name: 'Inner Harbour Express',
+    points: [
+      { lon: 113.5345, lat: 22.1885 }, // Inner Harbour pier
+      { lon: 113.5380, lat: 22.1830 },
+      { lon: 113.5430, lat: 22.1760 },
+      { lon: 113.5500, lat: 22.1690 },
+      { lon: 113.5560, lat: 22.1580 }, // Taipa waterfront
+    ],
+    durationSec: 28,
+    count: 1,
+  },
+  { // Route 2: Outer Harbour to Coloane via east coast
+    name: 'Outer Harbour - Hac Sa',
+    points: [
+      { lon: 113.5555, lat: 22.1930 }, // Outer Harbour
+      { lon: 113.5590, lat: 22.1850 },
+      { lon: 113.5640, lat: 22.1720 },
+      { lon: 113.5680, lat: 22.1580 },
+      { lon: 113.5700, lat: 22.1450 }, // East coast Taipa
+    ],
+    durationSec: 35,
+    count: 2,
+  },
+];
+
+function createWaterTaxiIcon() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 28;
+  canvas.height = 28;
+  var ctx = canvas.getContext('2d');
+
+  // Wake spray — white V-shape behind the boat
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(14, 16);
+  ctx.lineTo(4, 24);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(14, 16);
+  ctx.lineTo(24, 24);
+  ctx.stroke();
+
+  // Wake foam dots
+  ctx.fillStyle = 'rgba(200, 230, 255, 0.3)';
+  ctx.beginPath(); ctx.arc(7, 22, 1.5, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(21, 22, 1.5, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(14, 24, 1.2, 0, Math.PI * 2); ctx.fill();
+
+  // Hull — sleek white speedboat shape
+  ctx.fillStyle = 'rgba(240, 245, 255, 0.95)';
+  ctx.beginPath();
+  ctx.moveTo(14, 7);   // bow (pointed front)
+  ctx.lineTo(21, 15);
+  ctx.lineTo(20, 18);
+  ctx.lineTo(8, 18);
+  ctx.lineTo(7, 15);
+  ctx.closePath();
+  ctx.fill();
+
+  // Hull stripe — blue accent
+  ctx.fillStyle = 'rgba(40, 120, 200, 0.85)';
+  ctx.fillRect(8, 16, 12, 2);
+
+  // Cabin windshield
+  ctx.fillStyle = 'rgba(160, 210, 255, 0.8)';
+  ctx.beginPath();
+  ctx.moveTo(12, 11);
+  ctx.lineTo(16, 11);
+  ctx.lineTo(15, 14);
+  ctx.lineTo(13, 14);
+  ctx.closePath();
+  ctx.fill();
+
+  // Navigation light — green starboard hint
+  ctx.fillStyle = 'rgba(80, 255, 80, 0.6)';
+  ctx.beginPath(); ctx.arc(19, 14, 1, 0, Math.PI * 2); ctx.fill();
+
+  // Glow halo for distance visibility
+  var grad = ctx.createRadialGradient(14, 14, 4, 14, 14, 14);
+  grad.addColorStop(0, 'rgba(40, 120, 200, 0.0)');
+  grad.addColorStop(0.7, 'rgba(40, 120, 200, 0.0)');
+  grad.addColorStop(1, 'rgba(40, 120, 200, 0.1)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 28, 28);
+
+  return canvas;
+}
+
+function addWaterTaxis(viewer) {
+  var taxiIcon = createWaterTaxiIcon().toDataURL();
+  var startTime = Date.now();
+
+  WATER_TAXI_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var phaseOffset = i / route.count;
+      var reverseStart = i % 2 === 1;
+
+      (function(offset, reverse) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          var rawT = ((elapsed / route.durationSec) + offset) % 2;
+          var t = rawT <= 1 ? rawT : 2 - rawT;
+          if (reverse) t = 1 - t;
+          var pos = lerpPosition(route.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 2);
+        }, false);
+
+        viewer.entities.add({
+          name: route.name + ' Water Taxi',
+          position: positionCallback,
+          billboard: {
+            image: taxiIcon,
+            verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scale: 0.9,
+            scaleByDistance: new Cesium.NearFarScalar(100, 1.4, 8000, 0.3),
+            translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 15000, 0.15),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+      })(phaseOffset, reverseStart);
+    }
+  });
+}
+
 // ── Traditional Chinese Paifang (牌坊) Gateway Arches ──
 // Ornamental gateway arches marking important entrances — iconic Macau architectural elements
 var PAIFANG_ARCHES = [
@@ -12144,6 +12276,19 @@ function drawMinimap() {
     }
   });
 
+  // Water taxis — bright blue dots (ping-pong, always active)
+  WATER_TAXI_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var offset = i / route.count;
+      var reverse = i % 2 === 1;
+      var rawT = ((elapsed / route.durationSec) + offset) % 2;
+      var t = rawT <= 1 ? rawT : 2 - rawT;
+      if (reverse) t = 1 - t;
+      var pos = lerpPosition(route.points, t);
+      drawTransportDot(pos.lon, pos.lat, 'rgba(60, 160, 255, 0.95)', 2.5);
+    }
+  });
+
   // Dinner cruise — warm gold dots (ping-pong, evening only)
   var cruiseHour = getMacauHour();
   if (cruiseHour >= 19 || cruiseHour < 23) {
@@ -12171,6 +12316,7 @@ function drawMinimap() {
     { color: 'rgba(200, 150, 60, 0.9)', label: 'Triciclo' },
     { color: 'rgba(255, 140, 0, 0.9)', label: 'Bus' },
     { color: 'rgba(180, 100, 220, 0.9)', label: 'Shuttle' },
+    { color: 'rgba(60, 160, 255, 0.95)', label: 'Taxi' },
     { color: 'rgba(255, 200, 80, 0.95)', label: 'Cruise' },
   ];
   ctx.font = '11px DM Mono, monospace';
@@ -12866,6 +13012,7 @@ function addSkyCabs(viewer) {
     { icon: '🏛', text: isTouch ? 'Open Grand Lisboa info card and tap "View from Sky Lounge" for a panoramic 360° view from 258m atop the iconic lotus tower' : 'Open Grand Lisboa and click "View from Sky Lounge" for a panoramic 360° view from 258m atop Macau\'s tallest building' },
     { icon: '🙏', text: 'Visit the Kun Iam Statue on the NAPE waterfront \u2014 a 20-metre bronze goddess of mercy on a lotus-shaped island' },
     { icon: '🌻', text: 'Visit Golden Lotus Square \u2014 the gilded bronze lotus sculpture commemorating Macau\'s 1999 handover from Portugal to China' },
+    { icon: '🚤', text: 'Watch water taxi speedboats zip across the harbour \u2014 much faster than the ferries! Track them as blue dots on the minimap' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 128,
+  "last_updated_session": 129,
   "learnings": [
     {
       "type": "pattern",
@@ -365,6 +365,17 @@
       "weight": 0.6,
       "times_applied": 2,
       "times_successful": 2
+    },
+    {
+      "type": "pattern",
+      "domain": "animation",
+      "title": "Speed variation in transport entities adds visual dynamism",
+      "description": "Adding faster transport entities (water taxis at 28-35s cycles) alongside slower ones (ferries at 50-55s, junks at 85-100s) creates visible speed contrast on the harbour. The eye is drawn to the fastest-moving objects, making the harbour feel busier and more dynamic. Using the same CallbackProperty ping-pong pattern but with shorter durationSec is all that's needed.",
+      "evidence": "Session 129: 3 water taxis on 2 routes with 28-35s cycles vs ferries at 50-55s. Same exact code pattern, just faster. Zero JS errors, passed desktop/mobile checks.",
+      "tags": ["animation", "transport", "harbour", "speed-contrast"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -536,6 +547,12 @@
       "question": "How to let visitors experience the iconic Macau Tower panoramic view?",
       "chosen": "Camera flight to 240m + slow onTick orbit with cinematic CSS overlay, triggered by landmark card button",
       "rationale": "The observation deck is Macau Tower's defining experience. Reusing the orbit pattern (separate _towerOrbitHandle like walk tour) keeps it independent from other sequences. Small orbit radius (0.0004°) keeps camera near the tower while rotating. Button in the existing landmark card is the natural discovery point. Blue accent color distinguishes from gold casino buttons. Future: could add similar viewpoints for other landmarks (e.g., Golden Reel ride at Studio City).",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add speed variety to harbour water traffic?",
+      "chosen": "Water taxi speedboats with shorter cycle times (28-35s) on 2 harbour routes, same CallbackProperty ping-pong pattern as ferries",
+      "rationale": "All existing water transport is slow (ferries 50-55s, junks 85-100s, dinner cruise 120s). Water taxis are authentic Macau harbour transport and their speed (nearly 2x ferries) creates visible contrast. Canvas wake spray trail differentiates them visually. Always-active (not time-gated) adds constant harbour dynamism. Bright blue minimap dot is distinct from cyan ferry dots.",
       "revisit_after_session": null
     }
   ]

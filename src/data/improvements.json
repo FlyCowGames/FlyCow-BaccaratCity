@@ -1514,6 +1514,23 @@
       ],
       "linesAdded": 100,
       "agent": "automated"
+    },
+    {
+      "session": 129,
+      "date": "2026-03-25",
+      "title": "Water Taxi Speedboats",
+      "domain": "animation",
+      "summary": "Added 3 fast water taxi speedboats on 2 harbour routes — much faster than ferries, with wake spray trail and minimap tracking.",
+      "details": [
+        "3 water taxis on 2 routes: Inner Harbour Express and Outer Harbour to east coast",
+        "Canvas-drawn white/blue speedboat with V-shaped wake spray and navigation lights",
+        "28-35 second cycle times (vs 50-55s ferries) — noticeably faster harbour traffic",
+        "Bright blue minimap tracking dots with 'Taxi' legend entry",
+        "Added to Transit section of Explore panel with Chinese name 快艇",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 105,
+      "agent": "automated"
     }
   ]
 }
