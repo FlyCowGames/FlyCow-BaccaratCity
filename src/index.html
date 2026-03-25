@@ -2568,6 +2568,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Penha_Hill_2.jpg/960px-Penha_Hill_2.jpg", caption: "Penha Hill with panoramic views of Macau" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/%E8%A5%BF%E6%9C%9B%E6%B4%8B%E5%B1%B1_%E4%B8%BB%E6%95%99%E5%B1%B1%E5%B0%8F%E5%A0%82.jpg/960px-%E8%A5%BF%E6%9C%9B%E6%B4%8B%E5%B1%B1_%E4%B8%BB%E6%95%99%E5%B1%B1%E5%B0%8F%E5%A0%82.jpg", caption: "The neo-classical church facade and bell tower" },
     ] },
+  { name: "Guia Fortress", chinese: "\u6771\u671B\u6D0B\u7832\u53F0", emoji: "\u26F0\uFE0F",
+    lat: 22.1967, lon: 113.5480, type: "Historic Fortress", year: "1638",
+    desc: "The Guia Fortress (Fortaleza da Guia) crowns the summit of Guia Hill, the highest point on the Macau Peninsula at 91 metres. Built in 1638 during the Ming Dynasty as a military fortress to defend against Dutch and other foreign attacks, it served as Macau\u2019s primary defensive stronghold for centuries. The fortress complex includes three UNESCO World Heritage\u2013listed structures: the fortress walls and barracks, the Guia Lighthouse (Farol da Guia) built in 1865 \u2014 the oldest lighthouse on the China coast and the first Western-style lighthouse in East Asia \u2014 and the Chapel of Our Lady of Guia (Capela de Nossa Senhora da Guia), a small baroque chapel containing rare 17th-century frescoes that blend Chinese and Western artistic motifs, discovered during restoration in 1998. The lighthouse still operates today as a navigational aid and typhoon signal station. The hilltop offers commanding 360-degree views over the entire Macau Peninsula, the harbour, and across to Taipa and Cotai.",
+    facts: ["Built in 1638 as Macau\u2019s primary military fortress atop Guia Hill (91m), the peninsula\u2019s highest point", "Home to the Guia Lighthouse (1865) \u2014 the oldest lighthouse on the China coast and first Western-style lighthouse in East Asia", "Chapel of Our Lady of Guia contains rare 17th-century frescoes blending Chinese and Western artistic motifs, rediscovered in 1998", "UNESCO World Heritage Site since 2005 \u2014 fortress, lighthouse, and chapel form one of Macau\u2019s most important heritage complexes"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Macau_-_Fortaleza_de_Guia.JPG/960px-Macau_-_Fortaleza_de_Guia.JPG", caption: "Guia Lighthouse and Chapel of Our Lady of Guia" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/d/d9/Guiafortress.jpg", caption: "Guia Fortress walls and entrance" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Guia_Fort_and_Lighthouse_%E6%9D%B1%E6%9C%9B%E6%B4%8B%E7%A0%B2%E5%8F%B0%E5%8F%8A%E7%87%88%E5%A1%94_-_panoramio.jpg", caption: "Guia Fort and Lighthouse overlooking Macau" },
+    ] },
 ];
 
 // ── Clock & Day/Night UI ──
@@ -5959,6 +5968,7 @@ var ATTRACTIONS = {
     { name: "Monte Fort", chinese: "大炮台", icon: "🏰", lat: 22.1971, lon: 113.5424, alt: 200, pitch: -15 },
     { name: "Taipa Houses-Museum", chinese: "龍環葡韻", icon: "🏠", lat: 22.1536, lon: 113.5582, alt: 200, pitch: -15 },
     { name: "Penha Church", chinese: "主教山小堂", icon: "⛪", lat: 22.1876, lon: 113.5348, alt: 200, pitch: -15 },
+    { name: "Guia Fortress", chinese: "東望洋炮台", icon: "⛰️", lat: 22.1967, lon: 113.5480, alt: 250, pitch: -20 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -13093,6 +13103,7 @@ function addSkyCabs(viewer) {
     { icon: '🏰', text: 'Visit Monte Fort (大炮台) \u2014 the 1626 Jesuit fortress with 32 cannons that repelled a Dutch invasion, now a UNESCO World Heritage Site next to the Ruins' },
     { icon: '🏠', text: 'Discover the Taipa Houses-Museum (龍環葡韻) \u2014 five pastel-green Portuguese colonial houses from 1921, one of Macau\u2019s most photographed heritage sites' },
     { icon: '\u26EA', text: 'Visit Penha Church (主教山小堂) \u2014 a 1622 hilltop chapel with panoramic views over Nam Van Lake, Macau Tower, and the Cotai skyline' },
+    { icon: '\u26F0\uFE0F', text: 'Explore Guia Fortress (東望洋炮台) \u2014 a 1638 hilltop fortress with the oldest lighthouse on the China coast and rare 17th-century frescoes' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

@@ -1,5 +1,16 @@
 # Changelog
 
+## Session 138 — 2026-03-25 (Automated Agent)
+- Guia Fortress (東望洋炮台): 23rd landmark — 1638 hilltop fortress with the oldest lighthouse on the China coast
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Facts about 1638 fortress, 1865 lighthouse (oldest on China coast), 17th-century frescoes, UNESCO World Heritage
+- Located on Guia Hill summit (91m), the highest point on the Macau Peninsula
+- Ties existing Guia Lighthouse rotating beam animation to a full clickable landmark
+- Added to Landmarks section of Explore panel with Chinese/English search
+- Feature tip for discoverability
+- Military heritage landmark completes the Guia Hill complex (now 10 heritage + 13 casino/entertainment landmarks)
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 137 — 2026-03-25 (Automated Agent)
 - Penha Church (主教山小堂): 22nd landmark — iconic 1622 hilltop chapel on Penha Hill
 - Full info card with 3 Wikimedia Commons photos, description, and facts

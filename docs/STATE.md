@@ -2,12 +2,12 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-25 (Session 137)
+## Last Updated: 2026-03-25 (Session 138)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
 - Cinematic 7-stage flythrough with dramatic title cards: bird's eye > Cotai > Venetian > City of Dreams/Galaxy > Wynn Palace > Harbour > Grand Lisboa > Ruins of St. Paul's > overview. Each stage features multi-line cinematic labels with gold gradient title, Chinese subtitle, descriptive tagline, and staggered slide-up CSS animations
-- 22 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square, The Parisian, Wynn Macau, Sands Macao, Monte Fort, Taipa Houses-Museum, Penha Church
+- 23 landmark billboards with info cards and photo galleries: Grand Lisboa, Venetian, Macau Tower, Ruins of St. Paul's, Galaxy, Wynn Palace, A-Ma Temple, City of Dreams, Senado Square, Hac Sa Beach, Coloane Village, Seac Pai Van Park, MGM Macau, Studio City, Kun Iam Statue, Golden Lotus Square, The Parisian, Wynn Macau, Sands Macao, Monte Fort, Taipa Houses-Museum, Penha Church, Guia Fortress
 - **Macau Tower Observation Deck viewpoint**: "View from Observation Deck" button in Macau Tower info card flies camera to 240m for a slow 360-degree panoramic orbit showcasing all of Macau from the tower's perspective, with cinematic overlay showing altitude and Chinese subtitle (Session 123)
 - **Studio City Golden Reel viewpoint**: "Ride the Golden Reel" button in Studio City info card flies camera to 135m for a slow 360-degree panoramic orbit from atop the world's first figure-8 Ferris wheel, with pink/magenta cinematic overlay showing altitude and Chinese subtitle (Session 127)
 - **Grand Lisboa Sky Lounge viewpoint**: "View from Sky Lounge" button in Grand Lisboa info card flies camera to 265m for a slow 360-degree panoramic orbit from atop Macau's tallest building, with gold gradient cinematic overlay showing altitude and Chinese subtitle (Session 128)
@@ -85,6 +85,7 @@
 - **Monte Fort landmark**: Full clickable landmark for Fortaleza do Monte (大炮台) — the 1626 Jesuit fortress and historical military centre of Macau atop 52-metre Mount Hill, directly east of the Ruins of St. Paul's. Info card with 3 Wikimedia Commons photos, description, facts about 32 cannons, 1622 Dutch invasion defence, and Macau Museum since 1998. UNESCO World Heritage Site. Added to Landmarks in Explore panel (Session 134)
 - **Penha Church landmark**: Full clickable landmark for the Chapel of Our Lady of Penha (主教山小堂) — a 1622 hilltop chapel on Penha Hill with panoramic views over Nam Van Lake, Macau Tower, and the Cotai skyline. Info card with 3 Wikimedia Commons photos, description, facts about Portuguese sailors' founding, 1935 neo-classical rebuild, and the adjacent Bishop's Palace. Added to Landmarks in Explore panel (Session 137)
 - **Taipa Houses-Museum landmark**: Full clickable landmark for Casas-Museu da Taipa (龍環葡韻) — five pastel-green Portuguese colonial houses on Avenida da Praia in Taipa, built in 1921 for senior Macanese officials. Info card with 3 Wikimedia Commons photos, description, facts about 5 themed houses and wedding photography. Added to Landmarks in Explore panel (Session 135)
+- **Guia Fortress landmark**: Full clickable landmark for Fortaleza da Guia (東望洋炮台) — 1638 military fortress atop Guia Hill (91m), the peninsula's highest point. Houses the Guia Lighthouse (1865, oldest on China coast) and Chapel of Our Lady of Guia with rare 17th-century frescoes. Info card with 3 Wikimedia Commons photos, UNESCO World Heritage status. Ties existing Guia Lighthouse beam animation to a full landmark. Added to Landmarks in Explore panel (Session 138)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 
@@ -93,7 +94,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~13340 lines, ~521KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~13355 lines, ~522KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 

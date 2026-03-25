@@ -1650,6 +1650,23 @@
       ],
       "linesAdded": 11,
       "agent": "automated"
+    },
+    {
+      "session": 138,
+      "date": "2026-03-25",
+      "title": "Guia Fortress Landmark",
+      "domain": "landmarks",
+      "summary": "Added Guia Fortress (東望洋炮台) as 23rd landmark — 1638 hilltop fortress with the oldest lighthouse on the China coast and rare 17th-century frescoes.",
+      "details": [
+        "23rd landmark: Guia Fortress (東望洋炮台) — 1638 military fortress atop Guia Hill",
+        "3 Wikimedia Commons photos: lighthouse and chapel, fortress walls, aerial view",
+        "Rich info card with description, facts about 1865 lighthouse, 17th-century frescoes, UNESCO status",
+        "Ties existing Guia Lighthouse beam animation to a full clickable landmark",
+        "Added to Landmarks section of Explore panel with Chinese/English search",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 12,
+      "agent": "automated"
     }
   ]
 }

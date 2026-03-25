@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-25 (Session 137)*
+*This document evolves every session. Last updated: 2026-03-25 (Session 138)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -133,3 +133,4 @@
 - Monte Fort landmark: 20th landmark — 1626 Jesuit fortress and UNESCO World Heritage Site on Mount Hill next to Ruins of St. Paul's, info card, photo gallery (Session 134)
 - Taipa Houses-Museum landmark: 21st landmark — five pastel-green 1921 Portuguese colonial houses on Avenida da Praia in Taipa, info card, photo gallery (Session 135)
 - Penha Church landmark: 22nd landmark — 1622 hilltop chapel on Penha Hill with panoramic views, info card, photo gallery (Session 137)
+- Guia Fortress landmark: 23rd landmark — 1638 hilltop fortress with oldest lighthouse on China coast, rare frescoes, UNESCO World Heritage, info card, photo gallery (Session 138)
