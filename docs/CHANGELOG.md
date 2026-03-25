@@ -1,5 +1,25 @@
 # Changelog
 
+## Session 131 — 2026-03-25 (Automated Agent)
+- The Parisian Macao: 17th landmark with half-scale Eiffel Tower replica (162m)
+- Full info card with 3 Wikimedia Commons photos, description, and facts
+- Enter Casino button for baccarat play
+- Night effects: neon glow zone (purple), sky beam, searchlight, LED facade, obstacle light
+- Added to Explore panel casinos section and baccarat ticker
+- Feature tip for discoverability
+- Zero JavaScript errors, passed desktop and mobile checks
+
+## Session 130 — 2026-03-25 (Automated Agent) — AUDIT
+- Full quality audit session (Session 130 = 10th audit)
+- Fixed mobile bottom UI overlap: 4 overlapping element pairs in the 640-780px zone
+- Repositioned feature-tips (bottom 120→210px), minimap (64→36px), clock-block (16→36px)
+- Increased ticker-label font size from 0.6rem to 0.7rem for readability
+- Reduced minimap size slightly on mobile (100x110 → 90x90) to fit tighter layout
+- All 4 overlaps eliminated, verified with bounding-box intersection testing
+- Desktop rendering verified: no regressions
+- No JavaScript errors on either viewport
+- File size: 509KB / 13,258 lines — stable
+
 ## Session 129 — 2026-03-25 (Automated Agent)
 - Water taxi speedboats: 3 fast harbour water taxis (快艇) on 2 routes
 - Inner Harbour Express and Outer Harbour to east coast routes

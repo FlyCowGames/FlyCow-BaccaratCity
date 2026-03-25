@@ -1531,6 +1531,40 @@
       ],
       "linesAdded": 105,
       "agent": "automated"
+    },
+    {
+      "session": 130,
+      "date": "2026-03-25",
+      "title": "Quality Audit: Mobile UI Overlap Fix",
+      "domain": "interactivity",
+      "summary": "Full quality audit fixed 4 overlapping UI element pairs on mobile bottom area.",
+      "details": [
+        "Audit found action-prompt, feature-tips, minimap, and clock overlapping in 640-780px zone",
+        "Repositioned feature-tips above action-prompt (bottom 120px to 210px)",
+        "Moved minimap and clock above ticker (bottom 64/16px to 36px)",
+        "Reduced minimap size on mobile (100x110 to 90x90) for tighter layout",
+        "Increased ticker-label font size from 0.6rem to 0.7rem",
+        "Verified zero overlaps with bounding-box intersection testing"
+      ],
+      "linesAdded": 0,
+      "agent": "automated"
+    },
+    {
+      "session": 131,
+      "date": "2026-03-25",
+      "title": "The Parisian Macao Landmark",
+      "domain": "landmarks",
+      "summary": "Added The Parisian Macao as 17th landmark with half-scale Eiffel Tower, full night effects, and baccarat.",
+      "details": [
+        "17th landmark: The Parisian Macao with 162m Eiffel Tower replica",
+        "3 Wikimedia Commons photos, rich info card with description and facts",
+        "Enter Casino button for baccarat at The Parisian",
+        "Night effects: neon glow, sky beam, searchlight, LED facade, obstacle light",
+        "Added to Explore panel casinos section and baccarat ticker",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 18,
+      "agent": "automated"
     }
   ]
 }

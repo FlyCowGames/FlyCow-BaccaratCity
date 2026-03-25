@@ -1716,8 +1716,8 @@
     #typhoon-sim-btn { font-size: 0.7rem; padding: 6px 10px; min-height: 44px; }
     #typhoon-banner { font-size: 0.7rem; padding: 6px 12px; }
 
-    /* Clock — readable, safe area aware */
-    #clock-block { bottom: calc(16px + env(safe-area-inset-bottom)); right: calc(12px + env(safe-area-inset-right)); }
+    /* Clock — readable, safe area aware, above ticker */
+    #clock-block { bottom: calc(36px + env(safe-area-inset-bottom)); right: calc(12px + env(safe-area-inset-right)); }
     #clock { font-size: 1.1rem; }
     #clock-label { font-size: 0.7rem; }
     #time-slider { width: 80px; height: 24px; }
@@ -1770,19 +1770,19 @@
     /* Hints — hide on mobile (not useful for touch) */
     #hints { display: none; }
 
-    /* Feature tips — readable */
+    /* Feature tips — readable, above action-prompt to avoid overlap */
     #feature-tips {
-      bottom: calc(120px + env(safe-area-inset-bottom)); font-size: 0.75rem;
+      bottom: calc(210px + env(safe-area-inset-bottom)); font-size: 0.75rem;
       padding: 8px 16px; border-radius: 16px;
       max-width: 88vw;
     }
 
-    /* Minimap — safe area aware */
+    /* Minimap — safe area aware, above ticker, below action-prompt */
     #minimap-container {
-      bottom: calc(64px + env(safe-area-inset-bottom)); left: calc(12px + env(safe-area-inset-left));
-      width: 100px; height: 110px;
+      bottom: calc(36px + env(safe-area-inset-bottom)); left: calc(12px + env(safe-area-inset-left));
+      width: 90px; height: 90px;
     }
-    #minimap-canvas { width: 92px; height: 100px; }
+    #minimap-canvas { width: 82px; height: 80px; }
     #minimap-label { font-size: 0.6rem; }
 
     /* Audio toggle — tap-friendly */
@@ -1875,7 +1875,7 @@
 
     /* Baccarat ticker — mobile */
     #bacc-ticker { height: 30px; }
-    #bacc-ticker-label { font-size: 0.6rem; padding: 0 8px; letter-spacing: 0.1em; }
+    #bacc-ticker-label { font-size: 0.7rem; padding: 0 8px; letter-spacing: 0.1em; }
     #bacc-ticker-track { font-size: 0.75rem; padding-left: 85px; }
     .ticker-item { padding: 0 14px; }
     #bacc-ticker-close { padding: 4px 12px; min-width: 44px; min-height: 30px; }
@@ -2495,6 +2495,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Studio_City_Macau_01.jpg/960px-Studio_City_Macau_01.jpg", caption: "Studio City's iconic figure-8 Golden Reel" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Studio_City_Macau_2.jpg/960px-Studio_City_Macau_2.jpg", caption: "Studio City exterior with Art Deco towers" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Studio_City_Macau_27-05-2024.jpg/960px-Studio_City_Macau_27-05-2024.jpg", caption: "Studio City and Phase 2 EPIC Tower" },
+    ] },
+  { name: "The Parisian", chinese: "\u6FB3\u9580\u5DF4\u9ECE\u4EBA", emoji: "\uD83C\uDFB0",
+    lat: 22.1465, lon: 113.5570, type: "Casino & Hotel", year: "2016",
+    desc: "The Parisian Macao brings the romance of Paris to the Cotai Strip with its stunning half-scale replica of the Eiffel Tower rising 162 metres above the resort. Developed by Sands China at a cost of US$2.7 billion, this French-themed integrated resort features 3,000 rooms, a 27,000 sq m gaming floor, and Le Jardin, a Parisian garden terrace. The illuminated Eiffel Tower, with 6,600 lights, has become one of Macau's most photographed landmarks.",
+    facts: ["Half-scale Eiffel Tower replica at 162m \u2014 one of Macau's most photographed landmarks", "US$2.7 billion investment by Sands China (Las Vegas Sands)", "6,600 lights illuminate the Eiffel Tower nightly", "3,000 hotel rooms with French-themed d\u00E9cor across two towers"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/The_Parisian_01.jpg/960px-The_Parisian_01.jpg", caption: "The Parisian Macao and its Eiffel Tower replica" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/The_Parisian_Macao_at_night.jpg/960px-The_Parisian_Macao_at_night.jpg", caption: "The Parisian illuminated at night" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/The_Parisian_Macao_tower_and_hotel.jpg/960px-The_Parisian_Macao_tower_and_hotel.jpg", caption: "Eiffel Tower and hotel towers" },
     ] },
   { name: "Kun Iam Statue", chinese: "\u89C0\u97F3\u84EE\u82B1\u82D1", emoji: "\uD83D\uDE4F",
     lat: 22.1872, lon: 113.5489, type: "Religious Monument", year: "1999",
@@ -5773,6 +5782,7 @@ var NEON_ZONES = [
   { name: 'Fisherman\'s Wharf', lon: 113.5510, lat: 22.1920, color: [200, 180, 140], intensity: 0.4 },
   // Cotai south
   { name: 'Studio City Glow',  lon: 113.5550, lat: 22.1435, color: [255, 180, 220], intensity: 0.8 },
+  { name: 'Parisian Glow',    lon: 113.5570, lat: 22.1465, color: [200, 180, 255], intensity: 0.75 },
 ];
 
 var _neonEntities = [];
@@ -5918,6 +5928,7 @@ var ATTRACTIONS = {
     { name: "City of Dreams", chinese: "新濠天地", icon: "🎰", lat: 22.1486, lon: 113.5586, alt: 300, pitch: -25 },
     { name: "MGM Macau", chinese: "美高梅", icon: "🎰", lat: 22.1848, lon: 113.5417, alt: 300, pitch: -25 },
     { name: "Studio City", chinese: "新濠影匯", icon: "🎬", lat: 22.1435, lon: 113.5550, alt: 300, pitch: -25 },
+    { name: "The Parisian", chinese: "澳門巴黎人", icon: "🗼", lat: 22.1465, lon: 113.5570, alt: 300, pitch: -25 },
   ],
   development: [
     { name: "Zone A New Town", chinese: "新城A區", icon: "🏗", lat: 22.2050, lon: 113.5485, alt: 400, pitch: -30 },
@@ -7871,6 +7882,7 @@ var SKY_BEAM_CASINOS = [
   { name: 'City of Dreams Beam', lon: 113.5586, lat: 22.1486, color: [180, 140, 255], height: 280, swaySpeed: 0.055, swayAmp: 0.00017 },
   { name: 'MGM Macau Beam',    lon: 113.5417, lat: 22.1848, color: [255, 200, 50],  height: 260, swaySpeed: 0.065, swayAmp: 0.00015 },
   { name: 'Studio City Beam', lon: 113.5550, lat: 22.1435, color: [255, 150, 200], height: 270, swaySpeed: 0.075, swayAmp: 0.00014 },
+  { name: 'Parisian Beam',   lon: 113.5570, lat: 22.1465, color: [180, 160, 255], height: 280, swaySpeed: 0.06, swayAmp: 0.00016 },
 ];
 
 var _skyBeamEntities = [];
@@ -7966,6 +7978,7 @@ var SEARCHLIGHT_CASINOS = [
   { name: 'MGM Cotai Searchlight',   lon: 113.5560, lat: 22.1462, alt: 100, color: [200, 230, 255], period: 11, phase: 5.0, sweep: 2.0 },
   { name: 'Studio City Searchlight', lon: 113.5520, lat: 22.1382, alt: 115, color: [255, 180, 220], period: 13, phase: 0.7, sweep: 2.6 },
   { name: 'MGM Macau Searchlight',  lon: 113.5417, lat: 22.1848, alt: 130, color: [255, 215, 100], period: 11.5, phase: 4.2, sweep: 2.1 },
+  { name: 'Parisian Searchlight',  lon: 113.5574, lat: 22.1468, alt: 120, color: [200, 180, 255], period: 12.5, phase: 2.0, sweep: 2.3 },
 ];
 
 var _searchlightEntities = [];
@@ -9466,6 +9479,7 @@ function addLEDFacades(viewer) {
     { name: 'City of Dreams LED', lon: 113.5582, lat: 22.1475, alt: 50, width: 70, height: 28, hue: 270 },
     { name: 'MGM Cotai LED',      lon: 113.5558, lat: 22.1460, alt: 42, width: 65, height: 25, hue: 330 },
     { name: 'Studio City LED',    lon: 113.5520, lat: 22.1435, alt: 48, width: 75, height: 30, hue: 160 },
+    { name: 'Parisian LED',      lon: 113.5570, lat: 22.1468, alt: 46, width: 70, height: 28, hue: 250 },
   ];
 
   // Create animated LED screen icon with color cycling
@@ -10713,6 +10727,7 @@ var OBSTACLE_LIGHT_BUILDINGS = [
   { name: 'City of Dreams',lon: 113.5560, lat: 22.1510, alt: 160 }, // ~155m
   { name: 'Studio City',   lon: 113.5620, lat: 22.1340, alt: 145 }, // ~140m (figure-eight)
   { name: 'MGM Macau',    lon: 113.5417, lat: 22.1848, alt: 155 }, // ~154m (35 storeys)
+  { name: 'The Parisian', lon: 113.5570, lat: 22.1465, alt: 165 }, // ~162m (Eiffel Tower replica)
 ];
 
 var _obstacleLightEntities = [];
@@ -13005,6 +13020,7 @@ function addSkyCabs(viewer) {
     { icon: '🌫️', text: 'Morning mist drifts over the harbour at dawn (5-8 AM Macau time) — thicker on humid days' },
     { icon: '🏛️', text: isTouch ? 'Tap Senado Square to see its famous wave-pattern pavement and colonial buildings — swipe through the photo gallery' : 'Press 9 to visit Senado Square — Macau\'s UNESCO heritage heart with wave-pattern cal\u00E7ada pavement' },
     { icon: '🏖️', text: isTouch ? 'Explore Coloane Island — Hac Sa Beach, the village, and giant pandas at Seac Pai Van Park' : 'Press 0 to visit Hac Sa Beach on Coloane Island — black sand, village chapel, and giant pandas' },
+    { icon: '🗼', text: isTouch ? 'Tap The Parisian to see Macau\'s half-scale Eiffel Tower \u2014 162m of Parisian romance on the Cotai Strip' : 'Visit The Parisian Macao \u2014 a half-scale Eiffel Tower replica lit by 6,600 lights on the Cotai Strip' },
     { icon: '⏩', text: isTouch ? 'Tap the 24H button by the clock to watch a full day cycle in 48 seconds — see dawn mist, tai chi, sunset, neon lights' : 'Press P to play a 24-hour time-lapse — watch dawn mist, morning tai chi, golden hour, and neon lights in 48 seconds' },
     { icon: '🦁', text: 'Visit MGM Macau — the golden wave-shaped casino with its iconic 10-metre lion statue at the entrance' },
     { icon: '🎬', text: isTouch ? 'Open Studio City info card and tap "Ride the Golden Reel" for a panoramic 360° view from 130 metres atop the figure-8 Ferris wheel' : 'Open Studio City and click "Ride the Golden Reel" for a panoramic view from 130m atop the world\'s first figure-8 Ferris wheel' },
@@ -13132,6 +13148,7 @@ function addSkyCabs(viewer) {
     { name: 'MGM Cotai', chinese: '美高梅', table: 'Table-22' },
     { name: 'Sands Cotai', chinese: '金沙', table: 'VIP-8' },
     { name: 'Studio City', chinese: '新濠影匯', table: 'Main-4' },
+    { name: 'The Parisian', chinese: '澳門巴黎人', table: 'Salon-6' },
   ];
 
   var tickerResults = [];

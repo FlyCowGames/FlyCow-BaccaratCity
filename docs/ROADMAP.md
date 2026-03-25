@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-25 (Session 129)*
+*This document evolves every session. Last updated: 2026-03-25 (Session 131)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -127,3 +127,4 @@
 - Studio City Golden Reel viewpoint: "Ride the Golden Reel" button for panoramic 360-degree orbit from 130m figure-8 Ferris wheel (Session 127)
 - Grand Lisboa Sky Lounge viewpoint: "View from Sky Lounge" button for panoramic 360-degree orbit from 258m atop Macau's tallest building (Session 128)
 - Water taxi speedboats: 3 fast harbour water taxis on 2 routes with wake spray, minimap tracking (Session 129)
+- The Parisian Macao landmark: 17th landmark with half-scale Eiffel Tower, info card, photo gallery, baccarat, full night effects (Session 131)
