@@ -4024,6 +4024,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1850, lon: 113.5400, alt: 400, pitch: -20 },
   { name: 'Eiffel Sparkle', chinese: '鐵塔燈光秀', icon: '✨', start: 19, end: 5,
     lat: 22.1465, lon: 113.5570, alt: 300, pitch: -25 },
+  { name: 'Bridge Harp', chinese: '西灣琴弦', icon: '🌉', start: 19, end: 5,
+    lat: 22.1730, lon: 113.5380, alt: 600, pitch: -35 },
 ];
 
 function isFeatureActive(f, hour) {
@@ -5089,6 +5091,7 @@ async function init() {
     addWaterShimmer(viewer);
     addCasinoReflections(viewer);
     addBridgeLights(viewer);
+    if (window._initCableStayLights) window._initCableStayLights(viewer);
     addSkyBeams(viewer);
     addSearchlights(viewer);
     addGuiaLighthouse(viewer);
@@ -7773,6 +7776,7 @@ var ATTRACTIONS = {
     { name: "Ponte de Amizade", chinese: "友誼大橋", icon: "🌉", lat: 22.1750, lon: 113.5570, alt: 600, pitch: -35 },
     { name: "Ponte de Sai Van", chinese: "西灣大橋", icon: "🌉", lat: 22.1730, lon: 113.5380, alt: 600, pitch: -35 },
     { name: "Ponte Gov. Nobre de Carvalho", chinese: "嘉樂庇總督大橋", icon: "🌉", lat: 22.1750, lon: 113.5480, alt: 600, pitch: -35 },
+    { name: "Sai Van Cable Harp", chinese: "西灣琴弦燈飾", icon: "🎵", lat: 22.1730, lon: 113.5380, alt: 600, pitch: -35 },
   ],
   transit: [
     { name: "Macau LRT", chinese: "澳門輕軌", icon: "🚈", lat: 22.1500, lon: 113.5700, alt: 400, pitch: -25 },
@@ -9522,6 +9526,128 @@ function addBridgeLights(viewer) {
     });
   });
 }
+
+// ── Sai Van Bridge Cable-Stay Harp Lights ──
+// Ponte de Sai Van (西灣大橋) is a cable-stayed bridge with A-frame towers.
+// At night, lights sweep across the cable stays in a "harp strum" effect.
+(function() {
+  var TOWERS = [
+    { lon: 113.5348, lat: 22.1790 }, // Northern tower (Peninsula side)
+    { lon: 113.5418, lat: 22.1660 }, // Southern tower (Taipa side)
+  ];
+  var CW = 64, CH = 128;
+  var NUM_CABLES = 8; // per side
+
+  function drawHarpTower(time) {
+    var c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    var ctx = c.getContext('2d');
+    var cx = CW / 2;
+    var towerTop = CH * 0.06;
+    var deckY = CH * 0.88;
+
+    // Tower pylon (A-frame shape)
+    ctx.strokeStyle = 'rgba(255, 210, 100, 0.35)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - 3, deckY + 4);
+    ctx.lineTo(cx, towerTop);
+    ctx.lineTo(cx + 3, deckY + 4);
+    ctx.stroke();
+
+    // Horizontal deck line
+    ctx.strokeStyle = 'rgba(255, 210, 100, 0.18)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(2, deckY);
+    ctx.lineTo(CW - 2, deckY);
+    ctx.stroke();
+
+    // Build cable array: left (far to near), then right (near to far)
+    var cables = [];
+    for (var i = NUM_CABLES - 1; i >= 0; i--) {
+      cables.push({ endX: cx - CW * 0.44 * ((i + 1) / NUM_CABLES) });
+    }
+    for (var i = 0; i < NUM_CABLES; i++) {
+      cables.push({ endX: cx + CW * 0.44 * ((i + 1) / NUM_CABLES) });
+    }
+
+    // Sweep: ping-pong across all cables (3s per direction)
+    var sweepPeriod = 3.0;
+    var phase = time % (sweepPeriod * 2);
+    var sweepPos = phase < sweepPeriod
+      ? phase / sweepPeriod
+      : 1 - (phase - sweepPeriod) / sweepPeriod;
+    var activeIdx = sweepPos * (cables.length - 1);
+
+    cables.forEach(function(cable, idx) {
+      var dist = Math.abs(idx - activeIdx);
+      var intensity = Math.max(0, 1 - dist / 3);
+      var alpha = 0.06 + intensity * 0.5;
+      var lw = 0.5 + intensity * 1.5;
+      var r = 255;
+      var g = Math.min(255, 210 + Math.round(45 * intensity));
+      var b = Math.min(255, 100 + Math.round(130 * intensity));
+
+      if (intensity > 0.1) {
+        ctx.shadowColor = 'rgba(' + r + ',' + g + ',' + b + ',0.8)';
+        ctx.shadowBlur = 3 + intensity * 5;
+      } else {
+        ctx.shadowBlur = 0;
+      }
+      ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha.toFixed(2) + ')';
+      ctx.lineWidth = lw;
+      ctx.beginPath();
+      ctx.moveTo(cx, towerTop + 3);
+      ctx.lineTo(cable.endX, deckY);
+      ctx.stroke();
+    });
+    ctx.shadowBlur = 0;
+
+    // Tower top beacon glow
+    var beacon = 0.5 + 0.5 * Math.sin(time * 2);
+    var tGrad = ctx.createRadialGradient(cx, towerTop, 0, cx, towerTop, 9);
+    tGrad.addColorStop(0, 'rgba(255, 220, 130, ' + (0.2 + 0.1 * beacon).toFixed(2) + ')');
+    tGrad.addColorStop(1, 'rgba(255, 220, 130, 0)');
+    ctx.fillStyle = tGrad;
+    ctx.fillRect(cx - 9, towerTop - 9, 18, 18);
+
+    return c;
+  }
+
+  function initCableStayLights(viewer) {
+    var entities = [];
+    TOWERS.forEach(function(tower) {
+      var entity = viewer.entities.add({
+        name: 'Sai Van Cable Harp',
+        position: Cesium.Cartesian3.fromDegrees(tower.lon, tower.lat, 65),
+        billboard: {
+          image: drawHarpTower(0).toDataURL(),
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          width: 50,
+          height: 100,
+          scaleByDistance: new Cesium.NearFarScalar(200, 2.0, 15000, 0.4),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 18000, 0.15),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+        show: false,
+      });
+      entities.push(entity);
+    });
+
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      entities.forEach(function(e) { e.show = shouldShow; });
+      if (!shouldShow) return;
+      var time = performance.now() / 1000;
+      var img = drawHarpTower(time).toDataURL();
+      entities.forEach(function(e) { e.billboard.image = img; });
+    }, 300);
+  }
+
+  window._initCableStayLights = initCableStayLights;
+})();
 
 // ── Wynn Palace Performance Lake Fountain Show ──
 // Choreographed fountain jets near Wynn Palace — iconic Macau attraction
@@ -16716,6 +16842,7 @@ function addSkyCabs(viewer) {
     { icon: '\uD83C\uDF19', text: 'On clear nights, watch for silver-blue moonlight shimmering on the harbor water \u2014 clouds dim the moonlight path, clear skies make it glow' },
     { icon: '\uD83C\uDF06', text: 'Watch the horizon at sunrise (5\u20137 AM) and sunset (5\u20137 PM) for vivid sky color bands \u2014 partial clouds make the colors even more dramatic' },
     { icon: '\u2728', text: 'Watch The Parisian\'s Eiffel Tower at night \u2014 6,600 golden lights sparkle in a cascade show every 15 minutes, just like the real tower in Macau' },
+    { icon: '\uD83C\uDF09', text: 'At night, watch the Ponte de Sai Van cable-stayed bridge \u2014 golden lights sweep across the cable stays in a harp-like strumming effect' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

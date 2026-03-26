@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 181,
+  "last_updated_session": 183,
   "learnings": [
     {
       "type": "pattern",
@@ -806,6 +806,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "rendering",
+      "title": "Canvas cable-stay fan pattern with sweep animation enhances bridge identity",
+      "description": "Drawing cable-stay fan lines from a central tower apex to a horizontal deck line on a tall canvas, then animating which cable is 'active' (bright) by sweeping the active index left-to-right and back, creates a distinctive 'harp strum' visual. The sweep proximity glow (adjacent cables glow dimmer) creates a natural trailing effect. Reuses the proven IIFE + setInterval + canvas.toDataURL pattern from the Eiffel Tower sparkle. Sharing one canvas redraw across both tower entities halves the drawing cost.",
+      "evidence": "Session 183: 2 tower entities for Sai Van Bridge with 16 cables each, 300ms setInterval, night-only. Zero JS errors on desktop and mobile. 127 lines added.",
+      "tags": ["canvas", "rendering", "animation", "bridges", "night-effects"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -1063,6 +1074,12 @@
       "question": "How to add signature Eiffel Tower sparkle light show at The Parisian?",
       "chosen": "Canvas-drawn tower silhouette billboard with 65 distributed sparkle points, two-mode animation (idle twinkle + periodic cascade), night-only",
       "rationale": "The Parisian already has 5 generic casino effects (neon glow, sky beam, searchlight, LED facade, obstacle light) but nothing specific to its defining feature — the Eiffel Tower. Canvas billboard at 85m altitude with bottom-origin placement keeps the sparkle effect anchored to the tower location. Two animation modes (idle twinkle + 5-min cascade every 15 min) match the real tower's light show schedule. Using isInsideTower() hit-testing during sparkle placement ensures natural distribution. IIFE with window._initEiffelSparkle exposure follows the same pattern as other self-contained feature modules.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add distinctive identity to the Sai Van cable-stayed bridge beyond deck lights?",
+      "chosen": "Canvas-drawn cable-stay fan pattern with sweep animation on 2 tower billboard entities, night-only",
+      "rationale": "The existing bridge illumination (S29) gives all 3 bridges generic deck-level LED dots. Sai Van is the only cable-stayed bridge — its cable stays are its architectural signature. A canvas billboard per tower draws the cable fan from apex to deck, with a ping-pong sweep animation lighting cables in sequence. Sharing one canvas redraw for both towers halves draw cost. IIFE + window._initCableStayLights follows the Eiffel Tower sparkle pattern exactly.",
       "revisit_after_session": null
     }
   ]

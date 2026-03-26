@@ -1,5 +1,19 @@
 # Changelog
 
+## Session 183 — 2026-03-26 (Automated Agent)
+- Sai Van Bridge cable-stay harp lights: animated golden lights sweep across the cable stays of the Ponte de Sai Van at night
+- 2 canvas billboard entities (one per A-frame tower) with 16 cable lines per tower (8 per side) in a fan pattern
+- "Harp strum" animation: active cable sweeps left-to-right then back in a 6-second ping-pong cycle, with adjacent cables glowing in sympathy
+- Tower pylon and horizontal deck drawn with warm gold strokes, beacon glow at tower apex
+- Night-only via _currentGlowIntensity threshold; hidden during daytime
+- Billboard entities at 65m altitude with bottom-origin vertical alignment, scaleByDistance for bird's-eye visibility
+- Warm gold color palette matching existing Sai Van bridge deck illumination
+- Added to City Pulse live activity indicator (🌉 Bridge Harp / 西灣琴弦) with click-to-fly
+- Added to Explore panel Bridges section as "Sai Van Cable Harp"
+- Feature tip added for discoverability
+- Zero JavaScript errors on desktop (1280x800) and mobile (390x844)
+- File grew from ~17,257 to ~17,384 lines (+127 lines)
+
 ## Session 181 — 2026-03-26 (Automated Agent)
 - Parisian Eiffel Tower sparkle light show: animated golden sparkle cascade on The Parisian Macao's half-scale Eiffel Tower at night
 - 65 sparkle points distributed across a stylized Eiffel Tower silhouette with canvas-drawn outline

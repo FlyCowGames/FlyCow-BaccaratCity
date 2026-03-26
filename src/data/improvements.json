@@ -2082,6 +2082,22 @@
       ],
       "linesAdded": 196,
       "agent": "automated"
+    },
+    {
+      "session": 183,
+      "date": "2026-03-26",
+      "title": "Sai Van Bridge Cable-Stay Harp Lights",
+      "domain": "rendering",
+      "summary": "Animated golden lights sweep across the cable stays of the Ponte de Sai Van bridge at night in a harp strum effect.",
+      "details": [
+        "2 canvas billboard entities at A-frame tower positions with 16 cable lines (8 per side) in fan pattern",
+        "Harp strum sweep animation: active cable ping-pongs left-to-right in 6s cycle with adjacent cable glow",
+        "Night-only via _currentGlowIntensity, warm gold palette matching existing Sai Van bridge deck lights",
+        "Tower pylon, deck line, and apex beacon glow drawn in warm gold",
+        "Added to City Pulse indicator, Explore panel Bridges section, and feature tips"
+      ],
+      "linesAdded": 127,
+      "agent": "automated"
     }
   ]
 }

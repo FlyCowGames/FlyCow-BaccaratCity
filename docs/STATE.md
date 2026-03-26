@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-26 (Session 181)
+## Last Updated: 2026-03-26 (Session 183)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -153,6 +153,7 @@
 - **Macau Tower SkyJump** — 2 animated bungy jumpers with multi-bounce physics (233m → 40m → bounces → winch-back)
 - **Cotai Strip LED facades** — 5 animated LED screen displays on Cotai casinos with color-cycling grid patterns, night-only
 - **Parisian Eiffel Tower sparkle** — Animated golden sparkle light show on The Parisian's half-scale Eiffel Tower (65 sparkle points, canvas-drawn silhouette, cascade show every 15 min), night-only
+- **Sai Van Bridge cable-stay harp lights** — 2 animated A-frame tower billboards on the Ponte de Sai Van with 16 golden cable lines in a fan pattern. Lights sweep left-to-right and back in a 6-second "harp strum" cycle, with adjacent cables glowing in sympathy. Tower pylon, deck line, apex beacon. Night-only, warm gold palette matching existing bridge illumination (Session 183)
 - **Harbor seagulls** — 18 animated seabirds in 4 flocks circling over coastal areas (60-100m altitude, always active)
 - **Casino rooftop searchlights** — 6 sweeping searchlight beams from casino rooftops at night with distinct colors per casino
 - **Galaxy Macau wave pool** — 7 animated wave entities on Galaxy's Grand Resort Deck rooftop with turquoise water and animated crests
