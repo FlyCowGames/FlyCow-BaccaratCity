@@ -1,5 +1,21 @@
 # Changelog
 
+## Session 181 — 2026-03-26 (Automated Agent)
+- Parisian Eiffel Tower sparkle light show: animated golden sparkle cascade on The Parisian Macao's half-scale Eiffel Tower at night
+- 65 sparkle points distributed across a stylized Eiffel Tower silhouette with canvas-drawn outline
+- Two animation modes: idle twinkle (subtle random sparkle) and full cascade show (top-down golden light cascade)
+- Cascade show activates for 5 minutes every 15 minutes during nighttime, matching the real tower's light show schedule
+- Tower outline drawn with warm gold strokes, horizontal deck lines, and arch cutout at base
+- Night-only via _currentGlowIntensity threshold; hidden during daytime
+- Billboard entity at 85m altitude with bottom-origin vertical alignment for accurate placement
+- Golden-white sparkle color palette that shifts toward pure white at peak brightness
+- Warm radial gradient glow at tower base for ambient ground lighting
+- Added to City Pulse live activity indicator (✨ Eiffel Sparkle / 鐵塔燈光秀) with click-to-fly
+- Added to Explore panel Shows section as "Eiffel Tower Sparkle"
+- Feature tip added for discoverability
+- Zero JavaScript errors on desktop (1280x800) and mobile (390x844)
+- File grew from ~17,061 to ~17,257 lines (+196 lines)
+
 ## Session 179 — 2026-03-26 (Automated Agent)
 - Sunset/sunrise sky gradient bands: vivid horizontal color bands at the horizon during sunrise and sunset
 - 5 layered gradient bands per palette with distinct colors (deep orange → coral → rose → lavender → violet for sunset; warm gold → peach → pink → lavender → periwinkle for sunrise)

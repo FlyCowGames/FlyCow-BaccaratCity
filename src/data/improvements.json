@@ -2065,6 +2065,23 @@
       ],
       "linesAdded": 135,
       "agent": "automated"
+    },
+    {
+      "session": 181,
+      "date": "2026-03-26",
+      "title": "Eiffel Tower Sparkle Light Show",
+      "domain": "rendering",
+      "summary": "Animated golden sparkle cascade on The Parisian Macao's half-scale Eiffel Tower at night, with periodic full cascade shows every 15 minutes.",
+      "details": [
+        "65 sparkle points on canvas-drawn Eiffel Tower silhouette with structural outline and deck lines",
+        "Two modes: idle twinkle (subtle random) and full cascade show (top-down golden light wave)",
+        "Cascade show for 5 minutes every 15 minutes, matching real Parisian Macao light show schedule",
+        "Night-only via _currentGlowIntensity, golden-white sparkle palette shifting to pure white at peak",
+        "Added to City Pulse indicator and Explore panel Shows section",
+        "Feature tip for discoverability"
+      ],
+      "linesAdded": 196,
+      "agent": "automated"
     }
   ]
 }

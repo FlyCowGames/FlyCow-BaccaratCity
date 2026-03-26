@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 179,
+  "last_updated_session": 181,
   "learnings": [
     {
       "type": "pattern",
@@ -113,7 +113,7 @@
       "domain": "rendering",
       "title": "Canvas text with shadowBlur creates convincing neon glow",
       "description": "Using canvas 2D context shadowBlur + shadowColor creates a convincing neon glow effect around text. Two passes (colored glow + white core) makes it look realistic. setInterval at 200ms for flicker is smooth without being expensive.",
-      "evidence": "Session 79: 8 neon signs with canvas-drawn Chinese text, colored glow halos, and flickering animation. Session 81: reused for food stall warm glow. Session 111: reused for string light bulb glow. Runs smoothly alongside 20+ other entity systems.",
+      "evidence": "Session 79: 8 neon signs with canvas-drawn Chinese text, colored glow halos, and flickering animation. Session 81: reused for food stall warm glow. Session 111: reused for string light bulb glow. Session 181: Eiffel Tower sparkle uses shadowBlur for sparkle glow points. Runs smoothly alongside 20+ other entity systems.",
       "tags": [
         "canvas",
         "rendering",
@@ -121,7 +121,7 @@
         "performance"
       ],
       "weight": 0.6,
-      "times_applied": 3,
+      "times_applied": 4,
       "times_successful": 3
     },
     {
@@ -795,6 +795,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "rendering",
+      "title": "Canvas tower silhouette with distributed sparkle points creates convincing light show",
+      "description": "Drawing a structural outline (tower/building silhouette) on canvas and distributing animated sparkle points within the shape creates a convincing light show effect. Using isInsideTower() hit-testing during sparkle placement ensures lights only appear on the structure. Two-mode animation (idle twinkle + periodic cascade) creates a realistic light show cycle. Golden-white color shift at peak brightness makes individual sparkles pop.",
+      "evidence": "Session 181: Parisian Eiffel Tower sparkle — 65 sparkle points on canvas-drawn tower outline, two animation modes, zero JS errors, visible from Cotai bird's-eye view.",
+      "tags": ["canvas", "rendering", "animation", "landmarks", "night-effects"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -1046,6 +1057,12 @@
       "question": "How to add dynamic daytime atmospheric effects tied to cloud cover?",
       "chosen": "CSS overlay with 6 radial gradient shadow patches, drift keyframe animations, cloud cover drives intensity inversely from most effects",
       "rationale": "Most daytime atmospheric effects (heat shimmer, sun rays) are dampened by clouds, creating a visual gap on cloudy days. Cloud shadows fill this gap because they require clouds to exist — more cloud cover means more shadows. The inverted modulation creates a complementary system where visual dynamism is maintained regardless of cloud level. CSS overlay follows the proven heat-shimmer/city-glow pattern exactly. z-index 40 (lowest atmospheric layer) ensures shadows render behind other effects.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add signature Eiffel Tower sparkle light show at The Parisian?",
+      "chosen": "Canvas-drawn tower silhouette billboard with 65 distributed sparkle points, two-mode animation (idle twinkle + periodic cascade), night-only",
+      "rationale": "The Parisian already has 5 generic casino effects (neon glow, sky beam, searchlight, LED facade, obstacle light) but nothing specific to its defining feature — the Eiffel Tower. Canvas billboard at 85m altitude with bottom-origin placement keeps the sparkle effect anchored to the tower location. Two animation modes (idle twinkle + 5-min cascade every 15 min) match the real tower's light show schedule. Using isInsideTower() hit-testing during sparkle placement ensures natural distribution. IIFE with window._initEiffelSparkle exposure follows the same pattern as other self-contained feature modules.",
       "revisit_after_session": null
     }
   ]
