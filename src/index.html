@@ -537,6 +537,108 @@
     letter-spacing: 0.02em;
   }
 
+  /* Wind direction compass indicator */
+  #wind-indicator {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  #wind-indicator.visible { opacity: 1; }
+  #wind-info {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+  }
+  #wind-dir-label {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: rgba(212,175,55,0.6);
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+  }
+  #wind-speed-val {
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+  }
+  #wind-speed-val .ws-unit { font-size: 0.45rem; opacity: 0.6; }
+  #wind-gust-val {
+    display: none;
+    font-size: 0.45rem;
+    color: rgba(255,140,80,0.5);
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+  }
+  #wind-dial {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,175,55,0.15);
+    background: rgba(10,10,18,0.4);
+    flex-shrink: 0;
+    transition: border-color 1s ease;
+  }
+  #wind-dial.windy { border-color: rgba(212,175,55,0.35); }
+  #wind-dial.gusty { border-color: rgba(255,140,80,0.35); }
+  #wind-needle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 14px;
+    margin-left: -1px;
+    margin-top: -14px;
+    background: linear-gradient(to top, rgba(212,175,55,0.15) 0%, #d4af37 100%);
+    transform-origin: bottom center;
+    transform: rotate(0deg);
+    transition: transform 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 2px rgba(212,175,55,0.3));
+  }
+  #wind-needle::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 5px solid #d4af37;
+  }
+  #wind-dial::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    margin: -2px 0 0 -2px;
+    border-radius: 50%;
+    background: rgba(212,175,55,0.5);
+  }
+  .wd-c {
+    position: absolute;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.3rem;
+    color: rgba(212,175,55,0.3);
+    font-weight: 300;
+    line-height: 1;
+  }
+  .wd-c.wd-n { top: 2px; left: 50%; transform: translateX(-50%); color: rgba(212,175,55,0.5); }
+  .wd-c.wd-e { right: 3px; top: 50%; transform: translateY(-50%); }
+  .wd-c.wd-s { bottom: 2px; left: 50%; transform: translateX(-50%); }
+  .wd-c.wd-w { left: 3px; top: 50%; transform: translateY(-50%); }
+  #wind-indicator.calm #wind-dial { border-color: rgba(212,175,55,0.08); }
+  #wind-indicator.calm #wind-needle { opacity: 0.3; }
+  #wind-indicator.calm #wind-dir-label { opacity: 0.5; }
+  @media (prefers-reduced-motion: reduce) {
+    #wind-needle { transition-duration: 0.01ms !important; }
+  }
+
   /* Drifting cloud wisps overlay */
   #cloud-layer {
     position: fixed; top: 0; left: 0; width: 100%; height: 60%;
@@ -2412,6 +2514,21 @@
     .fc-hour .fc-temp { font-size: 0.5rem; }
     .fc-hour .fc-rain { font-size: 0.4rem; }
 
+    /* Wind compass — compact on mobile */
+    #wind-indicator { gap: 6px; margin-top: 6px; }
+    #wind-dial { width: 32px; height: 32px; }
+    #wind-needle { height: 12px; margin-top: -12px; }
+    #wind-needle::before { border-left-width: 2.5px; border-right-width: 2.5px; border-bottom-width: 4px; top: -2px; }
+    #wind-dir-label { font-size: 0.6rem; }
+    #wind-speed-val { font-size: 0.5rem; }
+    #wind-speed-val .ws-unit { font-size: 0.4rem; }
+    #wind-gust-val { font-size: 0.4rem; }
+    .wd-c { font-size: 0.25rem; }
+    .wd-c.wd-n { top: 1px; }
+    .wd-c.wd-e { right: 2px; }
+    .wd-c.wd-s { bottom: 1px; }
+    .wd-c.wd-w { left: 2px; }
+
     /* Clock — readable, safe area aware, above ticker */
     #clock-block { bottom: calc(36px + env(safe-area-inset-bottom)); right: calc(12px + env(safe-area-inset-right)); }
     #clock { font-size: 1.1rem; }
@@ -2964,6 +3081,20 @@
     <div id="weather-temp"></div>
     <div id="weather-desc"></div>
     <div id="weather-details"></div>
+    <div id="wind-indicator">
+      <div id="wind-info">
+        <div id="wind-dir-label">--</div>
+        <div id="wind-speed-val">-- <span class="ws-unit">km/h</span></div>
+        <div id="wind-gust-val"></div>
+      </div>
+      <div id="wind-dial">
+        <span class="wd-c wd-n">N</span>
+        <span class="wd-c wd-e">E</span>
+        <span class="wd-c wd-s">S</span>
+        <span class="wd-c wd-w">W</span>
+        <div id="wind-needle"></div>
+      </div>
+    </div>
     <div id="typhoon-signal"></div>
     <button id="typhoon-sim-btn">Typhoon Demo</button>
     <div id="sky-arc-container">
@@ -4146,7 +4277,7 @@ var _forecastHourly = null;
 async function fetchWeather() {
   try {
     var url = 'https://api.open-meteo.com/v1/forecast?latitude=22.1987&longitude=113.5439'
-      + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,cloud_cover'
+      + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,cloud_cover'
       + '&hourly=temperature_2m,weather_code,precipitation_probability'
       + '&forecast_hours=12&timezone=Asia/Macau';
     var response = await fetch(url);
@@ -4174,12 +4305,61 @@ function updateWeatherUI(w) {
   document.getElementById('weather-temp').textContent = Math.round(w.temperature_2m) + '\u00B0C';
   document.getElementById('weather-desc').textContent = info.desc;
   document.getElementById('weather-details').innerHTML =
-    'Humidity ' + w.relative_humidity_2m + '% &middot; Wind ' + Math.round(w.wind_speed_10m) + ' km/h'
-    + '<br>Cloud cover ' + w.cloud_cover + '%';
+    'Humidity ' + w.relative_humidity_2m + '% &middot; Cloud ' + w.cloud_cover + '%';
   document.getElementById('weather-block').classList.add('visible');
+
+  // Update wind compass
+  updateWindCompass(w);
 
   // Check for typhoon signals
   updateTyphoonSignal(w.wind_speed_10m);
+}
+
+var _windNeedleRot = 0;
+function updateWindCompass(w) {
+  var dir = w.wind_direction_10m != null ? w.wind_direction_10m : 0;
+  var speed = Math.round(w.wind_speed_10m || 0);
+  var gusts = w.wind_gusts_10m != null ? Math.round(w.wind_gusts_10m) : null;
+
+  var indicator = document.getElementById('wind-indicator');
+  var dial = document.getElementById('wind-dial');
+
+  // Cardinal direction label
+  var cardinals = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+  var dirLabel = speed < 2 ? 'CALM' : cardinals[Math.round(dir / 45) % 8];
+
+  document.getElementById('wind-dir-label').textContent = dirLabel;
+  document.getElementById('wind-speed-val').innerHTML = speed + ' <span class="ws-unit">km/h</span>';
+
+  // Gust display (show if gusts exceed speed by 30%+)
+  var gustEl = document.getElementById('wind-gust-val');
+  if (gusts && gusts > speed * 1.3 && gusts > 10) {
+    gustEl.textContent = 'Gust ' + gusts + ' km/h';
+    gustEl.style.display = 'block';
+  } else {
+    gustEl.style.display = 'none';
+  }
+
+  // Calm / windy / gusty state
+  indicator.classList.remove('calm');
+  dial.classList.remove('windy', 'gusty');
+  if (speed < 2) {
+    indicator.classList.add('calm');
+  } else if (speed > 40 || (gusts && gusts > 60)) {
+    dial.classList.add('gusty');
+  } else if (speed > 20) {
+    dial.classList.add('windy');
+  }
+
+  // Rotate needle to show wind blow direction (FROM → TO = +180°)
+  var targetDeg = (dir + 180) % 360;
+  var diff = targetDeg - (_windNeedleRot % 360 + 360) % 360;
+  if (diff > 180) diff -= 360;
+  if (diff < -180) diff += 360;
+  _windNeedleRot += diff;
+  document.getElementById('wind-needle').style.transform = 'rotate(' + _windNeedleRot + 'deg)';
+
+  indicator.classList.add('visible');
 }
 
 function applyWeatherEffects(w) {
@@ -15910,6 +16090,7 @@ function addSkyCabs(viewer) {
     { icon: '\u{1F326}\uFE0F', text: isTouch ? 'Tap Forecast under the weather display to see the next 6 hours \u2014 temperature, conditions, and rain probability for Macau' : 'Click Forecast under the weather display to see the next 6 hours \u2014 temperature, conditions, and rain probability for Macau' },
     { icon: '\uD83D\uDD25', text: 'On hot days, look for heat shimmer wavering near the ground between 10 AM\u20143 PM Macau time \u2014 stronger when temperatures rise above 30\u00B0C' },
     { icon: '\uD83C\uDF03', text: 'At night, notice the warm amber glow at the horizon \u2014 Macau\'s casino district light pollution reflecting off the atmosphere, brighter during fog' },
+    { icon: '\uD83C\uDF2C\uFE0F', text: 'Check the wind compass in the weather display \u2014 the gold needle shows real-time Macau wind direction and speed from live weather data' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

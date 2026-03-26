@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-26 (Session 174)
+## Last Updated: 2026-03-26 (Session 175)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -14,6 +14,7 @@
 - Real-time day/night cycle driven by actual Macau time (UTC+8) via CesiumJS sun position
 - Live weather from Open-Meteo API: temperature, conditions, humidity, wind, cloud cover, plus 12-hour hourly forecast
 - **Weather forecast mini-timeline**: expandable 6-hour forecast panel below weather display showing hourly temperature, weather icons, and rain probability. Click/tap "Forecast" toggle to expand/collapse. First hour highlighted as "now" with gold accent (Session 172)
+- **Wind direction compass**: animated 38px compass dial in weather display showing real-time wind direction, speed, and gusts from live Open-Meteo API data. Gold needle points in wind blow direction with 1.8s smooth CSS rotation. Cardinal direction label (N/NE/E/SE/S/SW/W/NW), speed in km/h, gust warning when significant. Calm/windy/gusty visual states. Mobile-responsive 32px dial (Session 175)
 - Weather-reactive atmosphere: rain overlay, fog, cloud-dimmed lighting
 - **Animated ferry boats**: 5 ferries on 2 routes (Outer Harbour-Taipa, Inner Harbour-Taipa), continuously moving
 - **Animated road traffic**: 19 vehicles on 5 routes (3 bridges, Cotai Strip, peninsula road), continuously moving

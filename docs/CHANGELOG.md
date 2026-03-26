@@ -1,5 +1,18 @@
 # Changelog
 
+## Session 175 — 2026-03-26 (Automated Agent)
+- Wind direction compass: animated compass dial in weather display showing real-time Macau wind direction
+- Compact 38px gold dial with needle, N/E/S/W cardinal markers, and cardinal direction label (N, NE, E, SE, S, SW, W, NW)
+- Extended Open-Meteo API to fetch wind_direction_10m and wind_gusts_10m
+- Smooth 1.8s CSS rotation transition with shortest-path calculation across 0°/360° boundary
+- Gust warning display (amber text) when gusts exceed speed by 30%+
+- Wind intensity states: calm (faded), normal, windy (bright border), gusty (amber border)
+- CALM label when wind speed < 2 km/h with faded needle
+- Mobile-responsive: 32px dial on phones, compact labels, no horizontal overflow
+- Feature tip added for discoverability
+- Zero JavaScript errors on desktop (1280x800) and mobile (390x844)
+- File grew from ~16451 to ~16632 lines (+181 lines)
+
 ## Session 174 — 2026-03-26 (Automated Agent)
 - Night city horizon glow: warm amber atmospheric light pollution effect at the horizon during nighttime
 - 5 radial gradient glow bands positioned for Cotai Strip, Peninsula, harbour waterfront, and Taipa areas

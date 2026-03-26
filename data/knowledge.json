@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 174,
+  "last_updated_session": 175,
   "learnings": [
     {
       "type": "pattern",
@@ -751,6 +751,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "CSS compass dial with shortest-path rotation for wind direction",
+      "description": "A compact CSS compass dial (38px circle with cardinal markers and a gold needle) visualizes wind direction data from the weather API. Key: track cumulative rotation in a JS variable and calculate shortest-path delta (normalize to ±180°) before adding to avoid the needle spinning 350° when it should go 10°. CSS transition handles the smooth animation. Border color states (calm/windy/gusty) provide at-a-glance wind intensity without reading numbers.",
+      "evidence": "Session 175: wind compass dial with 1.8s cubic-bezier transition, cardinal labels, gust warnings. Extended Open-Meteo API to include wind_direction_10m and wind_gusts_10m. Zero JS errors on desktop and mobile.",
+      "tags": ["css", "atmosphere", "weather", "ui", "animation"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -990,6 +1001,12 @@
       "question": "How to add Portuguese cobblestone cal\u00e7ada pavement to heritage areas?",
       "chosen": "Canvas-drawn billboard entities at 4-6m altitude with 3 motif types (wave, fan, compass), 500ms animation interval, distance-based visibility",
       "rationale": "Follows proven azulejo tile panel pattern exactly (canvas + billboard + setInterval). Ground-level altitude (4-6m) ensures visibility during street-level exploration without cluttering bird's-eye view. Three distinct motifs prevent visual monotony while matching real Macau locations \u2014 Mar Largo waves at Senado Square, fan shells at colonial squares, compass rose at Barra (navigational heritage). Completes the Portuguese heritage trinity alongside azulejo tiles (S82) and street signs (S114).",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to visualize real-time wind direction in the weather display?",
+      "chosen": "Compact CSS compass dial (38px) with gold needle, N/E/S/W cardinal markers, direction label, speed and gust display, integrated into existing weather block",
+      "rationale": "Wind speed was already displayed as text but direction was neither fetched nor shown. A compass dial communicates direction instantly without reading numbers. CSS-only implementation (no canvas) keeps it lightweight. Placed between weather-details and typhoon-signal in the existing weather block for natural information flow. Shortest-path rotation math prevents jarring 350° spins. Visual states (calm/windy/gusty) via border-color changes give at-a-glance intensity without extra UI.",
       "revisit_after_session": null
     }
   ]
