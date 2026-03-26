@@ -34,7 +34,7 @@
 - [x] Portuguese-style decorative elements in historic district (Session 82: azulejo tile panels at 6 heritage sites)
 - [x] Portuguese bilingual street name signs (Session 114: 8 blue-and-white tile signs at famous intersections)
 - [x] Traditional Chinese paifang gateway arches (Session 118: 5 arches at Border Gate, Rua do Cunha, Barra, Three Lamps, Rua da Felicidade)
-- [ ] Portuguese-style cobblestone calçada pavement patterns
+- [x] Portuguese-style cobblestone calçada pavement patterns (Session 164: 6 heritage squares with Mar Largo wave, fan shell, compass rose motifs)
 
 ## Events
 - [x] Macau Grand Prix (November) — F3 cars on Guia Circuit (Session 21: 5 race cars on real circuit)

@@ -790,9 +790,29 @@
   }
   #share-btn.visible { opacity: 1; visibility: visible; }
 
+  /* Photo mode button */
+  #photo-btn {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(calc(-50% + 325px));
+    pointer-events: auto; cursor: pointer;
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: #d4af37; background: rgba(10,10,18,0.7);
+    border: 1px solid rgba(212,175,55,0.3);
+    padding: 10px 20px; border-radius: 2px;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    opacity: 0; visibility: hidden;
+  }
+  #photo-btn:hover {
+    background: rgba(212,175,55,0.15);
+    border-color: #d4af37;
+    box-shadow: 0 0 20px rgba(212,175,55,0.2);
+  }
+  #photo-btn.visible { opacity: 1; visibility: visible; }
+
   /* Street view button */
   #street-btn {
-    position: absolute; bottom: 28px; left: 50%; transform: translateX(calc(-50% + 325px));
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(calc(-50% + 455px));
     pointer-events: auto; cursor: pointer;
     font-family: 'Cinzel', serif; font-weight: 700;
     font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
@@ -816,6 +836,67 @@
   #street-btn.active:hover {
     background: rgba(212,175,55,0.95);
   }
+
+  /* Photo mode overlay */
+  #photo-mode {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 9000; pointer-events: none;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  #photo-mode.active { opacity: 1; visibility: visible; pointer-events: auto; }
+  #photo-bar-top, #photo-bar-bottom {
+    position: absolute; left: 0; width: 100%; height: 8%;
+    background: #000;
+  }
+  #photo-bar-top { top: 0; }
+  #photo-bar-bottom { bottom: 0; }
+  #photo-watermark {
+    position: absolute; bottom: calc(8% + 16px); left: 24px;
+    opacity: 0.6;
+  }
+  .photo-wm-title {
+    font-family: 'Cinzel', serif; font-weight: 900;
+    font-size: 1.1rem; letter-spacing: 0.35em; color: #d4af37;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  }
+  .photo-wm-sub {
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.6rem; color: rgba(212,175,55,0.7);
+    letter-spacing: 0.15em; margin-top: 4px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  }
+  #photo-hint {
+    position: absolute; top: calc(8% + 20px); left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.7rem; color: rgba(255,255,255,0.6);
+    letter-spacing: 0.15em;
+    background: rgba(0,0,0,0.5); padding: 6px 16px;
+    border-radius: 20px;
+    animation: photoHintFade 4s ease forwards;
+  }
+  @keyframes photoHintFade {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  #photo-exit-btn {
+    position: absolute; top: calc(8% + 12px); right: 16px;
+    width: 44px; height: 44px;
+    font-size: 1.4rem; color: rgba(255,255,255,0.7);
+    background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  #photo-exit-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+  #photo-flash {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #fff; opacity: 0; pointer-events: none;
+    z-index: 9500;
+    transition: opacity 0.08s ease;
+  }
+  #photo-flash.flash { opacity: 0.7; }
 
   /* Street level indicator */
   /* Virtual joystick for mobile street mode */
@@ -1299,6 +1380,84 @@
   #discovery-toast.visible {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
+  }
+
+  /* Casino jackpot celebration toast */
+  #jackpot-toast {
+    position: fixed;
+    top: 50%;
+    right: -400px;
+    transform: translateY(-50%);
+    font-family: 'DM Mono', monospace;
+    background: linear-gradient(135deg, rgba(10,10,18,0.92) 0%, rgba(30,20,8,0.92) 100%);
+    border: 1px solid rgba(212,175,55,0.5);
+    border-left: 3px solid #d4af37;
+    border-radius: 8px;
+    padding: 14px 20px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 210;
+    max-width: 320px;
+    min-width: 240px;
+    transition: right 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    opacity: 0;
+    box-shadow: 0 4px 24px rgba(212,175,55,0.15), 0 0 40px rgba(212,175,55,0.05);
+  }
+  #jackpot-toast.visible {
+    right: 24px;
+    opacity: 1;
+  }
+  #jackpot-toast:hover {
+    border-color: #d4af37;
+    box-shadow: 0 4px 32px rgba(212,175,55,0.25), 0 0 50px rgba(212,175,55,0.1);
+  }
+  .jackpot-header {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: rgba(212,175,55,0.7);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .jackpot-amount {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: 1.3rem;
+    letter-spacing: 0.05em;
+    background: linear-gradient(135deg, #d4af37, #f5e6a3, #d4af37);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: goldShimmer 3s ease-in-out infinite;
+    line-height: 1.2;
+  }
+  .jackpot-casino {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+  .jackpot-casino .casino-chinese {
+    color: rgba(212,175,55,0.5);
+    margin-left: 4px;
+    font-size: 0.65rem;
+  }
+  .jackpot-game {
+    font-size: 0.6rem;
+    color: rgba(212,175,55,0.4);
+    margin-top: 2px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .jackpot-hint {
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.2);
+    margin-top: 6px;
+    letter-spacing: 0.08em;
   }
   @keyframes eventPulse {
     0%, 100% { opacity: 0.8; }
@@ -2019,8 +2178,8 @@
     .action-prompt-btn .action-icon { font-size: 1.5rem; }
     #action-prompt-hint { font-size: 0.55rem; bottom: -20px; }
 
-    /* Bottom buttons — 3+2 grid, tap-friendly 44px minimum */
-    #replay-btn, #tour-btn, #walk-btn, #share-btn, #street-btn {
+    /* Bottom buttons — 3+3 grid, tap-friendly 44px minimum */
+    #replay-btn, #tour-btn, #walk-btn, #share-btn, #photo-btn, #street-btn {
       font-size: 0.65rem; letter-spacing: 0.1em;
       padding: 10px 12px; min-height: 44px;
     }
@@ -2038,11 +2197,15 @@
     }
     #share-btn {
       bottom: calc(66px + env(safe-area-inset-bottom));
-      transform: translateX(calc(-50% - 54px));
+      transform: translateX(calc(-50% - 80px));
+    }
+    #photo-btn {
+      bottom: calc(66px + env(safe-area-inset-bottom));
+      transform: translateX(-50%);
     }
     #street-btn {
       bottom: calc(66px + env(safe-area-inset-bottom));
-      transform: translateX(calc(-50% + 54px));
+      transform: translateX(calc(-50% + 80px));
     }
 
     /* Walk route picker mobile */
@@ -2108,6 +2271,12 @@
     .attraction-icon { font-size: 1em; width: 20px; }
     .discovery-progress { padding: 5px 12px 6px; font-size: 0.62rem; }
     #discovery-toast { bottom: calc(220px + env(safe-area-inset-bottom)); font-size: 0.72rem; padding: 8px 18px; max-width: 90vw; }
+    #jackpot-toast { max-width: 280px; min-width: 200px; padding: 12px 16px; min-height: 44px; }
+    #jackpot-toast.visible { right: calc(12px + env(safe-area-inset-right)); }
+    .jackpot-amount { font-size: 1.1rem; }
+    .jackpot-casino { font-size: 0.65rem; }
+    .jackpot-game { font-size: 0.55rem; }
+    .jackpot-hint { display: none; }
 
     /* Landmark info card — readable */
     .lm-card { width: min(340px, 92vw); max-height: 85vh; overflow-y: auto; }
@@ -2176,6 +2345,12 @@
     /* Share toast */
     #share-toast { font-size: 0.75rem; bottom: calc(130px + env(safe-area-inset-bottom)); }
 
+    /* Photo mode — mobile */
+    .photo-wm-title { font-size: 0.85rem; letter-spacing: 0.25em; }
+    .photo-wm-sub { font-size: 0.55rem; }
+    #photo-hint { font-size: 0.6rem; padding: 5px 12px; }
+    #photo-exit-btn { width: 44px; height: 44px; font-size: 1.2rem; }
+
     /* Baccarat ticker — mobile */
     #bacc-ticker { height: 30px; }
     #bacc-ticker-label { font-size: 0.7rem; padding: 0 8px; letter-spacing: 0.1em; }
@@ -2238,6 +2413,31 @@
     #event-banner-text .event-chinese { display: none; }
     #event-banner-status { font-size: 0.6rem; margin-left: 6px; padding: 2px 6px; }
     #event-banner-dismiss { margin-left: 8px; font-size: 0.9rem; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+  }
+
+  /* Cinematic letterbox bars */
+  #cinema-bar-top, #cinema-bar-bottom {
+    position: fixed; left: 0; right: 0;
+    height: 0; background: #000;
+    z-index: 250; pointer-events: none;
+    transition: height 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  #cinema-bar-top { top: 0; }
+  #cinema-bar-bottom { bottom: 0; }
+  body.cinema-mode #cinema-bar-top,
+  body.cinema-mode #cinema-bar-bottom {
+    height: clamp(40px, 8vh, 85px);
+  }
+  @media (max-width: 600px) {
+    body.cinema-mode #cinema-bar-top,
+    body.cinema-mode #cinema-bar-bottom {
+      height: clamp(24px, 5vh, 48px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #cinema-bar-top, #cinema-bar-bottom {
+      transition: height 0.01ms !important;
+    }
   }
 
   /* Vignette */
@@ -2366,6 +2566,9 @@
 </head>
 <body>
 
+<div id="cinema-bar-top"></div>
+<div id="cinema-bar-bottom"></div>
+
 <div id="loading">
   <div id="loading-title">BACCARAT CITY</div>
   <div id="loading-bar-bg"><div id="loading-bar"></div></div>
@@ -2453,6 +2656,7 @@
 
   <div id="feature-tips"></div>
   <div id="discovery-toast"></div>
+  <div id="jackpot-toast"></div>
 
   <div id="action-prompt">
     <button class="action-prompt-btn" data-action="explore"><span class="action-icon">&#127961;</span><span class="action-label">Explore</span></button>
@@ -2498,6 +2702,7 @@
   <button id="replay-btn">&#9654; Replay Flythrough</button>
   <button id="tour-btn">&#9654; Tour</button>
   <button id="share-btn">&#128279; Share View</button>
+  <button id="photo-btn">&#128247; Photo</button>
   <button id="street-btn">&#128694; Street</button>
   <div id="street-indicator"><div class="street-text">STREET LEVEL</div><div class="street-hint">WASD to walk &middot; drag to look &middot; scroll to move</div></div>
   <div id="street-joystick"><div class="joystick-base"><div class="joystick-knob"></div></div></div>
@@ -2505,6 +2710,19 @@
   <div id="walk-tour-progress"><div id="walk-tour-progress-fill"></div></div>
   <div id="walk-tour-counter"></div>
   <div id="share-toast">Link copied to clipboard</div>
+
+  <!-- Photo mode overlay -->
+  <div id="photo-mode">
+    <div id="photo-bar-top"></div>
+    <div id="photo-bar-bottom"></div>
+    <div id="photo-watermark">
+      <div class="photo-wm-title">BACCARAT CITY</div>
+      <div class="photo-wm-sub" id="photo-wm-location"></div>
+    </div>
+    <div id="photo-hint">Tap to capture · Esc to exit</div>
+    <button id="photo-exit-btn">&times;</button>
+    <div id="photo-flash"></div>
+  </div>
 
   <!-- Keyboard shortcuts help overlay -->
   <div id="help-overlay">
@@ -2540,8 +2758,11 @@
       <div class="help-row"><span class="help-key">Y</span><span class="help-desc">Toggle typhoon demo</span></div>
       <div class="help-row"><span class="help-key">C</span><span class="help-desc">Orient camera north (compass)</span></div>
       <div class="help-row"><span class="help-key">W</span><span class="help-key">A</span><span class="help-key">S</span><span class="help-key">D</span><span class="help-desc">Walk in street mode</span></div>
+      <div class="help-section">Photo Mode</div>
+      <div class="help-row"><span class="help-key">📷</span><span class="help-desc">Photo button — enter cinematic capture mode</span></div>
+      <div class="help-row"><span class="help-key">Enter</span><span class="help-desc">Capture screenshot (in photo mode)</span></div>
       <div class="help-row"><span class="help-key">?</span><span class="help-desc">Show/hide this help</span></div>
-      <div class="help-row"><span class="help-key">Esc</span><span class="help-desc">Stop sequence / close overlay</span></div>
+      <div class="help-row"><span class="help-key">Esc</span><span class="help-desc">Stop sequence / close overlay / exit photo mode</span></div>
       <div class="help-hint">mouse: drag to orbit &middot; scroll to zoom &middot; click landmarks for info</div>
     </div>
   </div>
@@ -3985,6 +4206,7 @@ async function init() {
     imageryProvider: false,
     requestRenderMode: false,
     shouldAnimate: true,
+    contextOptions: { webgl: { preserveDrawingBuffer: true } },
   });
 
   // Scene setup — no globe (3D Tiles replace it), atmosphere + sun/moon for day/night
@@ -4071,6 +4293,7 @@ async function init() {
     initNeonSigns(viewer);
     initFoodStalls(viewer);
     initAzulejoTiles(viewer);
+    initCalcadaPavement(viewer);
     initStringLights(viewer);
     initStreetSigns(viewer);
     addTriiciclos(viewer);
@@ -4111,6 +4334,7 @@ async function init() {
           document.getElementById('tour-btn').classList.add('visible');
           document.getElementById('walk-btn').classList.add('visible');
           document.getElementById('share-btn').classList.add('visible');
+          document.getElementById('photo-btn').classList.add('visible');
           document.getElementById('street-btn').classList.add('visible');
           showMinimap();
           showCompass();
@@ -4571,6 +4795,7 @@ function stopFlythrough() {
   if (_reelViewActive) stopReelView();
   if (_skyLoungeViewActive) stopSkyLoungeView();
   if (_viewer) stopOrbit(_viewer);
+  document.body.classList.remove('cinema-mode');
   // Hide stage label
   var stageLabel = document.getElementById('stage-label');
   if (stageLabel) stageLabel.classList.remove('show');
@@ -4580,10 +4805,12 @@ function _flythroughCleanup(viewer) {
   flythroughRunning = false;
   _flythroughAbort = false;
   viewer.scene.screenSpaceCameraController.enableInputs = true;
+  document.body.classList.remove('cinema-mode');
   document.getElementById('replay-btn').classList.add('visible');
   document.getElementById('tour-btn').classList.add('visible');
   document.getElementById('walk-btn').classList.add('visible');
   document.getElementById('share-btn').classList.add('visible');
+  document.getElementById('photo-btn').classList.add('visible');
   document.getElementById('street-btn').classList.add('visible');
   showMinimap();
   showCompass();
@@ -4601,10 +4828,12 @@ async function runFlythrough(viewer) {
   document.getElementById('tour-btn').classList.remove('visible');
   document.getElementById('walk-btn').classList.remove('visible');
   document.getElementById('share-btn').classList.remove('visible');
+  document.getElementById('photo-btn').classList.remove('visible');
   document.getElementById('street-btn').classList.remove('visible');
   document.getElementById('minimap-container').classList.remove('visible');
   document.getElementById('compass-container').classList.remove('visible');
   viewer.scene.screenSpaceCameraController.enableInputs = false;
+  document.body.classList.add('cinema-mode');
 
   // Stage 1: Bird's eye — slow pan across all Macau
   showStageLabel('MACAU', 6000, { chinese: '\u6FB3\u9580', tagline: 'Pearl of the Orient \u00B7 Est. 1557' });
@@ -5112,7 +5341,9 @@ function startTour() {
   document.getElementById('replay-btn').classList.remove('visible');
   document.getElementById('walk-btn').classList.remove('visible');
   document.getElementById('share-btn').classList.remove('visible');
+  document.getElementById('photo-btn').classList.remove('visible');
   document.getElementById('street-btn').classList.remove('visible');
+  document.body.classList.add('cinema-mode');
   tourNext();
 }
 
@@ -5122,10 +5353,12 @@ function stopTour() {
   document.getElementById('tour-btn').classList.remove('active');
   document.getElementById('tour-btn').innerHTML = '&#9654; Tour';
   document.getElementById('tour-label').style.opacity = '0';
+  if (!flythroughRunning && !_walkTourRunning) document.body.classList.remove('cinema-mode');
   if (!flythroughRunning) {
     document.getElementById('replay-btn').classList.add('visible');
     document.getElementById('walk-btn').classList.add('visible');
     document.getElementById('share-btn').classList.add('visible');
+    document.getElementById('photo-btn').classList.add('visible');
     document.getElementById('street-btn').classList.add('visible');
   }
 }
@@ -5250,9 +5483,11 @@ function startWalkTour(routeKey) {
   document.getElementById('replay-btn').classList.remove('visible');
   document.getElementById('tour-btn').classList.remove('visible');
   document.getElementById('share-btn').classList.remove('visible');
+  document.getElementById('photo-btn').classList.remove('visible');
   document.getElementById('street-btn').classList.remove('visible');
   document.getElementById('walk-tour-progress').classList.add('visible');
   document.getElementById('walk-tour-counter').classList.add('visible');
+  document.body.classList.add('cinema-mode');
   walkTourNext();
 }
 
@@ -5274,10 +5509,12 @@ function stopWalkTour() {
   document.getElementById('tour-label').style.opacity = '0';
   document.getElementById('walk-tour-progress').classList.remove('visible');
   document.getElementById('walk-tour-counter').classList.remove('visible');
+  if (!flythroughRunning && !_tourRunning) document.body.classList.remove('cinema-mode');
   if (!flythroughRunning) {
     document.getElementById('replay-btn').classList.add('visible');
     document.getElementById('tour-btn').classList.add('visible');
     document.getElementById('share-btn').classList.add('visible');
+    document.getElementById('photo-btn').classList.add('visible');
     document.getElementById('street-btn').classList.add('visible');
   }
 }
@@ -5458,6 +5695,7 @@ function enterStreetMode() {
   document.getElementById('tour-btn').classList.remove('visible');
   document.getElementById('walk-btn').classList.remove('visible');
   document.getElementById('share-btn').classList.remove('visible');
+  document.getElementById('photo-btn').classList.remove('visible');
 }
 
 function exitStreetMode() {
@@ -5495,6 +5733,7 @@ function exitStreetMode() {
   document.getElementById('tour-btn').classList.add('visible');
   document.getElementById('walk-btn').classList.add('visible');
   document.getElementById('share-btn').classList.add('visible');
+  document.getElementById('photo-btn').classList.add('visible');
 }
 
 function toggleStreetMode() {
@@ -7164,6 +7403,7 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
         document.getElementById('compass-container').click();
         break;
       case 'escape':
+        if (_photoMode) { exitPhotoMode(); return; }
         if (_timelapseRunning) { stopTimelapse(); return; }
         if (flythroughRunning) { stopFlythrough(); return; }
         if (_walkTourRunning) { stopWalkTour(); return; }
@@ -7172,6 +7412,9 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
         if (_skyLoungeViewActive) { stopSkyLoungeView(); return; }
         if (_streetMode) { exitStreetMode(); return; }
         hideLandmarkCard();
+        break;
+      case 'enter':
+        if (_photoMode) { e.preventDefault(); capturePhoto(); }
         break;
     }
   });
@@ -11100,6 +11343,197 @@ function initAzulejoTiles(viewer) {
   }, 400);
 }
 
+// ── Portuguese Calçada Cobblestone Pavement ──
+// Classic black-and-white Portuguese stone mosaic pavement — Macau's colonial ground signature
+var CALCADA_SITES = [
+  // Senado Square — iconic Mar Largo (great sea) wave pattern
+  { title: 'LARGO DO SENADO', chinese: '議事亭前地', lon: 113.5388, lat: 22.1936, alt: 4, motif: 'wave' },
+  // St. Augustine's Square — elegant colonial square
+  { title: 'LARGO DE S. AGOSTINHO', chinese: '崗頂前地', lon: 113.5378, lat: 22.1918, alt: 4, motif: 'fan' },
+  // Lilau Square — oldest residential square in Macau
+  { title: 'LARGO DO LILAU', chinese: '亞婆井前地', lon: 113.5355, lat: 22.1906, alt: 4, motif: 'wave' },
+  // Barra Square — near A-Ma Temple, where Portuguese first landed
+  { title: 'LARGO DA BARRA', chinese: '媽閣廟前地', lon: 113.5318, lat: 22.1870, alt: 4, motif: 'compass' },
+  // Cathedral Square — Sé Cathedral forecourt
+  { title: 'LARGO DA SÉ', chinese: '大堂���地', lon: 113.5404, lat: 22.1940, alt: 4, motif: 'fan' },
+  // Rua de São Paulo — approaching Ruins of St. Paul's
+  { title: 'RUA DE S. PAULO', chinese: '大三巴街', lon: 113.5405, lat: 22.1965, alt: 6, motif: 'wave' },
+];
+
+function createCalcadaCanvas(site, time) {
+  var c = document.createElement('canvas');
+  c.width = 128;
+  c.height = 96;
+  var ctx = c.getContext('2d');
+
+  // Stone base — cream limestone
+  ctx.fillStyle = 'rgba(235,228,215,0.92)';
+  roundRect(ctx, 2, 2, 124, 92, 4);
+  ctx.fill();
+
+  // Border — dark basalt edge
+  ctx.strokeStyle = 'rgba(40,35,30,0.6)';
+  ctx.lineWidth = 1.5;
+  roundRect(ctx, 2, 2, 124, 92, 4);
+  ctx.stroke();
+
+  // Draw calçada pattern
+  var dark = 'rgba(30,25,20,';
+  var shimmer = 0.55 + 0.12 * Math.sin(time * 0.4);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(6, 6, 116, 56);
+  ctx.clip();
+
+  if (site.motif === 'wave') {
+    // Mar Largo — the famous Senado Square wave pattern
+    for (var row = 0; row < 5; row++) {
+      ctx.strokeStyle = dark + shimmer + ')';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      for (var x = 4; x <= 126; x += 1) {
+        var amp = 5 + Math.sin(time * 0.2 + row * 0.6) * 0.8;
+        var freq = 0.12 + row * 0.005;
+        var phase = time * 0.15 + row * 1.2;
+        var y = 12 + row * 11 + Math.sin(x * freq + phase) * amp;
+        if (x === 4) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      // Fill between waves with lighter strokes for stone texture
+      ctx.strokeStyle = dark + (shimmer * 0.25) + ')';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      for (var x = 4; x <= 126; x += 1) {
+        var amp = 5 + Math.sin(time * 0.2 + row * 0.6) * 0.8;
+        var freq = 0.12 + row * 0.005;
+        var phase = time * 0.15 + row * 1.2;
+        var y = 12 + row * 11 + Math.sin(x * freq + phase) * amp + 3;
+        if (x === 4) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+  } else if (site.motif === 'fan') {
+    // Fan shell pattern — radiating arcs from grid points
+    for (var row = 0; row < 3; row++) {
+      for (var col = 0; col < 5; col++) {
+        var cx = 16 + col * 24;
+        var cy = 16 + row * 18;
+        var offset = (row % 2) * 12;
+        ctx.strokeStyle = dark + shimmer + ')';
+        ctx.lineWidth = 1.5;
+        for (var r = 3; r <= 10; r += 3.5) {
+          ctx.beginPath();
+          ctx.arc(cx + offset, cy, r, -Math.PI * 0.8, -Math.PI * 0.2);
+          ctx.stroke();
+        }
+        // Radial lines
+        ctx.lineWidth = 0.8;
+        for (var a = -0.75; a <= -0.25; a += 0.12) {
+          ctx.beginPath();
+          ctx.moveTo(cx + offset, cy);
+          ctx.lineTo(cx + offset + Math.cos(a * Math.PI) * 11, cy + Math.sin(a * Math.PI) * 11);
+          ctx.stroke();
+        }
+      }
+    }
+  } else {
+    // Compass rose — wind rose pattern at Barra (navigational heritage)
+    var cx = 64, cy = 32;
+    var pulse = 0.9 + 0.1 * Math.sin(time * 0.6);
+    // Outer circle
+    ctx.strokeStyle = dark + (shimmer * pulse) + ')';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 22, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+    ctx.stroke();
+    // Cardinal points — 8-pointed star
+    for (var i = 0; i < 8; i++) {
+      var angle = i * Math.PI / 4 + time * 0.02;
+      var len = (i % 2 === 0) ? 20 : 13;
+      ctx.lineWidth = (i % 2 === 0) ? 2 : 1.2;
+      ctx.strokeStyle = dark + shimmer + ')';
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(angle) * len, cy + Math.sin(angle) * len);
+      ctx.stroke();
+      // Diamond tip for cardinal directions
+      if (i % 2 === 0) {
+        var tipX = cx + Math.cos(angle) * len;
+        var tipY = cy + Math.sin(angle) * len;
+        ctx.fillStyle = dark + (shimmer * 0.7) + ')';
+        ctx.beginPath();
+        ctx.moveTo(tipX, tipY);
+        ctx.lineTo(tipX + Math.cos(angle + 0.4) * 4, tipY + Math.sin(angle + 0.4) * 4);
+        ctx.lineTo(tipX + Math.cos(angle - 0.4) * 4, tipY + Math.sin(angle - 0.4) * 4);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+    // Center dot
+    ctx.fillStyle = dark + shimmer + ')';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+
+  // Location title — Portuguese style
+  ctx.font = 'bold 8px "Cinzel", serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(60,50,40,0.85)';
+  ctx.fillText(site.title, 64, 68);
+
+  // Chinese subtitle
+  ctx.font = '9px "Noto Sans SC", sans-serif';
+  ctx.fillStyle = 'rgba(60,50,40,0.6)';
+  ctx.fillText(site.chinese, 64, 80);
+
+  // Label
+  ctx.font = '300 6px "DM Mono", monospace';
+  ctx.fillStyle = 'rgba(140,120,90,0.5)';
+  ctx.fillText('CALÇADA PORTUGUESA', 64, 90);
+
+  return c;
+}
+
+function initCalcadaPavement(viewer) {
+  var startTime = performance.now() / 1000;
+  var entities = [];
+
+  CALCADA_SITES.forEach(function(site) {
+    var initialCanvas = createCalcadaCanvas(site, 0);
+    var entity = viewer.entities.add({
+      name: 'Calçada: ' + site.title,
+      position: Cesium.Cartesian3.fromDegrees(site.lon, site.lat, site.alt),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 128,
+        height: 96,
+        scale: 0.85,
+        scaleByDistance: new Cesium.NearFarScalar(20, 2.8, 1500, 0.15),
+        translucencyByDistance: new Cesium.NearFarScalar(15, 1.0, 2000, 0.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    entities.push({ entity: entity, site: site });
+  });
+
+  // Gentle wave animation
+  setInterval(function() {
+    var elapsed = performance.now() / 1000 - startTime;
+    entities.forEach(function(item, i) {
+      var c = createCalcadaCanvas(item.site, elapsed + i * 1.5);
+      item.entity.billboard.image = c.toDataURL();
+    });
+  }, 500);
+}
+
 // ── Festival String Lights — Food & Heritage Streets ──
 // Warm golden string lights draped across famous food streets and heritage areas
 var STRING_LIGHTS = [
@@ -14364,6 +14798,10 @@ function addSkyCabs(viewer) {
     { icon: '\u2605', text: 'Discover all 30 landmarks \u2014 open the Explore panel to track your progress. Your discoveries save automatically!' },
     { icon: '\uD83C\uDF03', text: 'When it rains at night, watch for neon reflections shimmering on the wet streets \u2014 casino lights glow on the pavement' },
     { icon: '\uD83D\uDCA7', text: 'During rain, watch for water drops on the camera lens \u2014 some streak down like a real rainy window. Try Typhoon Demo to see more!' },
+    { icon: '\uD83C\uDFAC', text: 'Watch for cinematic letterbox bars during the flythrough, walk tour, and auto-tour \u2014 like a travel documentary!' },
+    { icon: '\uD83D\uDCF7', text: isTouch ? 'Tap the Photo button to enter cinematic capture mode \u2014 tap to take a screenshot with watermark, save and share your Macau view' : 'Click Photo to enter cinematic capture mode \u2014 press Enter to save a watermarked screenshot of your Macau view' },
+    { icon: '\uD83C\uDFB0', text: 'Watch for jackpot win announcements \u2014 big wins happen across Macau\u2019s casinos. Tap the notification to fly to the winning casino!' },
+    { icon: '\u2B1B', text: 'Look for Portuguese calçada cobblestone patterns at heritage squares \u2014 the iconic black-and-white wave mosaic at Senado Square is a symbol of Macau\u2019s colonial legacy' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;
@@ -14600,6 +15038,300 @@ function addSkyCabs(viewer) {
     });
   }
 })();
+
+// ── Casino Jackpot Celebrations ──
+(function() {
+  var JACKPOT_CASINOS = [
+    { name: 'Grand Lisboa', chinese: '新葡京', lon: 113.5399, lat: 22.1893, alt: 300, pitch: -25 },
+    { name: 'The Venetian', chinese: '威尼斯人', lon: 113.5590, lat: 22.1494, alt: 350, pitch: -25 },
+    { name: 'Wynn Palace', chinese: '永利皇宮', lon: 113.5630, lat: 22.1478, alt: 300, pitch: -25 },
+    { name: 'Galaxy Macau', chinese: '銀河', lon: 113.5544, lat: 22.1487, alt: 350, pitch: -25 },
+    { name: 'City of Dreams', chinese: '新濠天地', lon: 113.5586, lat: 22.1486, alt: 300, pitch: -25 },
+    { name: 'MGM Macau', chinese: '美高梅', lon: 113.5417, lat: 22.1848, alt: 300, pitch: -25 },
+    { name: 'Wynn Macau', chinese: '永利澳門', lon: 113.5413, lat: 22.1920, alt: 300, pitch: -25 },
+    { name: 'Studio City', chinese: '新濠影匯', lon: 113.5550, lat: 22.1435, alt: 300, pitch: -25 },
+    { name: 'The Parisian', chinese: '澳門巴黎人', lon: 113.5570, lat: 22.1465, alt: 300, pitch: -25 },
+    { name: 'Sands Macao', chinese: '澳門金沙', lon: 113.5544, lat: 22.1917, alt: 300, pitch: -25 },
+  ];
+
+  var JACKPOT_GAMES = [
+    { name: 'Baccarat', chinese: '百家樂' },
+    { name: 'Sic Bo', chinese: '骰寶' },
+    { name: 'VIP Baccarat', chinese: 'VIP百家樂' },
+    { name: 'Dragon Tiger', chinese: '龍虎' },
+    { name: 'Fan Tan', chinese: '番攤' },
+    { name: 'Pai Gow', chinese: '牌九' },
+  ];
+
+  // Generate a realistic-looking HK$ amount
+  function randomJackpotAmount() {
+    var tier = Math.random();
+    var amount;
+    if (tier < 0.45) {
+      // Medium win: HK$100K - HK$500K
+      amount = (Math.floor(Math.random() * 40) + 10) * 10000;
+    } else if (tier < 0.80) {
+      // Large win: HK$500K - HK$2M
+      amount = (Math.floor(Math.random() * 15) + 5) * 100000;
+    } else if (tier < 0.95) {
+      // Mega win: HK$2M - HK$8M
+      amount = (Math.floor(Math.random() * 60) + 20) * 100000;
+    } else {
+      // Legendary win: HK$8M - HK$25M
+      amount = (Math.floor(Math.random() * 170) + 80) * 100000;
+    }
+    return amount;
+  }
+
+  function formatHKD(amount) {
+    if (amount >= 1000000) {
+      return 'HK$' + (amount / 1000000).toFixed(1) + 'M';
+    }
+    return 'HK$' + (amount / 1000).toFixed(0) + 'K';
+  }
+
+  function playJackpotChime() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var now = ctx.currentTime;
+
+      // Bright ascending chime — 3 quick notes
+      var notes = [880, 1108.73, 1318.51]; // A5, C#6, E6 (A major triad)
+      for (var i = 0; i < notes.length; i++) {
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = notes[i];
+        gain.gain.setValueAtTime(0, now + i * 0.12);
+        gain.gain.linearRampToValueAtTime(0.08, now + i * 0.12 + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.5);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + i * 0.12);
+        osc.stop(now + i * 0.12 + 0.6);
+      }
+
+      // Shimmer overtone
+      var shimmer = ctx.createOscillator();
+      var shimGain = ctx.createGain();
+      shimmer.type = 'triangle';
+      shimmer.frequency.value = 2637; // E7
+      shimGain.gain.setValueAtTime(0, now + 0.3);
+      shimGain.gain.linearRampToValueAtTime(0.03, now + 0.4);
+      shimGain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+      shimmer.connect(shimGain);
+      shimGain.connect(ctx.destination);
+      shimmer.start(now + 0.3);
+      shimmer.stop(now + 1.3);
+
+      setTimeout(function() { ctx.close(); }, 2000);
+    } catch (e) { /* Audio not available */ }
+  }
+
+  var _jackpotTimer = null;
+  var _jackpotVisible = false;
+
+  function showJackpot() {
+    if (_jackpotVisible || _photoMode) return;
+
+    var casino = JACKPOT_CASINOS[Math.floor(Math.random() * JACKPOT_CASINOS.length)];
+    var game = JACKPOT_GAMES[Math.floor(Math.random() * JACKPOT_GAMES.length)];
+    var amount = randomJackpotAmount();
+
+    var toast = document.getElementById('jackpot-toast');
+    if (!toast) return;
+
+    toast.innerHTML =
+      '<div class="jackpot-header">\uD83C\uDFB0 Jackpot Win</div>' +
+      '<div class="jackpot-amount">' + formatHKD(amount) + '</div>' +
+      '<div class="jackpot-casino">' + casino.name + '<span class="casino-chinese">' + casino.chinese + '</span></div>' +
+      '<div class="jackpot-game">' + game.name + ' \u00B7 ' + game.chinese + '</div>' +
+      '<div class="jackpot-hint">tap to visit</div>';
+
+    // Store casino data for click handler
+    toast._casino = casino;
+
+    _jackpotVisible = true;
+    toast.classList.add('visible');
+    playJackpotChime();
+
+    // Auto-dismiss after 8 seconds
+    setTimeout(function() {
+      toast.classList.remove('visible');
+      _jackpotVisible = false;
+    }, 8000);
+  }
+
+  // Click to fly to casino
+  document.getElementById('jackpot-toast').addEventListener('click', function() {
+    var casino = this._casino;
+    if (!casino || !_viewer) return;
+    this.classList.remove('visible');
+    _jackpotVisible = false;
+    flyToAttraction(casino);
+  });
+
+  // Schedule jackpot announcements — random interval 3-6 minutes
+  function scheduleNextJackpot() {
+    var delay = (180 + Math.random() * 180) * 1000; // 3-6 min
+    _jackpotTimer = setTimeout(function() {
+      showJackpot();
+      scheduleNextJackpot();
+    }, delay);
+  }
+
+  // Start after initial load delay (60s, let flythrough finish)
+  setTimeout(scheduleNextJackpot, 60000);
+})();
+
+// ── Photo Mode ──
+var _photoMode = false;
+
+function getMacauTimeString() {
+  var d = new Date();
+  var utc = d.getTime() + d.getTimezoneOffset() * 60000;
+  var macau = new Date(utc + 8 * 3600000);
+  var y = macau.getFullYear();
+  var m = String(macau.getMonth() + 1).padStart(2, '0');
+  var day = String(macau.getDate()).padStart(2, '0');
+  var h = String(macau.getHours()).padStart(2, '0');
+  var min = String(macau.getMinutes()).padStart(2, '0');
+  return y + '-' + m + '-' + day + ' ' + h + ':' + min + ' (Macau Time)';
+}
+
+function enterPhotoMode() {
+  if (_photoMode) return;
+  _photoMode = true;
+
+  // Stop running sequences
+  if (typeof stopFlythrough === 'function') stopFlythrough();
+
+  // Update location text
+  if (_viewer) {
+    var cam = _viewer.camera;
+    var carto = Cesium.Cartographic.fromCartesian(cam.positionWC);
+    var lat = Cesium.Math.toDegrees(carto.latitude).toFixed(4);
+    var lon = Cesium.Math.toDegrees(carto.longitude).toFixed(4);
+    var alt = Math.round(carto.height);
+    document.getElementById('photo-wm-location').textContent =
+      lat + '\u00B0N ' + lon + '\u00B0E · ' + alt + 'm · ' + getMacauTimeString();
+  }
+
+  // Hide all UI overlays
+  document.getElementById('overlay').style.opacity = '0';
+  document.getElementById('overlay').style.pointerEvents = 'none';
+  var minimap = document.getElementById('minimap-container');
+  if (minimap) minimap.style.opacity = '0';
+  var compass = document.getElementById('compass-container');
+  if (compass) compass.style.opacity = '0';
+  var ticker = document.getElementById('bacc-ticker');
+  if (ticker) ticker.style.opacity = '0';
+  var cityPulse = document.getElementById('city-pulse');
+  if (cityPulse) cityPulse.style.opacity = '0';
+
+  // Show photo mode overlay
+  var pm = document.getElementById('photo-mode');
+  pm.classList.add('active');
+  // Reset hint animation
+  var hint = document.getElementById('photo-hint');
+  hint.style.animation = 'none';
+  hint.offsetHeight;
+  hint.style.animation = 'photoHintFade 4s ease forwards';
+}
+
+function exitPhotoMode() {
+  if (!_photoMode) return;
+  _photoMode = false;
+
+  // Restore UI overlays
+  document.getElementById('overlay').style.opacity = '';
+  document.getElementById('overlay').style.pointerEvents = '';
+  var minimap = document.getElementById('minimap-container');
+  if (minimap) minimap.style.opacity = '';
+  var compass = document.getElementById('compass-container');
+  if (compass) compass.style.opacity = '';
+  var ticker = document.getElementById('bacc-ticker');
+  if (ticker) ticker.style.opacity = '';
+  var cityPulse = document.getElementById('city-pulse');
+  if (cityPulse) cityPulse.style.opacity = '';
+
+  // Hide photo mode overlay
+  document.getElementById('photo-mode').classList.remove('active');
+}
+
+function capturePhoto() {
+  if (!_viewer || !_photoMode) return;
+
+  // Flash effect
+  var flash = document.getElementById('photo-flash');
+  flash.classList.add('flash');
+  setTimeout(function() { flash.classList.remove('flash'); }, 150);
+
+  // Render and capture CesiumJS canvas
+  _viewer.scene.render();
+  var sceneCanvas = _viewer.scene.canvas;
+
+  // Create compositing canvas
+  var w = sceneCanvas.width;
+  var h = sceneCanvas.height;
+  var comp = document.createElement('canvas');
+  comp.width = w;
+  comp.height = h;
+  var ctx = comp.getContext('2d');
+
+  // Draw scene
+  ctx.drawImage(sceneCanvas, 0, 0);
+
+  // Draw cinematic bars
+  var barH = Math.round(h * 0.08);
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, w, barH);
+  ctx.fillRect(0, h - barH, w, barH);
+
+  // Draw watermark
+  var scale = w / 1280; // scale relative to 1280px reference
+  var wmX = Math.round(24 * scale);
+  var wmY = h - barH - Math.round(16 * scale);
+
+  // Title
+  ctx.font = '900 ' + Math.round(18 * scale) + 'px Cinzel, serif';
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.6)';
+  ctx.textBaseline = 'bottom';
+  ctx.shadowColor = 'rgba(0,0,0,0.8)';
+  ctx.shadowBlur = 4 * scale;
+  ctx.fillText('BACCARAT CITY', wmX, wmY);
+
+  // Subtitle with location/time
+  var subText = document.getElementById('photo-wm-location').textContent;
+  ctx.font = '300 ' + Math.round(10 * scale) + 'px "DM Mono", monospace';
+  ctx.fillStyle = 'rgba(212, 175, 55, 0.45)';
+  ctx.fillText(subText, wmX, wmY + Math.round(16 * scale));
+
+  ctx.shadowBlur = 0;
+
+  // Trigger download
+  var link = document.createElement('a');
+  link.download = 'baccarat-city-' + Date.now() + '.png';
+  link.href = comp.toDataURL('image/png');
+  link.click();
+}
+
+// Photo button click
+document.getElementById('photo-btn').addEventListener('click', function() {
+  if (_photoMode) { exitPhotoMode(); } else { enterPhotoMode(); }
+});
+
+// Photo exit button
+document.getElementById('photo-exit-btn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  exitPhotoMode();
+});
+
+// Click/tap on photo mode viewport to capture
+document.getElementById('photo-mode').addEventListener('click', function(e) {
+  if (e.target.id === 'photo-exit-btn') return;
+  capturePhoto();
+});
 
 // ── Initialize ──
 init();

@@ -1871,6 +1871,24 @@
       ],
       "linesAdded": 80,
       "agent": "automated"
+    },
+    {
+      "session": 164,
+      "date": "2026-03-26",
+      "title": "Portuguese Calçada Cobblestone Pavement",
+      "domain": "landmarks",
+      "summary": "Classic black-and-white Portuguese stone mosaic pavement patterns at 6 heritage squares — completing Macau's colonial ground signature.",
+      "details": [
+        "6 heritage locations: Senado Square, St. Augustine's Square, Lilau Square, Barra Square, Cathedral Square, Rua de São Paulo",
+        "3 authentic motifs: Mar Largo wave pattern, fan shell pattern, compass rose (navigational heritage)",
+        "Canvas-drawn billboard entities with gentle wave animation at 500ms interval",
+        "Visible at street level (4-6m altitude) with distance-based scale and translucency",
+        "Portuguese place names with Chinese subtitles and 'CALÇADA PORTUGUESA' label",
+        "Completes the Portuguese heritage trinity: azulejo tiles (S82) + street signs (S114) + cobblestones (S164)",
+        "Feature tip added for discoverability"
+      ],
+      "linesAdded": 155,
+      "agent": "automated"
     }
   ]
 }

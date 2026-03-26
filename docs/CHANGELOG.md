@@ -1,5 +1,15 @@
 # Changelog
 
+## Session 164 — 2026-03-26 (Automated Agent)
+- Portuguese calçada cobblestone pavement: classic black-and-white stone mosaic patterns at 6 heritage squares
+- 3 authentic motifs: Mar Largo wave (Senado Square), fan shell (St. Augustine's), compass rose (Barra Square)
+- 6 locations: Largo do Senado, Largo de S. Agostinho, Largo do Lilau, Largo da Barra, Largo da Sé, Rua de S. Paulo
+- Canvas-drawn billboard entities with gentle wave animation, visible at street level (4-6m altitude)
+- Portuguese place names with Chinese subtitles and "CALÇADA PORTUGUESA" label
+- Completes Portuguese heritage trinity: azulejo tiles (S82) + street signs (S114) + cobblestones (S164)
+- Feature tip added for discoverability
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 159 — 2026-03-26 (Automated Agent)
 - Camera lens raindrops: during rain, animated water drops appear on the viewport simulating rain hitting a camera lens
 - Semi-transparent radial gradient drops with highlight refraction effect at random positions

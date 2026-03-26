@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 159,
+  "last_updated_session": 164,
   "learnings": [
     {
       "type": "pattern",
@@ -442,6 +442,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "landmarks",
+      "title": "Themed heritage feature sets build cultural depth incrementally",
+      "description": "Grouping related cultural features into themed trilogies (or sets) creates a coherent heritage layer. Portuguese colonial heritage was built across 3 sessions: azulejo tiles (S82), bilingual street signs (S114), and calçada cobblestone pavement (S164). Each follows the same canvas + billboard pattern but adds a distinct visual element. Together they create a rich Portuguese colonial atmosphere without any single session being overwhelming.",
+      "evidence": "Session 164: calçada cobblestones completed the Portuguese heritage trinity. Each uses canvas-drawn billboard entities with setInterval animation, Portuguese/Chinese bilingual text, and distance-based visibility. Zero new patterns needed — just different canvas art on the proven framework.",
+      "tags": ["heritage", "cultural-authenticity", "portuguese", "canvas", "billboard", "incremental"],
+      "weight": 0.6,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -651,6 +662,12 @@
       "question": "How to add wet-road neon reflection effect during rainy nights?",
       "chosen": "CSS overlay at bottom 30% with gradient mask, base dark sheen layer + animated neon-colored gradient streaks, gated by _currentGlowIntensity > 0.1 AND rain detection, IIFE with 5s setInterval",
       "rationale": "CSS approach follows proven atmospheric effect pattern (rain splashes, harbor mist, sun rays). Using _currentGlowIntensity as night gate rather than raw hour check ensures consistency with time slider and existing neon system. Base sheen layer establishes the 'wet surface' so streaks read as reflections. IIFE self-containment matches rainbow/mist pattern. 12 casino-matched colors connect the effect to the city's actual landmarks.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add Portuguese cobblestone calçada pavement to heritage areas?",
+      "chosen": "Canvas-drawn billboard entities at 4-6m altitude with 3 motif types (wave, fan, compass), 500ms animation interval, distance-based visibility",
+      "rationale": "Follows proven azulejo tile panel pattern exactly (canvas + billboard + setInterval). Ground-level altitude (4-6m) ensures visibility during street-level exploration without cluttering bird's-eye view. Three distinct motifs prevent visual monotony while matching real Macau locations — Mar Largo waves at Senado Square, fan shells at colonial squares, compass rose at Barra (navigational heritage). Completes the Portuguese heritage trinity alongside azulejo tiles (S82) and street signs (S114).",
       "revisit_after_session": null
     }
   ]

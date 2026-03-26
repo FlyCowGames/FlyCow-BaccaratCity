@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-26 (Session 159)*
+*This document evolves every session. Last updated: 2026-03-26 (Session 164)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -25,10 +25,11 @@
 
 ### Medium-Term
 - Real-time flight data (ADS-B) for airport
-- Portuguese colonial district detail (Senado Square cobblestones) — partially addressed: azulejo tiles (S82) + street name signs (S114), cobblestones still todo
+- ~~Portuguese colonial district detail~~ — Done (azulejo tiles S82 + street name signs S114 + calçada cobblestones S164)
 - Community features
 
 ### Long-Term (Sessions 100+)
+- Portuguese calçada cobblestone pavement: 6 heritage squares with 3 authentic motifs (Session 164)
 - Mobile optimization
 - VR/AR support
 - Live data dashboard
