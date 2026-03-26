@@ -1,5 +1,17 @@
 # Changelog
 
+## Session 173 — 2026-03-26 (Automated Agent)
+- Midday heat shimmer: wavering heat distortion effect rising from the ground during hot midday hours
+- 8 animated heat wave bands with warm amber gradients, CSS blur, and staggered drift animations
+- Time-gated: active 9:30 AM–4:00 PM Macau time with peak intensity 11 AM–2 PM and smooth ramps
+- Weather-reactive: intensity scales with real temperature (starts at 22°C, full at 30°C+)
+- Cloud dampening: overcast skies reduce shimmer, no shimmer during rain or typhoons
+- CSS mask gradient fades effect from ground up for natural look
+- Added to City Pulse live activity indicator (🔥 Heat Shimmer) and feature tips
+- Respects prefers-reduced-motion for accessibility
+- Zero JavaScript errors on desktop (1280x800) and mobile (390x844)
+- File grew from ~16212 to ~16344 lines (+132 lines)
+
 ## Session 172 — 2026-03-26 (Automated Agent)
 - Weather forecast mini-timeline: expandable 6-hour forecast panel below weather display
 - Extended Open-Meteo API call to include hourly temperature, weather codes, and precipitation probability

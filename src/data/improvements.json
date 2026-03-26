@@ -1959,6 +1959,23 @@
       ],
       "linesAdded": 192,
       "agent": "automated"
+    },
+    {
+      "session": 173,
+      "date": "2026-03-26",
+      "title": "Midday Heat Shimmer",
+      "domain": "atmosphere",
+      "summary": "Wavering heat distortion effect rising from the ground during hot midday hours, weather-reactive intensity.",
+      "details": [
+        "8 animated heat wave bands with warm amber gradients and CSS blur for soft edges",
+        "Time-gated: 9:30 AM–4:00 PM with peak 11 AM–2 PM and smooth ramps",
+        "Temperature-reactive: starts at 22°C, full at 30°C+, no shimmer when cool",
+        "Cloud dampening reduces intensity, disabled during rain and typhoons",
+        "CSS mask gradient fades effect from ground up for natural look",
+        "Added to City Pulse indicator and feature tips for discoverability"
+      ],
+      "linesAdded": 132,
+      "agent": "automated"
     }
   ]
 }

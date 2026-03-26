@@ -693,6 +693,47 @@
     #harbor-mist { transition-duration: 0.01ms !important; }
   }
 
+  /* Midday heat shimmer */
+  #heat-shimmer {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 35%;
+    pointer-events: none; z-index: 41;
+    opacity: 0; transition: opacity 6s ease;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+  }
+  #heat-shimmer.active { opacity: 1; }
+  .heat-wave {
+    position: absolute;
+    left: -20%;
+    height: 3px;
+    border-radius: 50%;
+    filter: blur(4px);
+    will-change: transform;
+  }
+  @keyframes heatDrift1 {
+    0% { transform: translateX(0) scaleY(1); }
+    25% { transform: translateX(3%) scaleY(1.4); }
+    50% { transform: translateX(-2%) scaleY(0.7); }
+    75% { transform: translateX(4%) scaleY(1.2); }
+    100% { transform: translateX(0) scaleY(1); }
+  }
+  @keyframes heatDrift2 {
+    0% { transform: translateX(0) scaleY(1); }
+    33% { transform: translateX(-4%) scaleY(1.5); }
+    66% { transform: translateX(3%) scaleY(0.6); }
+    100% { transform: translateX(0) scaleY(1); }
+  }
+  @keyframes heatDrift3 {
+    0% { transform: translateX(-2%) scaleY(0.8); }
+    50% { transform: translateX(5%) scaleY(1.3); }
+    100% { transform: translateX(-2%) scaleY(0.8); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .heat-wave { animation-duration: 0.01ms !important; }
+    #heat-shimmer { transition-duration: 0.01ms !important; }
+  }
+
   /* Shooting star canvas */
   #shootingstar-canvas {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -2855,6 +2896,7 @@
 <div id="night-bokeh"></div>
 <div id="rainbow-arc"></div>
 <div id="harbor-mist"></div>
+<div id="heat-shimmer"></div>
 <div id="rain-overlay"></div>
 <div id="rain-splash-layer"></div>
 <div id="neon-reflections"></div>
@@ -3695,6 +3737,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1830, lon: 113.5360, alt: 120, pitch: -20 },
   { name: 'Dawn Sun Rays', chinese: '晨曦', icon: '🌅', start: 5, end: 7.5,
     lat: 22.1893, lon: 113.5399, alt: 500, pitch: -20 },
+  { name: 'Heat Shimmer', chinese: '熱浪', icon: '🔥', start: 9.5, end: 16,
+    lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
   { name: 'Tour Buses', chinese: '觀光巴士', icon: '🚌', start: 9, end: 15,
     lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
   { name: 'Fishing Sampans', chinese: '漁船', icon: '🛶', start: 15, end: 19,
@@ -15604,6 +15648,93 @@ function addSkyCabs(viewer) {
   setTimeout(updateMist, 3500);
 })();
 
+// ── Midday Heat Shimmer ──
+// Wavering heat distortion rising from the ground during hot midday hours (10 AM-3 PM)
+(function() {
+  var container = document.getElementById('heat-shimmer');
+  if (!container) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // Create 8 heat wave bands at different heights
+  var WAVE_CONFIGS = [
+    { bottom: '3%',  width: '140%', opacity: 0.045, dur: 11, anim: 'heatDrift1', color: [255,235,180] },
+    { bottom: '9%',  width: '130%', opacity: 0.055, dur: 14, anim: 'heatDrift2', color: [255,225,165] },
+    { bottom: '15%', width: '150%', opacity: 0.06,  dur: 17, anim: 'heatDrift3', color: [255,240,190] },
+    { bottom: '22%', width: '125%', opacity: 0.05,  dur: 13, anim: 'heatDrift1', color: [255,230,170] },
+    { bottom: '30%', width: '140%', opacity: 0.045, dur: 16, anim: 'heatDrift2', color: [255,235,185] },
+    { bottom: '40%', width: '135%', opacity: 0.035, dur: 19, anim: 'heatDrift3', color: [255,240,195] },
+    { bottom: '52%', width: '145%', opacity: 0.025, dur: 15, anim: 'heatDrift1', color: [255,230,175] },
+    { bottom: '66%', width: '130%', opacity: 0.02,  dur: 21, anim: 'heatDrift2', color: [255,238,190] },
+  ];
+
+  var waves = [];
+  for (var i = 0; i < WAVE_CONFIGS.length; i++) {
+    var cfg = WAVE_CONFIGS[i];
+    var el = document.createElement('div');
+    el.className = 'heat-wave';
+    el.style.bottom = cfg.bottom;
+    el.style.width = cfg.width;
+    el.style.animation = cfg.anim + ' ' + cfg.dur + 's ease-in-out ' + (i * 1.5) + 's infinite';
+    waves.push({ el: el, cfg: cfg });
+    container.appendChild(el);
+  }
+
+  function updateHeatShimmer() {
+    var hour = getMacauHour();
+    var intensity = 0;
+
+    // Midday heat: 9:30 AM - 4:00 PM (peak 11:00 - 2:00)
+    if (hour >= 9.5 && hour < 16) {
+      if (hour < 11) intensity = (hour - 9.5) / 1.5;        // 0->1 ramp in
+      else if (hour < 14) intensity = 1.0;                    // full
+      else intensity = 1.0 - (hour - 14) / 2.0;              // 1->0 ramp out
+    }
+
+    // Temperature modulation: stronger when hotter
+    var tempFactor = 0.5; // default if no weather data
+    if (currentWeather) {
+      var temp = currentWeather.temperature_2m || 25;
+      if (temp < 22) tempFactor = 0;          // too cool for shimmer
+      else if (temp < 26) tempFactor = (temp - 22) / 4 * 0.5;  // 0->0.5 gradual
+      else if (temp < 30) tempFactor = 0.5 + (temp - 26) / 4 * 0.5; // 0.5->1.0
+      else tempFactor = 1.0;                  // full heat
+    }
+    intensity *= tempFactor;
+
+    // Cloud dampening: overcast skies reduce shimmer
+    if (currentWeather) {
+      var clouds = currentWeather.cloud_cover || 0;
+      intensity *= Math.max(0.15, 1.0 - (clouds / 100) * 0.7);
+    }
+
+    // No shimmer during rain or typhoon
+    if (currentWeather && isRainyCode(currentWeather.weather_code)) intensity = 0;
+    if (typeof _typhoonSimActive !== 'undefined' && _typhoonSimActive) intensity = 0;
+
+    intensity = Math.min(intensity, 1.0);
+
+    if (intensity < 0.02) {
+      container.classList.remove('active');
+      return;
+    }
+
+    // Update wave band colors with intensity-scaled opacity
+    for (var i = 0; i < waves.length; i++) {
+      var w = waves[i];
+      var c = w.cfg.color;
+      var op = w.cfg.opacity * intensity;
+      w.el.style.background = 'linear-gradient(90deg, transparent 0%, rgba(' +
+        c[0] + ',' + c[1] + ',' + c[2] + ',' + op.toFixed(4) + ') 25%, transparent 50%, rgba(' +
+        c[0] + ',' + c[1] + ',' + c[2] + ',' + (op * 0.7).toFixed(4) + ') 75%, transparent 100%)';
+    }
+
+    container.classList.add('active');
+  }
+
+  setInterval(updateHeatShimmer, 5000);
+  setTimeout(updateHeatShimmer, 4000);
+})();
+
 // ── Feature Tips (rotating discovery system) ──
 (function() {
   var isTouch = 'ontouchstart' in window;
@@ -15671,6 +15802,7 @@ function addSkyCabs(viewer) {
     { icon: '\u2600\uFE0F', text: 'Watch the sun/moon arc next to the weather display \u2014 it tracks the celestial body\u2019s position in real Macau time, dimming with cloud cover' },
     { icon: '\u2708\uFE0F', text: 'Look at the airport at night \u2014 runway edge lights (white), threshold lights (green), end lights (red), approach strobes, and blue taxiway markers light up the runway' },
     { icon: '\u{1F326}\uFE0F', text: isTouch ? 'Tap Forecast under the weather display to see the next 6 hours \u2014 temperature, conditions, and rain probability for Macau' : 'Click Forecast under the weather display to see the next 6 hours \u2014 temperature, conditions, and rain probability for Macau' },
+    { icon: '\uD83D\uDD25', text: 'On hot days, look for heat shimmer wavering near the ground between 10 AM\u20143 PM Macau time \u2014 stronger when temperatures rise above 30\u00B0C' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

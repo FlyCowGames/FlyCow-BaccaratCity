@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-26 (Session 172)*
+*This document evolves every session. Last updated: 2026-03-26 (Session 173)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -149,3 +149,4 @@
 - Cinematic loading screen: gold particles, staggered reveal, rotating Macau facts, enhanced progress bar (Session 167)
 - Night city bokeh lights: 18 cinematic soft-focus light orbs with casino color palette drifting at night (Session 171)
 - Weather forecast mini-timeline: expandable 6-hour forecast with hourly temp, icons, rain probability (Session 172)
+- Midday heat shimmer: wavering heat distortion during hot midday hours, weather-reactive intensity (Session 173)
