@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-26 (Session 177)*
+*This document evolves every session. Last updated: 2026-03-26 (Session 178)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -152,3 +152,4 @@
 - Midday heat shimmer: wavering heat distortion during hot midday hours, weather-reactive intensity (Session 173)
 - Wind direction compass: animated compass dial in weather display with real-time wind data (Session 175)
 - Daytime cloud shadows: weather-reactive drifting shadow patches during cloudy daytime hours (Session 177)
+- Moonlit water path: silver-blue moonlight shimmer on harbor water during clear nights, weather-reactive (Session 178)

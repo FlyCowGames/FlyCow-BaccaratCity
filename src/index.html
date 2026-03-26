@@ -895,6 +895,44 @@
     #cloud-shadows { transition-duration: 0.01ms !important; }
   }
 
+  /* Moonlit water path — silver-blue moonlight reflection on harbor */
+  #moon-path {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 35%;
+    pointer-events: none; z-index: 43;
+    opacity: 0; transition: opacity 8s ease;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.12) 75%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.12) 75%, transparent 100%);
+  }
+  #moon-path.active { opacity: 1; }
+  .moon-sparkle {
+    position: absolute;
+    border-radius: 50%;
+    will-change: opacity, transform;
+  }
+  .moon-shimmer {
+    position: absolute;
+    border-radius: 50%;
+    will-change: opacity;
+  }
+  @keyframes moonSparkle {
+    0%, 100% { opacity: var(--ms-base, 0.08); transform: scale(1); }
+    40% { opacity: var(--ms-peak, 0.35); transform: scale(var(--ms-scale, 1.3)); }
+    60% { opacity: var(--ms-mid, 0.15); transform: scale(1.05); }
+    85% { opacity: var(--ms-peak, 0.35); transform: scale(var(--ms-scale, 1.3)); }
+  }
+  @keyframes moonShimmer {
+    0%, 100% { opacity: var(--msh-base, 0.03); }
+    35% { opacity: var(--msh-peak, 0.08); }
+    65% { opacity: var(--msh-base, 0.03); }
+    80% { opacity: calc(var(--msh-peak, 0.08) * 0.6); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .moon-sparkle { animation-duration: 0.01ms !important; }
+    .moon-shimmer { animation-duration: 0.01ms !important; }
+    #moon-path { transition-duration: 0.01ms !important; }
+  }
+
   /* Shooting star canvas */
   #shootingstar-canvas {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -3071,6 +3109,7 @@
 <div id="sun-rays"></div>
 <div id="city-glow"></div>
 <div id="night-bokeh"></div>
+<div id="moon-path"></div>
 <div id="rainbow-arc"></div>
 <div id="harbor-mist"></div>
 <div id="heat-shimmer"></div>
@@ -3951,6 +3990,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1893, lon: 113.5399, alt: 600, pitch: -15 },
   { name: 'City Glow', chinese: '城市光暈', icon: '🌃', start: 19, end: 5,
     lat: 22.1893, lon: 113.5399, alt: 500, pitch: -15 },
+  { name: 'Moonlit Water', chinese: '月光水路', icon: '🌙', start: 19, end: 5,
+    lat: 22.1850, lon: 113.5400, alt: 400, pitch: -20 },
 ];
 
 function isFeatureActive(f, hour) {
@@ -15676,6 +15717,131 @@ function addSkyCabs(viewer) {
   setTimeout(updateNightBokeh, 5000);
 })();
 
+// ── Moonlit Water Path ──
+// Silver-blue moonlight reflection on harbor water during clear nights
+(function() {
+  var container = document.getElementById('moon-path');
+  if (!container) return;
+
+  // Silver-blue moonlight color palette
+  var MOON_COLORS = [
+    { r: 180, g: 200, b: 240 },  // cool silver-blue
+    { r: 200, g: 215, b: 255 },  // pale blue
+    { r: 220, g: 230, b: 255 },  // bright silver
+    { r: 170, g: 195, b: 230 },  // steel blue
+    { r: 240, g: 245, b: 255 },  // near-white silver
+  ];
+
+  // Create shimmer base — broad soft glow representing the moonlight column
+  var SHIMMER_COUNT = 4;
+  for (var s = 0; s < SHIMMER_COUNT; s++) {
+    var sh = document.createElement('div');
+    sh.className = 'moon-shimmer';
+    var sw = 15 + Math.random() * 20; // 15-35vw wide
+    var sx = 30 + Math.random() * 40 - sw / 2; // centered around 30-70%
+    var sy = 10 + Math.random() * 60; // spread across height
+    var sOpBase = 0.02 + Math.random() * 0.03;
+    var sOpPeak = sOpBase + 0.03 + Math.random() * 0.04;
+    var sDur = 12 + Math.random() * 16; // 12-28s
+    var sDelay = Math.random() * sDur;
+    var sBlur = 30 + Math.random() * 25; // 30-55px
+
+    sh.style.left = sx + '%';
+    sh.style.top = sy + '%';
+    sh.style.width = sw + 'vw';
+    sh.style.height = (8 + Math.random() * 12) + 'vh';
+    sh.style.filter = 'blur(' + sBlur + 'px)';
+    sh.style.background = 'radial-gradient(ellipse at 50% 60%, rgba(200,218,255,0.12) 0%, rgba(180,200,240,0.04) 50%, transparent 80%)';
+    sh.style.setProperty('--msh-base', sOpBase.toFixed(3));
+    sh.style.setProperty('--msh-peak', sOpPeak.toFixed(3));
+    sh.style.animation = 'moonShimmer ' + sDur.toFixed(1) + 's ease-in-out ' + sDelay.toFixed(1) + 's infinite';
+
+    container.appendChild(sh);
+  }
+
+  // Create sparkle points — concentrated in a central column with some scatter
+  var SPARKLE_COUNT = 22;
+  for (var i = 0; i < SPARKLE_COUNT; i++) {
+    var sp = document.createElement('div');
+    sp.className = 'moon-sparkle';
+
+    var color = MOON_COLORS[i % MOON_COLORS.length];
+    // Concentrate 70% of sparkles in a central column (35-65%), scatter the rest wider
+    var inColumn = Math.random() < 0.7;
+    var px = inColumn ? (35 + Math.random() * 30) : (10 + Math.random() * 80);
+    var py = 5 + Math.random() * 85; // spread across the container height
+    var pSize = 2 + Math.random() * 4; // 2-6px small points
+    var pBaseOp = 0.05 + Math.random() * 0.1;
+    var pPeakOp = pBaseOp + 0.15 + Math.random() * 0.2;
+    var pMidOp = pBaseOp + 0.05 + Math.random() * 0.05;
+    var pScale = 1.1 + Math.random() * 0.4; // 1.1-1.5x
+    var pDur = 3 + Math.random() * 6; // 3-9s faster twinkle
+    var pDelay = Math.random() * pDur;
+    var pBlur = 0.5 + Math.random() * 1.5; // subtle 0.5-2px blur
+
+    sp.style.width = pSize + 'px';
+    sp.style.height = pSize + 'px';
+    sp.style.left = px + '%';
+    sp.style.top = py + '%';
+    sp.style.filter = 'blur(' + pBlur.toFixed(1) + 'px)';
+    sp.style.background = 'radial-gradient(circle, rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.9) 0%, rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.3) 50%, transparent 100%)';
+    sp.style.setProperty('--ms-base', pBaseOp.toFixed(3));
+    sp.style.setProperty('--ms-peak', pPeakOp.toFixed(3));
+    sp.style.setProperty('--ms-mid', pMidOp.toFixed(3));
+    sp.style.setProperty('--ms-scale', pScale.toFixed(2));
+    sp.style.animation = 'moonSparkle ' + pDur.toFixed(1) + 's ease-in-out ' + pDelay.toFixed(1) + 's infinite';
+
+    container.appendChild(sp);
+  }
+
+  function updateMoonPath() {
+    var glow = _currentGlowIntensity;
+
+    // Night-only: requires glow intensity (darkness)
+    if (glow < 0.1) {
+      container.classList.remove('active');
+      return;
+    }
+
+    var intensity = glow;
+
+    // Weather: clear skies = bright moonlight, clouds = dim/hide
+    if (typeof currentWeather !== 'undefined' && currentWeather) {
+      var clouds = currentWeather.cloud_cover || 0;
+      if (clouds > 80) {
+        // Heavy overcast — moonlight blocked
+        container.classList.remove('active');
+        return;
+      } else if (clouds > 50) {
+        // Partial clouds — significant dimming
+        intensity *= 0.3 + 0.7 * (1 - (clouds - 50) / 30);
+      } else if (clouds > 20) {
+        // Scattered clouds — slight dimming
+        intensity *= 0.7 + 0.3 * (1 - (clouds - 20) / 30);
+      }
+      // Clear sky (<20%) — full moonlight
+
+      var wc = currentWeather.weather_code || 0;
+      // Rain/fog dim moonlight significantly
+      if (typeof isRainyCode === 'function' && isRainyCode(wc)) intensity *= 0.2;
+      if (wc === 45 || wc === 48) intensity *= 0.15; // fog blocks moonlight
+    }
+
+    // Typhoon kills moonlight
+    if (typeof _typhoonSimActive !== 'undefined' && _typhoonSimActive) {
+      container.classList.remove('active');
+      return;
+    }
+
+    intensity = Math.min(intensity, 1.0);
+    container.style.opacity = (intensity * 0.8).toFixed(3);
+    container.classList.add('active');
+  }
+
+  setInterval(updateMoonPath, 5000);
+  setTimeout(updateMoonPath, 6000);
+})();
+
 // ── Rainbow Arc (after rain with sun) ──
 // Appears when light/moderate rain occurs during daytime with partial cloud cover (sun breaking through)
 (function() {
@@ -16218,6 +16384,7 @@ function addSkyCabs(viewer) {
     { icon: '\u26C5', text: 'On cloudy days, watch for soft shadows drifting across the city \u2014 real cloud cover from Macau\u2019s weather drives their intensity and visibility' },
     { icon: '\uD83C\uDF03', text: 'At night, notice the warm amber glow at the horizon \u2014 Macau\'s casino district light pollution reflecting off the atmosphere, brighter during fog' },
     { icon: '\uD83C\uDF2C\uFE0F', text: 'Check the wind compass in the weather display \u2014 the gold needle shows real-time Macau wind direction and speed from live weather data' },
+    { icon: '\uD83C\uDF19', text: 'On clear nights, watch for silver-blue moonlight shimmering on the harbor water \u2014 clouds dim the moonlight path, clear skies make it glow' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

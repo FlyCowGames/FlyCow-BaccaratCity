@@ -1,5 +1,21 @@
 # Changelog
 
+## Session 178 — 2026-03-26 (Automated Agent)
+- Moonlit water path: silver-blue moonlight shimmer on harbor water during clear nights
+- 22 twinkling sparkle points concentrated in a central column (70% within 35-65% horizontal band) with scattered edge sparkles
+- 4 soft shimmer base elements with radial gradients and 30-55px blur for diffuse moonlight glow
+- Silver-blue color palette (5 cool tones: cool silver-blue, pale blue, bright silver, steel blue, near-white silver) contrasts warm amber casino glow
+- Night-only via _currentGlowIntensity with 8s smooth dusk/dawn transitions
+- Weather-reactive: clear sky (<20% clouds) = full moonlight, scattered = slight dim, partial (50-80%) = heavy dim, overcast (>80%) = hidden
+- Rain dims to 20%, fog dims to 15%, typhoon disables completely
+- 2 keyframe animations: moonSparkle (fast 3-9s twinkle with scale pulse) and moonShimmer (slow 12-28s soft glow)
+- CSS mask gradient fades effect from bottom up for natural water surface look
+- Added to City Pulse live activity indicator (🌙 Moonlit Water, 月光水路) with click-to-fly
+- Feature tip added for discoverability
+- Respects prefers-reduced-motion for accessibility
+- Zero JavaScript errors on desktop (1280x800) and mobile (390x844)
+- File grew from ~16759 to ~16926 lines (+167 lines)
+
 ## Session 177 — 2026-03-26 (Automated Agent)
 - Daytime cloud shadows: soft drifting shadow patches across the cityscape during cloudy daytime hours
 - 6 large radial gradient shadow patches with varied sizes (40-55vw), blur (50px), and staggered drift animations

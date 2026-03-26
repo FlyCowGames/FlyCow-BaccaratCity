@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-26 (Session 177)
+## Last Updated: 2026-03-26 (Session 178)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -98,6 +98,7 @@
 - **Cinematic loading screen**: warm radial gradient background with 15 floating golden particles, staggered reveal animations for title/subtitle/progress bar, gold shimmer gradient "BACCARAT CITY" title, "百家樂之城" Chinese subtitle, rotating Macau facts (10 curated historical/cultural facts cycling every 4s), enhanced progress bar with gold gradient glow and percentage counter, "DIGITAL TWIN · 澳門數碼分身" tagline, mobile-responsive with clamp() sizing, prefers-reduced-motion support (Session 167)
 - **Night city bokeh lights**: 18 soft-focus circular light orbs drifting across the viewport at night with casino-inspired color palette (gold, pink, cyan, warm white, magenta, blue, amber). Radial gradient circles with 8-22px CSS blur for authentic depth-of-field effect. Gentle multi-axis float animation with staggered 15-40s cycles. Night-only via _currentGlowIntensity with smooth dusk/dawn opacity transitions. Respects prefers-reduced-motion (Session 171)
 - **Night city horizon glow**: 5 warm amber radial gradient glow bands at the bottom of the viewport at night, representing casino district light pollution reflecting off the atmosphere. Bands positioned for Cotai Strip, Peninsula, harbour waterfront, Taipa, and diffuse upper scatter. Night-only via _currentGlowIntensity with 8s dusk/dawn transitions. Weather-reactive: cloud cover dampens, fog enhances (light scatter), rain and typhoons reduce. Gentle pulse animation with staggered 18-30s cycles and 60px CSS blur. CSS mask gradient fades from ground up. Respects prefers-reduced-motion (Session 174)
+- **Moonlit water path**: 22 silver-blue sparkle points and 4 soft shimmer bases on the lower 35% of the viewport during clear nights, representing moonlight reflecting off the South China Sea and harbour. Cool silver-blue palette (5 tones) provides natural contrast to warm amber casino glow. Sparkles concentrated in a central column (35-65% horizontal) with scattered edge points. Night-only via _currentGlowIntensity, weather-reactive: clear sky = bright, partial clouds = dimmed, overcast/rain/fog = hidden. Fast twinkle (3-9s) and slow shimmer (12-28s) animations. CSS mask gradient fades from bottom up. Added to City Pulse (🌙 Moonlit Water). Respects prefers-reduced-motion (Session 178)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 

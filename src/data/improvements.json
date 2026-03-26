@@ -2030,6 +2030,24 @@
       ],
       "linesAdded": 127,
       "agent": "automated"
+    },
+    {
+      "session": 178,
+      "date": "2026-03-26",
+      "title": "Moonlit Water Path",
+      "domain": "atmosphere",
+      "summary": "Silver-blue moonlight shimmer on harbor water during clear nights, contrasting warm casino glow with natural cool moonlight.",
+      "details": [
+        "22 twinkling sparkle points in a central column with 4 soft shimmer base elements",
+        "5-tone silver-blue palette contrasts warm amber casino effects",
+        "Night-only via _currentGlowIntensity with 8s smooth dusk/dawn transitions",
+        "Weather-reactive: clear sky = bright, partial clouds = dimmed, overcast/rain/fog = hidden",
+        "Fast twinkle (3-9s) and slow shimmer (12-28s) CSS keyframe animations",
+        "Added to City Pulse indicator and feature tips for discoverability",
+        "Respects prefers-reduced-motion accessibility"
+      ],
+      "linesAdded": 167,
+      "agent": "automated"
     }
   ]
 }

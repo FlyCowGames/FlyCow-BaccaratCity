@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 177,
+  "last_updated_session": 178,
   "learnings": [
     {
       "type": "pattern",
@@ -38,15 +38,15 @@
       "domain": "rendering",
       "title": "CSS particle effects are lightweight alternatives to WebGL",
       "description": "CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.",
-      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc. Session 109: harbor mist. Session 171: night bokeh lights. Session 173: heat shimmer. Session 174: city horizon glow (light pollution).",
+      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc. Session 109: harbor mist. Session 171: night bokeh lights. Session 173: heat shimmer. Session 174: city horizon glow (light pollution). Session 178: moonlit water path.",
       "tags": [
         "performance",
         "css",
         "animation"
       ],
       "weight": 0.8,
-      "times_applied": 11,
-      "times_successful": 11
+      "times_applied": 12,
+      "times_successful": 12
     },
     {
       "type": "pattern",
@@ -770,6 +770,17 @@
       "description": "Most atmospheric effects are dampened by clouds (heat shimmer, sun rays). Inverting this relationship — where cloud cover INCREASES the effect — creates a natural complement. Cloud shadows require clouds to exist, so more cloud cover = more visible shadows. This fills the gap where cloudy days previously reduced visual interest by removing other effects.",
       "evidence": "Session 177: Cloud shadows use cloudFactor that scales from 0 (clear sky < 15%) to 0.85 (overcast > 70%). When heat shimmer is dampened by clouds, cloud shadows pick up the slack, ensuring visual dynamism at all cloud levels during daytime.",
       "tags": ["atmosphere", "weather", "css", "complementary-effects"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "Cool-warm color temperature contrast adds visual depth to night scenes",
+      "description": "Adding a cool silver-blue element (moonlight) alongside warm amber/gold elements (casino glow, bokeh, neon) creates natural visual depth through color temperature contrast. The human eye perceives warm vs cool light as different distances and light sources, making the scene feel richer without adding complexity. Concentrating sparkle points in a central column (70% within 35-65% horizontal) creates a convincing moonlit water path without needing actual water surface rendering.",
+      "evidence": "Session 178: Moonlit water path with 5-tone silver-blue palette (rgb 170-240, 195-245, 230-255) complements warm amber horizon glow (rgb 255,195-220,60-150) and gold bokeh lights. The cool/warm contrast is immediately visible at night.",
+      "tags": ["atmosphere", "color", "night", "css", "visual-depth"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
