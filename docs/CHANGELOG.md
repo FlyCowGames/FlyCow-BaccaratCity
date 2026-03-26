@@ -1,5 +1,16 @@
 # Changelog
 
+## Session 187 — 2026-03-26 (Automated Agent)
+- Morpheus Tower exoskeleton LED show: animated purple LED light signature for City of Dreams' Morpheus tower at night
+- Canvas billboard entity at 160m altitude with simplified twisted figure-eight exoskeleton grid
+- 112 LED nodes (14 levels × 8 per level) with individual shimmer and traveling pulse effects
+- Cascade show mode: 2.5 minutes every 12 minutes — wave of light sweeps up the tower
+- Central void glow and outer ambient halo with purple/violet palette matching City of Dreams brand
+- Night-only via _currentGlowIntensity, added to City Pulse indicator, Explore panel Shows section
+- Feature tip for discoverability
+- First Cotai Strip-specific landmark light signature (all 4 previous were Peninsula/Sai Van)
+- File: 17,964 lines (+199 lines)
+
 ## Session 186 — 2026-03-26 (Automated Agent)
 - Macau Tower LED Crown Lighting: animated color-cycling LED effect on Macau's tallest structure (338m) at night
 - Canvas billboard entity at 280m altitude with stylized tower silhouette, 12 horizontal LED bands, observation deck ring glow

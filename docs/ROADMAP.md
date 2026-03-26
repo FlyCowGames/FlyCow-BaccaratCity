@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-26 (Session 186)*
+*This document evolves every session. Last updated: 2026-03-26 (Session 187)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -156,3 +156,5 @@
 - Sunset/sunrise sky gradient bands: vivid horizon color bands at dawn/dusk with weather-reactive intensity (Session 179)
 - Sai Van Bridge cable-stay harp lights: animated golden cable sweep effect on the bridge's A-frame towers at night (Session 183)
 - Grand Lisboa Crown Radiance: animated golden lotus crown glow on the hero landmark at night with periodic bloom show (Session 184)
+- Macau Tower LED Crown: animated color-cycling LED effect on tallest structure at night with traveling wave shows (Session 186)
+- Morpheus Tower exoskeleton LED: animated purple LED grid on City of Dreams' Zaha Hadid tower at night with cascade shows (Session 187)

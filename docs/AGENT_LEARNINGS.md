@@ -2,49 +2,49 @@
 
 *Auto-generated from data/knowledge.json — do NOT edit directly.*
 
-## Last Updated: Session 186
+## Last Updated: Session 187
 
-## Patterns That Work (Top 30 by weight)
+## Top Patterns by Effectiveness
 
-- **[w=0.8]** CSS particle effects are lightweight alternatives to WebGL (applied 13x, 13 successful)
-- **[w=0.8]** Staggered animation delays prevent mechanical feel (applied 10x, 10 successful)
-- **[w=0.8]** Web Audio API for procedural sound without external files (applied 5x, 5 successful)
-- **[w=0.8]** Landmark-specific light signatures elevate hero buildings above generic effects (applied 4x, 4 successful)
-- **[w=0.7]** Enhancing existing features is high-impact with low risk (applied 20x, 20 successful)
-- **[w=0.7]** Cultural balance through complementary heritage elements (applied 4x, 4 successful)
-- **[w=0.7]** Time-of-day gated features fill temporal gaps and add realism (applied 4x, 4 successful)
-- **[w=0.7]** New landmark integrates with all existing night-effect systems automatically (applied 4x, 4 successful)
-- **[w=0.7]** Layered weather effects compound for immersion (applied 5x, 5 successful)
-- **[w=0.6]** Staggered CSS transitions create cinematic reveal effects (applied 1x, 1 successful)
-- **[w=0.6]** Canvas text with shadowBlur creates convincing neon glow (applied 4x, 3 successful)
-- **[w=0.6]** Time-lapse mode showcases time-gated features visitors would otherwise miss (applied 1x, 1 successful)
-- **[w=0.6]** Static billboard entities for signage need no animation interval (applied 2x, 2 successful)
-- **[w=0.6]** Adding missing landmarks to LANDMARKS array fixes walk tour gaps (applied 2x, 2 successful)
-- **[w=0.6]** Landmark-specific action buttons extend info cards into interactive experiences (applied 2x, 2 successful)
-- **[w=0.6]** Non-casino cultural landmarks diversify the landmark collection (applied 5x, 5 successful)
-- **[w=0.6]** Audit sessions catch mobile UI overlap regressions that accumulate over time (applied 1x, 1 successful)
-- **[w=0.6]** localStorage persistence for game state enhances engagement with minimal code (applied 2x, 2 successful)
-- **[w=0.6]** Meta-UI that surfaces existing features increases perceived value (applied 1x, 1 successful)
-- **[w=0.6]** Themed heritage feature sets build cultural depth incrementally (applied 1x, 1 successful)
-- **[w=0.6]** Staggered CSS reveal animations create cinematic loading experiences (applied 1x, 1 successful)
-- **[w=0.5]** Separate tick handlers for independent orbit systems (applied 1x, 1 successful)
-- **[w=0.5]** Progress indicators improve guided experience UX (applied 1x, 1 successful)
-- **[w=0.5]** Canvas steam/smoke wisps add life to static billboards (applied 1x, 1 successful)
-- **[w=0.5]** Position-aware audio zones using proximity falloff with altitude gate (applied 1x, 1 successful)
-- **[w=0.5]** Official symbols and emblems add cultural depth (applied 1x, 1 successful)
-- **[w=0.5]** Heritage district ground-level transport adds cultural authenticity (applied 1x, 1 successful)
-- **[w=0.5]** Distributed small light points create coastline-tracing glow effects (applied 1x, 1 successful)
-- **[w=0.5]** CSS cloud overlays are effective weather-reactive sky atmosphere (applied 1x, 1 successful)
-- **[w=0.5]** Larger canvas entities with detail reward night scenes (applied 1x, 1 successful)
+1. **[w=0.8]** Landmark-specific light signatures elevate hero buildings above generic effects — Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Maca
+2. **[w=0.8]** CSS particle effects are lightweight alternatives to WebGL — CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.
+3. **[w=0.8]** Staggered animation delays prevent mechanical feel — Vary animation-delay and animation-duration per element to prevent synchronized movement that looks artificial. Different speeds and directions per element create organic motion.
+4. **[w=0.8]** Web Audio API for procedural sound without external files — Web Audio API generates convincing ambient and interactive sounds procedurally — no audio files needed. Must start muted and require user click (browser autoplay policy).
+5. **[w=0.7]** Enhancing existing features is high-impact with low risk — Rather than building an entirely new feature, enhancing the existing walk tour with auto-opening photo galleries, orbit camera, and progress bar created a much richer experience by composing existing 
+6. **[w=0.7]** Cultural balance through complementary heritage elements — When a digital twin represents a multicultural city, actively balance representation of different cultural heritages. Macau has Chinese and Portuguese elements — adding Portuguese azulejo tile panels 
+7. **[w=0.7]** Time-of-day gated features fill temporal gaps and add realism — Gating billboard entity visibility to specific time windows (e.g., morning 5-9 AM for tai chi) creates time-specific atmosphere that rewards exploration at different hours. Using getMacauHour() with s
+8. **[w=0.7]** New landmark integrates with all existing night-effect systems automatically — Adding a new landmark to the LANDMARKS array plus entries in NEON_ZONES, SKY_BEAM_CASINOS, SEARCHLIGHT_CASINOS, CASINO_REFLECTIONS, and OBSTACLE_LIGHT_BUILDINGS gives the landmark a fully integrated n
+9. **[w=0.65]** Layered weather effects compound for immersion — Adding secondary effects to existing weather systems (splash ripples to rain drops, thunder to lightning, rainbow after rain, lens drops) compounds the immersion without replacing the original. Each l
+10. **[w=0.6]** Staggered CSS transitions create cinematic reveal effects — Using incrementing transition-delay values on child elements creates a movie-title-sequence feel. Each line of a multi-line overlay appears sequentially (e.g., decorative line at 0.1s, title at 0.15s,
+11. **[w=0.6]** Canvas text with shadowBlur creates convincing neon glow — Using canvas 2D context shadowBlur + shadowColor creates a convincing neon glow effect around text. Two passes (colored glow + white core) makes it look realistic. setInterval at 200ms for flicker is 
+12. **[w=0.6]** Time-lapse mode showcases time-gated features visitors would otherwise miss — A requestAnimationFrame-driven time-lapse that smoothly advances _timeOverride from 0 to 24 over ~48 seconds lets visitors see all time-gated features (dawn mist, tai chi, midday buses, afternoon samp
+13. **[w=0.6]** Static billboard entities for signage need no animation interval — Street name signs, static plaques, and other non-animated signage billboards can use a single canvas.toDataURL() call at init time with no setInterval. This saves CPU compared to animated billboards (
+14. **[w=0.6]** Adding missing landmarks to LANDMARKS array fixes walk tour gaps — The walk tour auto-opens landmark cards via LANDMARKS.find(l => l.name === stop.name). If a walk tour stop exists but the matching LANDMARKS entry does not, the tour silently skips the info card at th
+15. **[w=0.6]** Landmark-specific action buttons extend info cards into interactive experiences — Adding special-purpose buttons to landmark info cards (beyond Enter Casino) transforms passive info cards into interactive gateways. The landmark card is a natural place for contextual actions because
+16. **[w=0.6]** Non-casino cultural landmarks diversify the landmark collection — Adding religious, cultural, or civic landmarks (Kun Iam Statue, Golden Lotus Square, Senado Square, A-Ma Temple) balances the casino-heavy landmark list and better represents Macau as a complete city.
+17. **[w=0.6]** Audit sessions catch mobile UI overlap regressions that accumulate over time — As new UI elements are added over many sessions (action-prompt, feature-tips, minimap, clock, ticker), their absolute-positioned bottom offsets can gradually overlap on mobile viewports even though ea
+18. **[w=0.6]** localStorage persistence for game state enhances engagement with minimal code — Using localStorage to persist interactive feature state (bankroll, stats, history) across browser sessions makes features feel more meaningful. Key design: save after each action, load on init with nu
+19. **[w=0.6]** Meta-UI that surfaces existing features increases perceived value — Building a dashboard/status overlay that reads existing feature state (time-gated activations, weather conditions, etc.) and presents it as a live indicator adds perceived value without adding any new
+20. **[w=0.6]** Themed heritage feature sets build cultural depth incrementally — Grouping related cultural features into themed trilogies (or sets) creates a coherent heritage layer. Portuguese colonial heritage was built across 3 sessions: azulejo tiles (S82), bilingual street si
+21. **[w=0.6]** Staggered CSS reveal animations create cinematic loading experiences — Using incremental animation-delay values on loading screen elements creates a movie-title-sequence feel. Combined with CSS animation-fill-mode: forwards, elements stay visible after their reveal compl
+22. **[w=0.5]** Separate tick handlers for independent orbit systems — When adding a new orbit behavior (walk tour orbit), use a separate onTick handler rather than reusing the global orbit system. This allows independent control — the walk tour orbit can be stopped/star
+23. **[w=0.5]** Progress indicators improve guided experience UX — Adding a visual progress bar and stop counter to guided tours gives users context about where they are in the experience and how much is left. Simple CSS progress bar with width transition is effectiv
+24. **[w=0.5]** Canvas steam/smoke wisps add life to static billboards — Drawing small animated circles with varying opacity on canvas creates convincing steam/smoke wisps. Using sin() with different phase offsets per wisp gives organic movement without complex physics. Wo
+25. **[w=0.5]** Position-aware audio zones using proximity falloff with altitude gate — Camera position relative to defined zone centers (lon/lat/radius) drives audio gain for zone-specific layers. Distance-based proximity (0-1 linear falloff from zone radius) combined with altitude gate
+26. **[w=0.5]** Official symbols and emblems add cultural depth — Using a city's official symbols (like Macau's lotus emblem) as visual elements connects the digital twin to the real city's identity beyond just physical geography. The lotus is on Macau's flag and co
+27. **[w=0.5]** Heritage district ground-level transport adds cultural authenticity — Adding unique transport types specific to a city's heritage (like Macau's triciclo pedicabs) fills animation gaps in areas dominated by static cultural elements (tiles, lanterns, signs). Ground-level 
+28. **[w=0.5]** Distributed small light points create coastline-tracing glow effects — Placing many small radial gradient billboard entities along geographic features (waterfronts, promenades, paths) creates a 'string of pearls' ambient glow visible from overview altitude. Using the bri
+29. **[w=0.5]** CSS cloud overlays are effective weather-reactive sky atmosphere — CSS div elements with blur filter and keyframe drift animation create convincing cloud wisps without CesiumJS entity overhead. Tying opacity to real weather API cloud_cover percentage makes them weath
+30. **[w=0.5]** Larger canvas entities with detail reward night scenes — Drawing a larger canvas (64x48 vs typical 32x32) allows more visual detail — multi-deck windows, string lights, hull details. Combined with higher scaleByDistance values and wider translucency range, 
 
 ## Anti-Patterns to Avoid
 
-- **[HIGH]** CesiumJS bloom post-processing with Google 3D Tiles — Use billboard entities with canvas radial gradients for glow effects instead of scene-wide bloom
-- **[HIGH]** CallbackProperty for billboard image causes black rectangles — Use direct billboard.image = canvas.toDataURL() assignment in setInterval instead
-- **[MEDIUM]** Parallax on mobile breaks layout — Disable parallax on mobile via media query or JS check
-- **[HIGH]** Accumulating absolute-positioned bottom UI elements cause mobile overlap — After adding any new bottom-positioned UI element, check ALL bottom elements for overlap — not just the new one vs its nearest neighbor. Use JS bounding-box intersection testing in audit sessions.
+- **[HIGH]** CesiumJS bloom post-processing with Google 3D Tiles — CesiumJS bloom applies to entire scene causing severe oversaturation/washout with Google 3D Tiles. Tried contrast values 119 down to 40 — all caused unacceptable results. Fix: Use billboard entities with canvas radial gradients for glow effects instead of scene-wide bloom
+- **[HIGH]** CallbackProperty for billboard image causes black rectangles — Using CesiumJS CallbackProperty to dynamically update billboard.image with canvas elements renders as solid black rectangles with Google 3D Tiles. Fix: Use direct billboard.image = canvas.toDataURL() assignment in setInterval instead
+- **[MEDIUM]** Parallax on mobile breaks layout — Parallax effects on mobile conflict with position:relative layouts and feel exaggerated on small viewports. Fix: Disable parallax on mobile via media query or JS check
+- **[HIGH]** Accumulating absolute-positioned bottom UI elements cause mobile overlap — When multiple UI elements use position:absolute with bottom offsets on mobile, adding new elements over time causes overlaps that individual session tests miss. The action-prompt (bottom:130px), feature-tips (bottom:120px), and minimap (bottom:64px) all had similar heights, creating a 3-way overlap in the 640-780px zone. Fix: After adding any new bottom-positioned UI element, check ALL bottom elements for overlap — not just the new one vs its nearest neighbor. Use JS bounding-box intersection testing in audit sessions.
 
-## Active Decisions (37)
+## Active Decisions (38)
 
 - **How to add weather forecast to the digital twin?** → Extend existing Open-Meteo API call with hourly parameters, render in expandable panel below weather block
 - **How to enhance walk tour for documentary feel?** → Compose existing systems: auto-open landmark cards (with S75 photo gallery), add slow orbit camera, add progress bar/counter
@@ -75,11 +75,12 @@
 - **How to make baccarat more engaging for returning visitors?** → Persist bankroll and game stats in localStorage, show session stats and welcome back indicator
 - **How to make the time-gated feature system more discoverable?** → City Pulse expandable overlay with feature list, active/inactive status, click-to-fly, and next-up preview
 - **How to encourage visitors to explore all 30 landmarks?** → Gamification via discovery progress tracker — localStorage Set, progress bar in Explore panel, checkmarks, toast notifications, completion celebration
-- **How to add wet-road neon reflection effect during rainy nights?** → CSS overlay at bottom 30% with gradient mask, base dark sheen layer + animated neon-colored gradient streaks, gated by _currentGlowIntensity > 0.1 AND rain detection, IIFE with 5s setInterval
+- **How to add wet-road neon reflection effect during rainy nights?** → CSS overlay at bottom 30% with gradient mask, base dark sheen layer + animated neon-colored gradient streaks, gated by _currentGlowIntensity > 0.1 AND
 - **How to add Portuguese cobblestone calçada pavement to heritage areas?** → Canvas-drawn billboard entities at 4-6m altitude with 3 motif types (wave, fan, compass), 500ms animation interval, distance-based visibility
-- **How to visualize real-time wind direction in the weather display?** → Compact CSS compass dial (38px) with gold needle, N/E/S/W cardinal markers, direction label, speed and gust display, integrated into existing weather block
+- **How to visualize real-time wind direction in the weather display?** → Compact CSS compass dial (38px) with gold needle, N/E/S/W cardinal markers, direction label, speed and gust display, integrated into existing weather 
 - **How to add dynamic daytime atmospheric effects tied to cloud cover?** → CSS overlay with 6 radial gradient shadow patches, drift keyframe animations, cloud cover drives intensity inversely from most effects
 - **How to add signature Eiffel Tower sparkle light show at The Parisian?** → Canvas-drawn tower silhouette billboard with 65 distributed sparkle points, two-mode animation (idle twinkle + periodic cascade), night-only
 - **How to add distinctive identity to the Sai Van cable-stayed bridge beyond deck lights?** → Canvas-drawn cable-stay fan pattern with sweep animation on 2 tower billboard entities, night-only
 - **How to give the Grand Lisboa hero landmark a distinctive night identity beyond generic neon/beam effects?** → Canvas-drawn radiating lotus petal billboard with two-mode animation (idle pulse + periodic bloom show), night-only at 210m altitude
-- **How to give the Macau Tower (tallest structure, 338m) a distinctive night identity?** → Canvas-drawn tower silhouette with 12 horizontal LED bands, 5-color cycling, observation deck ring glow, traveling wave light show, night-only at 280m altitude
+- **How to give the Macau Tower (tallest structure, 338m) a distinctive night identity?** → Canvas-drawn tower silhouette with 12 horizontal LED bands, 5-color cycling, observation deck ring glow, traveling wave light show, night-only at 280m
+- **How to give the Morpheus tower (City of Dreams, Cotai Strip) a distinctive night identity?** → Canvas-drawn twisted figure-eight exoskeleton grid with 112 LED nodes, purple/violet palette, cascade show sweeping up the tower, night-only at 160m a

@@ -23,7 +23,7 @@
 ## Atmosphere & Realism
 - [x] Real Macau weather from API → rain particles, fog density, cloud cover (Session 3)
 - [x] Typhoon signal system (T1-T10) with dramatic weather effects (Session 65: T1/T3/T8/T10 detection, wind effects, demo mode)
-- [x] Light pollution glow from Cotai strip visible across the water (Session 6: neon glow system)
+- [x] Light pollution glow from Cotai strip visible across the water (Session 6: neon glow system, Session 187: Morpheus Tower exoskeleton LED — first Cotai-specific landmark light signature)
 - [x] Ferry boats crossing between peninsula and Taipa (Session 4)
 - [x] Animated road traffic on bridges and main roads (Session 7)
 - [x] Ambient audio soundscape (Session 9: Web Audio API, ocean/wind/city, weather-reactive)

@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-26 (Session 186)
+## Last Updated: 2026-03-26 (Session 187)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -156,6 +156,7 @@
 - **Sai Van Bridge cable-stay harp lights** — 2 animated A-frame tower billboards on the Ponte de Sai Van with 16 golden cable lines in a fan pattern. Lights sweep left-to-right and back in a 6-second "harp strum" cycle, with adjacent cables glowing in sympathy. Tower pylon, deck line, apex beacon. Night-only, warm gold palette matching existing bridge illumination (Session 183)
 - **Grand Lisboa Crown Radiance** — Animated golden lotus crown glow on the 258m hero landmark. 12 radiating petals with idle pulse and random bright flickers, plus a "bloom show" (3 min every 10 min) where petals light up sequentially outward like a lotus blooming. Central core glow and outer halo intensify during shows. Night-only, canvas billboard at 210m altitude (Session 184)
 - **Macau Tower LED Crown** — Animated color-cycling LED crown on Macau's tallest structure (338m). 12 horizontal LED bands along the tower shaft with smooth color cycling through gold, red, blue, teal, and magenta. Observation deck ring glow with edge LED lines. Light show mode (2 min every 15 min) with traveling wave pattern. Red aviation beacon at needle tip. Night-only, canvas billboard at 280m altitude (Session 186)
+- **Morpheus Tower Exoskeleton LED Show** — Animated purple/violet LED light signature for the City of Dreams Morpheus tower (Zaha Hadid's figure-eight exoskeleton) on the Cotai Strip. Canvas billboard at 160m altitude with simplified twisted exoskeleton grid. 112 LED nodes (14 levels x 8 per level) with individual shimmer and traveling pulse effects. Cascade show mode: 2.5 min every 12 min — wave of purple light sweeps up the tower. Central void glow and outer ambient halo with purple/violet palette. Night-only, first Cotai Strip-specific landmark light signature (Session 187)
 - **Harbor seagulls** — 18 animated seabirds in 4 flocks circling over coastal areas (60-100m altitude, always active)
 - **Casino rooftop searchlights** — 6 sweeping searchlight beams from casino rooftops at night with distinct colors per casino
 - **Galaxy Macau wave pool** — 7 animated wave entities on Galaxy's Grand Resort Deck rooftop with turquoise water and animated crests

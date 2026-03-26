@@ -4030,6 +4030,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1893, lon: 113.5399, alt: 400, pitch: -25 },
   { name: 'Tower LED', chinese: '旅遊塔燈冠', icon: '🗼', start: 19, end: 5,
     lat: 22.1801, lon: 113.5318, alt: 450, pitch: -25 },
+  { name: 'Morpheus LED', chinese: '摩珀斯燈光秀', icon: '🔮', start: 19, end: 5,
+    lat: 22.1486, lon: 113.5586, alt: 350, pitch: -25 },
 ];
 
 function isFeatureActive(f, hour) {
@@ -5135,6 +5137,7 @@ async function init() {
     if (window._initEiffelSparkle) window._initEiffelSparkle(viewer);
     if (window._initGrandLisboaCrown) window._initGrandLisboaCrown(viewer);
     if (window._initMacauTowerLED) window._initMacauTowerLED(viewer);
+    if (window._initMorpheusLED) window._initMorpheusLED(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -7761,6 +7764,7 @@ var ATTRACTIONS = {
     { name: "Eiffel Tower Sparkle", chinese: "鐵塔燈光秀", icon: "✨", lat: 22.1465, lon: 113.5570, alt: 300, pitch: -25 },
     { name: "Grand Lisboa Crown", chinese: "新葡京蓮冠", icon: "🪷", lat: 22.1893, lon: 113.5399, alt: 400, pitch: -25 },
     { name: "Macau Tower LED", chinese: "旅遊塔LED燈冠", icon: "🗼", lat: 22.1801, lon: 113.5318, alt: 450, pitch: -25 },
+    { name: "Morpheus Exoskeleton", chinese: "摩珀斯外骨骼燈", icon: "🔮", lat: 22.1486, lon: 113.5586, alt: 350, pitch: -25 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -12135,6 +12139,200 @@ function addLEDFacades(viewer) {
   }
 
   window._initMacauTowerLED = initMacauTowerLED;
+})();
+
+// ── City of Dreams Morpheus Exoskeleton LED Show ──
+// The Morpheus tower (新濠天地) is Zaha Hadid's last masterpiece — world's first free-form
+// exoskeleton high-rise. At night, LED nodes trace the twisted figure-eight steel grid.
+(function() {
+  var MORPH_LON = 113.5586, MORPH_LAT = 22.1486;
+  var CW = 80, CH = 120;
+  var _cascadePhase = 0; // 0=idle shimmer, 1=cascade show
+  var _cascadeTimer = 0;
+
+  // Exoskeleton grid nodes — simplified figure-eight outline with cross bracing
+  // Each node has normalized x (0-1), y (0-1), and a path index for cascade animation
+  var exoNodes = [];
+  var NUM_LEVELS = 14;
+  var NODES_PER_LEVEL = 8;
+
+  // Build the twisted figure-eight exoskeleton grid
+  for (var lvl = 0; lvl < NUM_LEVELS; lvl++) {
+    var t = lvl / (NUM_LEVELS - 1); // 0 to 1 bottom to top
+    // The figure-eight pinch: width narrows in the middle then expands
+    var pinch = 1 - 0.55 * Math.sin(t * Math.PI);
+    // Slight twist rotation as you go up
+    var twist = t * Math.PI * 0.3;
+
+    for (var n = 0; n < NODES_PER_LEVEL; n++) {
+      var angle = (n / NODES_PER_LEVEL) * Math.PI * 2 + twist;
+      // Elliptical cross-section with figure-eight pinch
+      var rx = 0.32 * pinch;
+      var ry = 0.18 * pinch;
+      var nx = 0.5 + Math.cos(angle) * rx;
+      var ny = 0.08 + t * 0.84; // y position along tower height
+      exoNodes.push({
+        x: nx,
+        y: 1 - ny, // canvas y is inverted
+        level: lvl,
+        idx: n,
+        pathDist: t + (n / NODES_PER_LEVEL) * 0.07,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.3 + Math.random() * 0.4
+      });
+    }
+  }
+
+  function drawMorpheus(time) {
+    var c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    var ctx = c.getContext('2d');
+
+    var cascadeTime = _cascadePhase === 1 ? (time - _cascadeTimer) : -1;
+
+    // Draw exoskeleton structure lines (subtle grid)
+    ctx.strokeStyle = 'rgba(140, 100, 200, 0.12)';
+    ctx.lineWidth = 0.5;
+    for (var lvl = 0; lvl < NUM_LEVELS - 1; lvl++) {
+      for (var n = 0; n < NODES_PER_LEVEL; n++) {
+        var curr = exoNodes[lvl * NODES_PER_LEVEL + n];
+        var above = exoNodes[(lvl + 1) * NODES_PER_LEVEL + n];
+        var nextN = exoNodes[lvl * NODES_PER_LEVEL + ((n + 1) % NODES_PER_LEVEL)];
+        // Vertical strut
+        ctx.beginPath();
+        ctx.moveTo(curr.x * CW, curr.y * CH);
+        ctx.lineTo(above.x * CW, above.y * CH);
+        ctx.stroke();
+        // Horizontal ring
+        ctx.beginPath();
+        ctx.moveTo(curr.x * CW, curr.y * CH);
+        ctx.lineTo(nextN.x * CW, nextN.y * CH);
+        ctx.stroke();
+      }
+    }
+
+    // Draw LED nodes
+    for (var i = 0; i < exoNodes.length; i++) {
+      var nd = exoNodes[i];
+      var intensity;
+
+      if (cascadeTime >= 0) {
+        // Cascade show: wave of light travels up the tower
+        var wavePos = (cascadeTime * 0.5) % 1.5; // wave position (0-1.5)
+        var dist = Math.abs(nd.pathDist - wavePos);
+        if (dist > 0.75) dist = 1.5 - dist; // wrap
+        var wave = Math.max(0, 1 - dist * 5);
+        intensity = wave * 0.9 + 0.1 * Math.sin(time * nd.speed * 4 + nd.phase);
+        intensity = Math.max(0.05, Math.min(1, intensity));
+      } else {
+        // Idle: gentle shimmer with occasional bright pulses
+        intensity = 0.1 + 0.2 * Math.max(0, Math.sin(time * nd.speed + nd.phase));
+        // Traveling subtle pulse
+        var pulse = Math.sin(time * 0.4 + nd.pathDist * Math.PI * 6);
+        if (pulse > 0.7) intensity += (pulse - 0.7) * 1.0;
+        // Random bright sparkle
+        if (Math.sin(time * nd.speed * 2.7 + nd.phase * 3.1) > 0.92) {
+          intensity = 0.6 + Math.random() * 0.3;
+        }
+        intensity = Math.min(0.7, intensity);
+      }
+
+      if (intensity < 0.03) continue;
+
+      var px = nd.x * CW;
+      var py = nd.y * CH;
+
+      // Purple/violet palette matching City of Dreams brand
+      var r = 140 + Math.round(80 * intensity);
+      var g = 80 + Math.round(60 * intensity);
+      var b = 200 + Math.round(55 * intensity);
+      var alpha = intensity * 0.85;
+
+      // Glow halo for bright nodes
+      if (intensity > 0.3) {
+        var glowR = 2 + intensity * 5;
+        var grd = ctx.createRadialGradient(px, py, 0, px, py, glowR);
+        grd.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.6).toFixed(2) + ')');
+        grd.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(px, py, glowR, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Core LED point
+      ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha.toFixed(2) + ')';
+      ctx.beginPath();
+      ctx.arc(px, py, 0.8 + intensity * 1.2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Central void glow (the figure-eight opening)
+    var voidPulse = 0.06 + 0.03 * Math.sin(time * 0.6);
+    if (cascadeTime >= 0 && cascadeTime < 6) {
+      voidPulse = Math.min(0.18, voidPulse + cascadeTime * 0.025);
+    }
+    var voidGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.5, 0, CW * 0.5, CH * 0.5, CW * 0.3);
+    voidGrad.addColorStop(0, 'rgba(160, 120, 220, ' + voidPulse.toFixed(2) + ')');
+    voidGrad.addColorStop(1, 'rgba(160, 120, 220, 0)');
+    ctx.fillStyle = voidGrad;
+    ctx.fillRect(0, 0, CW, CH);
+
+    // Outer ambient halo
+    var haloAlpha = 0.04 + 0.02 * Math.sin(time * 0.5);
+    if (cascadeTime >= 0 && cascadeTime < 6) {
+      haloAlpha = Math.min(0.14, haloAlpha + cascadeTime * 0.02);
+    }
+    var haloGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.5, CW * 0.2, CW * 0.5, CH * 0.5, CW * 0.55);
+    haloGrad.addColorStop(0, 'rgba(180, 140, 255, ' + haloAlpha.toFixed(2) + ')');
+    haloGrad.addColorStop(1, 'rgba(180, 140, 255, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.fillRect(0, 0, CW, CH);
+
+    return c;
+  }
+
+  function initMorpheusLED(viewer) {
+    var initialCanvas = drawMorpheus(0);
+    var entity = viewer.entities.add({
+      name: 'Morpheus Exoskeleton LED',
+      position: Cesium.Cartesian3.fromDegrees(MORPH_LON, MORPH_LAT, 160),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 35,
+        height: 55,
+        scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 15000, 0.5),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 18000, 0.15),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      entity.show = shouldShow;
+      if (!shouldShow) { _cascadePhase = 0; return; }
+
+      var time = performance.now() / 1000;
+
+      // Cascade show: 2.5 minutes every 12 minutes
+      var macauMinutes = getMacauHour() * 60;
+      var cyclePos = macauMinutes % 12;
+      if (cyclePos < 2.5 && _cascadePhase === 0) {
+        _cascadePhase = 1;
+        _cascadeTimer = time;
+      } else if (cyclePos >= 2.5 && _cascadePhase === 1) {
+        _cascadePhase = 0;
+      }
+
+      var canvas = drawMorpheus(time);
+      entity.billboard.image = canvas.toDataURL();
+    }, 250);
+  }
+
+  window._initMorpheusLED = initMorpheusLED;
 })();
 
 // ── Harbor Seagulls ──
@@ -17224,6 +17422,7 @@ function addSkyCabs(viewer) {
     { icon: '\uD83C\uDF09', text: 'At night, watch the Ponte de Sai Van cable-stayed bridge \u2014 golden lights sweep across the cable stays in a harp-like strumming effect' },
     { icon: '\uD83E\uDEB7', text: 'At night, the Grand Lisboa\u2019s lotus crown glows golden \u2014 watch for the radiant bloom show every 10 minutes when all 12 petals light up in sequence' },
     { icon: '\uD83D\uDDFC', text: 'Watch Macau Tower\u2019s LED crown at night \u2014 color-changing lights cycle through gold, red, blue, teal, and magenta, with a dazzling light show every 15 minutes' },
+    { icon: '\uD83D\uDD2E', text: 'At night, look for the Morpheus tower\u2019s purple LED exoskeleton on the Cotai Strip \u2014 Zaha Hadid\u2019s twisted figure-eight frame pulses with light, and a cascade show sweeps up the tower every 12 minutes' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

@@ -2133,6 +2133,23 @@
       ],
       "linesAdded": 212,
       "agent": "automated"
+    },
+    {
+      "session": 187,
+      "date": "2026-03-26",
+      "title": "Morpheus Tower Exoskeleton LED Show",
+      "domain": "rendering",
+      "summary": "Animated purple/violet LED light signature for the City of Dreams Morpheus tower at night, with periodic cascade shows sweeping up the twisted exoskeleton grid",
+      "details": [
+        "Canvas billboard entity at 160m altitude with simplified twisted figure-eight exoskeleton grid pattern",
+        "112 LED nodes (14 levels × 8 nodes) with individual shimmer phases and traveling pulse effects",
+        "Cascade show mode: 2.5 minutes every 12 minutes — wave of purple light sweeps up the tower",
+        "Central void glow and outer ambient halo with purple/violet palette matching City of Dreams brand",
+        "Night-only via _currentGlowIntensity, added to City Pulse, Explore panel Shows section, feature tips",
+        "First Cotai Strip-specific landmark light signature — extends series to 5 unique signatures"
+      ],
+      "linesAdded": 199,
+      "agent": "automated"
     }
   ]
 }
