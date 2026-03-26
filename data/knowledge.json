@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 164,
+  "last_updated_session": 171,
   "learnings": [
     {
       "type": "pattern",
@@ -30,11 +30,11 @@
       "domain": "rendering",
       "title": "CSS particle effects are lightweight alternatives to WebGL",
       "description": "CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.",
-      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc. Session 109: harbor mist.",
+      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc. Session 109: harbor mist. Session 171: night bokeh lights.",
       "tags": ["performance", "css", "animation"],
       "weight": 0.8,
-      "times_applied": 8,
-      "times_successful": 8
+      "times_applied": 9,
+      "times_successful": 9
     },
     {
       "type": "pattern",
@@ -451,6 +451,28 @@
       "evidence": "Session 164: calçada cobblestones completed the Portuguese heritage trinity. Each uses canvas-drawn billboard entities with setInterval animation, Portuguese/Chinese bilingual text, and distance-based visibility. Zero new patterns needed — just different canvas art on the proven framework.",
       "tags": ["heritage", "cultural-authenticity", "portuguese", "canvas", "billboard", "incremental"],
       "weight": 0.6,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "interactivity",
+      "title": "Staggered CSS reveal animations create cinematic loading experiences",
+      "description": "Using incremental animation-delay values on loading screen elements creates a movie-title-sequence feel. Combined with CSS animation-fill-mode: forwards, elements stay visible after their reveal completes. Floating particle background divs with varying sizes, speeds, and delays add ambient depth. Rotating text content (Macau facts) keeps users engaged during longer loads. Gold gradient progress bar with glow provides premium feel.",
+      "evidence": "Session 167: enhanced loading screen with 15 particles, staggered reveals (0-1.3s delays), rotating facts every 4s, gold gradient bar with glow. Zero JS errors, passed desktop+mobile. First thing every visitor sees — high-impact UX improvement.",
+      "tags": ["css", "animation", "ux", "loading", "first-impression"],
+      "weight": 0.6,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "CSS bokeh orbs add cinematic depth to night scenes",
+      "description": "Soft-focus circular light orbs (radial gradients + CSS blur) drifting slowly across the viewport create a cinematic depth-of-field effect. Using a casino-inspired color palette (gold, pink, cyan, magenta, amber) ties the effect to the scene's identity. CSS custom properties for per-orb animation parameters (drift direction, opacity, scale) with staggered delays prevent mechanical feel. Night-gated via existing _currentGlowIntensity for smooth dusk/dawn transitions.",
+      "evidence": "Session 171: 18 bokeh orbs with 7 colors, 20-70px sizes, 8-22px blur, 15-40s staggered animation cycles. Zero JS errors, passed desktop+mobile checks. Purely CSS-driven, no canvas or JS animation loop needed.",
+      "tags": ["css", "atmosphere", "night", "cinematic", "bokeh", "performance"],
+      "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
     }

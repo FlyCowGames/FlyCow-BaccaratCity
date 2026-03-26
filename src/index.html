@@ -387,6 +387,68 @@
   #typhoon-sim-btn:hover { color: #d4af37; background: rgba(212,175,55,0.15); border-color: rgba(212,175,55,0.4); }
   #typhoon-sim-btn.active { color: #ff6644; background: rgba(255,80,40,0.15); border-color: rgba(255,80,40,0.4); }
 
+  /* Sun/Moon sky arc indicator */
+  #sky-arc-container {
+    margin-top: 8px;
+    width: 72px; height: 38px;
+    position: relative;
+    display: inline-block;
+  }
+  #sky-arc-path {
+    position: absolute; bottom: 0; left: 0;
+    width: 72px; height: 36px;
+    border: 1px solid rgba(212,175,55,0.15);
+    border-bottom: none;
+    border-radius: 72px 72px 0 0;
+    box-sizing: border-box;
+  }
+  #sky-arc-horizon {
+    position: absolute; bottom: 0; left: 0;
+    width: 72px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent);
+  }
+  #sky-arc-arm {
+    position: absolute; bottom: 0; left: 50%;
+    width: 0; height: 35px;
+    transform-origin: bottom center;
+    transform: rotate(-90deg);
+    transition: transform 2s ease;
+  }
+  #sky-body {
+    position: absolute; top: -5px; left: -5px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    transition: background 1.5s ease, box-shadow 1.5s ease;
+  }
+  #sky-body.sun {
+    background: radial-gradient(circle at 40% 35%, #ffe88a, #d4af37);
+    box-shadow: 0 0 8px rgba(212,175,55,0.6), 0 0 16px rgba(212,175,55,0.2);
+  }
+  #sky-body.moon {
+    background: radial-gradient(circle at 60% 35%, #e8eef5, #b0b8c8);
+    box-shadow: 0 0 6px rgba(192,200,216,0.4), 0 0 12px rgba(192,200,216,0.15);
+  }
+  #sky-arc-rise, #sky-arc-set {
+    position: absolute; bottom: -10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.4rem; color: rgba(212,175,55,0.3);
+    letter-spacing: 0.05em;
+  }
+  #sky-arc-rise { left: -2px; }
+  #sky-arc-set { right: -4px; }
+  #sky-arc-label {
+    position: absolute; bottom: -10px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.4rem; color: rgba(212,175,55,0.25);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #sky-arc-arm { transition-duration: 0.01ms !important; }
+    #sky-body { transition-duration: 0.01ms !important; }
+  }
+
   /* Drifting cloud wisps overlay */
   #cloud-layer {
     position: fixed; top: 0; left: 0; width: 100%; height: 60%;
@@ -443,6 +505,31 @@
     .sun-ray { animation-duration: 0.01ms !important; }
     #sun-rays { transition-duration: 0.01ms !important; }
     #rainbow-arc { transition-duration: 0.01ms !important; }
+  }
+
+  /* Night city bokeh lights */
+  #night-bokeh {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 44;
+    opacity: 0; transition: opacity 6s ease;
+    overflow: hidden;
+  }
+  #night-bokeh.active { opacity: 1; }
+  .bokeh-orb {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform, opacity;
+  }
+  @keyframes bokehFloat {
+    0% { transform: translate(0, 0) scale(1); opacity: var(--bokeh-op, 0.15); }
+    25% { transform: translate(var(--bokeh-dx1, 30px), var(--bokeh-dy1, -40px)) scale(var(--bokeh-s1, 1.1)); opacity: var(--bokeh-peak, 0.25); }
+    50% { transform: translate(var(--bokeh-dx2, -20px), var(--bokeh-dy2, -80px)) scale(1); opacity: var(--bokeh-op, 0.15); }
+    75% { transform: translate(var(--bokeh-dx3, -40px), var(--bokeh-dy3, -30px)) scale(var(--bokeh-s2, 0.9)); opacity: var(--bokeh-peak, 0.25); }
+    100% { transform: translate(0, 0) scale(1); opacity: var(--bokeh-op, 0.15); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bokeh-orb { animation-duration: 0.01ms !important; }
+    #night-bokeh { transition-duration: 0.01ms !important; }
   }
 
   /* Rainbow arc after rain */
@@ -2154,6 +2241,14 @@
     #typhoon-sim-btn { font-size: 0.7rem; padding: 6px 10px; min-height: 44px; }
     #typhoon-banner { font-size: 0.7rem; padding: 6px 12px; }
 
+    /* Sky arc — compact on mobile */
+    #sky-arc-container { width: 56px; height: 30px; margin-top: 6px; }
+    #sky-arc-path { width: 56px; height: 28px; border-radius: 56px 56px 0 0; }
+    #sky-arc-horizon { width: 56px; }
+    #sky-arc-arm { height: 27px; }
+    #sky-body { width: 8px; height: 8px; top: -4px; left: -4px; }
+    #sky-arc-rise, #sky-arc-set, #sky-arc-label { font-size: 0.35rem; bottom: -8px; }
+
     /* Clock — readable, safe area aware, above ticker */
     #clock-block { bottom: calc(36px + env(safe-area-inset-bottom)); right: calc(12px + env(safe-area-inset-right)); }
     #clock { font-size: 1.1rem; }
@@ -2338,9 +2433,9 @@
     .stage-line-top, .stage-line-bot { width: 40px; }
 
     /* Loading screen */
-    #loading-title { font-size: 1.8rem; letter-spacing: 0.25em; }
-    #loading-bar-bg { width: 160px; }
-    #loading-text { font-size: 0.7rem; }
+    #loading-title { letter-spacing: 0.25em; }
+    #loading-chinese { letter-spacing: 0.3em; }
+    #loading-fact { max-width: 280px; padding: 0 16px; }
 
     /* Share toast */
     #share-toast { font-size: 0.75rem; bottom: calc(130px + env(safe-area-inset-bottom)); }
@@ -2364,50 +2459,47 @@
     position: absolute; top: 0; left: 0; width: 100%;
     display: none; /* hidden when no event */
     justify-content: center; align-items: center;
-    padding: 6px 16px;
-    background: linear-gradient(90deg, rgba(180,40,20,0.85) 0%, rgba(212,60,30,0.9) 30%, rgba(212,175,55,0.9) 50%, rgba(212,60,30,0.9) 70%, rgba(180,40,20,0.85) 100%);
+    padding: 7px 16px;
+    background: linear-gradient(90deg, rgba(10,10,18,0.92) 0%, rgba(20,18,12,0.94) 30%, rgba(25,22,14,0.95) 50%, rgba(20,18,12,0.94) 70%, rgba(10,10,18,0.92) 100%);
     pointer-events: auto; cursor: pointer;
     z-index: 150;
     font-family: 'DM Mono', monospace;
-    animation: eventBannerShimmer 6s ease-in-out infinite;
-    border-bottom: 1px solid rgba(212,175,55,0.4);
-    box-shadow: 0 2px 16px rgba(212,175,55,0.3);
+    border-bottom: 1px solid rgba(212,175,55,0.25);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4), inset 0 -1px 0 rgba(212,175,55,0.08);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   }
   #event-banner.visible { display: flex; }
-  @keyframes eventBannerShimmer {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
   #event-banner-icon {
     font-size: 1.1rem; margin-right: 8px;
   }
   #event-banner-text {
-    font-size: 0.7rem; color: #fff;
+    font-size: 0.7rem; color: #d4af37;
     letter-spacing: 0.12em; text-transform: uppercase;
-    font-weight: 400; text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    font-weight: 400; text-shadow: 0 0 8px rgba(212,175,55,0.3);
   }
   #event-banner-text .event-chinese {
     font-family: 'Noto Sans SC', sans-serif;
-    font-size: 0.65rem; opacity: 0.85;
+    font-size: 0.65rem; opacity: 0.7;
     margin-left: 8px; letter-spacing: 0.05em;
-    text-transform: none;
+    text-transform: none; color: rgba(212,175,55,0.7);
   }
   #event-banner-status {
-    font-size: 0.65rem; color: rgba(255,255,255,0.8);
+    font-size: 0.65rem; color: rgba(212,175,55,0.85);
     margin-left: 10px; letter-spacing: 0.08em;
     padding: 2px 8px;
-    border: 1px solid rgba(255,255,255,0.35);
+    border: 1px solid rgba(212,175,55,0.25);
     border-radius: 3px;
+    background: rgba(212,175,55,0.08);
   }
   #event-banner-dismiss {
     margin-left: 12px; font-size: 0.8rem;
-    color: rgba(255,255,255,0.6); cursor: pointer;
+    color: rgba(212,175,55,0.4); cursor: pointer;
     pointer-events: auto;
   }
-  #event-banner-dismiss:hover { color: #fff; }
+  #event-banner-dismiss:hover { color: #d4af37; }
 
   @media (max-width: 600px) {
-    #event-banner { padding: calc(6px + env(safe-area-inset-top)) 12px 6px; }
+    #event-banner { padding: calc(7px + env(safe-area-inset-top)) 12px 7px; }
     #event-banner-icon { font-size: 0.9rem; margin-right: 5px; }
     #event-banner-text { font-size: 0.7rem; letter-spacing: 0.06em; }
     #event-banner-text .event-chinese { display: none; }
@@ -2447,32 +2539,96 @@
     pointer-events: none;
   }
 
-  /* Loading screen */
+  /* Loading screen — cinematic */
   #loading {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #0a0a12; z-index: 9999;
+    background: radial-gradient(ellipse at 50% 60%, rgba(30,25,15,1) 0%, #0a0a12 70%);
+    z-index: 9999;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    transition: opacity 1.5s ease;
+    transition: opacity 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
   }
   #loading.fade { opacity: 0; pointer-events: none; }
+  .loading-particle {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,175,55,0.6) 0%, transparent 70%);
+    pointer-events: none;
+    animation: loadingFloat linear infinite;
+  }
+  @keyframes loadingFloat {
+    0% { transform: translateY(0) scale(0.3); opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 0.6; }
+    100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+  }
+  .loading-anim {
+    opacity: 0; transform: translateY(12px);
+    animation: loadingReveal 1s ease-out forwards;
+  }
+  @keyframes loadingReveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
   #loading-title {
     font-family: 'Cinzel', serif; font-weight: 900;
-    font-size: 2.5rem; letter-spacing: 0.4em;
-    color: #d4af37;
+    font-size: clamp(1.8rem, 5vw, 2.8rem); letter-spacing: 0.4em;
+    background: linear-gradient(135deg, #d4af37 0%, #f5e6a3 30%, #d4af37 50%, #a67c00 70%, #d4af37 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: loadingReveal 1.2s ease-out forwards, goldShimmer 4s ease-in-out 1.2s infinite;
+    filter: drop-shadow(0 2px 16px rgba(212,175,55,0.35));
+  }
+  #loading-chinese {
+    font-family: 'Noto Sans SC', sans-serif; font-weight: 300;
+    font-size: clamp(0.85rem, 2vw, 1.15rem);
+    color: rgba(212,175,55,0.5);
+    letter-spacing: 0.5em; margin-top: 6px;
+    animation-delay: 0.3s;
+  }
+  #loading-line {
+    width: 80px; height: 1px; margin: 20px 0;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.4), transparent);
+    animation-delay: 0.5s;
   }
   #loading-bar-bg {
-    width: 200px; height: 2px; background: rgba(212,175,55,0.15);
-    margin-top: 32px; border-radius: 1px; overflow: hidden;
+    width: clamp(160px, 40vw, 240px); height: 2px;
+    background: rgba(212,175,55,0.08);
+    border-radius: 1px; overflow: hidden;
+    animation-delay: 0.6s;
   }
   #loading-bar {
-    width: 0%; height: 100%; background: #d4af37;
-    transition: width 0.3s ease;
+    width: 0%; height: 100%;
+    background: linear-gradient(90deg, #a67c00, #d4af37, #f5e6a3);
+    box-shadow: 0 0 10px rgba(212,175,55,0.4), 0 0 2px rgba(212,175,55,0.8);
+    transition: width 0.4s ease;
   }
-  #loading-text {
+  #loading-percent {
+    font-family: 'DM Mono', monospace; font-weight: 400;
+    font-size: 0.6rem; color: rgba(212,175,55,0.3);
+    letter-spacing: 0.2em; margin-top: 10px;
+    animation-delay: 0.7s;
+  }
+  #loading-fact {
     font-family: 'DM Mono', monospace; font-weight: 300;
-    font-size: 0.7rem; color: rgba(212,175,55,0.4);
-    letter-spacing: 0.15em; margin-top: 16px;
+    font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+    color: rgba(212,175,55,0.3);
+    letter-spacing: 0.08em; margin-top: 28px;
+    max-width: 340px; text-align: center; line-height: 1.7;
+    transition: opacity 0.5s ease;
+    animation-delay: 1s;
+  }
+  #loading-tagline {
+    position: absolute; bottom: clamp(20px, 4vh, 36px);
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.55rem; color: rgba(212,175,55,0.15);
+    letter-spacing: 0.25em;
+    animation-delay: 1.3s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .loading-particle { animation-duration: 0.01ms !important; }
+    .loading-anim, #loading-title { animation-duration: 0.01ms !important; animation-delay: 0s !important; opacity: 1; transform: none; }
+    #loading-fact { transition-duration: 0.01ms !important; }
   }
 
   /* Keyboard shortcuts help overlay */
@@ -2570,15 +2726,35 @@
 <div id="cinema-bar-bottom"></div>
 
 <div id="loading">
+  <div class="loading-particle" style="left:5%;width:2px;height:2px;animation-duration:7s;animation-delay:0s"></div>
+  <div class="loading-particle" style="left:12%;width:3px;height:3px;animation-duration:9s;animation-delay:0.5s"></div>
+  <div class="loading-particle" style="left:22%;width:1px;height:1px;animation-duration:6s;animation-delay:1.2s"></div>
+  <div class="loading-particle" style="left:30%;width:2px;height:2px;animation-duration:8s;animation-delay:2s"></div>
+  <div class="loading-particle" style="left:38%;width:3px;height:3px;animation-duration:11s;animation-delay:0.8s"></div>
+  <div class="loading-particle" style="left:45%;width:1px;height:1px;animation-duration:7s;animation-delay:3s"></div>
+  <div class="loading-particle" style="left:52%;width:2px;height:2px;animation-duration:9s;animation-delay:1.5s"></div>
+  <div class="loading-particle" style="left:60%;width:3px;height:3px;animation-duration:6s;animation-delay:0.3s"></div>
+  <div class="loading-particle" style="left:68%;width:1px;height:1px;animation-duration:10s;animation-delay:2.5s"></div>
+  <div class="loading-particle" style="left:75%;width:2px;height:2px;animation-duration:8s;animation-delay:1s"></div>
+  <div class="loading-particle" style="left:82%;width:2px;height:2px;animation-duration:7s;animation-delay:3.5s"></div>
+  <div class="loading-particle" style="left:90%;width:3px;height:3px;animation-duration:9s;animation-delay:0.7s"></div>
+  <div class="loading-particle" style="left:95%;width:1px;height:1px;animation-duration:6s;animation-delay:2.2s"></div>
+  <div class="loading-particle" style="left:17%;width:2px;height:2px;animation-duration:10s;animation-delay:4s"></div>
+  <div class="loading-particle" style="left:48%;width:1px;height:1px;animation-duration:8s;animation-delay:1.8s"></div>
   <div id="loading-title">BACCARAT CITY</div>
-  <div id="loading-bar-bg"><div id="loading-bar"></div></div>
-  <div id="loading-text">Loading Macau 3D Tiles...</div>
+  <div id="loading-chinese" class="loading-anim">百家樂之城</div>
+  <div id="loading-line" class="loading-anim"></div>
+  <div id="loading-bar-bg" class="loading-anim"><div id="loading-bar"></div></div>
+  <div id="loading-percent" class="loading-anim">0%</div>
+  <div id="loading-fact" class="loading-anim">The name "Macau" derives from A-Ma Temple (媽閣廟), built in 1488</div>
+  <div id="loading-tagline" class="loading-anim">DIGITAL TWIN · 澳門數碼分身</div>
 </div>
 
 <div id="cesiumContainer"></div>
 <div id="cloud-layer"></div>
 <div id="color-grading"></div>
 <div id="sun-rays"></div>
+<div id="night-bokeh"></div>
 <div id="rainbow-arc"></div>
 <div id="harbor-mist"></div>
 <div id="rain-overlay"></div>
@@ -2625,6 +2801,14 @@
     <div id="weather-details"></div>
     <div id="typhoon-signal"></div>
     <button id="typhoon-sim-btn">Typhoon Demo</button>
+    <div id="sky-arc-container">
+      <div id="sky-arc-path"></div>
+      <div id="sky-arc-horizon"></div>
+      <div id="sky-arc-arm"><div id="sky-body" class="sun"></div></div>
+      <span id="sky-arc-rise">6</span>
+      <span id="sky-arc-set">18</span>
+      <span id="sky-arc-label"></span>
+    </div>
   </div>
 
   <div id="city-pulse">
@@ -3350,6 +3534,55 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock();
+
+// ── Sun/Moon Sky Arc Indicator ──
+function updateSkyArc() {
+  var hour = getMacauHour();
+  var arm = document.getElementById('sky-arc-arm');
+  var body = document.getElementById('sky-body');
+  var label = document.getElementById('sky-arc-label');
+  var riseEl = document.getElementById('sky-arc-rise');
+  var setEl = document.getElementById('sky-arc-set');
+  if (!arm || !body) return;
+
+  // Sunrise ~6:00, sunset ~18:00 (Macau approximate)
+  var isDaytime = hour >= 6 && hour < 18;
+  var progress, angleDeg;
+
+  if (isDaytime) {
+    // Sun: 6:00 = left (-90°), 12:00 = top (0°), 18:00 = right (90°)
+    progress = (hour - 6) / 12; // 0.0 to 1.0
+    angleDeg = -90 + progress * 180;
+    body.className = 'sun';
+    riseEl.textContent = '6';
+    setEl.textContent = '18';
+    label.textContent = '';
+  } else {
+    // Moon: 18:00 = left (-90°), 0:00 = top (0°), 6:00 = right (90°)
+    var nightHour = hour >= 18 ? hour - 18 : hour + 6; // 0-12
+    progress = nightHour / 12;
+    angleDeg = -90 + progress * 180;
+    body.className = 'moon';
+    riseEl.textContent = '18';
+    setEl.textContent = '6';
+    label.textContent = '';
+  }
+
+  arm.style.transform = 'rotate(' + angleDeg + 'deg)';
+
+  // Dim the body near the horizon (dawn/dusk transition)
+  var horizonDist = Math.abs(angleDeg) / 90; // 1.0 at horizon, 0.0 at zenith
+  var bodyOpacity = horizonDist > 0.85 ? 1 - (horizonDist - 0.85) / 0.15 * 0.6 : 1;
+  body.style.opacity = bodyOpacity;
+
+  // Cloud cover dims the sun (weather-reactive)
+  if (isDaytime && currentWeather && currentWeather.cloud_cover != null) {
+    var cloudDim = 1 - (currentWeather.cloud_cover / 100) * 0.4;
+    body.style.opacity = Math.min(bodyOpacity, cloudDim);
+  }
+}
+setInterval(updateSkyArc, 1000);
+updateSkyArc();
 
 // ── City Pulse — Live Activity Indicator ──
 var CITY_PULSE_FEATURES = [
@@ -4176,11 +4409,37 @@ function stopLightning() {
 fetchWeather();
 setInterval(fetchWeather, 15 * 60 * 1000);
 
-// ── Loading bar ──
+// ── Loading bar + rotating facts ──
+var _loadingFacts = [
+  'The name "Macau" derives from A-Ma Temple (媽閣廟), built in 1488',
+  'Macau surpassed Las Vegas in gaming revenue in 2006',
+  '33 km² — one of the most densely populated places on Earth',
+  'UNESCO listed 22 Historic Centre sites as World Heritage in 2005',
+  'The Guia Lighthouse (1865) is the oldest on the China coast',
+  'Grand Lisboa at 261m is shaped like a blooming lotus flower',
+  'The Macau Grand Prix has been held annually since 1954',
+  'Portuguese arrived in 1557 — oldest European settlement in East Asia',
+  'Macau\'s egg tart (蛋撻) was inspired by Portuguese pastéis de nata',
+  'The lotus flower on Macau\'s flag symbolizes purity and harmony',
+];
+var _factIdx = 0;
+var _factInterval = setInterval(function() {
+  _factIdx = (_factIdx + 1) % _loadingFacts.length;
+  var el = document.getElementById('loading-fact');
+  if (el) {
+    el.style.opacity = '0';
+    setTimeout(function() {
+      el.textContent = _loadingFacts[_factIdx];
+      el.style.opacity = '';
+    }, 500);
+  }
+}, 4000);
 var loadProgress = 0;
 var loadInterval = setInterval(function() {
   loadProgress = Math.min(loadProgress + Math.random() * 12, 90);
   document.getElementById('loading-bar').style.width = loadProgress + '%';
+  var pct = document.getElementById('loading-percent');
+  if (pct) pct.textContent = Math.round(loadProgress) + '%';
 }, 400);
 
 // ── Cesium Setup ──
@@ -4247,11 +4506,14 @@ async function init() {
 
     // Finish loading screen
     clearInterval(loadInterval);
+    clearInterval(_factInterval);
     document.getElementById('loading-bar').style.width = '100%';
+    var pct = document.getElementById('loading-percent');
+    if (pct) pct.textContent = '100%';
     setTimeout(function() {
       document.getElementById('loading').classList.add('fade');
-      setTimeout(function() { document.getElementById('loading').style.display = 'none'; }, 1600);
-    }, 600);
+      setTimeout(function() { document.getElementById('loading').style.display = 'none'; }, 2000);
+    }, 800);
 
     _viewer = viewer;
 
@@ -4288,6 +4550,7 @@ async function init() {
     initSkyJump(viewer);
     addLEDFacades(viewer);
     initSeagulls(viewer);
+    initDolphins(viewer);
     initWavePool(viewer);
     initIncenseCoils(viewer);
     initNeonSigns(viewer);
@@ -4299,6 +4562,7 @@ async function init() {
     addTriiciclos(viewer);
     addPromenadeLights(viewer);
     addObstacleLights(viewer);
+    addRunwayLights(viewer);
     addTaiChiGroups(viewer);
     addFishingSampans(viewer);
     addTourBuses(viewer);
@@ -4378,7 +4642,8 @@ async function init() {
 
   } catch (error) {
     console.error('Failed to load 3D Tiles:', error);
-    document.getElementById('loading-text').textContent = 'Error loading tiles: ' + error.message;
+    var factEl = document.getElementById('loading-fact');
+    if (factEl) { factEl.textContent = 'Error loading tiles: ' + error.message; factEl.style.color = '#ff4444'; }
     document.getElementById('loading-bar').style.background = '#ff4444';
   }
 }
@@ -6965,6 +7230,7 @@ var ATTRACTIONS = {
   ],
   wildlife: [
     { name: "Harbor Seagulls", chinese: "海鷗", icon: "🕊️", lat: 22.1870, lon: 113.5400, alt: 300, pitch: -20 },
+    { name: "Pink Dolphins", chinese: "中華白海豚", icon: "🐬", lat: 22.1170, lon: 113.5200, alt: 250, pitch: -25 },
   ],
   coloane: [
     { name: "Hac Sa Beach", chinese: "黑沙海灘", icon: "🏖️", lat: 22.1164, lon: 113.5681, alt: 300, pitch: -25 },
@@ -10707,6 +10973,151 @@ function initSeagulls(viewer) {
   });
 }
 
+// ── Chinese White Dolphins (中華白海豚) ──
+// Iconic pink dolphins of the Pearl River Delta — endangered species found in waters around Coloane
+var DOLPHIN_PODS = [
+  {
+    name: 'Coloane West',
+    points: [
+      { lon: 113.5200, lat: 22.1300 },
+      { lon: 113.5120, lat: 22.1220 },
+      { lon: 113.5060, lat: 22.1140 },
+      { lon: 113.5100, lat: 22.1060 },
+    ],
+    durationSec: 70,
+    count: 3,
+  },
+  {
+    name: 'Hengqin Channel',
+    points: [
+      { lon: 113.5350, lat: 22.1250 },
+      { lon: 113.5400, lat: 22.1170 },
+      { lon: 113.5420, lat: 22.1090 },
+      { lon: 113.5380, lat: 22.1020 },
+    ],
+    durationSec: 80,
+    count: 4,
+  },
+  {
+    name: 'Airport Channel',
+    points: [
+      { lon: 113.5700, lat: 22.1480 },
+      { lon: 113.5750, lat: 22.1400 },
+      { lon: 113.5780, lat: 22.1320 },
+      { lon: 113.5720, lat: 22.1250 },
+    ],
+    durationSec: 65,
+    count: 3,
+  },
+];
+
+function createDolphinIcon() {
+  var c = document.createElement('canvas');
+  c.width = 28; c.height = 16;
+  var ctx = c.getContext('2d');
+
+  // Body — pinkish-white curved shape (Chinese white dolphins are actually pink)
+  ctx.fillStyle = 'rgba(245, 195, 210, 0.92)';
+  ctx.beginPath();
+  ctx.moveTo(2, 9);
+  ctx.quadraticCurveTo(7, 4, 14, 6);
+  ctx.quadraticCurveTo(19, 5, 22, 7);
+  ctx.lineTo(25, 6); ctx.lineTo(27, 4); // upper tail fluke
+  ctx.lineTo(25, 8);
+  ctx.lineTo(27, 10); // lower tail fluke
+  ctx.lineTo(24, 8);
+  ctx.quadraticCurveTo(19, 11, 14, 10);
+  ctx.quadraticCurveTo(7, 12, 2, 9);
+  ctx.closePath();
+  ctx.fill();
+
+  // Belly highlight — lighter pink
+  ctx.fillStyle = 'rgba(255, 225, 235, 0.5)';
+  ctx.beginPath();
+  ctx.ellipse(13, 9.5, 7, 1.5, 0, 0, Math.PI);
+  ctx.fill();
+
+  // Dorsal fin
+  ctx.fillStyle = 'rgba(230, 175, 195, 0.9)';
+  ctx.beginPath();
+  ctx.moveTo(12, 6); ctx.lineTo(14, 2); ctx.lineTo(16, 6);
+  ctx.closePath();
+  ctx.fill();
+
+  // Rostrum (snout) highlight
+  ctx.fillStyle = 'rgba(255, 210, 220, 0.6)';
+  ctx.beginPath();
+  ctx.ellipse(4, 9, 2.5, 1.2, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Eye
+  ctx.fillStyle = 'rgba(30, 30, 30, 0.85)';
+  ctx.beginPath();
+  ctx.arc(6, 7.5, 0.7, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Water splash spray — small drops above dorsal
+  ctx.fillStyle = 'rgba(200, 230, 255, 0.4)';
+  for (var d = 0; d < 3; d++) {
+    ctx.beginPath();
+    ctx.arc(11 + d * 2.5, 1 + d * 0.3, 0.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  return c;
+}
+
+function initDolphins(viewer) {
+  var dolphinIcon = createDolphinIcon().toDataURL();
+  var startTime = performance.now() / 1000;
+
+  DOLPHIN_PODS.forEach(function(pod) {
+    for (var i = 0; i < pod.count; i++) {
+      (function(p, idx) {
+        var phaseOffset = idx / p.count;
+        var reverseStart = idx % 2 === 1;
+        var speedVar = 0.85 + Math.random() * 0.3;
+        var surfaceFreq = 1.8 + Math.random() * 1.2;
+        var surfacePhase = Math.random() * Math.PI * 2;
+        var altJitter = Math.random() * 0.5;
+
+        viewer.entities.add({
+          name: p.name + ' Dolphin ' + idx,
+          position: new Cesium.CallbackProperty(function() {
+            var elapsed = (performance.now() / 1000 - startTime) * speedVar;
+            var rawT = ((elapsed / p.durationSec) + phaseOffset) % 2;
+            var t = rawT <= 1 ? rawT : 2 - rawT;
+            if (reverseStart) t = 1 - t;
+            var pos = lerpPosition(p.points, t);
+
+            // Surfacing arc — dolphins periodically break the water surface
+            var surfaceCycle = Math.sin(elapsed * surfaceFreq + surfacePhase);
+            var alt = surfaceCycle > 0.2 ? (surfaceCycle - 0.2) * 4.0 + altJitter : 0;
+
+            return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, alt);
+          }, false),
+          billboard: {
+            image: dolphinIcon,
+            verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            width: 28,
+            height: 16,
+            scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 8000, 0.5),
+            translucencyByDistance: new Cesium.NearFarScalar(50, 1.0, 12000, 0.0),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            rotation: new Cesium.CallbackProperty(function() {
+              var elapsed = (performance.now() / 1000 - startTime) * speedVar;
+              var rawT = ((elapsed / p.durationSec) + phaseOffset) % 2;
+              // Face direction of travel — flip on return leg
+              return rawT <= 1 ? 0 : Math.PI;
+            }, false),
+          },
+        });
+      })(pod, i);
+    }
+  });
+}
+
 // ── Galaxy Macau Rooftop Wave Pool ──
 function initWavePool(viewer) {
   // Canvas-drawn wave pool icon — blue water with white wave crests
@@ -12037,6 +12448,173 @@ function addObstacleLights(viewer) {
       },
     });
     _obstacleLightEntities.push(entity);
+  });
+}
+
+// ── Airport Runway Lights ──
+// Macau International Airport (MFM) — runway 16/34 night lighting
+// White edge lights, green threshold, red end, approach strobes, blue taxiway
+var _runwayLightEntities = [];
+
+function addRunwayLights(viewer) {
+  var startTime = Date.now();
+  var edgeOffset = 0.00025; // ~25m perpendicular offset for left/right edge lights
+
+  // Reuse createBridgeLightIcon for all light types
+  var whiteIcon = createBridgeLightIcon([255, 255, 240], 6).toDataURL();
+  var greenIcon = createBridgeLightIcon([0, 255, 100], 8).toDataURL();
+  var redIcon = createBridgeLightIcon([255, 50, 50], 8).toDataURL();
+  var blueIcon = createBridgeLightIcon([60, 140, 255], 6).toDataURL();
+  var approachIcon = createBridgeLightIcon([255, 255, 200], 10).toDataURL();
+
+  // Runway centerline points — from north (RWY 16) to south (RWY 34)
+  // Aligned with existing approach/departure flight routes
+  var centerline = [
+    { lon: 113.5887, lat: 22.1562 },
+    { lon: 113.5889, lat: 22.1545 },
+    { lon: 113.5891, lat: 22.1528 },
+    { lon: 113.5893, lat: 22.1511 },
+    { lon: 113.5895, lat: 22.1494 },
+    { lon: 113.5897, lat: 22.1477 },
+  ];
+
+  // Edge lights (white) — pairs on both sides of runway centerline
+  centerline.forEach(function(pt, idx) {
+    var phase = idx * 0.3;
+    [pt.lon - edgeOffset, pt.lon + edgeOffset].forEach(function(lon, side) {
+      _runwayLightEntities.push(viewer.entities.add({
+        name: 'Runway Edge ' + (side ? 'R' : 'L') + idx,
+        position: Cesium.Cartesian3.fromDegrees(lon, pt.lat, 3),
+        billboard: {
+          image: whiteIcon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: new Cesium.CallbackProperty(function() {
+            var glow = _currentGlowIntensity;
+            if (glow < 0.05) return 0;
+            var t = (Date.now() - startTime) / 1000;
+            var pulse = 0.85 + 0.15 * Math.sin(t * 0.8 + phase);
+            return pulse * glow * 1.2;
+          }, false),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 12000, 0.0),
+          scaleByDistance: new Cesium.NearFarScalar(100, 2.0, 10000, 0.4),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      }));
+    });
+  });
+
+  // Threshold lights (green) — 3 lights at each runway end
+  var thresholds = [
+    { lon: 113.5884, lat: 22.1564 }, { lon: 113.5887, lat: 22.1564 }, { lon: 113.5890, lat: 22.1564 },
+    { lon: 113.5894, lat: 22.1475 }, { lon: 113.5897, lat: 22.1475 }, { lon: 113.5900, lat: 22.1475 },
+  ];
+  thresholds.forEach(function(pt, idx) {
+    _runwayLightEntities.push(viewer.entities.add({
+      name: 'Runway Threshold ' + idx,
+      position: Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, 3),
+      billboard: {
+        image: greenIcon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: new Cesium.CallbackProperty(function() {
+          var glow = _currentGlowIntensity;
+          if (glow < 0.05) return 0;
+          return glow * 1.3;
+        }, false),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 12000, 0.0),
+        scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 10000, 0.5),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    }));
+  });
+
+  // Runway end lights (red) — 2 at each end
+  var endLights = [
+    { lon: 113.5885, lat: 22.1567 }, { lon: 113.5889, lat: 22.1567 },
+    { lon: 113.5895, lat: 22.1472 }, { lon: 113.5899, lat: 22.1472 },
+  ];
+  endLights.forEach(function(pt, idx) {
+    _runwayLightEntities.push(viewer.entities.add({
+      name: 'Runway End ' + idx,
+      position: Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, 3),
+      billboard: {
+        image: redIcon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: new Cesium.CallbackProperty(function() {
+          var glow = _currentGlowIntensity;
+          if (glow < 0.05) return 0;
+          return glow * 1.2;
+        }, false),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 12000, 0.0),
+        scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 10000, 0.5),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    }));
+  });
+
+  // Approach lights (bright white, sequential strobe) — south of RWY 34 threshold
+  var approach = [
+    { lon: 113.5899, lat: 22.1462 },
+    { lon: 113.5901, lat: 22.1447 },
+    { lon: 113.5903, lat: 22.1432 },
+    { lon: 113.5905, lat: 22.1417 },
+    { lon: 113.5907, lat: 22.1402 },
+  ];
+  approach.forEach(function(pt, idx) {
+    var phase = idx * 0.2;
+    _runwayLightEntities.push(viewer.entities.add({
+      name: 'Approach Light ' + idx,
+      position: Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, 5),
+      billboard: {
+        image: approachIcon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: new Cesium.CallbackProperty(function() {
+          var glow = _currentGlowIntensity;
+          if (glow < 0.05) return 0;
+          var t = (Date.now() - startTime) / 1000;
+          // Sequential strobe: each light flashes briefly in sequence (simulates approach sequence flashers)
+          var cycle = (t * 2 + phase) % 1.0;
+          var strobe = cycle < 0.15 ? 1.0 : 0.25;
+          return strobe * glow * 1.5;
+        }, false),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 15000, 0.0),
+        scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 12000, 0.5),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    }));
+  });
+
+  // Taxiway lights (blue) — main taxiway connecting runway to terminal (west side)
+  var taxiway = [
+    { lon: 113.5880, lat: 22.1510 },
+    { lon: 113.5872, lat: 22.1505 },
+    { lon: 113.5864, lat: 22.1500 },
+    { lon: 113.5856, lat: 22.1498 },
+  ];
+  taxiway.forEach(function(pt, idx) {
+    var phase = idx * 0.5;
+    _runwayLightEntities.push(viewer.entities.add({
+      name: 'Taxiway Light ' + idx,
+      position: Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, 2),
+      billboard: {
+        image: blueIcon,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: new Cesium.CallbackProperty(function() {
+          var glow = _currentGlowIntensity;
+          if (glow < 0.05) return 0;
+          var t = (Date.now() - startTime) / 1000;
+          var pulse = 0.8 + 0.2 * Math.sin(t * 0.6 + phase);
+          return pulse * glow * 1.0;
+        }, false),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 10000, 0.0),
+        scaleByDistance: new Cesium.NearFarScalar(100, 2.0, 8000, 0.4),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    }));
   });
 }
 
@@ -13762,6 +14340,19 @@ function drawMinimap() {
     }
   }
 
+  // Pink dolphins — pink dots (ping-pong, always active)
+  DOLPHIN_PODS.forEach(function(pod) {
+    for (var i = 0; i < pod.count; i++) {
+      var offset = i / pod.count;
+      var reverse = i % 2 === 1;
+      var rawT = ((elapsed / pod.durationSec) + offset) % 2;
+      var t = rawT <= 1 ? rawT : 2 - rawT;
+      if (reverse) t = 1 - t;
+      var pos = lerpPosition(pod.points, t);
+      drawTransportDot(pos.lon, pos.lat, 'rgba(245, 170, 200, 0.9)', 2.5);
+    }
+  });
+
   // Transport legend at bottom
   var legendY = h - 12;
   var legendItems = [
@@ -13774,6 +14365,7 @@ function drawMinimap() {
     { color: 'rgba(180, 100, 220, 0.9)', label: 'Shuttle' },
     { color: 'rgba(60, 160, 255, 0.95)', label: 'Taxi' },
     { color: 'rgba(255, 200, 80, 0.95)', label: 'Cruise' },
+    { color: 'rgba(245, 170, 200, 0.9)', label: 'Dolphin' },
   ];
   ctx.font = '11px DM Mono, monospace';
   ctx.textAlign = 'left';
@@ -14442,6 +15034,89 @@ function addSkyCabs(viewer) {
   setTimeout(updateSunRays, 3000);
 })();
 
+// ── Night City Bokeh Lights ──
+// Soft out-of-focus light orbs drifting at night for cinematic casino atmosphere
+(function() {
+  var container = document.getElementById('night-bokeh');
+  if (!container) return;
+
+  // Casino-inspired color palette: gold, pink, cyan, warm white, magenta, blue
+  var BOKEH_COLORS = [
+    { r: 212, g: 175, b: 55 },   // gold
+    { r: 255, g: 120, b: 160 },  // pink
+    { r: 80,  g: 220, b: 240 },  // cyan
+    { r: 255, g: 240, b: 200 },  // warm white
+    { r: 200, g: 80,  b: 220 },  // magenta
+    { r: 100, g: 140, b: 255 },  // blue
+    { r: 255, g: 180, b: 60 },   // amber
+  ];
+
+  var BOKEH_COUNT = 18;
+  var orbs = [];
+
+  for (var i = 0; i < BOKEH_COUNT; i++) {
+    var orb = document.createElement('div');
+    orb.className = 'bokeh-orb';
+
+    var color = BOKEH_COLORS[i % BOKEH_COLORS.length];
+    var size = 20 + Math.random() * 50; // 20-70px
+    var x = Math.random() * 100;        // % across viewport
+    var y = 20 + Math.random() * 70;    // % down viewport (avoid top title area)
+    var baseOp = 0.08 + Math.random() * 0.12;  // 0.08-0.20
+    var peakOp = baseOp + 0.06 + Math.random() * 0.08;
+    var dur = 15 + Math.random() * 25;  // 15-40s cycle
+    var delay = Math.random() * dur;    // staggered start
+    var blur = 8 + Math.random() * 14;  // 8-22px blur for soft focus
+    var s1 = 0.85 + Math.random() * 0.3;
+    var s2 = 0.85 + Math.random() * 0.3;
+
+    // Random drift directions
+    var dx1 = -50 + Math.random() * 100;
+    var dy1 = -60 + Math.random() * 40;
+    var dx2 = -40 + Math.random() * 80;
+    var dy2 = -80 + Math.random() * 60;
+    var dx3 = -60 + Math.random() * 120;
+    var dy3 = -40 + Math.random() * 80;
+
+    orb.style.width = size + 'px';
+    orb.style.height = size + 'px';
+    orb.style.left = x + '%';
+    orb.style.top = y + '%';
+    orb.style.filter = 'blur(' + blur + 'px)';
+    orb.style.background = 'radial-gradient(circle, rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.6) 0%, rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.15) 40%, transparent 70%)';
+    orb.style.setProperty('--bokeh-op', baseOp.toFixed(3));
+    orb.style.setProperty('--bokeh-peak', peakOp.toFixed(3));
+    orb.style.setProperty('--bokeh-dx1', dx1.toFixed(0) + 'px');
+    orb.style.setProperty('--bokeh-dy1', dy1.toFixed(0) + 'px');
+    orb.style.setProperty('--bokeh-dx2', dx2.toFixed(0) + 'px');
+    orb.style.setProperty('--bokeh-dy2', dy2.toFixed(0) + 'px');
+    orb.style.setProperty('--bokeh-dx3', dx3.toFixed(0) + 'px');
+    orb.style.setProperty('--bokeh-dy3', dy3.toFixed(0) + 'px');
+    orb.style.setProperty('--bokeh-s1', s1.toFixed(2));
+    orb.style.setProperty('--bokeh-s2', s2.toFixed(2));
+    orb.style.animation = 'bokehFloat ' + dur.toFixed(1) + 's ease-in-out ' + delay.toFixed(1) + 's infinite';
+
+    container.appendChild(orb);
+    orbs.push(orb);
+  }
+
+  function updateNightBokeh() {
+    var glow = _currentGlowIntensity;
+
+    if (glow < 0.1) {
+      container.classList.remove('active');
+      return;
+    }
+
+    // Scale overall opacity with glow intensity for smooth dusk/dawn transitions
+    container.style.opacity = (glow * 0.9).toFixed(3);
+    container.classList.add('active');
+  }
+
+  setInterval(updateNightBokeh, 4000);
+  setTimeout(updateNightBokeh, 5000);
+})();
+
 // ── Rainbow Arc (after rain with sun) ──
 // Appears when light/moderate rain occurs during daytime with partial cloud cover (sun breaking through)
 (function() {
@@ -14802,6 +15477,8 @@ function addSkyCabs(viewer) {
     { icon: '\uD83D\uDCF7', text: isTouch ? 'Tap the Photo button to enter cinematic capture mode \u2014 tap to take a screenshot with watermark, save and share your Macau view' : 'Click Photo to enter cinematic capture mode \u2014 press Enter to save a watermarked screenshot of your Macau view' },
     { icon: '\uD83C\uDFB0', text: 'Watch for jackpot win announcements \u2014 big wins happen across Macau\u2019s casinos. Tap the notification to fly to the winning casino!' },
     { icon: '\u2B1B', text: 'Look for Portuguese calçada cobblestone patterns at heritage squares \u2014 the iconic black-and-white wave mosaic at Senado Square is a symbol of Macau\u2019s colonial legacy' },
+    { icon: '\u2600\uFE0F', text: 'Watch the sun/moon arc next to the weather display \u2014 it tracks the celestial body\u2019s position in real Macau time, dimming with cloud cover' },
+    { icon: '\u2708\uFE0F', text: 'Look at the airport at night \u2014 runway edge lights (white), threshold lights (green), end lights (red), approach strobes, and blue taxiway markers light up the runway' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

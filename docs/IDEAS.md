@@ -56,5 +56,5 @@
 - [ ] Texture maps on key buildings for realism
 - [ ] Shadow quality improvements
 - [x] Mobile touch controls (Session 64: virtual joystick for street-mode walking)
-- [ ] Loading screen with progress bar
+- [x] Loading screen with progress bar (Session 167: cinematic loading screen with particles, rotating facts, gold gradient progress bar)
 - [ ] FPS counter / performance monitoring

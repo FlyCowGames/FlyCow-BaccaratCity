@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-26 (Session 159)
+## Last Updated: 2026-03-26 (Session 171)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -93,6 +93,8 @@
 - **Na Tcha Temple landmark**: Full clickable landmark for Templo de Na Tcha (哪吒廟) — a tiny but culturally significant 1888 Chinese folk temple directly behind the Ruins of St. Paul's. Built during a plague epidemic, dedicated to child deity Na Tcha (Nezha). One of the smallest UNESCO World Heritage Sites. Its juxtaposition with the Jesuit church ruins symbolises Macau's Chinese-Portuguese cultural coexistence. Info card with 3 Wikimedia Commons photos, Lingnan architecture details. Added to Landmarks in Explore panel (Session 145)
 - **Sé Cathedral landmark**: Full clickable landmark for the Cathedral of the Nativity of Our Lady (主教座堂) — mother church of the Roman Catholic Diocese of Macau, one of Asia's oldest dioceses (established 1576). Originally built 1622, rebuilt in reinforced concrete 1937 with austere neoclassical twin-tower facade. Info card with 3 Wikimedia Commons photos, description, facts about Cathedral Square ceremonies. UNESCO World Heritage Site. Added to Landmarks in Explore panel (Session 146)
 - **Dom Pedro V Theatre landmark**: Full clickable landmark for the Teatro Dom Pedro V (伯多祿五世劇院) — the first Western-style theatre in China and one of the first in East Asia, built 1860, named after King Pedro V of Portugal. Neoclassical mint-green facade with Ionic columns at St. Augustine's Square. Info card with 3 Wikimedia Commons photos, facts about 300-seat horseshoe auditorium, 160+ years of continuous performance. UNESCO World Heritage Site. Added to Landmarks in Explore panel (Session 148)
+- **Cinematic loading screen**: warm radial gradient background with 15 floating golden particles, staggered reveal animations for title/subtitle/progress bar, gold shimmer gradient "BACCARAT CITY" title, "百家樂之城" Chinese subtitle, rotating Macau facts (10 curated historical/cultural facts cycling every 4s), enhanced progress bar with gold gradient glow and percentage counter, "DIGITAL TWIN · 澳門數碼分身" tagline, mobile-responsive with clamp() sizing, prefers-reduced-motion support (Session 167)
+- **Night city bokeh lights**: 18 soft-focus circular light orbs drifting across the viewport at night with casino-inspired color palette (gold, pink, cyan, warm white, magenta, blue, amber). Radial gradient circles with 8-22px CSS blur for authentic depth-of-field effect. Gentle multi-axis float animation with staggered 15-40s cycles. Night-only via _currentGlowIntensity with smooth dusk/dawn opacity transitions. Respects prefers-reduced-motion (Session 171)
 - Dark/gold branding overlay: "BACCARAT CITY" / "百家樂之城 - 澳門風雲"
 - Real-time Macau clock with day/night/golden hour indicator
 

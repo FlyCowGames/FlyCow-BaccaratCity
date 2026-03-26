@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-26 (Session 164)*
+*This document evolves every session. Last updated: 2026-03-26 (Session 171)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -146,3 +146,5 @@
 - Landmark Discovery Progress Tracker: gamification system tracking 30 landmarks with progress bar, checkmarks, toast notifications, localStorage persistence (Session 156)
 - Wet neon road reflections: animated casino-colored light streaks on wet pavement during rainy nights, intensity scales with rain level, integrates with typhoon demo (Session 157)
 - Camera lens raindrops: animated water drops on viewport during rain with streaking effect, intensity scales with rain, mobile-responsive (Session 159)
+- Cinematic loading screen: gold particles, staggered reveal, rotating Macau facts, enhanced progress bar (Session 167)
+- Night city bokeh lights: 18 cinematic soft-focus light orbs with casino color palette drifting at night (Session 171)

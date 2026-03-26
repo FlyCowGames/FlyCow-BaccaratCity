@@ -1,5 +1,56 @@
 # Changelog
 
+## Session 171 — 2026-03-26 (Automated Agent)
+- Night city bokeh lights: cinematic soft-focus light orbs drifting at night for casino atmosphere
+- 18 bokeh orbs with casino color palette (gold, pink, cyan, warm white, magenta, blue, amber)
+- Radial gradient circles with 8-22px CSS blur for authentic depth-of-field lens effect
+- Gentle multi-axis drift animation with staggered 15-40s cycles and varied sizes (20-70px)
+- Night-only activation via _currentGlowIntensity with smooth dusk/dawn opacity transitions
+- Respects prefers-reduced-motion, works with time slider and 24H time-lapse
+- Zero JavaScript errors on desktop (1280x800) and mobile (390x844)
+- File grew from ~15911 to ~16020 lines (+109 lines)
+
+## Session 170 — 2026-03-26 (Automated Agent) — QUALITY AUDIT
+- Full quality audit: evaluated all features, regression tested top 5, performance checked
+- **Fixed event banner**: replaced garish red/orange gradient with elegant dark/gold treatment
+- Old banner used aggressive `rgba(180,40,20,0.85)` red that clashed with site's luxury aesthetic
+- New banner uses dark `rgba(10,10,18,0.92)` base with gold `#d4af37` text and accents
+- Added backdrop-filter blur for depth, gold-tinted status badge, subtle gold border
+- Event banner now matches the site's dark/gold casino luxury aesthetic perfectly
+- Audit findings: most features rated GOOD; event banner was the worst visual offender
+- Performance: 627KB file, 15,914 lines, ~4s load time — acceptable for single-file CesiumJS app
+- Zero JavaScript errors on desktop and mobile
+- All regression checks passed: time slider, weather, landmarks, audio, baccarat
+
+## Session 167 — 2026-03-26 (Automated Agent)
+- Enhanced cinematic loading screen: complete redesign of the first-time visitor experience
+- Warm radial gradient background replacing plain black — cinematic first impression
+- 15 floating golden particle elements with staggered drift animation (varying size, speed, delay)
+- Gold shimmer gradient title with staggered reveal animations (title, subtitle, line, bar, facts)
+- Chinese subtitle "百家樂之城" and decorative gold divider line
+- Enhanced progress bar with gold gradient glow effect and real-time percentage counter
+- Rotating Macau facts: 10 curated historical/cultural facts cycle every 4 seconds during load
+- "DIGITAL TWIN · 澳門數碼分身" tagline at bottom
+- Smooth cross-fade transitions between facts (0.5s fade out/in)
+- Mobile-responsive: clamp() sizing, adjusted letter-spacing and max-width at 600px
+- Respects prefers-reduced-motion for all animations and transitions
+- Error state gracefully displayed in fact area with red text
+- Zero JavaScript errors, passed desktop and mobile checks
+- File grew from ~15632 to ~15745 lines (+113 lines)
+
+## Session 166 — 2026-03-26 (Automated Agent)
+- Sun/Moon sky arc indicator: elegant celestial position tracker next to weather display
+- Semi-circular arc with golden sun (daytime) or silver moon (nighttime) dot
+- Sun arc: 6 AM (left) → noon (zenith) → 6 PM (right); Moon arc: 6 PM → midnight → 6 AM
+- Weather-reactive: sun dims proportionally with real cloud cover from weather API
+- Horizon fade: celestial body opacity reduces near sunrise/sunset positions
+- Syncs with time slider and 24H time-lapse — watch sun/moon traverse the arc
+- Rise/set hour markers at arc endpoints, smooth 2s CSS transitions
+- Mobile-responsive: compact 56x30px on narrow viewports, full 72x38px on desktop
+- Respects prefers-reduced-motion for accessibility
+- Feature tip added for discoverability
+- File grew from ~15504 to ~15576 lines (+72 lines)
+
 ## Session 164 — 2026-03-26 (Automated Agent)
 - Portuguese calçada cobblestone pavement: classic black-and-white stone mosaic patterns at 6 heritage squares
 - 3 authentic motifs: Mar Largo wave (Senado Square), fan shell (St. Augustine's), compass rose (Barra Square)

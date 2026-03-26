@@ -1889,6 +1889,59 @@
       ],
       "linesAdded": 155,
       "agent": "automated"
+    },
+    {
+      "session": 166,
+      "date": "2026-03-26",
+      "title": "Sun/Moon Sky Arc Indicator",
+      "domain": "atmosphere",
+      "summary": "Elegant celestial position indicator showing the sun or moon traversing a decorative arc next to the weather display, tracking real Macau time.",
+      "details": [
+        "Semi-circular arc with sun (golden) or moon (silver) dot tracking celestial position in real Macau time",
+        "Sun arc spans 6 AM (left) to 6 PM (right) with noon at zenith; moon arc spans 6 PM to 6 AM",
+        "Weather-reactive: sun dims with cloud cover from live weather API data",
+        "Horizon fade: body opacity reduces near sunrise/sunset horizon positions",
+        "Works with time slider and 24H time-lapse — watch the sun/moon traverse the arc",
+        "Rise/set hour markers at arc endpoints, smooth CSS transitions",
+        "Mobile-responsive: compact 56x30px on narrow viewports, 72x38px on desktop",
+        "Feature tip added for discoverability"
+      ],
+      "linesAdded": 72,
+      "agent": "automated"
+    },
+    {
+      "session": 167,
+      "date": "2026-03-26",
+      "title": "Enhanced Cinematic Loading Screen",
+      "domain": "interactivity",
+      "summary": "Complete redesign of the loading screen with cinematic gold particles, staggered reveal animations, rotating Macau facts, and enhanced progress bar.",
+      "details": [
+        "Warm radial gradient background with 15 floating golden particle elements",
+        "Gold shimmer title with staggered reveal animations for all elements",
+        "Chinese subtitle, decorative divider, and bottom tagline",
+        "Enhanced progress bar with gold gradient glow and real-time percentage counter",
+        "10 curated Macau historical/cultural facts rotating every 4 seconds during load",
+        "Mobile-responsive with clamp() sizing, prefers-reduced-motion support"
+      ],
+      "linesAdded": 113,
+      "agent": "automated"
+    },
+    {
+      "session": 171,
+      "date": "2026-03-26",
+      "title": "Night City Bokeh Lights",
+      "domain": "atmosphere",
+      "summary": "Cinematic soft-focus light orbs drift across the viewport at night, adding depth-of-field atmosphere to the casino cityscape.",
+      "details": [
+        "18 soft bokeh orbs with casino color palette: gold, pink, cyan, warm white, magenta, blue, amber",
+        "Radial gradient circles with 8-22px blur for authentic out-of-focus lens effect",
+        "Gentle multi-axis drift animation with staggered 15-40s cycles per orb",
+        "Night-only: activates with _currentGlowIntensity (19:00-05:00) with smooth dusk/dawn transitions",
+        "Respects prefers-reduced-motion for accessibility",
+        "Works with time slider and 24H time-lapse"
+      ],
+      "linesAdded": 109,
+      "agent": "automated"
     }
   ]
 }
