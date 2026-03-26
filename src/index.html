@@ -895,6 +895,33 @@
     #cloud-shadows { transition-duration: 0.01ms !important; }
   }
 
+  /* Sunset/sunrise sky gradient bands */
+  #sky-gradient {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 50%;
+    pointer-events: none; z-index: 41;
+    opacity: 0; transition: opacity 8s ease;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0.15) 65%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0.15) 65%, transparent 100%);
+  }
+  #sky-gradient.active { opacity: 1; }
+  .sky-band {
+    position: absolute;
+    left: -10%;
+    width: 120%;
+    border-radius: 50%;
+    filter: blur(30px);
+    will-change: opacity;
+  }
+  @keyframes skyBandPulse {
+    0%, 100% { opacity: var(--sky-base, 0.06); }
+    50% { opacity: var(--sky-peak, 0.1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sky-band { animation-duration: 0.01ms !important; }
+    #sky-gradient { transition-duration: 0.01ms !important; }
+  }
+
   /* Moonlit water path — silver-blue moonlight reflection on harbor */
   #moon-path {
     position: fixed; bottom: 0; left: 0; width: 100%; height: 35%;
@@ -3114,6 +3141,7 @@
 <div id="harbor-mist"></div>
 <div id="heat-shimmer"></div>
 <div id="cloud-shadows"></div>
+<div id="sky-gradient"></div>
 <div id="rain-overlay"></div>
 <div id="rain-splash-layer"></div>
 <div id="neon-reflections"></div>
@@ -3978,6 +4006,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1870, lon: 113.5310, alt: 120, pitch: -20 },
   { name: 'Golden Hour', chinese: '黃金時刻', icon: '🌇', start: 16.5, end: 19,
     lat: 22.1893, lon: 113.5399, alt: 500, pitch: -20 },
+  { name: 'Sunset Sky', chinese: '晚霞', icon: '🌆', start: 17, end: 19,
+    lat: 22.1893, lon: 113.5399, alt: 600, pitch: -15 },
   { name: 'Dinner Cruise', chinese: '海上晚餐', icon: '🚢', start: 19, end: 23,
     lat: 22.1850, lon: 113.5450, alt: 400, pitch: -25 },
   { name: 'Neon Casino Glow', chinese: '霓虹', icon: '✨', start: 19, end: 5,
@@ -16313,6 +16343,110 @@ function addSkyCabs(viewer) {
   setTimeout(updateCloudShadows, 4500);
 })();
 
+// ── Sunset/Sunrise Sky Gradient Bands ──
+// Vivid horizontal color bands at the horizon during sunrise (5-7 AM) and sunset (17-19)
+(function() {
+  var container = document.getElementById('sky-gradient');
+  if (!container) return;
+
+  // Sunset palette: deep orange → coral → rose pink → lavender → pale violet
+  var SUNSET_BANDS = [
+    { bottom: '2%',  h: '18%', color: [255, 100, 30],  opacity: 0.09, dur: 25 },
+    { bottom: '12%', h: '20%', color: [255, 135, 80],  opacity: 0.075, dur: 30 },
+    { bottom: '25%', h: '22%', color: [255, 140, 150], opacity: 0.06, dur: 28 },
+    { bottom: '40%', h: '20%', color: [200, 140, 200], opacity: 0.04, dur: 35 },
+    { bottom: '55%', h: '18%', color: [160, 130, 200], opacity: 0.025, dur: 32 },
+  ];
+
+  // Sunrise palette: warm gold → peach → soft pink → lavender → periwinkle
+  var SUNRISE_BANDS = [
+    { bottom: '2%',  h: '18%', color: [255, 180, 60],  opacity: 0.085, dur: 26 },
+    { bottom: '12%', h: '20%', color: [255, 170, 120], opacity: 0.07, dur: 31 },
+    { bottom: '25%', h: '22%', color: [255, 160, 170], opacity: 0.055, dur: 27 },
+    { bottom: '40%', h: '20%', color: [210, 160, 210], opacity: 0.035, dur: 34 },
+    { bottom: '55%', h: '18%', color: [180, 170, 220], opacity: 0.025, dur: 33 },
+  ];
+
+  var bands = [];
+  for (var i = 0; i < 5; i++) {
+    var el = document.createElement('div');
+    el.className = 'sky-band';
+    bands.push(el);
+    container.appendChild(el);
+  }
+
+  function updateSkyGradient() {
+    var hour = getMacauHour();
+    var intensity = 0;
+    var isSunset = false;
+
+    // Sunrise: 5:00-7:00 AM (peak 5:45-6:15)
+    if (hour >= 5 && hour < 7) {
+      if (hour < 5.75) intensity = (hour - 5) / 0.75;
+      else if (hour < 6.25) intensity = 1.0;
+      else intensity = 1.0 - (hour - 6.25) / 0.75;
+    }
+    // Sunset: 17:00-19:00 (peak 17:45-18:15)
+    else if (hour >= 17 && hour < 19) {
+      isSunset = true;
+      if (hour < 17.75) intensity = (hour - 17) / 0.75;
+      else if (hour < 18.25) intensity = 1.0;
+      else intensity = 1.0 - (hour - 18.25) / 0.75;
+    }
+
+    // Weather modulation: partial clouds enhance, heavy clouds dampen
+    if (typeof currentWeather !== 'undefined' && currentWeather) {
+      var clouds = currentWeather.cloud_cover || 0;
+      if (clouds < 20) {
+        intensity *= 0.85; // clear sky — nice but not peak
+      } else if (clouds < 50) {
+        intensity *= 0.9 + (clouds - 20) / 30 * 0.1; // partial clouds enhance
+      } else if (clouds < 75) {
+        intensity *= 0.9 - (clouds - 50) / 25 * 0.5; // mostly cloudy — reduced
+      } else {
+        intensity *= 0.2; // overcast — very dim
+      }
+
+      var wc = currentWeather.weather_code || 0;
+      if (typeof isRainyCode === 'function' && isRainyCode(wc)) intensity *= 0.15;
+      if (wc === 45 || wc === 48) intensity *= 0.2; // fog
+    }
+
+    // Typhoon kills it
+    if (typeof _typhoonSimActive !== 'undefined' && _typhoonSimActive) intensity = 0;
+
+    intensity = Math.min(intensity, 1.0);
+
+    if (intensity < 0.02) {
+      container.classList.remove('active');
+      return;
+    }
+
+    var palette = isSunset ? SUNSET_BANDS : SUNRISE_BANDS;
+
+    for (var i = 0; i < bands.length; i++) {
+      var b = palette[i];
+      var c = b.color;
+      var op = b.opacity * intensity;
+
+      bands[i].style.bottom = b.bottom;
+      bands[i].style.height = b.h;
+      bands[i].style.setProperty('--sky-base', (op * 0.7).toFixed(4));
+      bands[i].style.setProperty('--sky-peak', op.toFixed(4));
+      bands[i].style.animation = 'skyBandPulse ' + b.dur + 's ease-in-out ' + (i * 3) + 's infinite';
+      bands[i].style.background = 'linear-gradient(90deg, transparent 0%, rgba(' +
+        c[0] + ',' + c[1] + ',' + c[2] + ',' + op.toFixed(4) + ') 20%, rgba(' +
+        c[0] + ',' + c[1] + ',' + c[2] + ',' + (op * 1.2).toFixed(4) + ') 50%, rgba(' +
+        c[0] + ',' + c[1] + ',' + c[2] + ',' + op.toFixed(4) + ') 80%, transparent 100%)';
+    }
+
+    container.classList.add('active');
+  }
+
+  setInterval(updateSkyGradient, 5000);
+  setTimeout(updateSkyGradient, 5000);
+})();
+
 // ── Feature Tips (rotating discovery system) ──
 (function() {
   var isTouch = 'ontouchstart' in window;
@@ -16385,6 +16519,7 @@ function addSkyCabs(viewer) {
     { icon: '\uD83C\uDF03', text: 'At night, notice the warm amber glow at the horizon \u2014 Macau\'s casino district light pollution reflecting off the atmosphere, brighter during fog' },
     { icon: '\uD83C\uDF2C\uFE0F', text: 'Check the wind compass in the weather display \u2014 the gold needle shows real-time Macau wind direction and speed from live weather data' },
     { icon: '\uD83C\uDF19', text: 'On clear nights, watch for silver-blue moonlight shimmering on the harbor water \u2014 clouds dim the moonlight path, clear skies make it glow' },
+    { icon: '\uD83C\uDF06', text: 'Watch the horizon at sunrise (5\u20137 AM) and sunset (5\u20137 PM) for vivid sky color bands \u2014 partial clouds make the colors even more dramatic' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

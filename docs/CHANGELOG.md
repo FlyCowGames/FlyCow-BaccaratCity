@@ -1,5 +1,17 @@
 # Changelog
 
+## Session 179 — 2026-03-26 (Automated Agent)
+- Sunset/sunrise sky gradient bands: vivid horizontal color bands at the horizon during sunrise and sunset
+- 5 layered gradient bands per palette with distinct colors (deep orange → coral → rose → lavender → violet for sunset; warm gold → peach → pink → lavender → periwinkle for sunrise)
+- Sunrise active 5:00-7:00 AM, sunset active 17:00-19:00 PM Macau time with smooth 45-min ramp in/out
+- Weather-reactive: partial clouds (20-50%) enhance colors (light scattering), heavy overcast dampens, rain/fog/typhoon disables
+- CSS mask gradient for natural ground-up fade, 30px blur for soft edges, staggered pulse animation (25-35s cycles)
+- Added to City Pulse live activity indicator (🌆 Sunset Sky / 晚霞) with click-to-fly
+- Feature tip added for discoverability
+- Respects prefers-reduced-motion for accessibility
+- Zero JavaScript errors on desktop (1280x800) and mobile (390x844)
+- File grew from ~16,926 to ~17,061 lines (+135 lines)
+
 ## Session 178 — 2026-03-26 (Automated Agent)
 - Moonlit water path: silver-blue moonlight shimmer on harbor water during clear nights
 - 22 twinkling sparkle points concentrated in a central column (70% within 35-65% horizontal band) with scattered edge sparkles

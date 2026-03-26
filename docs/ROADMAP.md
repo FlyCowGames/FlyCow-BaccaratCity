@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-26 (Session 178)*
+*This document evolves every session. Last updated: 2026-03-26 (Session 179)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -153,3 +153,4 @@
 - Wind direction compass: animated compass dial in weather display with real-time wind data (Session 175)
 - Daytime cloud shadows: weather-reactive drifting shadow patches during cloudy daytime hours (Session 177)
 - Moonlit water path: silver-blue moonlight shimmer on harbor water during clear nights, weather-reactive (Session 178)
+- Sunset/sunrise sky gradient bands: vivid horizon color bands at dawn/dusk with weather-reactive intensity (Session 179)

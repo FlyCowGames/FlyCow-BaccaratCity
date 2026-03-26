@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 178,
+  "last_updated_session": 179,
   "learnings": [
     {
       "type": "pattern",
@@ -38,15 +38,15 @@
       "domain": "rendering",
       "title": "CSS particle effects are lightweight alternatives to WebGL",
       "description": "CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.",
-      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc. Session 109: harbor mist. Session 171: night bokeh lights. Session 173: heat shimmer. Session 174: city horizon glow (light pollution). Session 178: moonlit water path.",
+      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc. Session 109: harbor mist. Session 171: night bokeh lights. Session 173: heat shimmer. Session 174: city horizon glow (light pollution). Session 178: moonlit water path. Session 179: sunset/sunrise sky gradient bands.",
       "tags": [
         "performance",
         "css",
         "animation"
       ],
       "weight": 0.8,
-      "times_applied": 12,
-      "times_successful": 12
+      "times_applied": 13,
+      "times_successful": 13
     },
     {
       "type": "pattern",
@@ -781,6 +781,17 @@
       "description": "Adding a cool silver-blue element (moonlight) alongside warm amber/gold elements (casino glow, bokeh, neon) creates natural visual depth through color temperature contrast. The human eye perceives warm vs cool light as different distances and light sources, making the scene feel richer without adding complexity. Concentrating sparkle points in a central column (70% within 35-65% horizontal) creates a convincing moonlit water path without needing actual water surface rendering.",
       "evidence": "Session 178: Moonlit water path with 5-tone silver-blue palette (rgb 170-240, 195-245, 230-255) complements warm amber horizon glow (rgb 255,195-220,60-150) and gold bokeh lights. The cool/warm contrast is immediately visible at night.",
       "tags": ["atmosphere", "color", "night", "css", "visual-depth"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "Dual-palette time-gated effects enhance dawn/dusk transitions",
+      "description": "Using two distinct color palettes for sunrise vs sunset in the same CSS overlay system adds visual variety without doubling code. Sunrise palettes (warm gold, peach, pink) differ from sunset (deep orange, coral, rose, violet). Partial cloud cover (20-50%) actually enhances sunset/sunrise colors through atmospheric scattering — so weather modulation should boost at moderate clouds, not just dampen. This makes the effect weather-reactive in a more nuanced way than simple linear dampening.",
+      "evidence": "Session 179: 5 sky gradient bands with separate SUNSET_BANDS and SUNRISE_BANDS palettes. Cloud cover 20-50% gets 0.9-1.0 multiplier (enhanced), while >75% gets 0.2 (dampened). Zero JS errors on desktop and mobile.",
+      "tags": ["atmosphere", "css", "time-of-day", "weather", "color"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
