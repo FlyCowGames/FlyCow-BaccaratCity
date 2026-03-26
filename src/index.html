@@ -4032,6 +4032,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1801, lon: 113.5318, alt: 450, pitch: -25 },
   { name: 'Morpheus LED', chinese: '摩珀斯燈光秀', icon: '🔮', start: 19, end: 5,
     lat: 22.1486, lon: 113.5586, alt: 350, pitch: -25 },
+  { name: 'Venetian Campanile', chinese: '威尼斯人鐘樓', icon: '🏛️', start: 19, end: 5,
+    lat: 22.1494, lon: 113.5590, alt: 350, pitch: -25 },
 ];
 
 function isFeatureActive(f, hour) {
@@ -5138,6 +5140,7 @@ async function init() {
     if (window._initGrandLisboaCrown) window._initGrandLisboaCrown(viewer);
     if (window._initMacauTowerLED) window._initMacauTowerLED(viewer);
     if (window._initMorpheusLED) window._initMorpheusLED(viewer);
+    if (window._initVenetianCampanile) window._initVenetianCampanile(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -7765,6 +7768,7 @@ var ATTRACTIONS = {
     { name: "Grand Lisboa Crown", chinese: "新葡京蓮冠", icon: "🪷", lat: 22.1893, lon: 113.5399, alt: 400, pitch: -25 },
     { name: "Macau Tower LED", chinese: "旅遊塔LED燈冠", icon: "🗼", lat: 22.1801, lon: 113.5318, alt: 450, pitch: -25 },
     { name: "Morpheus Exoskeleton", chinese: "摩珀斯外骨骼燈", icon: "🔮", lat: 22.1486, lon: 113.5586, alt: 350, pitch: -25 },
+    { name: "Venetian Campanile", chinese: "威尼斯人鐘樓燈", icon: "🏛️", lat: 22.1494, lon: 113.5590, alt: 350, pitch: -25 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -12333,6 +12337,150 @@ function addLEDFacades(viewer) {
   }
 
   window._initMorpheusLED = initMorpheusLED;
+})();
+
+// ── Venetian Macao Campanile Golden Light Cascade ──
+// The Venetian Macao (威尼斯人) — world's largest casino — features a campanile tower
+// modeled after St. Mark's Campanile in Venice. At night, golden rippling light evokes
+// canal water reflections shimmering up the tower facade.
+(function() {
+  var VEN_LON = 113.5590, VEN_LAT = 22.1494;
+  var CW = 60, CH = 100;
+  var _showPhase = 0; // 0=ambient ripple, 1=cascade show
+  var _showTimer = 0;
+
+  function drawVenetianCampanile(time) {
+    var c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    var ctx = c.getContext('2d');
+
+    // Cascade show timing: every 10 minutes, 3 minute show
+    var cascadeTime = -1;
+    if (_showPhase === 1) {
+      cascadeTime = time - _showTimer;
+      if (cascadeTime > 8) { _showPhase = 0; cascadeTime = -1; }
+    }
+
+    // Tower silhouette glow — warm Venetian gold base
+    var baseAlpha = 0.04 + 0.015 * Math.sin(time * 0.4);
+    var baseGrad = ctx.createLinearGradient(0, CH, 0, 0);
+    baseGrad.addColorStop(0, 'rgba(212, 175, 55, ' + (baseAlpha * 1.5).toFixed(3) + ')');
+    baseGrad.addColorStop(0.6, 'rgba(212, 175, 55, ' + baseAlpha.toFixed(3) + ')');
+    baseGrad.addColorStop(1, 'rgba(180, 140, 30, 0)');
+    ctx.fillStyle = baseGrad;
+    ctx.fillRect(CW * 0.15, CH * 0.05, CW * 0.7, CH * 0.9);
+
+    // Rippling water-reflection bands — horizontal golden waves moving upward
+    var NUM_BANDS = 12;
+    for (var i = 0; i < NUM_BANDS; i++) {
+      var bandPhase = i / NUM_BANDS;
+      // Each band drifts upward at different speeds
+      var speed = 0.3 + (i % 3) * 0.15;
+      var yBase = 1.0 - ((bandPhase + time * speed * 0.08) % 1.0);
+      var yPx = yBase * CH;
+
+      // Horizontal wave wobble
+      var wobble = Math.sin(time * (0.8 + i * 0.12) + i * 1.7) * CW * 0.06;
+
+      // Intensity varies per band — sin wave creates shimmer
+      var intensity = 0.12 + 0.1 * Math.sin(time * (1.2 + i * 0.2) + i * 2.1);
+
+      // During cascade show, amplify bands that are in the sweep zone
+      if (cascadeTime >= 0) {
+        var sweepY = (cascadeTime % 4) / 4; // sweep repeats every 4s
+        var distFromSweep = Math.abs(yBase - sweepY);
+        if (distFromSweep < 0.15) {
+          intensity += (0.15 - distFromSweep) * 3.5;
+        }
+      }
+
+      intensity = Math.min(0.65, intensity);
+
+      // Gold color with warm variation per band
+      var r = 200 + Math.round(45 * intensity);
+      var g = 160 + Math.round(40 * intensity);
+      var b = 30 + Math.round(50 * intensity);
+
+      // Draw ripple band — horizontal elliptical glow
+      var bandWidth = CW * (0.35 + 0.2 * Math.sin(time * 0.5 + i));
+      var bandHeight = 3 + intensity * 5;
+      var cx = CW * 0.5 + wobble;
+
+      var grd = ctx.createRadialGradient(cx, yPx, 0, cx, yPx, bandWidth * 0.5);
+      grd.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (intensity * 0.9).toFixed(2) + ')');
+      grd.addColorStop(0.5, 'rgba(' + r + ',' + g + ',' + b + ',' + (intensity * 0.4).toFixed(2) + ')');
+      grd.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.ellipse(cx, yPx, bandWidth * 0.5, bandHeight, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Campanile spire crown — bright golden point at top
+    var crownPulse = 0.2 + 0.12 * Math.sin(time * 1.5);
+    if (cascadeTime >= 0) crownPulse = Math.min(0.55, crownPulse + 0.2);
+    var crownGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.06, 0, CW * 0.5, CH * 0.06, 12);
+    crownGrad.addColorStop(0, 'rgba(255, 220, 80, ' + crownPulse.toFixed(2) + ')');
+    crownGrad.addColorStop(0.4, 'rgba(212, 175, 55, ' + (crownPulse * 0.5).toFixed(2) + ')');
+    crownGrad.addColorStop(1, 'rgba(212, 175, 55, 0)');
+    ctx.fillStyle = crownGrad;
+    ctx.beginPath();
+    ctx.arc(CW * 0.5, CH * 0.06, 12, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Outer ambient halo — warm golden aura
+    var haloAlpha = 0.035 + 0.015 * Math.sin(time * 0.35);
+    if (cascadeTime >= 0) haloAlpha = Math.min(0.12, haloAlpha + cascadeTime * 0.01);
+    var haloGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.45, CW * 0.15, CW * 0.5, CH * 0.45, CW * 0.55);
+    haloGrad.addColorStop(0, 'rgba(212, 175, 55, ' + haloAlpha.toFixed(3) + ')');
+    haloGrad.addColorStop(1, 'rgba(212, 175, 55, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.fillRect(0, 0, CW, CH);
+
+    return c;
+  }
+
+  function initVenetianCampanile(viewer) {
+    var initialCanvas = drawVenetianCampanile(0);
+    var entity = viewer.entities.add({
+      name: 'Venetian Campanile Golden Light',
+      position: Cesium.Cartesian3.fromDegrees(VEN_LON, VEN_LAT, 130),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 30,
+        height: 50,
+        scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 15000, 0.5),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 18000, 0.15),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      entity.show = shouldShow;
+      if (!shouldShow) { _showPhase = 0; return; }
+
+      var time = performance.now() / 1000;
+
+      // Cascade show: 3 minutes every 10 minutes
+      var macauMinutes = getMacauHour() * 60;
+      var cyclePos = macauMinutes % 10;
+      if (cyclePos < 3 && _showPhase === 0) {
+        _showPhase = 1;
+        _showTimer = time;
+      } else if (cyclePos >= 3 && _showPhase === 1) {
+        _showPhase = 0;
+      }
+
+      var canvas = drawVenetianCampanile(time);
+      entity.billboard.image = canvas.toDataURL();
+    }, 250);
+  }
+
+  window._initVenetianCampanile = initVenetianCampanile;
 })();
 
 // ── Harbor Seagulls ──

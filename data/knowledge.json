@@ -1,18 +1,18 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 187,
+  "last_updated_session": 188,
   "learnings": [
     {
       "type": "pattern",
       "domain": "rendering",
       "title": "Landmark-specific light signatures elevate hero buildings above generic effects",
-      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 5 implementations.",
-      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton all deployed without JS errors. Pattern is stable and efficient. First Cotai Strip implementation validates geographic portability.",
+      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 6 implementations.",
+      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, and bridge landmarks.",
       "tags": ["rendering", "landmarks", "night-effects", "canvas", "pattern"],
-      "weight": 0.8,
-      "times_applied": 5,
-      "times_successful": 5
+      "weight": 0.9,
+      "times_applied": 6,
+      "times_successful": 6
     },
     {
       "type": "pattern",
@@ -1109,6 +1109,12 @@
       "question": "How to give the Morpheus tower (City of Dreams, Cotai Strip) a distinctive night identity?",
       "chosen": "Canvas-drawn twisted figure-eight exoskeleton grid with 112 LED nodes, purple/violet palette, cascade show sweeping up the tower, night-only at 160m altitude",
       "rationale": "Morpheus is Zaha Hadid's last masterpiece — world's first free-form exoskeleton high-rise. Its real-world LED shows are spectacular. The twisted figure-eight grid pattern is architecturally unique and drawable as a 14-level × 8-node grid with pinch and twist parameters. Purple/violet palette matches the City of Dreams brand (previously 'rgba(180,140,255)' in neon glow zone). Cascade show uses an upward-sweeping wave, distinct from Grand Lisboa's radial bloom, Eiffel's cascade, Tower's traveling wave, and Sai Van's horizontal sweep. First Cotai Strip-specific signature — validates that the IIFE + canvas + setInterval pattern works beyond the Peninsula. 160m altitude matches Morpheus's ~160m height.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to give The Venetian Macao (world's largest casino) a distinctive night identity?",
+      "chosen": "Canvas-drawn rippling horizontal golden bands evoking Venice canal water reflections, with campanile spire crown pulse and periodic cascade sweep, at 130m altitude",
+      "rationale": "The Venetian's campanile tower is modeled after St. Mark's Campanile in Venice. A water-reflection ripple effect (horizontal bands drifting upward with wobble) thematically connects to Venice's canals and is visually distinct from all other signatures: Eiffel sparkle points, Sai Van cable sweep, Lisboa radial crown, Tower horizontal LED bands, Morpheus exoskeleton grid. Warm Venetian gold palette matches the building's golden aesthetic. 12 bands with varied speeds and wobble create organic water-light feel. 130m altitude appropriate for the campanile's height. 6th successful application of the IIFE + canvas + setInterval pattern.",
       "revisit_after_session": null
     }
   ]

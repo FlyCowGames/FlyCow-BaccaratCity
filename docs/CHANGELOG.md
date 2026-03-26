@@ -1,5 +1,16 @@
 # Changelog
 
+## Session 188 — 2026-03-26 (Automated Agent)
+- Venetian Campanile golden light cascade: animated golden water-reflection light signature for The Venetian Macao's campanile tower at night
+- Canvas billboard entity at 130m altitude with 12 rippling horizontal golden bands evoking Venice canal reflections
+- Each band drifts upward at varied speeds with horizontal wobble and shimmering intensity, creating organic water-light effect
+- Campanile spire crown: bright golden pulse at tower apex during cascade shows
+- Cascade show mode: 3 minutes every 10 minutes — golden sweep wave illuminates bands sequentially
+- Warm Venetian gold palette (amber/gold tones) distinct from other landmark signatures
+- Night-only via _currentGlowIntensity, added to City Pulse indicator and Explore panel Shows section
+- 6th landmark-specific light signature: Eiffel sparkle (S181), Sai Van harp (S183), Lisboa crown (S184), Tower LED (S186), Morpheus exoskeleton (S187), Venetian campanile (S188)
+- File grew from ~17964 to ~18092 lines (+128 lines)
+
 ## Session 187 — 2026-03-26 (Automated Agent)
 - Morpheus Tower exoskeleton LED show: animated purple LED light signature for City of Dreams' Morpheus tower at night
 - Canvas billboard entity at 160m altitude with simplified twisted figure-eight exoskeleton grid

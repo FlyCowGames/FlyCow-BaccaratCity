@@ -2150,6 +2150,23 @@
       ],
       "linesAdded": 199,
       "agent": "automated"
+    },
+    {
+      "session": 188,
+      "date": "2026-03-26",
+      "title": "Venetian Campanile Golden Light Cascade",
+      "domain": "rendering",
+      "summary": "Animated golden water-reflection light signature for The Venetian Macao's campanile tower at night, evoking Venice canal reflections shimmering up the facade",
+      "details": [
+        "Canvas billboard entity at 130m altitude with 12 rippling horizontal golden bands drifting upward",
+        "Each band has varied speed, horizontal wobble, and shimmering intensity for organic water-light effect",
+        "Cascade show mode: 3 minutes every 10 minutes — golden sweep wave illuminates bands sequentially",
+        "Campanile spire crown with bright golden pulse, warm Venetian gold palette distinct from other signatures",
+        "Night-only via _currentGlowIntensity, added to City Pulse and Explore panel Shows section",
+        "6th landmark-specific light signature in the series (Eiffel, Sai Van, Lisboa, Tower, Morpheus, Venetian)"
+      ],
+      "linesAdded": 128,
+      "agent": "automated"
     }
   ]
 }
