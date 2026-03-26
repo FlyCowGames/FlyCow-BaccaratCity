@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 171,
+  "last_updated_session": 172,
   "learnings": [
     {
       "type": "pattern",
@@ -475,6 +475,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "Extending existing API calls for richer data displays",
+      "description": "Adding &hourly= parameters to the existing Open-Meteo API call extends the weather feature from current-only to a forecast timeline with minimal code. The API already supports forecast_hours to limit response size. Rendering the data in an expandable panel keeps the default UI clean while adding depth for engaged visitors.",
+      "evidence": "Session 172: Added hourly forecast to existing fetchWeather() by appending &hourly=temperature_2m,weather_code,precipitation_probability&forecast_hours=12. Response size barely increased. 6-hour forecast panel with click-to-expand toggle, zero JS errors.",
+      "tags": ["api", "weather", "ui", "progressive-disclosure"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -512,6 +523,12 @@
     }
   ],
   "decisions": [
+    {
+      "question": "How to add weather forecast to the digital twin?",
+      "chosen": "Extend existing Open-Meteo API call with hourly parameters, render in expandable panel below weather block",
+      "rationale": "Progressive disclosure — forecast toggle keeps the default weather display clean while adding depth for interested visitors. Reusing weatherCodeInfo() for icons and the existing weather block positioning avoided new layout complexity. 6 hours is enough to be useful without overwhelming the UI.",
+      "revisit_after_session": null
+    },
     {
       "question": "How to enhance walk tour for documentary feel?",
       "chosen": "Compose existing systems: auto-open landmark cards (with S75 photo gallery), add slow orbit camera, add progress bar/counter",

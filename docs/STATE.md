@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-26 (Session 171)
+## Last Updated: 2026-03-26 (Session 172)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -12,7 +12,8 @@
 - **Studio City Golden Reel viewpoint**: "Ride the Golden Reel" button in Studio City info card flies camera to 135m for a slow 360-degree panoramic orbit from atop the world's first figure-8 Ferris wheel, with pink/magenta cinematic overlay showing altitude and Chinese subtitle (Session 127)
 - **Grand Lisboa Sky Lounge viewpoint**: "View from Sky Lounge" button in Grand Lisboa info card flies camera to 265m for a slow 360-degree panoramic orbit from atop Macau's tallest building, with gold gradient cinematic overlay showing altitude and Chinese subtitle (Session 128)
 - Real-time day/night cycle driven by actual Macau time (UTC+8) via CesiumJS sun position
-- Live weather from Open-Meteo API: temperature, conditions, humidity, wind, cloud cover
+- Live weather from Open-Meteo API: temperature, conditions, humidity, wind, cloud cover, plus 12-hour hourly forecast
+- **Weather forecast mini-timeline**: expandable 6-hour forecast panel below weather display showing hourly temperature, weather icons, and rain probability. Click/tap "Forecast" toggle to expand/collapse. First hour highlighted as "now" with gold accent (Session 172)
 - Weather-reactive atmosphere: rain overlay, fog, cloud-dimmed lighting
 - **Animated ferry boats**: 5 ferries on 2 routes (Outer Harbour-Taipa, Inner Harbour-Taipa), continuously moving
 - **Animated road traffic**: 19 vehicles on 5 routes (3 bridges, Cotai Strip, peninsula road), continuously moving

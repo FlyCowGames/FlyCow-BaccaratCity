@@ -1,5 +1,17 @@
 # Changelog
 
+## Session 172 — 2026-03-26 (Automated Agent)
+- Weather forecast mini-timeline: expandable 6-hour forecast panel below weather display
+- Extended Open-Meteo API call to include hourly temperature, weather codes, and precipitation probability
+- Compact forecast row: 6 hourly blocks with time, weather icon, temperature, and rain % (if > 0)
+- First hour highlighted as "now" with gold accent border
+- Click/tap "Forecast" toggle to expand/collapse — keeps default weather view clean
+- Dark glass panel with backdrop-filter blur matches site's luxury aesthetic
+- Mobile-responsive: 44px tap target, compact layout, no horizontal overflow at 390px
+- Feature tip added for discoverability
+- Zero JavaScript errors on desktop (1280x800) and mobile (390x844)
+- File grew from ~16020 to ~16212 lines (+192 lines)
+
 ## Session 171 — 2026-03-26 (Automated Agent)
 - Night city bokeh lights: cinematic soft-focus light orbs drifting at night for casino atmosphere
 - 18 bokeh orbs with casino color palette (gold, pink, cyan, warm white, magenta, blue, amber)

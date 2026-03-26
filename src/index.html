@@ -449,6 +449,94 @@
     #sky-body { transition-duration: 0.01ms !important; }
   }
 
+  /* Weather forecast mini-timeline */
+  #forecast-toggle {
+    display: none; /* hidden until data loads */
+    margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.5rem;
+    color: rgba(212,175,55,0.4);
+    background: rgba(212,175,55,0.06);
+    border: 1px solid rgba(212,175,55,0.12);
+    border-radius: 3px;
+    padding: 2px 8px;
+    cursor: pointer;
+    pointer-events: auto;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+  }
+  #forecast-toggle:hover { color: rgba(212,175,55,0.7); background: rgba(212,175,55,0.12); border-color: rgba(212,175,55,0.3); }
+  #forecast-toggle .fc-arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-left: 4px;
+    font-size: 0.45rem;
+  }
+  #forecast-toggle.expanded .fc-arrow { transform: rotate(180deg); }
+  #forecast-panel {
+    display: none;
+    margin-top: 6px;
+    background: rgba(10,10,18,0.85);
+    border: 1px solid rgba(212,175,55,0.12);
+    border-radius: 6px;
+    padding: 8px 6px 6px;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    min-width: 190px;
+  }
+  #forecast-panel.visible { display: block; }
+  #forecast-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.4rem;
+    color: rgba(212,175,55,0.3);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  #forecast-hours {
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+  }
+  .fc-hour {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding: 3px 4px;
+    border-radius: 4px;
+    min-width: 28px;
+    transition: background 0.3s ease;
+  }
+  .fc-hour.fc-now {
+    background: rgba(212,175,55,0.1);
+    border: 1px solid rgba(212,175,55,0.2);
+  }
+  .fc-hour .fc-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.45rem;
+    color: rgba(212,175,55,0.4);
+    letter-spacing: 0.05em;
+  }
+  .fc-hour.fc-now .fc-time { color: rgba(212,175,55,0.7); }
+  .fc-hour .fc-icon {
+    font-size: 0.75rem;
+    line-height: 1;
+  }
+  .fc-hour .fc-temp {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.5rem;
+    color: rgba(212,175,55,0.55);
+    letter-spacing: 0.02em;
+  }
+  .fc-hour .fc-rain {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.4rem;
+    color: rgba(100,180,255,0.6);
+    letter-spacing: 0.02em;
+  }
+
   /* Drifting cloud wisps overlay */
   #cloud-layer {
     position: fixed; top: 0; left: 0; width: 100%; height: 60%;
@@ -2249,6 +2337,16 @@
     #sky-body { width: 8px; height: 8px; top: -4px; left: -4px; }
     #sky-arc-rise, #sky-arc-set, #sky-arc-label { font-size: 0.35rem; bottom: -8px; }
 
+    /* Forecast — compact on mobile */
+    #forecast-toggle { font-size: 0.6rem; padding: 6px 10px; min-height: 44px; display: none; }
+    #forecast-panel { min-width: 160px; padding: 6px 4px 5px; }
+    #forecast-label { font-size: 0.4rem; }
+    .fc-hour { min-width: 24px; padding: 2px 3px; }
+    .fc-hour .fc-time { font-size: 0.45rem; }
+    .fc-hour .fc-icon { font-size: 0.7rem; }
+    .fc-hour .fc-temp { font-size: 0.5rem; }
+    .fc-hour .fc-rain { font-size: 0.4rem; }
+
     /* Clock — readable, safe area aware, above ticker */
     #clock-block { bottom: calc(36px + env(safe-area-inset-bottom)); right: calc(12px + env(safe-area-inset-right)); }
     #clock { font-size: 1.1rem; }
@@ -2808,6 +2906,11 @@
       <span id="sky-arc-rise">6</span>
       <span id="sky-arc-set">18</span>
       <span id="sky-arc-label"></span>
+    </div>
+    <button id="forecast-toggle">Forecast <span class="fc-arrow">▾</span></button>
+    <div id="forecast-panel">
+      <div id="forecast-label">Next 6 Hours</div>
+      <div id="forecast-hours"></div>
     </div>
   </div>
 
@@ -3847,6 +3950,88 @@ function isHeavyRain(code) {
   return [65, 82, 95, 96, 99].indexOf(code) !== -1;
 }
 
+// ── Weather Forecast Timeline ──
+function updateForecastUI(hourly) {
+  var toggle = document.getElementById('forecast-toggle');
+  var container = document.getElementById('forecast-hours');
+  if (!toggle || !container || !hourly || !hourly.time) return;
+
+  // Parse hourly data — show next 6 hours starting from current Macau hour
+  var now = new Date();
+  var macauNow = new Date(now.getTime() + (8 - (-(now.getTimezoneOffset() / 60))) * 3600000);
+  var currentHour = macauNow.getHours();
+
+  // Find the starting index in hourly data closest to current Macau time
+  var startIdx = -1;
+  for (var i = 0; i < hourly.time.length; i++) {
+    var hDate = new Date(hourly.time[i]);
+    var hHour = hDate.getHours();
+    if (hHour >= currentHour && startIdx === -1) {
+      startIdx = i;
+      break;
+    }
+  }
+  if (startIdx === -1) startIdx = 0;
+
+  // Build 6 forecast hour blocks
+  container.innerHTML = '';
+  var count = Math.min(6, hourly.time.length - startIdx);
+  for (var j = 0; j < count; j++) {
+    var idx = startIdx + j;
+    var hTime = new Date(hourly.time[idx]);
+    var hHr = hTime.getHours();
+    var temp = Math.round(hourly.temperature_2m[idx]);
+    var code = hourly.weather_code[idx];
+    var rainProb = hourly.precipitation_probability ? hourly.precipitation_probability[idx] : 0;
+    var isNight = hHr >= 19 || hHr < 6;
+    var info = weatherCodeInfo(code, isNight);
+
+    var block = document.createElement('div');
+    block.className = 'fc-hour' + (j === 0 ? ' fc-now' : '');
+
+    var timeEl = document.createElement('div');
+    timeEl.className = 'fc-time';
+    timeEl.textContent = (hHr < 10 ? '0' : '') + hHr;
+
+    var iconEl = document.createElement('div');
+    iconEl.className = 'fc-icon';
+    iconEl.textContent = info.icon;
+
+    var tempEl = document.createElement('div');
+    tempEl.className = 'fc-temp';
+    tempEl.textContent = temp + '\u00B0';
+
+    block.appendChild(timeEl);
+    block.appendChild(iconEl);
+    block.appendChild(tempEl);
+
+    if (rainProb > 0) {
+      var rainEl = document.createElement('div');
+      rainEl.className = 'fc-rain';
+      rainEl.textContent = rainProb + '%';
+      block.appendChild(rainEl);
+    }
+
+    container.appendChild(block);
+  }
+
+  // Show the toggle button
+  toggle.style.display = 'inline-block';
+}
+
+// Forecast toggle click
+(function() {
+  var toggle = document.getElementById('forecast-toggle');
+  var panel = document.getElementById('forecast-panel');
+  if (!toggle || !panel) return;
+
+  toggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var expanded = panel.classList.toggle('visible');
+    toggle.classList.toggle('expanded', expanded);
+  });
+})();
+
 function createRainDrops(intensity) {
   var container = document.getElementById('rain-overlay');
   container.innerHTML = '';
@@ -3886,17 +4071,23 @@ function stopRainSplashes() {
   if (layer) { layer.classList.remove('active'); layer.innerHTML = ''; }
 }
 
+var _forecastHourly = null;
 async function fetchWeather() {
   try {
     var url = 'https://api.open-meteo.com/v1/forecast?latitude=22.1987&longitude=113.5439'
       + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,cloud_cover'
-      + '&timezone=Asia/Macau';
+      + '&hourly=temperature_2m,weather_code,precipitation_probability'
+      + '&forecast_hours=12&timezone=Asia/Macau';
     var response = await fetch(url);
     var data = await response.json();
     if (data && data.current) {
       currentWeather = data.current;
       updateWeatherUI(data.current);
       applyWeatherEffects(data.current);
+    }
+    if (data && data.hourly) {
+      _forecastHourly = data.hourly;
+      updateForecastUI(data.hourly);
     }
   } catch (e) {
     console.warn('Weather fetch failed:', e);
@@ -15479,6 +15670,7 @@ function addSkyCabs(viewer) {
     { icon: '\u2B1B', text: 'Look for Portuguese calçada cobblestone patterns at heritage squares \u2014 the iconic black-and-white wave mosaic at Senado Square is a symbol of Macau\u2019s colonial legacy' },
     { icon: '\u2600\uFE0F', text: 'Watch the sun/moon arc next to the weather display \u2014 it tracks the celestial body\u2019s position in real Macau time, dimming with cloud cover' },
     { icon: '\u2708\uFE0F', text: 'Look at the airport at night \u2014 runway edge lights (white), threshold lights (green), end lights (red), approach strobes, and blue taxiway markers light up the runway' },
+    { icon: '\u{1F326}\uFE0F', text: isTouch ? 'Tap Forecast under the weather display to see the next 6 hours \u2014 temperature, conditions, and rain probability for Macau' : 'Click Forecast under the weather display to see the next 6 hours \u2014 temperature, conditions, and rain probability for Macau' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

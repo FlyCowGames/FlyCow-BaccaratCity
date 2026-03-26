@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-26 (Session 171)*
+*This document evolves every session. Last updated: 2026-03-26 (Session 172)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -148,3 +148,4 @@
 - Camera lens raindrops: animated water drops on viewport during rain with streaking effect, intensity scales with rain, mobile-responsive (Session 159)
 - Cinematic loading screen: gold particles, staggered reveal, rotating Macau facts, enhanced progress bar (Session 167)
 - Night city bokeh lights: 18 cinematic soft-focus light orbs with casino color palette drifting at night (Session 171)
+- Weather forecast mini-timeline: expandable 6-hour forecast with hourly temp, icons, rain probability (Session 172)
