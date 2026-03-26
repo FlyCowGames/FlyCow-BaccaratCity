@@ -1,18 +1,18 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 184,
+  "last_updated_session": 186,
   "learnings": [
     {
       "type": "pattern",
       "domain": "rendering",
       "title": "Landmark-specific light signatures elevate hero buildings above generic effects",
-      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 3 implementations.",
-      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown all deployed without JS errors. Pattern is stable and efficient.",
+      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 4 implementations.",
+      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED all deployed without JS errors. Pattern is stable and efficient.",
       "tags": ["rendering", "landmarks", "night-effects", "canvas", "pattern"],
-      "weight": 0.7,
-      "times_applied": 3,
-      "times_successful": 3
+      "weight": 0.75,
+      "times_applied": 4,
+      "times_successful": 4
     },
     {
       "type": "pattern",
@@ -1097,6 +1097,12 @@
       "question": "How to give the Grand Lisboa hero landmark a distinctive night identity beyond generic neon/beam effects?",
       "chosen": "Canvas-drawn radiating lotus petal billboard with two-mode animation (idle pulse + periodic bloom show), night-only at 210m altitude",
       "rationale": "Grand Lisboa already has 5 generic casino effects (neon glow, sky beam, searchlight, water reflection, obstacle light) but nothing specific to its defining architectural feature — the lotus-shaped crown. A canvas billboard at 210m (near the crown of the 258m tower) with 12 radiating petals creates a distinctive visual signature. Two animation modes (idle twinkle + 3-min bloom every 10 min) follow the same pattern as Eiffel sparkle. Center-origin vertical alignment works better than bottom-origin for a radiating effect. IIFE + window._initGrandLisboaCrown follows the established pattern. This elevates the hero landmark above generic effects.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to give the Macau Tower (tallest structure, 338m) a distinctive night identity?",
+      "chosen": "Canvas-drawn tower silhouette with 12 horizontal LED bands, 5-color cycling, observation deck ring glow, traveling wave light show, night-only at 280m altitude",
+      "rationale": "Macau Tower only had a tiny red obstacle beacon (12px) — invisible compared to casino effects. Its real-world LED lighting system changes colors at night. A taller canvas (48x128) with vertical tower silhouette and horizontal LED bands creates a visually distinct effect from the radial patterns of Grand Lisboa and Eiffel sparkle. Color cycling (5 colors vs single gold) differentiates it further. Traveling wave animation during light show is unique — lights pulse upward sequentially. 280m altitude centers the effect near the real observation deck. Completes the 'Big 4' landmark night signatures.",
       "revisit_after_session": null
     }
   ]

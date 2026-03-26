@@ -2115,6 +2115,24 @@
       ],
       "linesAdded": 140,
       "agent": "automated"
+    },
+    {
+      "session": 186,
+      "date": "2026-03-26",
+      "title": "Macau Tower LED Crown Lighting",
+      "domain": "rendering",
+      "summary": "Animated color-cycling LED crown on Macau Tower's observation deck at night, with periodic light shows featuring traveling wave effects.",
+      "details": [
+        "Canvas billboard entity at 280m altitude with stylized tower silhouette and LED bands",
+        "12 horizontal LED bands along the tower shaft with individual phase offsets",
+        "Smooth color cycling through gold, red, blue, teal, and magenta palette",
+        "Light show mode: 2 minutes every 15 minutes — traveling wave of light pulses up the tower",
+        "Observation deck ring glow with horizontal edge LED lines",
+        "Red aviation beacon pulse at needle tip, ambient glow halo around tower",
+        "Night-only via _currentGlowIntensity, added to City Pulse, Explore panel, feature tips"
+      ],
+      "linesAdded": 212,
+      "agent": "automated"
     }
   ]
 }

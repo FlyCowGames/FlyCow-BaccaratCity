@@ -1,5 +1,16 @@
 # Changelog
 
+## Session 186 — 2026-03-26 (Automated Agent)
+- Macau Tower LED Crown Lighting: animated color-cycling LED effect on Macau's tallest structure (338m) at night
+- Canvas billboard entity at 280m altitude with stylized tower silhouette, 12 horizontal LED bands, observation deck ring glow
+- Smooth color cycling through 5-color palette (gold, red, blue, teal, magenta) with individual band phase offsets
+- Two animation modes: idle gentle color drift, and light show (2 minutes every 15 minutes) with traveling wave pattern up the tower
+- Red aviation beacon pulse at needle tip, ambient color halo during light shows
+- Night-only via _currentGlowIntensity threshold; hidden during daytime
+- Added to City Pulse indicator as "Tower LED" (旅遊塔燈冠), Explore panel Shows section, and feature tips
+- Completes the "Big 4" landmark night signatures: Grand Lisboa Crown, Eiffel Sparkle, Sai Van Harp, Macau Tower LED
+- File grew from ~17,553 to ~17,765 lines (+212 lines)
+
 ## Session 184 — 2026-03-26 (Automated Agent)
 - Grand Lisboa Crown Radiance: animated golden lotus crown glow on Macau's iconic 258m tower at night
 - Canvas billboard entity at 210m altitude with 12 radiating lotus petals in golden color palette
