@@ -860,6 +860,41 @@
     #heat-shimmer { transition-duration: 0.01ms !important; }
   }
 
+  /* Daytime cloud shadows */
+  #cloud-shadows {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 40;
+    opacity: 0; transition: opacity 8s ease;
+    overflow: hidden;
+  }
+  #cloud-shadows.active { opacity: 1; }
+  .cloud-shadow {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+  }
+  @keyframes shadowDrift1 {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(25vw, 8vh) scale(1.08); }
+    66% { transform: translate(10vw, -5vh) scale(0.95); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+  @keyframes shadowDrift2 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-20vw, 12vh) scale(1.05); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+  @keyframes shadowDrift3 {
+    0% { transform: translate(5vw, -3vh) scale(0.95); }
+    40% { transform: translate(-18vw, 8vh) scale(1.1); }
+    80% { transform: translate(22vw, -4vh) scale(1); }
+    100% { transform: translate(5vw, -3vh) scale(0.95); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cloud-shadow { animation-duration: 0.01ms !important; }
+    #cloud-shadows { transition-duration: 0.01ms !important; }
+  }
+
   /* Shooting star canvas */
   #shootingstar-canvas {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -3039,6 +3074,7 @@
 <div id="rainbow-arc"></div>
 <div id="harbor-mist"></div>
 <div id="heat-shimmer"></div>
+<div id="cloud-shadows"></div>
 <div id="rain-overlay"></div>
 <div id="rain-splash-layer"></div>
 <div id="neon-reflections"></div>
@@ -3893,6 +3929,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1830, lon: 113.5360, alt: 120, pitch: -20 },
   { name: 'Dawn Sun Rays', chinese: '晨曦', icon: '🌅', start: 5, end: 7.5,
     lat: 22.1893, lon: 113.5399, alt: 500, pitch: -20 },
+  { name: 'Cloud Shadows', chinese: '雲影', icon: '\u26C5', start: 6.5, end: 17.5,
+    lat: 22.1893, lon: 113.5399, alt: 500, pitch: -30 },
   { name: 'Heat Shimmer', chinese: '熱浪', icon: '🔥', start: 9.5, end: 16,
     lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
   { name: 'Tour Buses', chinese: '觀光巴士', icon: '🚌', start: 9, end: 15,
@@ -16021,6 +16059,94 @@ function addSkyCabs(viewer) {
   setTimeout(updateHeatShimmer, 4000);
 })();
 
+// ── Daytime Cloud Shadows ──
+// Soft drifting shadow patches on the cityscape during cloudy daytime hours
+(function() {
+  var container = document.getElementById('cloud-shadows');
+  if (!container) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // 6 shadow patches at staggered positions with varied sizes and drift speeds
+  var SHADOW_CONFIGS = [
+    { x: '-5%',  y: '10%', w: '50vw', h: '40vh', opacity: 0.055, dur: 80,  anim: 'shadowDrift1' },
+    { x: '35%',  y: '30%', w: '45vw', h: '35vh', opacity: 0.045, dur: 95,  anim: 'shadowDrift2' },
+    { x: '65%',  y: '5%',  w: '55vw', h: '45vh', opacity: 0.05,  dur: 70,  anim: 'shadowDrift3' },
+    { x: '10%',  y: '55%', w: '40vw', h: '30vh', opacity: 0.04,  dur: 110, anim: 'shadowDrift1' },
+    { x: '70%',  y: '50%', w: '48vw', h: '38vh', opacity: 0.045, dur: 85,  anim: 'shadowDrift2' },
+    { x: '25%',  y: '70%', w: '42vw', h: '32vh', opacity: 0.035, dur: 100, anim: 'shadowDrift3' },
+  ];
+
+  var shadows = [];
+  for (var i = 0; i < SHADOW_CONFIGS.length; i++) {
+    var cfg = SHADOW_CONFIGS[i];
+    var el = document.createElement('div');
+    el.className = 'cloud-shadow';
+    el.style.left = cfg.x;
+    el.style.top = cfg.y;
+    el.style.width = cfg.w;
+    el.style.height = cfg.h;
+    el.style.filter = 'blur(50px)';
+    el.style.animation = cfg.anim + ' ' + cfg.dur + 's ease-in-out ' + (i * 8) + 's infinite';
+    shadows.push({ el: el, cfg: cfg });
+    container.appendChild(el);
+  }
+
+  function updateCloudShadows() {
+    var hour = getMacauHour();
+    var intensity = 0;
+
+    // Daytime only: 6:30 AM - 5:30 PM with ramps
+    if (hour >= 6.5 && hour < 17.5) {
+      if (hour < 7.5) intensity = (hour - 6.5) / 1.0;       // ramp in
+      else if (hour < 16.5) intensity = 1.0;                  // full
+      else intensity = 1.0 - (hour - 16.5) / 1.0;            // ramp out
+    }
+
+    // Cloud cover drives shadow visibility — need clouds for shadows
+    var cloudFactor = 0;
+    if (typeof currentWeather !== 'undefined' && currentWeather) {
+      var clouds = currentWeather.cloud_cover || 0;
+      if (clouds < 15) cloudFactor = 0;                        // clear sky = no shadows
+      else if (clouds < 40) cloudFactor = (clouds - 15) / 25 * 0.6;  // scattered
+      else if (clouds < 70) cloudFactor = 0.6 + (clouds - 40) / 30 * 0.4; // broken
+      else cloudFactor = 0.85;                                 // overcast — slightly less defined
+    }
+    intensity *= cloudFactor;
+
+    // Rain dims shadows (sky already dark)
+    if (typeof currentWeather !== 'undefined' && currentWeather) {
+      if (typeof isRainyCode === 'function' && isRainyCode(currentWeather.weather_code)) intensity *= 0.25;
+      // Fog diffuses shadows
+      var wc = currentWeather.weather_code || 0;
+      if (wc === 45 || wc === 48) intensity *= 0.3;
+    }
+
+    // Typhoon kills shadows
+    if (typeof _typhoonSimActive !== 'undefined' && _typhoonSimActive) intensity = 0;
+
+    intensity = Math.min(intensity, 1.0);
+
+    if (intensity < 0.02) {
+      container.classList.remove('active');
+      return;
+    }
+
+    // Update shadow patch backgrounds with intensity-scaled opacity
+    for (var i = 0; i < shadows.length; i++) {
+      var s = shadows[i];
+      var op = s.cfg.opacity * intensity;
+      s.el.style.background = 'radial-gradient(ellipse at center, rgba(0,5,20,' +
+        op.toFixed(4) + ') 0%, rgba(0,5,20,' + (op * 0.4).toFixed(4) +
+        ') 45%, transparent 75%)';
+    }
+
+    container.classList.add('active');
+  }
+
+  setInterval(updateCloudShadows, 5000);
+  setTimeout(updateCloudShadows, 4500);
+})();
+
 // ── Feature Tips (rotating discovery system) ──
 (function() {
   var isTouch = 'ontouchstart' in window;
@@ -16089,6 +16215,7 @@ function addSkyCabs(viewer) {
     { icon: '\u2708\uFE0F', text: 'Look at the airport at night \u2014 runway edge lights (white), threshold lights (green), end lights (red), approach strobes, and blue taxiway markers light up the runway' },
     { icon: '\u{1F326}\uFE0F', text: isTouch ? 'Tap Forecast under the weather display to see the next 6 hours \u2014 temperature, conditions, and rain probability for Macau' : 'Click Forecast under the weather display to see the next 6 hours \u2014 temperature, conditions, and rain probability for Macau' },
     { icon: '\uD83D\uDD25', text: 'On hot days, look for heat shimmer wavering near the ground between 10 AM\u20143 PM Macau time \u2014 stronger when temperatures rise above 30\u00B0C' },
+    { icon: '\u26C5', text: 'On cloudy days, watch for soft shadows drifting across the city \u2014 real cloud cover from Macau\u2019s weather drives their intensity and visibility' },
     { icon: '\uD83C\uDF03', text: 'At night, notice the warm amber glow at the horizon \u2014 Macau\'s casino district light pollution reflecting off the atmosphere, brighter during fog' },
     { icon: '\uD83C\uDF2C\uFE0F', text: 'Check the wind compass in the weather display \u2014 the gold needle shows real-time Macau wind direction and speed from live weather data' },
   ];

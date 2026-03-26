@@ -2012,6 +2012,24 @@
       ],
       "linesAdded": 181,
       "agent": "automated"
+    },
+    {
+      "session": 177,
+      "date": "2026-03-26",
+      "title": "Daytime Cloud Shadows",
+      "domain": "atmosphere",
+      "summary": "Soft drifting shadow patches across the cityscape during cloudy daytime hours, driven by real cloud cover data from Open-Meteo.",
+      "details": [
+        "6 radial gradient shadow patches with varied sizes and 50px blur for soft natural look",
+        "Daytime-only: active 6:30 AM to 5:30 PM Macau time with smooth dawn/dusk ramps",
+        "Cloud cover from Open-Meteo drives intensity: clear sky = no shadows, scattered = light, broken/overcast = strong",
+        "Rain reduces 75%, fog reduces 70%, typhoon disables completely",
+        "3 CSS drift keyframe animations with 70-110s cycles and staggered 8s delays",
+        "Added to City Pulse indicator and feature tips for discoverability",
+        "Respects prefers-reduced-motion accessibility"
+      ],
+      "linesAdded": 127,
+      "agent": "automated"
     }
   ]
 }

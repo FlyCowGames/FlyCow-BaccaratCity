@@ -1,5 +1,18 @@
 # Changelog
 
+## Session 177 — 2026-03-26 (Automated Agent)
+- Daytime cloud shadows: soft drifting shadow patches across the cityscape during cloudy daytime hours
+- 6 large radial gradient shadow patches with varied sizes (40-55vw), blur (50px), and staggered drift animations
+- Daytime-only: active 6:30 AM–5:30 PM Macau time with smooth 1-hour ramp in/out at dawn and dusk
+- Weather-reactive: real cloud cover from Open-Meteo drives intensity — clear sky (< 15%) = no shadows, scattered clouds = light shadows, broken/overcast = strong shadows
+- Rain reduces shadows by 75% (already dark), fog reduces by 70% (diffused light), typhoon = no shadows
+- 3 unique CSS drift keyframe animations (shadowDrift1/2/3) with 70-110s cycles for organic movement
+- Added to City Pulse live activity indicator (⛅ Cloud Shadows) with click-to-fly
+- Feature tip added for discoverability
+- Respects prefers-reduced-motion for accessibility
+- Zero JavaScript errors on desktop (1280x800) and mobile (390x844)
+- File grew from ~16632 to ~16759 lines (+127 lines)
+
 ## Session 175 — 2026-03-26 (Automated Agent)
 - Wind direction compass: animated compass dial in weather display showing real-time Macau wind direction
 - Compact 38px gold dial with needle, N/E/S/W cardinal markers, and cardinal direction label (N, NE, E, SE, S, SW, W, NW)

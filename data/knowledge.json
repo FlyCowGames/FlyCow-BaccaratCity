@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 175,
+  "last_updated_session": 177,
   "learnings": [
     {
       "type": "pattern",
@@ -762,6 +762,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "Inverted weather modulation creates complementary daytime effects",
+      "description": "Most atmospheric effects are dampened by clouds (heat shimmer, sun rays). Inverting this relationship — where cloud cover INCREASES the effect — creates a natural complement. Cloud shadows require clouds to exist, so more cloud cover = more visible shadows. This fills the gap where cloudy days previously reduced visual interest by removing other effects.",
+      "evidence": "Session 177: Cloud shadows use cloudFactor that scales from 0 (clear sky < 15%) to 0.85 (overcast > 70%). When heat shimmer is dampened by clouds, cloud shadows pick up the slack, ensuring visual dynamism at all cloud levels during daytime.",
+      "tags": ["atmosphere", "weather", "css", "complementary-effects"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -1007,6 +1018,12 @@
       "question": "How to visualize real-time wind direction in the weather display?",
       "chosen": "Compact CSS compass dial (38px) with gold needle, N/E/S/W cardinal markers, direction label, speed and gust display, integrated into existing weather block",
       "rationale": "Wind speed was already displayed as text but direction was neither fetched nor shown. A compass dial communicates direction instantly without reading numbers. CSS-only implementation (no canvas) keeps it lightweight. Placed between weather-details and typhoon-signal in the existing weather block for natural information flow. Shortest-path rotation math prevents jarring 350° spins. Visual states (calm/windy/gusty) via border-color changes give at-a-glance intensity without extra UI.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add dynamic daytime atmospheric effects tied to cloud cover?",
+      "chosen": "CSS overlay with 6 radial gradient shadow patches, drift keyframe animations, cloud cover drives intensity inversely from most effects",
+      "rationale": "Most daytime atmospheric effects (heat shimmer, sun rays) are dampened by clouds, creating a visual gap on cloudy days. Cloud shadows fill this gap because they require clouds to exist — more cloud cover means more shadows. The inverted modulation creates a complementary system where visual dynamism is maintained regardless of cloud level. CSS overlay follows the proven heat-shimmer/city-glow pattern exactly. z-index 40 (lowest atmospheric layer) ensures shadows render behind other effects.",
       "revisit_after_session": null
     }
   ]
