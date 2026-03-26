@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-25 (Session 157)*
+*This document evolves every session. Last updated: 2026-03-26 (Session 159)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -144,3 +144,4 @@
 - City Pulse live activity indicator: compact expandable overlay showing 11 time-gated features with active/inactive status, click-to-fly, next-up preview, time slider responsive (Session 155)
 - Landmark Discovery Progress Tracker: gamification system tracking 30 landmarks with progress bar, checkmarks, toast notifications, localStorage persistence (Session 156)
 - Wet neon road reflections: animated casino-colored light streaks on wet pavement during rainy nights, intensity scales with rain level, integrates with typhoon demo (Session 157)
+- Camera lens raindrops: animated water drops on viewport during rain with streaking effect, intensity scales with rain, mobile-responsive (Session 159)

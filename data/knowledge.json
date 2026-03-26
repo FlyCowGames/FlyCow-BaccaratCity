@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 157,
+  "last_updated_session": 159,
   "learnings": [
     {
       "type": "pattern",
@@ -216,12 +216,12 @@
       "type": "pattern",
       "domain": "atmosphere",
       "title": "Layered weather effects compound for immersion",
-      "description": "Adding secondary effects to existing weather systems (splash ripples to rain drops, thunder to lightning, rainbow after rain) compounds the immersion without replacing the original. Each layer adds a distinct sensory channel. Key: keep secondary effects subtle — they should enhance, not compete with, the primary effect.",
-      "evidence": "Session 102: rain splash ripples added below existing rain drops. Session 98: thunder added to lightning bolts. Session 107: rainbow arc during/after rain. Session 157: wet neon road reflections during rainy nights. All integrate into the same weather/typhoon activation flow with minimal new code.",
+      "description": "Adding secondary effects to existing weather systems (splash ripples to rain drops, thunder to lightning, rainbow after rain, lens drops) compounds the immersion without replacing the original. Each layer adds a distinct sensory channel. Key: keep secondary effects subtle — they should enhance, not compete with, the primary effect.",
+      "evidence": "Session 102: rain splash ripples added below existing rain drops. Session 98: thunder added to lightning bolts. Session 107: rainbow arc during/after rain. Session 157: wet neon road reflections during rainy nights. Session 159: camera lens raindrops during rain. All integrate into the same weather/typhoon activation flow with minimal new code.",
       "tags": ["atmosphere", "weather", "css", "layering"],
-      "weight": 0.6,
-      "times_applied": 3,
-      "times_successful": 3
+      "weight": 0.65,
+      "times_applied": 4,
+      "times_successful": 4
     },
     {
       "type": "pattern",
@@ -428,6 +428,17 @@
       "description": "Layering a new atmospheric effect that requires MULTIPLE conditions (night AND rain) creates rare, cinematic moments that reward exploration at the right time. The wet neon reflection effect compounds existing rain drops + splash ripples with a bottom-viewport neon glow layer. Using _currentGlowIntensity as the night gate (rather than hour check) ensures it responds correctly to the time slider. The IIFE-with-setInterval pattern (5s check cycle, 6s initial delay) matches rainbow and mist updaters. A base sheen layer under the neon streaks establishes the 'wet surface' foundation, making the colored streaks read as reflections rather than random color blobs.",
       "evidence": "Session 157: wet neon road reflections with 12 casino-matched colors, base sheen layer, gradient mask fade. Active during rainy nights + typhoon demo. ~85 lines of CSS+JS. Zero JS errors, passed desktop and mobile checks. Effect properly activates/deactivates when conditions change.",
       "tags": ["atmosphere", "weather", "css", "night", "compound-conditions", "cinematic"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "CSS radial gradient drops with streaking animation simulate camera lens effect",
+      "description": "Creating water drop elements with radial-gradient (highlight at 35% 30% for refraction) and a separate 'streaking' variant that uses scaleY elongation + translateY creates convincing camera lens raindrop effects. Key techniques: two animation variants (static evaporation vs streak-down), CSS custom properties for per-drop randomization (--drop-dur, --streak-dist), will-change for GPU acceleration, and auto-removal via setTimeout matching animation duration. The IIFE-with-setInterval spawner pattern (matching rain splashes, neon reflections) keeps lifecycle simple.",
+      "evidence": "Session 159: lens raindrops with 7-18 drops, 35% streaking ratio, mobile-responsive (60% fewer). Zero JS errors, passed desktop and mobile checks. Integrates with existing weather/typhoon activation flow.",
+      "tags": ["css", "atmosphere", "weather", "animation", "cinematic", "camera-effect"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1

@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-25 (Session 157)
+## Last Updated: 2026-03-26 (Session 159)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -173,6 +173,7 @@
 - **City Pulse live activity indicator** — Compact expandable overlay in bottom-right showing which of 11 time-gated features are currently active (green dot = ON) or inactive (shows time range). Click any feature to fly camera to its location. "Next up" preview shows upcoming feature with countdown. Responds to time slider changes in real-time. Toggle shows animated pulse dot and active count. Mobile-responsive with 44px touch targets (Session 155)
 - **Landmark Discovery Progress Tracker** — Gamification system tracking which of 30 landmarks the user has visited (clicked). Progress bar and counter (X/30) in Explore panel, gold checkmarks on discovered landmarks, toast notification on new discoveries, completion celebration. Persists via localStorage between visits. Hooks into showLandmarkCard() — any landmark info card opening counts as discovery (Session 156)
 - **Wet neon road reflections** — When it rains at night, animated neon-colored light streaks shimmer at the bottom 30% of the viewport, simulating wet pavement reflecting casino lights. 12 casino-matched neon colors (gold/Grand Lisboa, magenta/Studio City, cyan/City of Dreams, emerald/MGM, purple/Galaxy, red/Wynn, etc.) with base wet sheen layer. Intensity scales with rain level (8/11/16 streaks for light/moderate/heavy). Active when night (glow intensity > 0.1) AND raining (weather API or typhoon demo). Gradient mask fade, staggered shimmer animation, prefers-reduced-motion respected (Session 157)
+- **Camera lens raindrops** — During rain, animated water drops appear at random viewport positions simulating rain hitting a camera lens. Semi-transparent radial gradient drops with highlight refraction. 35% of drops are "streaking" — elongate and slide down the screen. Intensity scales with rain (7/12/18 drops for light/moderate/heavy). Mobile-responsive (smaller drops, 60% fewer). Integrates with weather API and typhoon demo. Auto-cleanup, 2s fade, prefers-reduced-motion respected (Session 159)
 
 ## What's Missing (vs Prime Directive)
 - Event system (F3, CNY, festivals)

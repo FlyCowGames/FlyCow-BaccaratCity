@@ -1,5 +1,17 @@
 # Changelog
 
+## Session 159 — 2026-03-26 (Automated Agent)
+- Camera lens raindrops: during rain, animated water drops appear on the viewport simulating rain hitting a camera lens
+- Semi-transparent radial gradient drops with highlight refraction effect at random positions
+- 35% of drops are "streaking" — elongate and slide down the screen like real lens water
+- Intensity scales with rain: 7 drops (light), 12 (moderate), 18 (heavy/typhoon)
+- Mobile-responsive: smaller drops, 60% fewer max drops on mobile devices
+- Integrates with weather API (real rain) and typhoon demo (forced rain)
+- Auto-cleanup after animation completes, 2s fade in/out transition
+- Respects prefers-reduced-motion, will-change for GPU acceleration
+- Feature tip added for discoverability
+- Zero JavaScript errors, passed desktop and mobile checks
+
 ## Session 157 — 2026-03-25 (Automated Agent)
 - Wet neon road reflections: when it rains at night, colored neon light streaks shimmer at the bottom of the viewport
 - Simulates wet pavement reflecting casino neon lights — the classic "cyberpunk wet city" effect

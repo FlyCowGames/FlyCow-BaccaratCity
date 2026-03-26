@@ -618,10 +618,49 @@
     40% { transform: scale(2.5); opacity: 0.5; }
     100% { transform: scale(4); opacity: 0; }
   }
+  /* Camera lens raindrops — water drops on the "lens" during rain */
+  #lens-raindrops {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 53;
+    opacity: 0; transition: opacity 2s ease;
+    overflow: hidden;
+  }
+  #lens-raindrops.active { opacity: 1; }
+  .lens-drop {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 35% 30%,
+      rgba(255,255,255,0.25) 0%,
+      rgba(200,215,235,0.12) 30%,
+      rgba(180,195,220,0.06) 60%,
+      transparent 100%);
+    box-shadow: inset 0 -1px 2px rgba(255,255,255,0.15),
+                0 0 3px rgba(120,140,170,0.08);
+    animation: lensDrop var(--drop-dur, 4s) ease-in forwards;
+    will-change: transform, opacity;
+  }
+  .lens-drop.streaking {
+    border-radius: 40% 40% 50% 50%;
+    animation: lensStreak var(--drop-dur, 3s) ease-in forwards;
+  }
+  @keyframes lensDrop {
+    0% { opacity: 0; transform: scale(0.3); }
+    8% { opacity: 1; transform: scale(1); }
+    60% { opacity: 0.9; transform: scale(1) translateY(2px); }
+    85% { opacity: 0.4; transform: scale(0.8) translateY(5px); }
+    100% { opacity: 0; transform: scale(0.5) translateY(8px); }
+  }
+  @keyframes lensStreak {
+    0% { opacity: 0; transform: scaleY(1) translateY(0); }
+    5% { opacity: 1; transform: scaleY(1) translateY(0); }
+    15% { opacity: 0.9; transform: scaleY(1.4) translateY(10px); }
+    100% { opacity: 0; transform: scaleY(3) translateY(var(--streak-dist, 120px)); }
+  }
   @media (prefers-reduced-motion: reduce) {
     .rain-splash { animation-duration: 0.01ms !important; }
     .neon-streak { animation-duration: 0.01ms !important; }
     #neon-reflections { transition-duration: 0.01ms !important; }
+    .lens-drop { animation-duration: 0.01ms !important; }
   }
 
   /* Wet neon road reflections — visible during rainy nights */
@@ -2342,6 +2381,7 @@
 <div id="rain-overlay"></div>
 <div id="rain-splash-layer"></div>
 <div id="neon-reflections"></div>
+<div id="lens-raindrops"></div>
 <canvas id="shootingstar-canvas"></canvas>
 <canvas id="wind-canvas"></canvas>
 <div id="lightning-flash"></div>
@@ -14106,6 +14146,85 @@ function addSkyCabs(viewer) {
   setTimeout(update, 6000);
 })();
 
+// ── Camera Lens Raindrops ──
+// Simulates water drops landing on a camera lens during rain
+(function() {
+  var container = document.getElementById('lens-raindrops');
+  if (!container) return;
+  var _active = false;
+  var _spawnInterval = null;
+  var _maxDrops = 12;
+  var isMobile = /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 600;
+
+  function spawnDrop() {
+    if (container.childElementCount >= _maxDrops) return;
+    var drop = document.createElement('div');
+    var size = isMobile ? (6 + Math.random() * 10) : (8 + Math.random() * 16);
+    var x = 5 + Math.random() * 90;
+    var y = 5 + Math.random() * 70;
+    var isStreak = Math.random() < 0.35;
+    var dur = isStreak ? (2.5 + Math.random() * 2) : (3 + Math.random() * 4);
+    var streakDist = 60 + Math.random() * 140;
+
+    drop.className = 'lens-drop' + (isStreak ? ' streaking' : '');
+    drop.style.cssText =
+      'left:' + x + '%;' +
+      'top:' + y + '%;' +
+      'width:' + size + 'px;' +
+      'height:' + (isStreak ? size * 0.7 : size) + 'px;' +
+      '--drop-dur:' + dur + 's;' +
+      '--streak-dist:' + streakDist + 'px;';
+    container.appendChild(drop);
+    setTimeout(function() {
+      if (drop.parentNode) drop.parentNode.removeChild(drop);
+    }, dur * 1000 + 100);
+  }
+
+  function start(intensity) {
+    if (_active) return;
+    _active = true;
+    container.classList.add('active');
+    _maxDrops = intensity === 'heavy' ? 18 : intensity === 'moderate' ? 12 : 7;
+    if (isMobile) _maxDrops = Math.max(4, Math.floor(_maxDrops * 0.6));
+    var rate = intensity === 'heavy' ? 300 : intensity === 'moderate' ? 600 : 1200;
+    _spawnInterval = setInterval(spawnDrop, rate);
+    spawnDrop();
+  }
+
+  function stop() {
+    if (!_active) return;
+    _active = false;
+    if (_spawnInterval) { clearInterval(_spawnInterval); _spawnInterval = null; }
+    container.classList.remove('active');
+    setTimeout(function() {
+      if (!_active) container.innerHTML = '';
+    }, 5000);
+  }
+
+  function update() {
+    var isRaining = false;
+    var rainIntensity = 'light';
+
+    if (_typhoonSimActive) {
+      isRaining = true;
+      rainIntensity = _typhoonSignalLevel >= 8 ? 'heavy' : 'moderate';
+    } else if (currentWeather && isRainyCode(currentWeather.weather_code)) {
+      isRaining = true;
+      rainIntensity = isHeavyRain(currentWeather.weather_code) ? 'heavy' :
+        currentWeather.weather_code >= 61 ? 'moderate' : 'light';
+    }
+
+    if (isRaining) {
+      if (!_active) start(rainIntensity);
+    } else {
+      if (_active) stop();
+    }
+  }
+
+  setInterval(update, 4000);
+  setTimeout(update, 7000);
+})();
+
 // ── Morning Harbor Mist ──
 // Low-lying mist over the harbour during early morning hours (5:00-8:30 AM)
 (function() {
@@ -14244,6 +14363,7 @@ function addSkyCabs(viewer) {
     { icon: '\u26A1', text: isTouch ? 'Tap City Pulse (bottom-right) to see what\'s happening now \u2014 features change with the time of day' : 'Click City Pulse (bottom-right) to see what\'s active now \u2014 features change with the hour, click any to fly there' },
     { icon: '\u2605', text: 'Discover all 30 landmarks \u2014 open the Explore panel to track your progress. Your discoveries save automatically!' },
     { icon: '\uD83C\uDF03', text: 'When it rains at night, watch for neon reflections shimmering on the wet streets \u2014 casino lights glow on the pavement' },
+    { icon: '\uD83D\uDCA7', text: 'During rain, watch for water drops on the camera lens \u2014 some streak down like a real rainy window. Try Typhoon Demo to see more!' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;
