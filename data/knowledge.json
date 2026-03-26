@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 173,
+  "last_updated_session": 174,
   "learnings": [
     {
       "type": "pattern",
@@ -38,15 +38,15 @@
       "domain": "rendering",
       "title": "CSS particle effects are lightweight alternatives to WebGL",
       "description": "CSS-based rain, snow, and particle effects are lightweight and effective for visual atmosphere without WebGL overhead. Canvas-based particles work for more complex effects.",
-      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc. Session 109: harbor mist. Session 171: night bokeh lights. Session 173: heat shimmer.",
+      "evidence": "Used across sessions 3, 65, 66 for rain, wind streaks, and shooting stars. Session 96: cloud wisps. Session 102: rain splashes. Session 106: sun rays. Session 107: rainbow arc. Session 109: harbor mist. Session 171: night bokeh lights. Session 173: heat shimmer. Session 174: city horizon glow (light pollution).",
       "tags": [
         "performance",
         "css",
         "animation"
       ],
       "weight": 0.8,
-      "times_applied": 10,
-      "times_successful": 10
+      "times_applied": 11,
+      "times_successful": 11
     },
     {
       "type": "pattern",
@@ -737,6 +737,17 @@
         "weather",
         "temperature"
       ],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "atmosphere",
+      "title": "Distributed radial gradient glow bands create convincing light pollution",
+      "description": "Multiple large, blurred radial-gradient CSS elements at different viewport positions create convincing urban light pollution effect. Key: position bands to represent real geographic light sources (casino districts), use CSS mask-image gradient to fade from horizon up, 60px blur for atmospheric diffusion, very low opacity (0.04-0.10) to enhance rather than obscure. Weather reactivity adds realism — fog increases scatter (brighter), heavy clouds dampen.",
+      "evidence": "Session 174: 5 glow bands representing Cotai Strip, Peninsula, harbour, Taipa, and diffuse upper scatter. Night-only via _currentGlowIntensity, weather-reactive, zero JS errors on desktop and mobile.",
+      "tags": ["css", "atmosphere", "rendering", "night-effects"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1

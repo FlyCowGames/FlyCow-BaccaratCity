@@ -595,6 +595,30 @@
     #rainbow-arc { transition-duration: 0.01ms !important; }
   }
 
+  /* Night city horizon glow (light pollution) */
+  #city-glow {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 55%;
+    pointer-events: none; z-index: 43;
+    opacity: 0; transition: opacity 8s ease;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.15) 70%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.15) 70%, transparent 100%);
+  }
+  #city-glow.active { opacity: 1; }
+  .glow-band {
+    position: absolute;
+    border-radius: 50%;
+    will-change: opacity;
+  }
+  @keyframes glowPulse {
+    0%, 100% { opacity: var(--glow-base, 0.08); }
+    50% { opacity: var(--glow-peak, 0.14); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .glow-band { animation-duration: 0.01ms !important; }
+    #city-glow { transition-duration: 0.01ms !important; }
+  }
+
   /* Night city bokeh lights */
   #night-bokeh {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -2893,6 +2917,7 @@
 <div id="cloud-layer"></div>
 <div id="color-grading"></div>
 <div id="sun-rays"></div>
+<div id="city-glow"></div>
 <div id="night-bokeh"></div>
 <div id="rainbow-arc"></div>
 <div id="harbor-mist"></div>
@@ -3755,6 +3780,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1850, lon: 113.5370, alt: 300, pitch: -20 },
   { name: 'Shooting Stars', chinese: '流星', icon: '💫', start: 19, end: 5,
     lat: 22.1893, lon: 113.5399, alt: 600, pitch: -15 },
+  { name: 'City Glow', chinese: '城市光暈', icon: '🌃', start: 19, end: 5,
+    lat: 22.1893, lon: 113.5399, alt: 500, pitch: -15 },
 ];
 
 function isFeatureActive(f, hour) {
@@ -15269,6 +15296,85 @@ function addSkyCabs(viewer) {
   setTimeout(updateSunRays, 3000);
 })();
 
+// ── Night City Horizon Glow (Light Pollution) ──
+// Warm amber atmospheric glow at the horizon at night, representing casino district light scatter
+(function() {
+  var container = document.getElementById('city-glow');
+  if (!container) return;
+
+  // Glow band configs: concentrated warm amber domes at different positions
+  // Simulates light pollution from Cotai Strip (center-right) and Peninsula (center-left)
+  var GLOW_BANDS = [
+    // Cotai Strip glow (right-center, largest)
+    { left: '55%', bottom: '-20%', w: '70vw', h: '50vh', color: [255,195,80], baseOp: 0.06, peakOp: 0.10, dur: 18 },
+    // Peninsula casino glow (left-center)
+    { left: '25%', bottom: '-15%', w: '55vw', h: '45vh', color: [255,180,60], baseOp: 0.05, peakOp: 0.09, dur: 22 },
+    // Harbor waterfront glow (center, warm white)
+    { left: '40%', bottom: '-10%', w: '50vw', h: '40vh', color: [255,220,150], baseOp: 0.04, peakOp: 0.07, dur: 25 },
+    // Taipa accent (far right, smaller)
+    { left: '75%', bottom: '-25%', w: '40vw', h: '35vh', color: [255,190,90], baseOp: 0.035, peakOp: 0.06, dur: 20 },
+    // Diffuse upper scatter (wide, very subtle)
+    { left: '40%', bottom: '5%', w: '90vw', h: '35vh', color: [255,210,130], baseOp: 0.025, peakOp: 0.04, dur: 30 },
+  ];
+
+  var bands = [];
+  for (var i = 0; i < GLOW_BANDS.length; i++) {
+    var cfg = GLOW_BANDS[i];
+    var el = document.createElement('div');
+    el.className = 'glow-band';
+    el.style.left = cfg.left;
+    el.style.bottom = cfg.bottom;
+    el.style.width = cfg.w;
+    el.style.height = cfg.h;
+    el.style.transform = 'translateX(-50%)';
+    el.style.filter = 'blur(60px)';
+    el.style.background = 'radial-gradient(ellipse at 50% 80%, rgba(' +
+      cfg.color[0] + ',' + cfg.color[1] + ',' + cfg.color[2] + ',0.3) 0%, rgba(' +
+      cfg.color[0] + ',' + cfg.color[1] + ',' + cfg.color[2] + ',0.08) 40%, transparent 70%)';
+    el.style.setProperty('--glow-base', cfg.baseOp.toFixed(3));
+    el.style.setProperty('--glow-peak', cfg.peakOp.toFixed(3));
+    el.style.animation = 'glowPulse ' + cfg.dur + 's ease-in-out ' + (i * 3) + 's infinite';
+    container.appendChild(el);
+    bands.push({ el: el, cfg: cfg });
+  }
+
+  function updateCityGlow() {
+    var glow = _currentGlowIntensity;
+
+    if (glow < 0.1) {
+      container.classList.remove('active');
+      return;
+    }
+
+    // Scale with glow intensity for smooth dusk/dawn transitions
+    var intensity = glow;
+
+    // Weather dampening: clouds scatter light differently (reduce slightly)
+    if (typeof currentWeather !== 'undefined' && currentWeather) {
+      var clouds = currentWeather.cloud_cover || 0;
+      // Heavy overcast diffuses glow more (slightly brighter at low clouds, dimmer at heavy overcast)
+      if (clouds > 70) {
+        intensity *= 0.7;
+      }
+      // Fog makes light pollution more visible (scatter)
+      var wc = currentWeather.weather_code || 0;
+      if (wc === 45 || wc === 48) intensity *= 1.2;
+      // Rain slightly reduces
+      if (typeof isRainyCode === 'function' && isRainyCode(wc)) intensity *= 0.8;
+    }
+
+    // Typhoon kills it
+    if (typeof _typhoonSimActive !== 'undefined' && _typhoonSimActive) intensity *= 0.4;
+
+    intensity = Math.min(intensity, 1.0);
+    container.style.opacity = (intensity * 0.85).toFixed(3);
+    container.classList.add('active');
+  }
+
+  setInterval(updateCityGlow, 5000);
+  setTimeout(updateCityGlow, 5500);
+})();
+
 // ── Night City Bokeh Lights ──
 // Soft out-of-focus light orbs drifting at night for cinematic casino atmosphere
 (function() {
@@ -15803,6 +15909,7 @@ function addSkyCabs(viewer) {
     { icon: '\u2708\uFE0F', text: 'Look at the airport at night \u2014 runway edge lights (white), threshold lights (green), end lights (red), approach strobes, and blue taxiway markers light up the runway' },
     { icon: '\u{1F326}\uFE0F', text: isTouch ? 'Tap Forecast under the weather display to see the next 6 hours \u2014 temperature, conditions, and rain probability for Macau' : 'Click Forecast under the weather display to see the next 6 hours \u2014 temperature, conditions, and rain probability for Macau' },
     { icon: '\uD83D\uDD25', text: 'On hot days, look for heat shimmer wavering near the ground between 10 AM\u20143 PM Macau time \u2014 stronger when temperatures rise above 30\u00B0C' },
+    { icon: '\uD83C\uDF03', text: 'At night, notice the warm amber glow at the horizon \u2014 Macau\'s casino district light pollution reflecting off the atmosphere, brighter during fog' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

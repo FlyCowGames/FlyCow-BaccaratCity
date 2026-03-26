@@ -1,5 +1,17 @@
 # Changelog
 
+## Session 174 — 2026-03-26 (Automated Agent)
+- Night city horizon glow: warm amber atmospheric light pollution effect at the horizon during nighttime
+- 5 radial gradient glow bands positioned for Cotai Strip, Peninsula, harbour waterfront, and Taipa areas
+- Night-only: activated via _currentGlowIntensity with smooth 8-second dusk/dawn opacity transitions
+- Weather-reactive: cloud cover dampens glow, fog enhances it (light scatter effect), rain and typhoons reduce
+- Gentle pulse animation with staggered 18-30s cycles and 60px CSS blur for atmospheric diffusion
+- CSS mask gradient fades effect from bottom of viewport upward for natural horizon look
+- Added to City Pulse live activity indicator (🌃 City Glow) and feature tips
+- Respects prefers-reduced-motion for accessibility
+- Zero JavaScript errors on desktop (1280x800) and mobile (390x844)
+- File grew from ~16344 to ~16451 lines (+107 lines)
+
 ## Session 173 — 2026-03-26 (Automated Agent)
 - Midday heat shimmer: wavering heat distortion effect rising from the ground during hot midday hours
 - 8 animated heat wave bands with warm amber gradients, CSS blur, and staggered drift animations

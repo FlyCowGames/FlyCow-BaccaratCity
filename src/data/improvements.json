@@ -1976,6 +1976,23 @@
       ],
       "linesAdded": 132,
       "agent": "automated"
+    },
+    {
+      "session": 174,
+      "date": "2026-03-26",
+      "title": "Night City Horizon Glow",
+      "domain": "atmosphere",
+      "summary": "Warm amber atmospheric glow at the horizon at night representing casino district light pollution.",
+      "details": [
+        "5 radial gradient glow bands positioned to represent Cotai Strip, Peninsula, harbour, and Taipa light scatter",
+        "Night-only activation via _currentGlowIntensity with smooth 8-second dusk/dawn transitions",
+        "Weather-reactive: cloud cover dampens, fog enhances (light scatter), rain and typhoon reduce",
+        "Gentle pulse animation with staggered 18-30 second cycles for organic breathing feel",
+        "CSS mask gradient fades effect from ground up, 60px blur for atmospheric diffusion",
+        "Added to City Pulse indicator and feature tips for discoverability"
+      ],
+      "linesAdded": 107,
+      "agent": "automated"
     }
   ]
 }
