@@ -4026,6 +4026,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1465, lon: 113.5570, alt: 300, pitch: -25 },
   { name: 'Bridge Harp', chinese: '西灣琴弦', icon: '🌉', start: 19, end: 5,
     lat: 22.1730, lon: 113.5380, alt: 600, pitch: -35 },
+  { name: 'Lisboa Crown', chinese: '葡京蓮冠', icon: '🪷', start: 19, end: 5,
+    lat: 22.1893, lon: 113.5399, alt: 400, pitch: -25 },
 ];
 
 function isFeatureActive(f, hour) {
@@ -5129,6 +5131,7 @@ async function init() {
     initWavingFlags(viewer);
     addKites(viewer);
     if (window._initEiffelSparkle) window._initEiffelSparkle(viewer);
+    if (window._initGrandLisboaCrown) window._initGrandLisboaCrown(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -7753,6 +7756,7 @@ var ATTRACTIONS = {
     { name: "Promenade Lights", chinese: "海濱步道燈", icon: "💫", lat: 22.1810, lon: 113.5375, alt: 500, pitch: -35 },
     { name: "Obstacle Lights", chinese: "航空障礙燈", icon: "🔴", lat: 22.1893, lon: 113.5399, alt: 600, pitch: -30 },
     { name: "Eiffel Tower Sparkle", chinese: "鐵塔燈光秀", icon: "✨", lat: 22.1465, lon: 113.5570, alt: 300, pitch: -25 },
+    { name: "Grand Lisboa Crown", chinese: "新葡京蓮冠", icon: "🪷", lat: 22.1893, lon: 113.5399, alt: 400, pitch: -25 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -11756,6 +11760,170 @@ function addLEDFacades(viewer) {
 
   // Expose for init
   window._initEiffelSparkle = initEiffelSparkle;
+})();
+
+// ── Grand Lisboa Crown Radiance ──
+// The Grand Lisboa (新葡京) is a 258m lotus-shaped tower — Macau's most iconic building.
+// At night, an animated golden radiance emanates from the lotus crown petals.
+(function() {
+  var CROWN_LON = 113.5399, CROWN_LAT = 22.1893;
+  var CW = 96, CH = 96;
+  var NUM_PETALS = 12;
+  var _bloomPhase = 0; // 0=idle, 1=bloom show
+  var _bloomShowTimer = 0;
+
+  // Pre-calculate petal angles (radiate outward from center)
+  var petals = [];
+  for (var i = 0; i < NUM_PETALS; i++) {
+    var angle = (i / NUM_PETALS) * Math.PI * 2 - Math.PI / 2;
+    petals.push({
+      angle: angle,
+      length: 0.28 + Math.random() * 0.1,
+      width: 0.06 + Math.random() * 0.02,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.4 + Math.random() * 0.3,
+      bloomDelay: i * 0.12
+    });
+  }
+
+  function drawCrown(time) {
+    var c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    var ctx = c.getContext('2d');
+    var cx = CW / 2, cy = CH / 2;
+
+    var bloomTime = _bloomPhase === 1 ? (time - _bloomShowTimer) : -1;
+
+    // Central core glow
+    var corePulse = 0.3 + 0.15 * Math.sin(time * 1.2);
+    if (bloomTime >= 0 && bloomTime < 4) {
+      corePulse = Math.min(0.8, corePulse + bloomTime * 0.15);
+    }
+    var coreGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, CW * 0.15);
+    coreGrad.addColorStop(0, 'rgba(255, 220, 100, ' + corePulse.toFixed(2) + ')');
+    coreGrad.addColorStop(0.5, 'rgba(212, 175, 55, ' + (corePulse * 0.5).toFixed(2) + ')');
+    coreGrad.addColorStop(1, 'rgba(212, 175, 55, 0)');
+    ctx.fillStyle = coreGrad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, CW * 0.15, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Draw lotus petals radiating from center
+    for (var i = 0; i < petals.length; i++) {
+      var p = petals[i];
+      var intensity;
+
+      if (bloomTime >= 0) {
+        // Bloom show: petals light up sequentially outward
+        var bloomProgress = (bloomTime - p.bloomDelay) * 1.2;
+        if (bloomProgress < 0) bloomProgress = 0;
+        if (bloomProgress > 1) {
+          // Sustain then fade
+          var fadeT = bloomProgress - 1;
+          bloomProgress = Math.max(0.3, 1 - fadeT * 0.2);
+        }
+        intensity = bloomProgress * (0.5 + 0.5 * Math.sin(time * p.speed * 3 + p.phase));
+        intensity = Math.min(1, intensity);
+      } else {
+        // Idle: gentle individual pulsing
+        intensity = 0.15 + 0.25 * Math.max(0, Math.sin(time * p.speed + p.phase));
+        // Random bright flicker
+        if (Math.sin(time * p.speed * 2.3 + p.phase * 2.7) > 0.9) {
+          intensity = 0.5 + Math.random() * 0.2;
+        }
+      }
+
+      if (intensity < 0.03) continue;
+
+      var len = CW * p.length * (0.8 + intensity * 0.3);
+      var wid = CW * p.width * (0.6 + intensity * 0.5);
+
+      // Petal as tapered shape
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(p.angle);
+
+      // Gold color with intensity
+      var r = 212 + Math.round(43 * intensity);
+      var g = 175 + Math.round(60 * intensity);
+      var b = 55 + Math.round(100 * intensity);
+      var alpha = intensity * 0.7;
+
+      // Glow behind petal
+      if (intensity > 0.2) {
+        ctx.shadowColor = 'rgba(' + r + ',' + g + ',' + b + ', 0.8)';
+        ctx.shadowBlur = 4 + intensity * 8;
+      }
+
+      // Draw petal shape (pointed ellipse)
+      ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha.toFixed(2) + ')';
+      ctx.beginPath();
+      ctx.moveTo(4, 0); // start just outside core
+      ctx.quadraticCurveTo(len * 0.5, -wid, len, 0);
+      ctx.quadraticCurveTo(len * 0.5, wid, 4, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.shadowBlur = 0;
+      ctx.restore();
+    }
+
+    // Outer halo glow (larger, subtle)
+    var haloAlpha = 0.08 + 0.04 * Math.sin(time * 0.8);
+    if (bloomTime >= 0 && bloomTime < 5) {
+      haloAlpha = Math.min(0.25, haloAlpha + bloomTime * 0.04);
+    }
+    var haloGrad = ctx.createRadialGradient(cx, cy, CW * 0.12, cx, cy, CW * 0.48);
+    haloGrad.addColorStop(0, 'rgba(212, 175, 55, ' + haloAlpha.toFixed(2) + ')');
+    haloGrad.addColorStop(1, 'rgba(212, 175, 55, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.fillRect(0, 0, CW, CH);
+
+    return c;
+  }
+
+  function initGrandLisboaCrown(viewer) {
+    var initialCanvas = drawCrown(0);
+    var entity = viewer.entities.add({
+      name: 'Grand Lisboa Crown Radiance',
+      position: Cesium.Cartesian3.fromDegrees(CROWN_LON, CROWN_LAT, 210),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 60,
+        height: 60,
+        scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 15000, 0.5),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 18000, 0.15),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+
+    // Update animation every 250ms
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      entity.show = shouldShow;
+      if (!shouldShow) { _bloomPhase = 0; return; }
+
+      var time = performance.now() / 1000;
+
+      // Bloom show: 3 minutes every 10 minutes
+      var macauMinutes = getMacauHour() * 60;
+      var cyclePos = macauMinutes % 10; // 0-9 minute position
+      if (cyclePos < 3 && _bloomPhase === 0) {
+        _bloomPhase = 1;
+        _bloomShowTimer = time;
+      } else if (cyclePos >= 3 && _bloomPhase === 1) {
+        _bloomPhase = 0;
+      }
+
+      var c = drawCrown(time);
+      entity.billboard.image = c.toDataURL();
+    }, 250);
+  }
+
+  window._initGrandLisboaCrown = initGrandLisboaCrown;
 })();
 
 // ── Harbor Seagulls ──
@@ -16843,6 +17011,7 @@ function addSkyCabs(viewer) {
     { icon: '\uD83C\uDF06', text: 'Watch the horizon at sunrise (5\u20137 AM) and sunset (5\u20137 PM) for vivid sky color bands \u2014 partial clouds make the colors even more dramatic' },
     { icon: '\u2728', text: 'Watch The Parisian\'s Eiffel Tower at night \u2014 6,600 golden lights sparkle in a cascade show every 15 minutes, just like the real tower in Macau' },
     { icon: '\uD83C\uDF09', text: 'At night, watch the Ponte de Sai Van cable-stayed bridge \u2014 golden lights sweep across the cable stays in a harp-like strumming effect' },
+    { icon: '\uD83E\uDEB7', text: 'At night, the Grand Lisboa\u2019s lotus crown glows golden \u2014 watch for the radiant bloom show every 10 minutes when all 12 petals light up in sequence' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

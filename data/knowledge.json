@@ -1,8 +1,19 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 183,
+  "last_updated_session": 184,
   "learnings": [
+    {
+      "type": "pattern",
+      "domain": "rendering",
+      "title": "Landmark-specific light signatures elevate hero buildings above generic effects",
+      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 3 implementations.",
+      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown all deployed without JS errors. Pattern is stable and efficient.",
+      "tags": ["rendering", "landmarks", "night-effects", "canvas", "pattern"],
+      "weight": 0.7,
+      "times_applied": 3,
+      "times_successful": 3
+    },
     {
       "type": "pattern",
       "domain": "interactivity",
@@ -1080,6 +1091,12 @@
       "question": "How to add distinctive identity to the Sai Van cable-stayed bridge beyond deck lights?",
       "chosen": "Canvas-drawn cable-stay fan pattern with sweep animation on 2 tower billboard entities, night-only",
       "rationale": "The existing bridge illumination (S29) gives all 3 bridges generic deck-level LED dots. Sai Van is the only cable-stayed bridge — its cable stays are its architectural signature. A canvas billboard per tower draws the cable fan from apex to deck, with a ping-pong sweep animation lighting cables in sequence. Sharing one canvas redraw for both towers halves draw cost. IIFE + window._initCableStayLights follows the Eiffel Tower sparkle pattern exactly.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to give the Grand Lisboa hero landmark a distinctive night identity beyond generic neon/beam effects?",
+      "chosen": "Canvas-drawn radiating lotus petal billboard with two-mode animation (idle pulse + periodic bloom show), night-only at 210m altitude",
+      "rationale": "Grand Lisboa already has 5 generic casino effects (neon glow, sky beam, searchlight, water reflection, obstacle light) but nothing specific to its defining architectural feature — the lotus-shaped crown. A canvas billboard at 210m (near the crown of the 258m tower) with 12 radiating petals creates a distinctive visual signature. Two animation modes (idle twinkle + 3-min bloom every 10 min) follow the same pattern as Eiffel sparkle. Center-origin vertical alignment works better than bottom-origin for a radiating effect. IIFE + window._initGrandLisboaCrown follows the established pattern. This elevates the hero landmark above generic effects.",
       "revisit_after_session": null
     }
   ]

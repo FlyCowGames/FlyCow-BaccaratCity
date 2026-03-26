@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-26 (Session 183)*
+*This document evolves every session. Last updated: 2026-03-26 (Session 184)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -155,3 +155,4 @@
 - Moonlit water path: silver-blue moonlight shimmer on harbor water during clear nights, weather-reactive (Session 178)
 - Sunset/sunrise sky gradient bands: vivid horizon color bands at dawn/dusk with weather-reactive intensity (Session 179)
 - Sai Van Bridge cable-stay harp lights: animated golden cable sweep effect on the bridge's A-frame towers at night (Session 183)
+- Grand Lisboa Crown Radiance: animated golden lotus crown glow on the hero landmark at night with periodic bloom show (Session 184)

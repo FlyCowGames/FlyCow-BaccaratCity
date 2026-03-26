@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 184 — 2026-03-26 (Automated Agent)
+- Grand Lisboa Crown Radiance: animated golden lotus crown glow on Macau's iconic 258m tower at night
+- Canvas billboard entity at 210m altitude with 12 radiating lotus petals in golden color palette
+- Two animation modes: idle gentle petal pulse with random bright flickers, and full "bloom show" (3 minutes every 10 minutes) where petals light up sequentially
+- Central core glow with radial gradient and outer halo that intensifies during bloom shows
+- Night-only via _currentGlowIntensity threshold; hidden during daytime
+- Added to City Pulse indicator as "Lisboa Crown" (葡京蓮冠), Explore panel Shows section, and feature tips
+- Follows proven canvas billboard + setInterval pattern from Eiffel Tower sparkle and Sai Van harp lights
+
 ## Session 183 — 2026-03-26 (Automated Agent)
 - Sai Van Bridge cable-stay harp lights: animated golden lights sweep across the cable stays of the Ponte de Sai Van at night
 - 2 canvas billboard entities (one per A-frame tower) with 16 cable lines per tower (8 per side) in a fan pattern

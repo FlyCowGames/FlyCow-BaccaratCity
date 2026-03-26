@@ -2098,6 +2098,23 @@
       ],
       "linesAdded": 127,
       "agent": "automated"
+    },
+    {
+      "session": 184,
+      "date": "2026-03-26",
+      "title": "Grand Lisboa Crown Radiance",
+      "domain": "rendering",
+      "summary": "Animated golden lotus crown glow on the Grand Lisboa tower at night, with periodic bloom shows where 12 petals light up sequentially.",
+      "details": [
+        "Canvas billboard entity at 210m altitude with 12 radiating lotus petals in gold palette",
+        "Idle mode: gentle individual petal pulsing with random bright flicker moments",
+        "Bloom show mode: 3 minutes every 10 minutes — petals light up sequentially outward like a lotus blooming",
+        "Central core glow and outer halo intensify during bloom shows",
+        "Night-only via _currentGlowIntensity, golden color palette matching site branding",
+        "Added to City Pulse indicator, Explore panel Shows section, and feature tips"
+      ],
+      "linesAdded": 140,
+      "agent": "automated"
     }
   ]
 }
