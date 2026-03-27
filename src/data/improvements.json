@@ -2272,6 +2272,23 @@
       ],
       "linesAdded": 217,
       "agent": "automated"
+    },
+    {
+      "session": 206,
+      "date": "2026-03-27",
+      "title": "Wynn Macau Prosperity Tree LED",
+      "domain": "rendering",
+      "summary": "Animated golden tree-of-prosperity LED light signature on Wynn Macau's curved bronze tower at night, the 11th landmark-specific LED signature.",
+      "details": [
+        "~64 LED nodes arranged in a tree pattern: trunk, lower branches, upper canopy, crown sparkles",
+        "Warm bronze-gold palette matching Wynn Macau's distinctive golden glass facade",
+        "Idle mode: upward golden drift shimmer with occasional prosperity sparkles on canopy nodes",
+        "Show mode: prosperity bloom cascade rising from trunk base through branching canopy crown",
+        "2.5-minute show every 12 minutes, integrates with Macau Lights spectacle",
+        "Added to City Pulse, Explore panel Shows, and feature tips"
+      ],
+      "linesAdded": 279,
+      "agent": "automated"
     }
   ]
 }

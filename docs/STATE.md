@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-27 (Session 204)
+## Last Updated: 2026-03-27 (Session 206)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -163,6 +163,7 @@
 - **MGM Macau Golden Wave Facade LED** — Animated golden wave-pattern LED light signature on MGM Macau's iconic 3-tier wave-shaped golden glass facade. Canvas billboard at 155m altitude with 48 LED nodes in 3 sine-wave tiers (light gold top, medium gold middle, deep gold bottom). Idle golden shimmer with horizontal traveling wave pulse. Show mode: 2.5 min every 11 min — cascading ripple from bottom tier upward with center-outward ripple pattern. Golden Lion entrance accent at base, rooftop crown glow, ambient halo. Night-only (Session 197)
 - **Wynn Palace Golden Crescent LED** — Animated warm golden LED light signature tracing Wynn Palace's distinctive curved crescent-shaped facade wrapping around the Performance Lake. Canvas billboard at 155m altitude with 64 LED nodes in 4 parabolic arc tiers (bright/warm/rich/deep gold). Idle golden breathing pulse with horizontal shimmer flowing along the crescent arcs. Show mode: 2.5 min every 13 min — blooming cascade from center outward along each arc with sparkle accents. Lake reflection glow at base, crown accent at top, ambient halo. Night-only, 10th landmark LED signature (Session 198)
 - **Harbor Drone Light Show** — 48 illuminated drones forming stunning patterns over the harbor at night. Canvas billboard at 350m altitude with multicolored drones (gold, red, green, white, pink, cyan, amber). 8-formation sequence: scatter → circle → lotus flower (Macau's emblem) → star → heart → diamond → circle → scatter. Smooth lerp interpolation for organic flowing transitions. 56-second show every 25 minutes. Integrates with Macau Lights spectacle. First non-building-attached nighttime show (Session 204)
+- **Wynn Macau Prosperity Tree LED** — Animated golden tree-of-prosperity LED light signature on Wynn Macau's curved bronze tower. Canvas billboard at 120m altitude with ~64 LED nodes in a tree pattern (trunk, lower branches, upper canopy, crown sparkles). Warm bronze-gold palette matching the building's golden glass facade. Idle upward drift shimmer with occasional prosperity sparkles. Show mode: 2.5 min every 12 min — prosperity bloom cascade rising from trunk base through branching canopy. Base entrance glow, crown golden haze, ambient halo. Night-only, 11th landmark LED signature representing the famous Tree of Prosperity animatronic (Session 206)
 - **Harbor seagulls** — 18 animated seabirds in 4 flocks circling over coastal areas (60-100m altitude, always active)
 - **Casino rooftop searchlights** — 6 sweeping searchlight beams from casino rooftops at night with distinct colors per casino
 - **Galaxy Macau wave pool** — 7 animated wave entities on Galaxy's Grand Resort Deck rooftop with turquoise water and animated crests

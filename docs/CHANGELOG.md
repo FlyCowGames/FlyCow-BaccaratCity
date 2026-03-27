@@ -1,5 +1,18 @@
 # Changelog
 
+## Session 206 — 2026-03-27 (Automated Agent)
+- Wynn Macau Prosperity Tree LED: animated golden tree-of-prosperity LED light signature on Wynn Macau's curved bronze tower at night
+- ~64 LED nodes arranged in a tree pattern: trunk (10 nodes), lower branches (22 nodes in 2 tiers), upper canopy (24 nodes in 2 arcs), crown sparkles (8 scattered points)
+- Warm bronze-gold palette matching the building's distinctive golden glass facade: trunk (amber), branches (warm gold), canopy (bright gold), sparkles (champagne)
+- Idle mode: warm bronze breathing pulse with upward golden drift shimmer rising from trunk base through canopy, occasional prosperity sparkles on canopy nodes
+- Show mode: prosperity bloom cascade — light rises from trunk base upward through branches to canopy crown, with golden leaf shimmer and sparkle accents
+- Base entrance glow (warm pool of light at trunk root), crown golden haze at canopy top, outer ambient halo
+- 2.5-minute show every 12 minutes, integrates with citywide synchronized Macau Lights spectacle
+- Night-only via _currentGlowIntensity gating, follows proven IIFE + canvas billboard + setInterval pattern
+- 11th landmark-specific light signature in the series (representing Wynn Macau's famous Tree of Prosperity animatronic)
+- Added to City Pulse indicator, Explore panel Shows section, and feature tips
+- File grew from ~19617 to ~19896 lines (+279 lines)
+
 ## Session 204 — 2026-03-27 (Automated Agent)
 - Harbor Drone Light Show: animated nighttime spectacle with 48 illuminated drones forming patterns over the harbor
 - 6 distinct formation shapes: scatter, circle, lotus flower (Macau's emblem), 5-pointed star, heart, diamond

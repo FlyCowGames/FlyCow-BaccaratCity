@@ -1,18 +1,18 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 204,
+  "last_updated_session": 206,
   "learnings": [
     {
       "type": "pattern",
       "domain": "rendering",
       "title": "Landmark-specific light signatures elevate hero buildings above generic effects",
-      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188), Galaxy diamond LED canopy (S191), Studio City Golden Reel figure-8 (S192), MGM Macau golden wave facade (S197), Wynn Palace golden crescent (S198). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 10 implementations.",
-      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile, S191 Galaxy diamond, S192 Golden Reel figure-8, S197 MGM golden wave, S198 Wynn Palace crescent all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, bridge, and unique architectural forms.",
+      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188), Galaxy diamond LED canopy (S191), Studio City Golden Reel figure-8 (S192), MGM Macau golden wave facade (S197), Wynn Palace golden crescent (S198), Wynn Macau prosperity tree (S206). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 11 implementations.",
+      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile, S191 Galaxy diamond, S192 Golden Reel figure-8, S197 MGM golden wave, S198 Wynn Palace crescent, S206 Wynn Macau prosperity tree all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, bridge, and unique architectural forms.",
       "tags": ["rendering", "landmarks", "night-effects", "canvas", "pattern"],
       "weight": 0.9,
-      "times_applied": 10,
-      "times_successful": 10
+      "times_applied": 11,
+      "times_successful": 11
     },
     {
       "type": "pattern",
@@ -1173,6 +1173,12 @@
       "question": "How to add a non-building-attached nighttime spectacle to diversify from LED signatures?",
       "chosen": "Canvas-drawn drone light show billboard at 350m over harbor with 48 multicolored drones forming 6 parametric shapes, smooth lerp transitions, 56s show every 25 min",
       "rationale": "After 10 building-specific LED signatures, the project needed a different type of nighttime spectacle. A drone show is: (1) geographically detached — floats over the harbor visible from many angles, (2) multicolored — festive palette contrasts with monochrome gold signatures, (3) shape-changing — dynamic formations vs static architectural patterns. Single canvas billboard is efficient. Parametric shape generators (genCircle, genLotus, genStar, genHeart, genDiamond) keep code clean. The lerp interpolation at 0.12 per frame creates satisfying organic flow. 25-minute cycle staggers against other show cycles (8/10/11/12/13/15 min).",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to represent Wynn Macau's Tree of Prosperity as an LED light signature?",
+      "chosen": "Use ~64 LED nodes arranged in a tree pattern (trunk, lower branches, upper canopy, crown sparkles) with bronze-gold palette and upward prosperity bloom cascade show",
+      "rationale": "Wynn Macau's most famous feature is the Tree of Prosperity animatronic that rises from the atrium floor — a golden tree symbolizing wealth and fortune. The tree shape is unique among all 11 LED signatures (no other uses organic/botanical form). Trunk-to-canopy upward cascade evokes growth and prosperity. Bronze-gold palette matches the building's golden glass facade. 4-group node organization (trunk/branches/canopy/sparkles) with depth-based show timing creates a natural blooming sequence. 12-minute cycle differentiates from other cycles (8/10/11/13/15/25 min). The prosperity sparkle accents on canopy nodes add a fortune/wealth feeling.",
       "revisit_after_session": null
     }
   ]
