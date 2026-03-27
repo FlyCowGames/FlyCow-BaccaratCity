@@ -1,5 +1,18 @@
 # Changelog
 
+## Session 198 — 2026-03-27 (Automated Agent)
+- Wynn Palace Golden Crescent LED: animated warm golden LED light signature tracing Wynn Palace's curved crescent-shaped facade at night
+- 64 LED nodes arranged in 4 parabolic arc tiers matching the building's distinctive concave golden glass curtain wall
+- Four-tone warm gold palette (bright/warm/rich/deep gold) per tier reflecting the real building's golden glass gradation
+- Idle mode: golden breathing pulse with horizontal shimmer flowing along the crescent arcs
+- Show mode: blooming cascade from center outward along each arc, with sparkle accents and sustained glow
+- Lake reflection glow at the base (Performance Lake side), crown accent at the top, ambient halo
+- 2.5-minute show every 13 minutes, integrates with citywide synchronized Macau Lights spectacle
+- Also added missing MGM Golden Wave entries to City Pulse and Explore panel Shows (S197 oversight)
+- Added feature tips for both MGM Golden Wave and Wynn Palace Crescent LED
+- 10th landmark-specific light signature in the series
+- File grew from ~18993 to ~19215 lines (+222 lines)
+
 ## Session 197 — 2026-03-27 (Automated Agent)
 - MGM Macau Golden Wave Facade LED: animated golden wave-pattern LED light signature on MGM Macau at night
 - 48 LED nodes arranged in 3 wave-shaped tiers matching the building's iconic undulating golden glass facade

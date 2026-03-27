@@ -4078,6 +4078,10 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1435, lon: 113.5550, alt: 350, pitch: -25 },
   { name: 'Lake Show', chinese: '表演湖燈光秀', icon: '⛲', start: 19, end: 5,
     lat: 22.1472, lon: 113.5628, alt: 200, pitch: -15 },
+  { name: 'MGM Golden Wave', chinese: '美高梅金浪', icon: '🌊', start: 19, end: 5,
+    lat: 22.1848, lon: 113.5417, alt: 300, pitch: -25 },
+  { name: 'Wynn Crescent', chinese: '永利金月', icon: '🌙', start: 19, end: 5,
+    lat: 22.1478, lon: 113.5630, alt: 300, pitch: -25 },
   { name: 'Macau Lights', chinese: '澳門燈光秀', icon: '🌟', start: 19, end: 5,
     lat: 22.1893, lon: 113.5399, alt: 800, pitch: -30 },
 ];
@@ -5191,6 +5195,7 @@ async function init() {
     if (window._initGalaxyDiamond) window._initGalaxyDiamond(viewer);
     if (window._initGoldenReelLED) window._initGoldenReelLED(viewer);
     if (window._initMGMGoldenWave) window._initMGMGoldenWave(viewer);
+    if (window._initWynnPalaceLED) window._initWynnPalaceLED(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -7821,6 +7826,8 @@ var ATTRACTIONS = {
     { name: "Venetian Campanile", chinese: "威尼斯人鐘樓燈", icon: "🏛️", lat: 22.1494, lon: 113.5590, alt: 350, pitch: -25 },
     { name: "Galaxy Diamond LED", chinese: "銀河鑽石燈", icon: "💎", lat: 22.1487, lon: 113.5544, alt: 350, pitch: -25 },
     { name: "Golden Reel LED", chinese: "影匯之星LED", icon: "🎡", lat: 22.1435, lon: 113.5550, alt: 350, pitch: -25 },
+    { name: "MGM Golden Wave LED", chinese: "美高梅金浪LED", icon: "🌊", lat: 22.1848, lon: 113.5417, alt: 300, pitch: -25 },
+    { name: "Wynn Palace Crescent LED", chinese: "永利皇宮金月LED", icon: "🌙", lat: 22.1478, lon: 113.5630, alt: 300, pitch: -25 },
     { name: "Macau Lights Spectacle", chinese: "澳門燈光秀", icon: "🌟", lat: 22.1893, lon: 113.5399, alt: 800, pitch: -30 },
   ],
   racing: [
@@ -13303,6 +13310,219 @@ function addLEDFacades(viewer) {
   window._initMGMGoldenWave = initMGMGoldenWave;
 })();
 
+// ── Wynn Palace Golden Crescent Facade LED ──
+// Wynn Palace (永利皇宮) features a distinctive curved crescent-shaped golden glass
+// facade that wraps around the Performance Lake. At night, warm golden LED accents
+// trace the sweeping arcs of the building's concave glass curtain wall, with a
+// blooming light show that fans outward along the crescent every 13 minutes.
+(function() {
+  var WP_LON = 113.5630, WP_LAT = 22.1478;
+  var CW = 80, CH = 100;
+  var _crescentShowPhase = 0; // 0=idle shimmer, 1=crescent show
+  var _crescentShowTimer = 0;
+
+  // Crescent arcs of LED nodes — the building curves in a concave crescent
+  // 4 vertical tiers with nodes placed along parabolic arcs
+  var crescentNodes = [];
+  var ARCS = [
+    { yBase: 0.15, spread: 0.38, curve: 0.06, count: 14, goldR: 255, goldG: 230, goldB: 140 },  // top — bright gold
+    { yBase: 0.35, spread: 0.42, curve: 0.08, count: 18, goldR: 250, goldG: 210, goldB: 100 },  // upper-mid — warm gold
+    { yBase: 0.55, spread: 0.44, curve: 0.09, count: 18, goldR: 240, goldG: 190, goldB: 70  },  // lower-mid — rich gold
+    { yBase: 0.75, spread: 0.40, curve: 0.07, count: 14, goldR: 230, goldG: 175, goldB: 50  },  // base — deep gold
+  ];
+
+  for (var a = 0; a < ARCS.length; a++) {
+    var arc = ARCS[a];
+    for (var n = 0; n < arc.count; n++) {
+      var frac = n / (arc.count - 1); // 0 to 1 across width
+      var centered = frac - 0.5; // -0.5 to 0.5
+      // Parabolic curve — crescent dips in the center
+      var curveY = arc.yBase + centered * centered * arc.curve * 4;
+      crescentNodes.push({
+        x: 0.5 - arc.spread * 0.5 + frac * arc.spread,
+        y: curveY,
+        arc: a,
+        idx: n,
+        frac: frac,
+        centered: Math.abs(centered), // distance from center (0-0.5)
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.35 + Math.random() * 0.45,
+        goldR: arc.goldR,
+        goldG: arc.goldG,
+        goldB: arc.goldB,
+      });
+    }
+  }
+
+  function drawWynnCrescent(time) {
+    var c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    var ctx = c.getContext('2d');
+
+    var showTime = _crescentShowPhase === 1 ? (time - _crescentShowTimer) : -1;
+    if (showTime > 16) { _crescentShowPhase = 0; showTime = -1; }
+
+    // Facade silhouette — subtle crescent arc outlines
+    for (var a = 0; a < ARCS.length; a++) {
+      ctx.strokeStyle = 'rgba(200, 170, 60, 0.05)';
+      ctx.lineWidth = 0.6;
+      ctx.beginPath();
+      var arc = ARCS[a];
+      for (var n = 0; n < arc.count; n++) {
+        var nd = crescentNodes[a === 0 ? n : (a === 1 ? 14 + n : (a === 2 ? 32 + n : 50 + n))];
+        if (n === 0) ctx.moveTo(nd.x * CW, nd.y * CH);
+        else ctx.lineTo(nd.x * CW, nd.y * CH);
+      }
+      ctx.stroke();
+    }
+
+    // Draw LED crescent nodes
+    for (var i = 0; i < crescentNodes.length; i++) {
+      var nd = crescentNodes[i];
+      var intensity;
+
+      if (showTime >= 0) {
+        // Crescent bloom: light sweeps from center outward along each arc
+        var arcDelay = nd.arc * 1.2; // top arc first
+        var localTime = showTime - arcDelay;
+        if (localTime < 0) {
+          intensity = 0.05;
+        } else {
+          // Sweep outward from center
+          var sweepPos = (localTime * 0.5) % 1.0;
+          var distFromSweep = Math.abs(nd.centered - sweepPos * 0.5);
+          var sweep = Math.max(0, 1 - distFromSweep * 6);
+          // Sustained bright base during show
+          var sustained = Math.min(1, localTime * 0.25) * 0.35;
+          // Sparkle accent during show
+          var sparkle = Math.sin(time * 3 + nd.phase * 2) > 0.8 ? 0.2 : 0;
+          intensity = Math.max(sustained, sweep * 0.85) + sparkle;
+          intensity = Math.max(0.08, Math.min(1, intensity));
+        }
+      } else {
+        // Idle: warm golden breathing pulse with horizontal shimmer
+        intensity = 0.06 + 0.15 * Math.max(0, Math.sin(time * nd.speed + nd.phase));
+        // Horizontal shimmer wave (flows along the crescent arc)
+        var shimmer = Math.sin(time * 0.3 - nd.frac * Math.PI * 2.5 + nd.arc * 0.8);
+        if (shimmer > 0.4) intensity += (shimmer - 0.4) * 0.4;
+        // Occasional bright sparkle
+        if (Math.sin(time * nd.speed * 2.1 + nd.phase * 3.3) > 0.92) {
+          intensity = 0.45 + Math.random() * 0.2;
+        }
+        intensity = Math.min(0.6, intensity);
+      }
+
+      if (intensity < 0.03) continue;
+
+      var px = nd.x * CW;
+      var py = nd.y * CH;
+
+      var r = Math.min(255, nd.goldR + Math.round(15 * intensity));
+      var g = Math.min(255, nd.goldG + Math.round(35 * intensity));
+      var b = Math.min(255, nd.goldB + Math.round(25 * intensity));
+      var alpha = intensity * 0.85;
+
+      // Glow halo for bright nodes
+      if (intensity > 0.2) {
+        var glowR = 1.5 + intensity * 5.5;
+        var grd = ctx.createRadialGradient(px, py, 0, px, py, glowR);
+        grd.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.5).toFixed(2) + ')');
+        grd.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(px, py, glowR, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Core LED point
+      ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha.toFixed(2) + ')';
+      ctx.beginPath();
+      ctx.arc(px, py, 0.5 + intensity * 1.0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Lake reflection glow — warm golden glow at the bottom (Performance Lake side)
+    var lakeAlpha = 0.04 + 0.02 * Math.sin(time * 0.5);
+    if (showTime >= 0 && showTime > 2) {
+      lakeAlpha = Math.min(0.18, lakeAlpha + 0.08);
+    }
+    var lakeGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.95, 0, CW * 0.5, CH * 0.95, CW * 0.45);
+    lakeGrad.addColorStop(0, 'rgba(255, 215, 100, ' + lakeAlpha.toFixed(3) + ')');
+    lakeGrad.addColorStop(0.5, 'rgba(245, 195, 70, ' + (lakeAlpha * 0.4).toFixed(3) + ')');
+    lakeGrad.addColorStop(1, 'rgba(230, 180, 50, 0)');
+    ctx.fillStyle = lakeGrad;
+    ctx.beginPath();
+    ctx.arc(CW * 0.5, CH * 0.95, CW * 0.45, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Crown accent — golden haze at the top of the curved tower
+    var crownAlpha = 0.03 + 0.012 * Math.sin(time * 0.4);
+    if (showTime >= 0 && showTime < 14) {
+      crownAlpha = Math.min(0.1, crownAlpha + showTime * 0.006);
+    }
+    var crownGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.06, 0, CW * 0.5, CH * 0.06, CW * 0.35);
+    crownGrad.addColorStop(0, 'rgba(255, 225, 120, ' + crownAlpha.toFixed(3) + ')');
+    crownGrad.addColorStop(1, 'rgba(245, 200, 80, 0)');
+    ctx.fillStyle = crownGrad;
+    ctx.fillRect(0, 0, CW, CH * 0.25);
+
+    // Outer ambient halo
+    var haloAlpha = 0.02 + 0.008 * Math.sin(time * 0.35);
+    if (showTime >= 0 && showTime < 14) {
+      haloAlpha = Math.min(0.08, haloAlpha + showTime * 0.005);
+    }
+    var haloGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.4, CW * 0.12, CW * 0.5, CH * 0.4, CW * 0.5);
+    haloGrad.addColorStop(0, 'rgba(250, 210, 90, ' + haloAlpha.toFixed(3) + ')');
+    haloGrad.addColorStop(1, 'rgba(230, 185, 50, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.fillRect(0, 0, CW, CH);
+
+    return c;
+  }
+
+  function initWynnPalaceLED(viewer) {
+    var initialCanvas = drawWynnCrescent(0);
+    var entity = viewer.entities.add({
+      name: 'Wynn Palace Crescent LED',
+      position: Cesium.Cartesian3.fromDegrees(WP_LON, WP_LAT, 155),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 35,
+        height: 45,
+        scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 15000, 0.5),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 18000, 0.15),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      entity.show = shouldShow;
+      if (!shouldShow) { _crescentShowPhase = 0; return; }
+
+      var time = performance.now() / 1000;
+
+      // Crescent show: 2.5 minutes every 13 minutes
+      var macauMinutes = getMacauHour() * 60;
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 13);
+      if (cyclePos < 2.5 && _crescentShowPhase === 0) {
+        _crescentShowPhase = 1;
+        _crescentShowTimer = time;
+      } else if (cyclePos >= 2.5 && _crescentShowPhase === 1) {
+        _crescentShowPhase = 0;
+      }
+
+      var canvas = drawWynnCrescent(time);
+      entity.billboard.image = canvas.toDataURL();
+    }, 250);
+  }
+
+  window._initWynnPalaceLED = initWynnPalaceLED;
+})();
+
 // ── Citywide Synchronized "Macau Lights" Spectacle ──
 // Every hour on the hour at night, ALL landmark light signatures, fountain show,
 // and fireworks activate simultaneously for a 2-minute coordinated spectacle.
@@ -18451,6 +18671,8 @@ function addSkyCabs(viewer) {
     { icon: '\uD83D\uDC8E', text: 'At night, Galaxy Macau\u2019s diamond-shaped LED canopy sparkles with thousands of golden nodes \u2014 watch for the radiating pulse show every 8 minutes as waves of light ripple outward from the center' },
     { icon: '\uD83C\uDFA1', text: 'At night, Studio City\u2019s Golden Reel glows with pink LED lights tracing its iconic figure-8 shape \u2014 watch for dual chase lights racing around the wheel every 10 minutes' },
     { icon: '⛲', text: 'Watch the Wynn Performance Lake at night \u2014 fountain jets dance with sweeping color waves, fire bursts, and a dazzling rainbow grand finale every 15 minutes' },
+    { icon: '\uD83C\uDF0A', text: 'At night, MGM Macau\u2019s golden wave facade glows with three tiers of LED lights tracing the iconic undulating glass \u2014 watch for the rising wave cascade show every 11 minutes' },
+    { icon: '\uD83C\uDF19', text: 'At night, Wynn Palace\u2019s golden crescent facade shimmers with warm LED arcs \u2014 watch for the blooming crescent show every 13 minutes as light sweeps along the curved glass' },
     { icon: '🌟', text: 'Every hour on the hour at night, all of Macau lights up at once \u2014 the Macau Lights spectacle synchronizes every landmark show, fireworks, and the fountain for 2 breathtaking minutes' },
   ];
   var el = document.getElementById('feature-tips');

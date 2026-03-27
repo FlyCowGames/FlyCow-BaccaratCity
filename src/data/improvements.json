@@ -2237,6 +2237,24 @@
       ],
       "linesAdded": 165,
       "agent": "automated"
+    },
+    {
+      "session": 198,
+      "date": "2026-03-27",
+      "title": "Wynn Palace Golden Crescent LED",
+      "domain": "rendering",
+      "summary": "Added animated warm golden LED light signature tracing Wynn Palace's distinctive curved crescent-shaped facade at night.",
+      "details": [
+        "64 LED nodes arranged in 4 parabolic arc tiers matching the building's concave golden glass curtain wall",
+        "Four-tone warm gold palette (bright/warm/rich/deep gold) per tier reflecting the real building's glass gradation",
+        "Idle mode: golden breathing pulse with horizontal shimmer flowing along crescent arcs",
+        "Show mode: blooming cascade from center outward along each arc with sparkle accents (2.5 min every 13 min)",
+        "Lake reflection glow at base, crown accent at top, ambient halo — night-only via _currentGlowIntensity",
+        "Also fixed missing MGM Golden Wave entries in City Pulse and Explore panel Shows from Session 197",
+        "10th landmark-specific light signature in the series"
+      ],
+      "linesAdded": 222,
+      "agent": "automated"
     }
   ]
 }

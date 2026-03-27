@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-27 (Session 197)
+## Last Updated: 2026-03-27 (Session 198)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -161,6 +161,7 @@
 - **Galaxy Macau Diamond LED Canopy** — Animated golden diamond-shaped LED canopy for Galaxy Macau on the Cotai Strip. Canvas billboard at 120m altitude with ~90 LED nodes in a 14x10 offset diamond lattice grid. Idle shimmer with random bright sparkle moments. Radiating pulse show: 2 min every 8 min — wave of golden light ripples outward from diamond center. Diamond crown apex golden pulse, faint lattice connecting edges. Warm gold/champagne palette. Night-only (Session 191)
 - **Studio City Golden Reel Figure-8 LED** — Animated pink/magenta LED light signature tracing the iconic figure-8 shape of the world's first lemniscate Ferris wheel at 130m. Canvas billboard at 130m altitude with 64 LED nodes along the figure-8 curve. Idle twinkling with random bright sparkles. Light show mode: 2 min every 10 min — dual chase lights race around the figure-8 path in opposite directions. Top and bottom loop crown accents, central hub glow, support strut silhouettes. Pink/magenta Hollywood glamour palette. Night-only (Session 192)
 - **MGM Macau Golden Wave Facade LED** — Animated golden wave-pattern LED light signature on MGM Macau's iconic 3-tier wave-shaped golden glass facade. Canvas billboard at 155m altitude with 48 LED nodes in 3 sine-wave tiers (light gold top, medium gold middle, deep gold bottom). Idle golden shimmer with horizontal traveling wave pulse. Show mode: 2.5 min every 11 min — cascading ripple from bottom tier upward with center-outward ripple pattern. Golden Lion entrance accent at base, rooftop crown glow, ambient halo. Night-only (Session 197)
+- **Wynn Palace Golden Crescent LED** — Animated warm golden LED light signature tracing Wynn Palace's distinctive curved crescent-shaped facade wrapping around the Performance Lake. Canvas billboard at 155m altitude with 64 LED nodes in 4 parabolic arc tiers (bright/warm/rich/deep gold). Idle golden breathing pulse with horizontal shimmer flowing along the crescent arcs. Show mode: 2.5 min every 13 min — blooming cascade from center outward along each arc with sparkle accents. Lake reflection glow at base, crown accent at top, ambient halo. Night-only, 10th landmark LED signature (Session 198)
 - **Harbor seagulls** — 18 animated seabirds in 4 flocks circling over coastal areas (60-100m altitude, always active)
 - **Casino rooftop searchlights** — 6 sweeping searchlight beams from casino rooftops at night with distinct colors per casino
 - **Galaxy Macau wave pool** — 7 animated wave entities on Galaxy's Grand Resort Deck rooftop with turquoise water and animated crests
