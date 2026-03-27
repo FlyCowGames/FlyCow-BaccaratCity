@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-27 (Session 192)
+## Last Updated: 2026-03-27 (Session 194)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -29,7 +29,7 @@
 - **Construction cranes**: 5 crane sites with static tower billboards and orbiting warning lights (Zone A, Cotai East, Studio City, Taipa, Peninsula)
 - **Harbor water shimmer**: ~23 animated light reflection points on water surfaces, subtle day sparkle / bright night casino reflections
 - **Casino sky beams**: 5 vertical light beams from major casinos at night with gentle sway animation
-- **Wynn Performance Lake**: Choreographed fountain show with 13 jets, 3-min shows every 15 min at night, 6 color palettes
+- **Wynn Performance Lake**: Choreographed fountain show with 13 jets, 3-min shows every 15 min at night, dynamic color choreography with 3-act structure (color waves → fire bursts → rainbow finale), 8-color palette with per-jet interpolation, lake surface glow reflecting average jet color
 - **Guia Circuit race cars**: 5 F3 cars racing the 6.2km street circuit around Macau Peninsula (15 waypoints, one-way loop, 5 distinct colors)
 - **Traditional junk boats**: 4 red-sailed Chinese junks cruising 3 harbour routes (Inner Harbour, Outer Harbour, A-Ma Temple coast)
 - **Geographic district labels**: 8 floating bilingual labels (English + Chinese) over major areas, visible from bird's eye for geographic orientation
@@ -136,7 +136,7 @@
 - **Construction cranes** at 5 development sites with orbiting warning lights
 - **Harbor water shimmer** — animated light reflections on water surfaces (subtle day, bright night)
 - **Casino sky beams** at night with gentle sway animation (5 major casinos)
-- **Wynn Performance Lake** fountain show at night — 13 choreographed jets with color-changing light shows
+- **Wynn Performance Lake** fountain show at night — 13 choreographed jets with dynamic 3-act color choreography (waves → fire → rainbow finale), colored lake glow
 - **Guia Circuit race cars** — 5 F3 cars with distinct colors racing the iconic street circuit (always active)
 - **Traditional junk boats** — 4 red-sailed Chinese junks cruising Inner/Outer Harbour and A-Ma Temple coast
 - **Geographic district labels** — 8 bilingual floating labels visible from overview for geographic orientation

@@ -1,5 +1,19 @@
 # Changelog
 
+## Session 194 — 2026-03-27 (Automated Agent)
+- Wynn Performance Lake Dynamic Color Choreography: enhanced existing fountain show with dynamic color cycling during performances
+- Replaced static single-color-per-show with 3-act choreographic structure:
+  - Act 1 (0-35%): Gentle color waves sweep across the jet arc with smooth interpolation
+  - Act 2 (35-70%): Fire & water — jets alternate between vivid orange-red fire bursts and cool blue water tones
+  - Act 3 (70-100%): Grand finale — accelerating rainbow cycling across all jets with brightened colors
+- Added 8-color palette (was 6): added teal-green and pink to existing water/gold/red/blue/amber/purple
+- Color updates via 200ms setInterval following proven canvas billboard + setInterval pattern
+- Added colored lake surface glow entity that dynamically reflects the average color of all active fountain jets
+- Integrated fountain show into City Pulse indicator as "Lake Show" (表演湖燈光秀)
+- Added feature tip for discoverability
+- Enhancement to existing Session 19 feature, not a new standalone system
+- File grew from ~18545 to ~18667 lines (+122 lines)
+
 ## Session 192 — 2026-03-27 (Automated Agent)
 - Studio City Golden Reel Figure-8 LED: animated pink/magenta LED light signature tracing the iconic figure-8 Ferris wheel shape at night
 - Canvas billboard entity at 130m altitude with 64 LED nodes along a lemniscate (figure-8) curve

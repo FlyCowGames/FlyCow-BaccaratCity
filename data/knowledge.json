@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 192,
+  "last_updated_session": 194,
   "learnings": [
     {
       "type": "pattern",
@@ -26,8 +26,8 @@
         "feature-enhancement"
       ],
       "weight": 0.7,
-      "times_applied": 20,
-      "times_successful": 20
+      "times_applied": 21,
+      "times_successful": 21
     },
     {
       "type": "pattern",
@@ -828,6 +828,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "rendering",
+      "title": "Dynamic color choreography via setInterval icon redraws enhances existing shows",
+      "description": "Enhancing an existing billboard animation (fountain jets) with a setInterval that redraws icons with time-varying colors adds dramatic visual impact without creating new entity systems. Using per-element phase offsets and show-progress-based 'acts' creates choreographic variety. The lerpColor() interpolation between palette entries creates smooth transitions. A secondary 'glow' billboard averaging all element colors adds reflected light effect on surfaces below.",
+      "evidence": "Session 194: Enhanced Wynn Performance Lake with 3-act color choreography (waves, fire bursts, rainbow finale) via 200ms setInterval. 8-color palette with smooth interpolation. Lake surface glow entity reflects average color. Zero JS errors on desktop and mobile. 122 lines added.",
+      "tags": ["canvas", "rendering", "animation", "color", "enhancement", "setInterval"],
+      "weight": 0.6,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -1127,6 +1138,12 @@
       "question": "How to give Galaxy Macau (massive Cotai mega-resort) a distinctive night identity?",
       "chosen": "Canvas-drawn diamond-shaped LED lattice grid with ~90 nodes in 14x10 offset layout, radiating pulse show from center outward, gold/champagne palette, night-only at 120m altitude",
       "rationale": "Galaxy Macau's diamond-shaped facade is its architectural signature. A diamond boundary mask on an offset grid of LED nodes creates a faceted silhouette that reads clearly at distance. The radiating outward pulse show is visually distinct from all other signatures: Eiffel sparkle (random), Sai Van (horizontal sweep), Lisboa (radial bloom), Tower (upward wave), Morpheus (upward cascade), Venetian (upward ripple). Lattice connecting edges between nodes reference the geometric grid structure. Gold/champagne palette matches Galaxy's luxury branding without conflicting with Lisboa's warm gold or Venetian's amber gold. 120m altitude matches Galaxy's roofline. 7th successful application of the IIFE + canvas + setInterval pattern.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to enhance the Performance Lake fountain show with dynamic colors?",
+      "chosen": "Add a 200ms setInterval that redraws jet billboard icons with time-varying colors using lerpColor interpolation, structured in 3 acts: color waves, fire bursts, rainbow finale",
+      "rationale": "The existing fountain already has billboard entities and height animation via CallbackProperty. Adding a setInterval for color updates follows the same proven pattern used by 8 light signatures. A 3-act structure (waves → fire → finale) mirrors real-world choreographed fountain shows and creates variety within a single 3-minute performance. The lerpColor approach ensures smooth transitions rather than abrupt color switches. Adding a lake surface glow entity with averaged color creates a reflected-light effect that enhances the visual without adding entities to each jet.",
       "revisit_after_session": null
     }
   ]
