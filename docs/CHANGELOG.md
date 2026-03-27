@@ -1,5 +1,16 @@
 # Changelog
 
+## Session 192 — 2026-03-27 (Automated Agent)
+- Studio City Golden Reel Figure-8 LED: animated pink/magenta LED light signature tracing the iconic figure-8 Ferris wheel shape at night
+- Canvas billboard entity at 130m altitude with 64 LED nodes along a lemniscate (figure-8) curve
+- Idle mode: gentle twinkling with occasional bright sparkles along the figure-8 path
+- Light show mode: 2 minutes every 10 minutes — dual chase lights race around the figure-8 in opposite directions
+- Top and bottom loop crown accent points with bright pink pulse at the extremes of the figure-8
+- Central hub glow, support strut silhouettes, outer ambient halo with pink/magenta palette matching Studio City's Hollywood glamour branding
+- Night-only via _currentGlowIntensity, integrated with City Pulse indicator, Explore panel Shows section, and feature tips
+- 8th landmark-specific light signature: Eiffel sparkle (S181), Sai Van harp (S183), Lisboa crown (S184), Tower LED (S186), Morpheus exoskeleton (S187), Venetian campanile (S188), Galaxy diamond (S191), Golden Reel figure-8 (S192)
+- File grew from ~18327 to ~18545 lines (+218 lines)
+
 ## Session 191 — 2026-03-27 (Automated Agent)
 - Galaxy Macau Diamond LED Canopy: animated golden diamond-shaped LED light signature for Galaxy Macau at night
 - Canvas billboard entity at 120m altitude with diamond-shaped lattice grid of ~90 LED nodes in 14x10 offset layout

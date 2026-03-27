@@ -2186,6 +2186,24 @@
       ],
       "linesAdded": 235,
       "agent": "automated"
+    },
+    {
+      "session": 192,
+      "date": "2026-03-27",
+      "title": "Studio City Golden Reel Figure-8 LED",
+      "domain": "rendering",
+      "summary": "Animated pink/magenta LED light signature tracing the iconic figure-8 Ferris wheel shape at Studio City at night, with dual chase light shows.",
+      "details": [
+        "Canvas billboard entity at 130m altitude with 64 LED nodes along a lemniscate (figure-8) curve",
+        "Idle mode: gentle twinkling with occasional bright sparkles along the figure-8 path",
+        "Light show mode: 2 minutes every 10 minutes — dual chase lights race around the figure-8 in opposite directions",
+        "Top and bottom loop crown accent points, central hub glow, support strut silhouettes",
+        "Pink/magenta palette matching Studio City's Hollywood glamour branding",
+        "Night-only via _currentGlowIntensity, integrated with City Pulse, Explore panel Shows, feature tips",
+        "8th landmark-specific light signature in the series"
+      ],
+      "linesAdded": 218,
+      "agent": "automated"
     }
   ]
 }

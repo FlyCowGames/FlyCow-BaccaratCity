@@ -1,18 +1,18 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 191,
+  "last_updated_session": 192,
   "learnings": [
     {
       "type": "pattern",
       "domain": "rendering",
       "title": "Landmark-specific light signatures elevate hero buildings above generic effects",
-      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188), Galaxy diamond LED canopy (S191). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 7 implementations.",
-      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile, S191 Galaxy diamond all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, and bridge landmarks.",
+      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188), Galaxy diamond LED canopy (S191), Studio City Golden Reel figure-8 (S192). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 8 implementations.",
+      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile, S191 Galaxy diamond, S192 Golden Reel figure-8 all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, bridge, and unique architectural forms.",
       "tags": ["rendering", "landmarks", "night-effects", "canvas", "pattern"],
       "weight": 0.9,
-      "times_applied": 7,
-      "times_successful": 7
+      "times_applied": 8,
+      "times_successful": 8
     },
     {
       "type": "pattern",
@@ -883,6 +883,12 @@
     }
   ],
   "decisions": [
+    {
+      "question": "How to create a figure-8 shaped LED light signature?",
+      "chosen": "Use parametric lemniscate curve (cos(t)/(1+sin²(t))) to place 64 LED nodes, with dual chase lights as the show mode",
+      "rationale": "The lemniscate of Bernoulli naturally produces the figure-8 shape. 64 nodes provide smooth curve resolution while keeping canvas draw cost low. Dual chase lights (180° offset) racing around the path create a more dynamic effect than a single trail and better suit the rotational nature of a Ferris wheel.",
+      "revisit_after_session": null
+    },
     {
       "question": "How to add weather forecast to the digital twin?",
       "chosen": "Extend existing Open-Meteo API call with hourly parameters, render in expandable panel below weather block",

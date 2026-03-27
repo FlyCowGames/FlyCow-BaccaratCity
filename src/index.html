@@ -4036,6 +4036,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1494, lon: 113.5590, alt: 350, pitch: -25 },
   { name: 'Galaxy Diamond', chinese: '銀河鑽石', icon: '💎', start: 19, end: 5,
     lat: 22.1487, lon: 113.5544, alt: 350, pitch: -25 },
+  { name: 'Golden Reel LED', chinese: '影匯之星', icon: '🎡', start: 19, end: 5,
+    lat: 22.1435, lon: 113.5550, alt: 350, pitch: -25 },
 ];
 
 function isFeatureActive(f, hour) {
@@ -5144,6 +5146,7 @@ async function init() {
     if (window._initMorpheusLED) window._initMorpheusLED(viewer);
     if (window._initVenetianCampanile) window._initVenetianCampanile(viewer);
     if (window._initGalaxyDiamond) window._initGalaxyDiamond(viewer);
+    if (window._initGoldenReelLED) window._initGoldenReelLED(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -7773,6 +7776,7 @@ var ATTRACTIONS = {
     { name: "Morpheus Exoskeleton", chinese: "摩珀斯外骨骼燈", icon: "🔮", lat: 22.1486, lon: 113.5586, alt: 350, pitch: -25 },
     { name: "Venetian Campanile", chinese: "威尼斯人鐘樓燈", icon: "🏛️", lat: 22.1494, lon: 113.5590, alt: 350, pitch: -25 },
     { name: "Galaxy Diamond LED", chinese: "銀河鑽石燈", icon: "💎", lat: 22.1487, lon: 113.5544, alt: 350, pitch: -25 },
+    { name: "Golden Reel LED", chinese: "影匯之星LED", icon: "🎡", lat: 22.1435, lon: 113.5550, alt: 350, pitch: -25 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -12690,6 +12694,223 @@ function addLEDFacades(viewer) {
   }
 
   window._initGalaxyDiamond = initGalaxyDiamond;
+})();
+
+// ── Studio City Golden Reel Figure-8 LED ──
+// Studio City (新濠影匯) — the world's first figure-8 Ferris wheel at 130m.
+// At night, LED lights trace the iconic lemniscate shape with rotating chase
+// lights in pink/magenta (matching Studio City's Hollywood glamour branding).
+(function() {
+  var REEL_LON = 113.5550, REEL_LAT = 22.1435;
+  var CW = 80, CH = 80;
+  var _showPhase = 0;
+  var _showTimer = 0;
+
+  // Build figure-8 (lemniscate) LED nodes
+  var reelNodes = [];
+  var NUM_NODES = 64;
+  for (var i = 0; i < NUM_NODES; i++) {
+    var t = (i / NUM_NODES) * Math.PI * 2;
+    var denom = 1 + Math.sin(t) * Math.sin(t);
+    var nx = 0.5 + 0.38 * Math.cos(t) / denom;
+    var ny = 0.5 - 0.38 * (Math.cos(t) * Math.sin(t)) / denom;
+    reelNodes.push({
+      x: nx, y: ny,
+      t: t,
+      idx: i,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.6 + Math.random() * 0.8
+    });
+  }
+
+  // Support struts — 4 structural lines from center to figure-8 extremes
+  var strutAngles = [0, Math.PI * 0.5, Math.PI, Math.PI * 1.5];
+
+  function drawGoldenReel(time) {
+    var c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    var ctx = c.getContext('2d');
+
+    var showTime = -1;
+    if (_showPhase === 1) {
+      showTime = time - _showTimer;
+      if (showTime > 12) { _showPhase = 0; showTime = -1; }
+    }
+
+    // Figure-8 frame silhouette — faint structural outline
+    ctx.strokeStyle = 'rgba(180, 120, 160, 0.04)';
+    ctx.lineWidth = 0.8;
+    ctx.beginPath();
+    for (var i = 0; i < NUM_NODES; i++) {
+      var nd = reelNodes[i];
+      if (i === 0) ctx.moveTo(nd.x * CW, nd.y * CH);
+      else ctx.lineTo(nd.x * CW, nd.y * CH);
+    }
+    ctx.closePath();
+    ctx.stroke();
+
+    // Central hub glow
+    var hubAlpha = 0.04 + 0.02 * Math.sin(time * 0.5);
+    if (showTime >= 0) hubAlpha = Math.min(0.15, hubAlpha + 0.08);
+    var hubGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.5, 0, CW * 0.5, CH * 0.5, CW * 0.12);
+    hubGrad.addColorStop(0, 'rgba(255, 150, 210, ' + hubAlpha.toFixed(3) + ')');
+    hubGrad.addColorStop(1, 'rgba(200, 100, 160, 0)');
+    ctx.fillStyle = hubGrad;
+    ctx.beginPath();
+    ctx.arc(CW * 0.5, CH * 0.5, CW * 0.12, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Support struts — faint structural lines
+    ctx.strokeStyle = 'rgba(180, 140, 170, 0.03)';
+    ctx.lineWidth = 0.5;
+    for (var s = 0; s < strutAngles.length; s++) {
+      var sa = strutAngles[s];
+      var sDenom = 1 + Math.sin(sa) * Math.sin(sa);
+      var sx = 0.5 + 0.38 * Math.cos(sa) / sDenom;
+      var sy = 0.5 - 0.38 * (Math.cos(sa) * Math.sin(sa)) / sDenom;
+      ctx.beginPath();
+      ctx.moveTo(CW * 0.5, CH * 0.5);
+      ctx.lineTo(sx * CW, sy * CH);
+      ctx.stroke();
+    }
+
+    // Draw LED nodes around the figure-8
+    for (var i = 0; i < reelNodes.length; i++) {
+      var nd = reelNodes[i];
+      var intensity;
+
+      if (showTime >= 0) {
+        // Light show: chase lights rotate around the figure-8
+        var chasePos = (showTime * 1.2) % 1.0;
+        var nodeFrac = nd.idx / NUM_NODES;
+        var dist = Math.abs(nodeFrac - chasePos);
+        if (dist > 0.5) dist = 1.0 - dist;
+        var chase = Math.max(0, 1 - dist * 6);
+        // Second chase trail at 180 degrees offset
+        var chase2Pos = (chasePos + 0.5) % 1.0;
+        var dist2 = Math.abs(nodeFrac - chase2Pos);
+        if (dist2 > 0.5) dist2 = 1.0 - dist2;
+        var chase2 = Math.max(0, 1 - dist2 * 6);
+        intensity = Math.max(chase, chase2) * 0.9 + 0.1 * Math.sin(time * nd.speed + nd.phase);
+        intensity = Math.max(0.06, Math.min(1, intensity));
+      } else {
+        // Idle: gentle twinkling with occasional bright sparkles
+        intensity = 0.06 + 0.15 * Math.max(0, Math.sin(time * nd.speed + nd.phase));
+        var twinkle = Math.sin(time * 0.4 + nd.idx * 0.5);
+        if (twinkle > 0.65) intensity += (twinkle - 0.65) * 0.6;
+        if (Math.sin(time * nd.speed * 2.5 + nd.phase * 4.1) > 0.92) {
+          intensity = 0.45 + Math.random() * 0.3;
+        }
+        intensity = Math.min(0.6, intensity);
+      }
+
+      if (intensity < 0.03) continue;
+
+      var px = nd.x * CW;
+      var py = nd.y * CH;
+
+      // Pink/magenta palette — Studio City Hollywood glamour
+      var r = 230 + Math.round(25 * intensity);
+      var g = 100 + Math.round(60 * intensity);
+      var b = 180 + Math.round(60 * intensity);
+      var alpha = intensity * 0.85;
+
+      if (intensity > 0.25) {
+        var glowR = 1.5 + intensity * 4.5;
+        var grd = ctx.createRadialGradient(px, py, 0, px, py, glowR);
+        grd.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.5).toFixed(2) + ')');
+        grd.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(px, py, glowR, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha.toFixed(2) + ')';
+      ctx.beginPath();
+      ctx.arc(px, py, 0.5 + intensity * 1.0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Top and bottom loop crowns — bright accent points
+    // Top of upper loop (t=PI/2)
+    var topY = 0.5 - 0.38 * 0.5; // y at t=PI/2
+    var crownPulse = 0.15 + 0.08 * Math.sin(time * 1.5);
+    if (showTime >= 0) crownPulse = Math.min(0.45, crownPulse + 0.2);
+    var crG = ctx.createRadialGradient(CW * 0.5, topY * CH, 0, CW * 0.5, topY * CH, 8);
+    crG.addColorStop(0, 'rgba(255, 180, 230, ' + crownPulse.toFixed(2) + ')');
+    crG.addColorStop(0.5, 'rgba(230, 120, 190, ' + (crownPulse * 0.4).toFixed(2) + ')');
+    crG.addColorStop(1, 'rgba(200, 100, 160, 0)');
+    ctx.fillStyle = crG;
+    ctx.beginPath();
+    ctx.arc(CW * 0.5, topY * CH, 8, 0, Math.PI * 2);
+    ctx.fill();
+    // Bottom of lower loop (t=3PI/2)
+    var botY = 0.5 + 0.38 * 0.5;
+    var crB = ctx.createRadialGradient(CW * 0.5, botY * CH, 0, CW * 0.5, botY * CH, 8);
+    crB.addColorStop(0, 'rgba(255, 180, 230, ' + crownPulse.toFixed(2) + ')');
+    crB.addColorStop(0.5, 'rgba(230, 120, 190, ' + (crownPulse * 0.4).toFixed(2) + ')');
+    crB.addColorStop(1, 'rgba(200, 100, 160, 0)');
+    ctx.fillStyle = crB;
+    ctx.beginPath();
+    ctx.arc(CW * 0.5, botY * CH, 8, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Outer ambient halo
+    var haloAlpha = 0.025 + 0.01 * Math.sin(time * 0.35);
+    if (showTime >= 0 && showTime < 10) {
+      haloAlpha = Math.min(0.09, haloAlpha + showTime * 0.008);
+    }
+    var haloGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.5, CW * 0.15, CW * 0.5, CH * 0.5, CW * 0.52);
+    haloGrad.addColorStop(0, 'rgba(230, 130, 190, ' + haloAlpha.toFixed(3) + ')');
+    haloGrad.addColorStop(1, 'rgba(200, 100, 160, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.fillRect(0, 0, CW, CH);
+
+    return c;
+  }
+
+  function initGoldenReelLED(viewer) {
+    var initialCanvas = drawGoldenReel(0);
+    var entity = viewer.entities.add({
+      name: 'Studio City Golden Reel LED',
+      position: Cesium.Cartesian3.fromDegrees(REEL_LON, REEL_LAT, 130),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 35,
+        height: 35,
+        scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 15000, 0.5),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 18000, 0.15),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      entity.show = shouldShow;
+      if (!shouldShow) { _showPhase = 0; return; }
+
+      var time = performance.now() / 1000;
+
+      // Light show: 2 minutes every 10 minutes
+      var macauMinutes = getMacauHour() * 60;
+      var cyclePos = macauMinutes % 10;
+      if (cyclePos < 2 && _showPhase === 0) {
+        _showPhase = 1;
+        _showTimer = time;
+      } else if (cyclePos >= 2 && _showPhase === 1) {
+        _showPhase = 0;
+      }
+
+      var canvas = drawGoldenReel(time);
+      entity.billboard.image = canvas.toDataURL();
+    }, 250);
+  }
+
+  window._initGoldenReelLED = initGoldenReelLED;
 })();
 
 // ── Harbor Seagulls ──
@@ -17782,6 +18003,7 @@ function addSkyCabs(viewer) {
     { icon: '\uD83D\uDD2E', text: 'At night, look for the Morpheus tower\u2019s purple LED exoskeleton on the Cotai Strip \u2014 Zaha Hadid\u2019s twisted figure-eight frame pulses with light, and a cascade show sweeps up the tower every 12 minutes' },
     { icon: '\uD83C\uDFDB\uFE0F', text: 'At night, The Venetian\u2019s campanile tower shimmers with golden light bands evoking Venice canal reflections \u2014 a cascade show sweeps up the tower every 10 minutes' },
     { icon: '\uD83D\uDC8E', text: 'At night, Galaxy Macau\u2019s diamond-shaped LED canopy sparkles with thousands of golden nodes \u2014 watch for the radiating pulse show every 8 minutes as waves of light ripple outward from the center' },
+    { icon: '\uD83C\uDFA1', text: 'At night, Studio City\u2019s Golden Reel glows with pink LED lights tracing its iconic figure-8 shape \u2014 watch for dual chase lights racing around the wheel every 10 minutes' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;
