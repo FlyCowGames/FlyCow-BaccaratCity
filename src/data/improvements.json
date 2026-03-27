@@ -2167,6 +2167,25 @@
       ],
       "linesAdded": 128,
       "agent": "automated"
+    },
+    {
+      "session": 191,
+      "date": "2026-03-27",
+      "title": "Galaxy Macau Diamond LED Canopy",
+      "domain": "rendering",
+      "summary": "Animated golden diamond-shaped LED canopy for Galaxy Macau at night, with sparkling lattice nodes and periodic radiating pulse shows.",
+      "details": [
+        "Canvas billboard entity at 120m altitude with diamond-shaped lattice grid of ~90 LED nodes (14x10 offset layout)",
+        "Diamond boundary mask creates clean faceted silhouette with offset alternating rows",
+        "Idle mode: sparkling shimmer with random bright flicker moments across nodes",
+        "Pulse show mode: 2 minutes every 8 minutes — radiating wave ripples outward from diamond center",
+        "Diamond crown apex bright golden pulse, faint lattice connecting edges between nodes",
+        "Warm gold/champagne palette matching Galaxy Macau luxury branding",
+        "Night-only via _currentGlowIntensity, integrated with City Pulse, Explore panel Shows, feature tips",
+        "Fixed SkyJump double .toDataURL() bug, added missing Venetian Campanile feature tip"
+      ],
+      "linesAdded": 235,
+      "agent": "automated"
     }
   ]
 }

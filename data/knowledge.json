@@ -1,18 +1,18 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 188,
+  "last_updated_session": 191,
   "learnings": [
     {
       "type": "pattern",
       "domain": "rendering",
       "title": "Landmark-specific light signatures elevate hero buildings above generic effects",
-      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 6 implementations.",
-      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, and bridge landmarks.",
+      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188), Galaxy diamond LED canopy (S191). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 7 implementations.",
+      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile, S191 Galaxy diamond all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, and bridge landmarks.",
       "tags": ["rendering", "landmarks", "night-effects", "canvas", "pattern"],
       "weight": 0.9,
-      "times_applied": 6,
-      "times_successful": 6
+      "times_applied": 7,
+      "times_successful": 7
     },
     {
       "type": "pattern",
@@ -1115,6 +1115,12 @@
       "question": "How to give The Venetian Macao (world's largest casino) a distinctive night identity?",
       "chosen": "Canvas-drawn rippling horizontal golden bands evoking Venice canal water reflections, with campanile spire crown pulse and periodic cascade sweep, at 130m altitude",
       "rationale": "The Venetian's campanile tower is modeled after St. Mark's Campanile in Venice. A water-reflection ripple effect (horizontal bands drifting upward with wobble) thematically connects to Venice's canals and is visually distinct from all other signatures: Eiffel sparkle points, Sai Van cable sweep, Lisboa radial crown, Tower horizontal LED bands, Morpheus exoskeleton grid. Warm Venetian gold palette matches the building's golden aesthetic. 12 bands with varied speeds and wobble create organic water-light feel. 130m altitude appropriate for the campanile's height. 6th successful application of the IIFE + canvas + setInterval pattern.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to give Galaxy Macau (massive Cotai mega-resort) a distinctive night identity?",
+      "chosen": "Canvas-drawn diamond-shaped LED lattice grid with ~90 nodes in 14x10 offset layout, radiating pulse show from center outward, gold/champagne palette, night-only at 120m altitude",
+      "rationale": "Galaxy Macau's diamond-shaped facade is its architectural signature. A diamond boundary mask on an offset grid of LED nodes creates a faceted silhouette that reads clearly at distance. The radiating outward pulse show is visually distinct from all other signatures: Eiffel sparkle (random), Sai Van (horizontal sweep), Lisboa (radial bloom), Tower (upward wave), Morpheus (upward cascade), Venetian (upward ripple). Lattice connecting edges between nodes reference the geometric grid structure. Gold/champagne palette matches Galaxy's luxury branding without conflicting with Lisboa's warm gold or Venetian's amber gold. 120m altitude matches Galaxy's roofline. 7th successful application of the IIFE + canvas + setInterval pattern.",
       "revisit_after_session": null
     }
   ]

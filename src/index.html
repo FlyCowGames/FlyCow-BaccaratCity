@@ -4034,6 +4034,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1486, lon: 113.5586, alt: 350, pitch: -25 },
   { name: 'Venetian Campanile', chinese: '威尼斯人鐘樓', icon: '🏛️', start: 19, end: 5,
     lat: 22.1494, lon: 113.5590, alt: 350, pitch: -25 },
+  { name: 'Galaxy Diamond', chinese: '銀河鑽石', icon: '💎', start: 19, end: 5,
+    lat: 22.1487, lon: 113.5544, alt: 350, pitch: -25 },
 ];
 
 function isFeatureActive(f, hour) {
@@ -5141,6 +5143,7 @@ async function init() {
     if (window._initMacauTowerLED) window._initMacauTowerLED(viewer);
     if (window._initMorpheusLED) window._initMorpheusLED(viewer);
     if (window._initVenetianCampanile) window._initVenetianCampanile(viewer);
+    if (window._initGalaxyDiamond) window._initGalaxyDiamond(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -7769,6 +7772,7 @@ var ATTRACTIONS = {
     { name: "Macau Tower LED", chinese: "旅遊塔LED燈冠", icon: "🗼", lat: 22.1801, lon: 113.5318, alt: 450, pitch: -25 },
     { name: "Morpheus Exoskeleton", chinese: "摩珀斯外骨骼燈", icon: "🔮", lat: 22.1486, lon: 113.5586, alt: 350, pitch: -25 },
     { name: "Venetian Campanile", chinese: "威尼斯人鐘樓燈", icon: "🏛️", lat: 22.1494, lon: 113.5590, alt: 350, pitch: -25 },
+    { name: "Galaxy Diamond LED", chinese: "銀河鑽石燈", icon: "💎", lat: 22.1487, lon: 113.5544, alt: 350, pitch: -25 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -11164,7 +11168,7 @@ function initSkyJump(viewer) {
     return c.toDataURL();
   }
 
-  var jumperIcon = createJumperIcon().toDataURL();
+  var jumperIcon = createJumperIcon();
 
   for (var j = 0; j < jumperCount; j++) {
     (function(idx) {
@@ -12481,6 +12485,211 @@ function addLEDFacades(viewer) {
   }
 
   window._initVenetianCampanile = initVenetianCampanile;
+})();
+
+// ── Galaxy Macau Diamond LED Canopy ──
+// Galaxy Macau (銀河) — massive Cotai Strip mega-resort with a distinctive
+// diamond-shaped LED facade canopy. At night, thousands of LED nodes shimmer
+// in a golden lattice grid with periodic radiating pulse shows.
+(function() {
+  var GAL_LON = 113.5544, GAL_LAT = 22.1487;
+  var CW = 80, CH = 60;
+  var _pulsePhase = 0;
+  var _pulseTimer = 0;
+
+  // Build diamond grid nodes
+  var diamondNodes = [];
+  var COLS = 14, ROWS = 10;
+  for (var r = 0; r < ROWS; r++) {
+    for (var c = 0; c < COLS; c++) {
+      var xOff = (r % 2) ? 0.5 / COLS : 0;
+      var nx = 0.1 + (c / (COLS - 1)) * 0.8 + xOff;
+      var ny = 0.08 + (r / (ROWS - 1)) * 0.84;
+      // Diamond-shaped boundary mask
+      var cx = Math.abs(nx - 0.5) / 0.45;
+      var cy = Math.abs(ny - 0.5) / 0.48;
+      if (cx + cy > 1.05) continue;
+      diamondNodes.push({
+        x: nx, y: ny,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.8 + Math.random() * 1.2,
+        pathDist: ny
+      });
+    }
+  }
+
+  // Precompute lattice edges
+  var edges = [];
+  for (var i = 0; i < diamondNodes.length; i++) {
+    for (var j = i + 1; j < diamondNodes.length; j++) {
+      var dx = diamondNodes[i].x - diamondNodes[j].x;
+      var dy = diamondNodes[i].y - diamondNodes[j].y;
+      if (Math.sqrt(dx * dx + dy * dy) < 0.14) edges.push([i, j]);
+    }
+  }
+
+  function drawGalaxyDiamond(time) {
+    var c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    var ctx = c.getContext('2d');
+
+    var pulseTime = -1;
+    if (_pulsePhase === 1) {
+      pulseTime = time - _pulseTimer;
+      if (pulseTime > 10) { _pulsePhase = 0; pulseTime = -1; }
+    }
+
+    // Diamond silhouette base glow
+    var baseAlpha = 0.035 + 0.012 * Math.sin(time * 0.3);
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(CW * 0.5, CH * 0.04);
+    ctx.lineTo(CW * 0.92, CH * 0.5);
+    ctx.lineTo(CW * 0.5, CH * 0.96);
+    ctx.lineTo(CW * 0.08, CH * 0.5);
+    ctx.closePath();
+    var baseGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.5, 0, CW * 0.5, CH * 0.5, CW * 0.5);
+    baseGrad.addColorStop(0, 'rgba(212, 185, 75, ' + (baseAlpha * 1.8).toFixed(3) + ')');
+    baseGrad.addColorStop(0.7, 'rgba(212, 175, 55, ' + baseAlpha.toFixed(3) + ')');
+    baseGrad.addColorStop(1, 'rgba(180, 145, 40, 0)');
+    ctx.fillStyle = baseGrad;
+    ctx.fill();
+    ctx.restore();
+
+    // Faint lattice connecting lines
+    ctx.strokeStyle = 'rgba(212, 185, 75, 0.04)';
+    ctx.lineWidth = 0.4;
+    for (var e = 0; e < edges.length; e++) {
+      var n1 = diamondNodes[edges[e][0]];
+      var n2 = diamondNodes[edges[e][1]];
+      ctx.beginPath();
+      ctx.moveTo(n1.x * CW, n1.y * CH);
+      ctx.lineTo(n2.x * CW, n2.y * CH);
+      ctx.stroke();
+    }
+
+    // Draw LED nodes
+    for (var i = 0; i < diamondNodes.length; i++) {
+      var nd = diamondNodes[i];
+      var intensity;
+
+      if (pulseTime >= 0) {
+        // Pulse show: radiating wave from center outward
+        var ndCX = nd.x - 0.5;
+        var ndCY = nd.y - 0.5;
+        var ndDist = Math.sqrt(ndCX * ndCX + ndCY * ndCY);
+        var wavePos = (pulseTime * 0.3) % 0.8;
+        var waveDist = Math.abs(ndDist - wavePos);
+        if (waveDist > 0.4) waveDist = 0.8 - waveDist;
+        var wave = Math.max(0, 1 - waveDist * 8);
+        intensity = wave * 0.85 + 0.15 * Math.sin(time * nd.speed * 3 + nd.phase);
+        intensity = Math.max(0.08, Math.min(1, intensity));
+      } else {
+        // Idle: sparkling shimmer
+        intensity = 0.08 + 0.18 * Math.max(0, Math.sin(time * nd.speed + nd.phase));
+        var sparkle = Math.sin(time * 0.35 + nd.pathDist * Math.PI * 8 + nd.x * 12);
+        if (sparkle > 0.6) intensity += (sparkle - 0.6) * 0.8;
+        if (Math.sin(time * nd.speed * 2.3 + nd.phase * 3.7) > 0.9) {
+          intensity = 0.5 + Math.random() * 0.35;
+        }
+        intensity = Math.min(0.65, intensity);
+      }
+
+      if (intensity < 0.03) continue;
+
+      var px = nd.x * CW;
+      var py = nd.y * CH;
+
+      // Golden/champagne palette — Galaxy Macau luxury branding
+      var r = 210 + Math.round(40 * intensity);
+      var g = 175 + Math.round(45 * intensity);
+      var b = 55 + Math.round(80 * intensity);
+      var alpha = intensity * 0.8;
+
+      if (intensity > 0.3) {
+        var glowR = 1.5 + intensity * 4;
+        var grd = ctx.createRadialGradient(px, py, 0, px, py, glowR);
+        grd.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.55).toFixed(2) + ')');
+        grd.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(px, py, glowR, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha.toFixed(2) + ')';
+      ctx.beginPath();
+      ctx.arc(px, py, 0.6 + intensity * 1.0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Diamond crown apex — bright golden point at top
+    var crownPulse = 0.18 + 0.1 * Math.sin(time * 1.2);
+    if (pulseTime >= 0) crownPulse = Math.min(0.5, crownPulse + 0.2);
+    var crownGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.08, 0, CW * 0.5, CH * 0.08, 10);
+    crownGrad.addColorStop(0, 'rgba(255, 225, 90, ' + crownPulse.toFixed(2) + ')');
+    crownGrad.addColorStop(0.5, 'rgba(212, 185, 75, ' + (crownPulse * 0.4).toFixed(2) + ')');
+    crownGrad.addColorStop(1, 'rgba(212, 185, 75, 0)');
+    ctx.fillStyle = crownGrad;
+    ctx.beginPath();
+    ctx.arc(CW * 0.5, CH * 0.08, 10, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Outer ambient halo
+    var haloAlpha = 0.03 + 0.015 * Math.sin(time * 0.4);
+    if (pulseTime >= 0 && pulseTime < 8) {
+      haloAlpha = Math.min(0.11, haloAlpha + pulseTime * 0.012);
+    }
+    var haloGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.5, CW * 0.18, CW * 0.5, CH * 0.5, CW * 0.55);
+    haloGrad.addColorStop(0, 'rgba(212, 185, 75, ' + haloAlpha.toFixed(3) + ')');
+    haloGrad.addColorStop(1, 'rgba(212, 185, 75, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.fillRect(0, 0, CW, CH);
+
+    return c;
+  }
+
+  function initGalaxyDiamond(viewer) {
+    var initialCanvas = drawGalaxyDiamond(0);
+    var entity = viewer.entities.add({
+      name: 'Galaxy Macau Diamond LED',
+      position: Cesium.Cartesian3.fromDegrees(GAL_LON, GAL_LAT, 120),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 40,
+        height: 30,
+        scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 15000, 0.5),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 18000, 0.15),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      entity.show = shouldShow;
+      if (!shouldShow) { _pulsePhase = 0; return; }
+
+      var time = performance.now() / 1000;
+
+      // Diamond pulse show: 2 minutes every 8 minutes
+      var macauMinutes = getMacauHour() * 60;
+      var cyclePos = macauMinutes % 8;
+      if (cyclePos < 2 && _pulsePhase === 0) {
+        _pulsePhase = 1;
+        _pulseTimer = time;
+      } else if (cyclePos >= 2 && _pulsePhase === 1) {
+        _pulsePhase = 0;
+      }
+
+      var canvas = drawGalaxyDiamond(time);
+      entity.billboard.image = canvas.toDataURL();
+    }, 250);
+  }
+
+  window._initGalaxyDiamond = initGalaxyDiamond;
 })();
 
 // ── Harbor Seagulls ──
@@ -17571,6 +17780,8 @@ function addSkyCabs(viewer) {
     { icon: '\uD83E\uDEB7', text: 'At night, the Grand Lisboa\u2019s lotus crown glows golden \u2014 watch for the radiant bloom show every 10 minutes when all 12 petals light up in sequence' },
     { icon: '\uD83D\uDDFC', text: 'Watch Macau Tower\u2019s LED crown at night \u2014 color-changing lights cycle through gold, red, blue, teal, and magenta, with a dazzling light show every 15 minutes' },
     { icon: '\uD83D\uDD2E', text: 'At night, look for the Morpheus tower\u2019s purple LED exoskeleton on the Cotai Strip \u2014 Zaha Hadid\u2019s twisted figure-eight frame pulses with light, and a cascade show sweeps up the tower every 12 minutes' },
+    { icon: '\uD83C\uDFDB\uFE0F', text: 'At night, The Venetian\u2019s campanile tower shimmers with golden light bands evoking Venice canal reflections \u2014 a cascade show sweeps up the tower every 10 minutes' },
+    { icon: '\uD83D\uDC8E', text: 'At night, Galaxy Macau\u2019s diamond-shaped LED canopy sparkles with thousands of golden nodes \u2014 watch for the radiating pulse show every 8 minutes as waves of light ripple outward from the center' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

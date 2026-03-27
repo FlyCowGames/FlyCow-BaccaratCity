@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-26 (Session 188)
+## Last Updated: 2026-03-27 (Session 191)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -107,7 +107,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~18100 lines, ~712KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~18327 lines, ~720KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -158,6 +158,7 @@
 - **Macau Tower LED Crown** — Animated color-cycling LED crown on Macau's tallest structure (338m). 12 horizontal LED bands along the tower shaft with smooth color cycling through gold, red, blue, teal, and magenta. Observation deck ring glow with edge LED lines. Light show mode (2 min every 15 min) with traveling wave pattern. Red aviation beacon at needle tip. Night-only, canvas billboard at 280m altitude (Session 186)
 - **Morpheus Tower Exoskeleton LED Show** — Animated purple/violet LED light signature for the City of Dreams Morpheus tower (Zaha Hadid's figure-eight exoskeleton) on the Cotai Strip. Canvas billboard at 160m altitude with simplified twisted exoskeleton grid. 112 LED nodes (14 levels x 8 per level) with individual shimmer and traveling pulse effects. Cascade show mode: 2.5 min every 12 min — wave of purple light sweeps up the tower. Central void glow and outer ambient halo with purple/violet palette. Night-only, first Cotai Strip-specific landmark light signature (Session 187)
 - **Venetian Campanile Golden Light Cascade** — Animated golden water-reflection light signature for The Venetian Macao's iconic campanile tower. Canvas billboard at 130m altitude with 12 rippling horizontal golden bands evoking Venice canal reflections shimmering up the tower facade. Each band drifts upward at varied speeds with horizontal wobble and shimmering intensity. Campanile spire crown with bright golden pulse. Cascade show mode: 3 min every 10 min — golden sweep wave illuminates bands sequentially. Warm Venetian gold palette. Night-only (Session 188)
+- **Galaxy Macau Diamond LED Canopy** — Animated golden diamond-shaped LED canopy for Galaxy Macau on the Cotai Strip. Canvas billboard at 120m altitude with ~90 LED nodes in a 14x10 offset diamond lattice grid. Idle shimmer with random bright sparkle moments. Radiating pulse show: 2 min every 8 min — wave of golden light ripples outward from diamond center. Diamond crown apex golden pulse, faint lattice connecting edges. Warm gold/champagne palette. Night-only (Session 191)
 - **Harbor seagulls** — 18 animated seabirds in 4 flocks circling over coastal areas (60-100m altitude, always active)
 - **Casino rooftop searchlights** — 6 sweeping searchlight beams from casino rooftops at night with distinct colors per casino
 - **Galaxy Macau wave pool** — 7 animated wave entities on Galaxy's Grand Resort Deck rooftop with turquoise water and animated crests

@@ -1,5 +1,18 @@
 # Changelog
 
+## Session 191 — 2026-03-27 (Automated Agent)
+- Galaxy Macau Diamond LED Canopy: animated golden diamond-shaped LED light signature for Galaxy Macau at night
+- Canvas billboard entity at 120m altitude with diamond-shaped lattice grid of ~90 LED nodes in 14x10 offset layout
+- Idle mode: sparkling shimmer with random bright flicker moments across the diamond facets
+- Pulse show mode: 2 minutes every 8 minutes — radiating wave of golden light ripples outward from center
+- Diamond crown apex bright golden pulse at top, faint lattice connecting edges between nodes
+- Outer ambient halo with warm gold/champagne palette matching Galaxy Macau luxury branding
+- Night-only via _currentGlowIntensity, integrated with City Pulse indicator, Explore panel Shows section, and feature tips
+- Also added missing Venetian Campanile feature tip from Session 188
+- Fixed SkyJump double .toDataURL() bug (was calling .toDataURL() on an already-converted string)
+- 7th landmark-specific light signature: Eiffel sparkle (S181), Sai Van harp (S183), Lisboa crown (S184), Tower LED (S186), Morpheus exoskeleton (S187), Venetian campanile (S188), Galaxy diamond (S191)
+- File grew from ~18092 to ~18327 lines (+235 lines)
+
 ## Session 188 — 2026-03-26 (Automated Agent)
 - Venetian Campanile golden light cascade: animated golden water-reflection light signature for The Venetian Macao's campanile tower at night
 - Canvas billboard entity at 130m altitude with 12 rippling horizontal golden bands evoking Venice canal reflections

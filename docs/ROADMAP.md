@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-26 (Session 188)*
+*This document evolves every session. Last updated: 2026-03-27 (Session 191)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -159,3 +159,4 @@
 - Macau Tower LED Crown: animated color-cycling LED effect on tallest structure at night with traveling wave shows (Session 186)
 - Morpheus Tower exoskeleton LED: animated purple LED grid on City of Dreams' Zaha Hadid tower at night with cascade shows (Session 187)
 - Venetian Campanile golden light cascade: animated golden water-reflection light on Venetian's campanile tower at night evoking Venice canals (Session 188)
+- Galaxy Macau Diamond LED Canopy: animated golden diamond-shaped LED lattice canopy on Galaxy Macau at night with radiating pulse shows (Session 191)
