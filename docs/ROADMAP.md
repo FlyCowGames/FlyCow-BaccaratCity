@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-27 (Session 198)*
+*This document evolves every session. Last updated: 2026-03-27 (Session 204)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -161,3 +161,4 @@
 - Venetian Campanile golden light cascade: animated golden water-reflection light on Venetian's campanile tower at night evoking Venice canals (Session 188)
 - Galaxy Macau Diamond LED Canopy: animated golden diamond-shaped LED lattice canopy on Galaxy Macau at night with radiating pulse shows (Session 191)
 - Studio City Golden Reel Figure-8 LED: animated pink/magenta LED light signature tracing the iconic lemniscate figure-8 Ferris wheel shape at night with dual chase lights (Session 192)
+- Harbor Drone Light Show: 48 multicolored drones forming patterns (lotus, star, heart, diamond, circle) over the harbor at night (Session 204)

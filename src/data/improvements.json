@@ -2255,6 +2255,23 @@
       ],
       "linesAdded": 222,
       "agent": "automated"
+    },
+    {
+      "session": 204,
+      "date": "2026-03-27",
+      "title": "Harbor Drone Light Show",
+      "domain": "rendering",
+      "summary": "Animated nighttime drone light show with 48 illuminated drones forming Macau-themed patterns (lotus, star, heart, diamond) over the harbor.",
+      "details": [
+        "48 multicolored drone dots animated on a canvas billboard at 350m altitude over the harbor",
+        "6 formation shapes: scatter, circle, lotus flower, 5-pointed star, heart, diamond",
+        "Smooth lerp interpolation between formations for organic flowing transitions",
+        "56-second show every 25 minutes at night, integrates with Macau Lights spectacle",
+        "Added to City Pulse, Explore panel Shows, and feature tips for discoverability",
+        "First non-building-attached nighttime spectacle — novel feature type"
+      ],
+      "linesAdded": 217,
+      "agent": "automated"
     }
   ]
 }

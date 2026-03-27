@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-27 (Session 198)
+## Last Updated: 2026-03-27 (Session 204)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -107,7 +107,7 @@
 - Google Photorealistic 3D Tiles (API key on mega-agent-flycow project 914103293251)
 - Open-Meteo API (free, no key) for weather data
 - CesiumJS bloom post-processing for neon glow
-- Single HTML file (~18545 lines, ~735KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
+- Single HTML file (~19609 lines, ~769KB) — quality-audited Session 60, street mode Session 62, firework sounds Session 63, WASD walking Session 64, typhoon effects Session 65, night sky Session 66, feature tips Session 67, color grading Session 68, minimap tracking Session 69
 - Custom CSS overlay with Cinzel + Noto Sans SC + DM Mono fonts
 - Deployed: S3 (baccaratcity-site) > CloudFront (E3V8V12C6EPFK6) > baccaratcity.com
 
@@ -162,6 +162,7 @@
 - **Studio City Golden Reel Figure-8 LED** — Animated pink/magenta LED light signature tracing the iconic figure-8 shape of the world's first lemniscate Ferris wheel at 130m. Canvas billboard at 130m altitude with 64 LED nodes along the figure-8 curve. Idle twinkling with random bright sparkles. Light show mode: 2 min every 10 min — dual chase lights race around the figure-8 path in opposite directions. Top and bottom loop crown accents, central hub glow, support strut silhouettes. Pink/magenta Hollywood glamour palette. Night-only (Session 192)
 - **MGM Macau Golden Wave Facade LED** — Animated golden wave-pattern LED light signature on MGM Macau's iconic 3-tier wave-shaped golden glass facade. Canvas billboard at 155m altitude with 48 LED nodes in 3 sine-wave tiers (light gold top, medium gold middle, deep gold bottom). Idle golden shimmer with horizontal traveling wave pulse. Show mode: 2.5 min every 11 min — cascading ripple from bottom tier upward with center-outward ripple pattern. Golden Lion entrance accent at base, rooftop crown glow, ambient halo. Night-only (Session 197)
 - **Wynn Palace Golden Crescent LED** — Animated warm golden LED light signature tracing Wynn Palace's distinctive curved crescent-shaped facade wrapping around the Performance Lake. Canvas billboard at 155m altitude with 64 LED nodes in 4 parabolic arc tiers (bright/warm/rich/deep gold). Idle golden breathing pulse with horizontal shimmer flowing along the crescent arcs. Show mode: 2.5 min every 13 min — blooming cascade from center outward along each arc with sparkle accents. Lake reflection glow at base, crown accent at top, ambient halo. Night-only, 10th landmark LED signature (Session 198)
+- **Harbor Drone Light Show** — 48 illuminated drones forming stunning patterns over the harbor at night. Canvas billboard at 350m altitude with multicolored drones (gold, red, green, white, pink, cyan, amber). 8-formation sequence: scatter → circle → lotus flower (Macau's emblem) → star → heart → diamond → circle → scatter. Smooth lerp interpolation for organic flowing transitions. 56-second show every 25 minutes. Integrates with Macau Lights spectacle. First non-building-attached nighttime show (Session 204)
 - **Harbor seagulls** — 18 animated seabirds in 4 flocks circling over coastal areas (60-100m altitude, always active)
 - **Casino rooftop searchlights** — 6 sweeping searchlight beams from casino rooftops at night with distinct colors per casino
 - **Galaxy Macau wave pool** — 7 animated wave entities on Galaxy's Grand Resort Deck rooftop with turquoise water and animated crests

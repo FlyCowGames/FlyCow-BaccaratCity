@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 198,
+  "last_updated_session": 204,
   "learnings": [
     {
       "type": "pattern",
@@ -839,6 +839,17 @@
       "weight": 0.6,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "rendering",
+      "title": "Multi-drone formation animation via single canvas billboard with lerp interpolation",
+      "description": "A swarm of animated light dots on a single canvas billboard creates a convincing drone light show. Define multiple formation shapes as arrays of normalized (x,y) coordinates, then lerp each drone toward its target position each frame. The lerp factor (0.12 at 5fps) produces smooth organic movement where drones flow between shapes rather than snapping. Pre-generating formations avoids per-frame math. Refreshing scatter positions each show ensures visual variety. The single-billboard approach is far more efficient than individual entities per drone.",
+      "evidence": "Session 204: 48 drones, 6 formation shapes (scatter, circle, lotus, star, heart, diamond), 200ms setInterval, single 160x160 canvas billboard at 350m. Zero JS errors, passed desktop and mobile checks. Multicolored palette creates festive visual distinct from monochrome LED signatures.",
+      "tags": ["canvas", "rendering", "animation", "night-effects", "drone", "formation"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -1156,6 +1167,12 @@
       "question": "How to enhance the Performance Lake fountain show with dynamic colors?",
       "chosen": "Add a 200ms setInterval that redraws jet billboard icons with time-varying colors using lerpColor interpolation, structured in 3 acts: color waves, fire bursts, rainbow finale",
       "rationale": "The existing fountain already has billboard entities and height animation via CallbackProperty. Adding a setInterval for color updates follows the same proven pattern used by 8 light signatures. A 3-act structure (waves → fire → finale) mirrors real-world choreographed fountain shows and creates variety within a single 3-minute performance. The lerpColor approach ensures smooth transitions rather than abrupt color switches. Adding a lake surface glow entity with averaged color creates a reflected-light effect that enhances the visual without adding entities to each jet.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add a non-building-attached nighttime spectacle to diversify from LED signatures?",
+      "chosen": "Canvas-drawn drone light show billboard at 350m over harbor with 48 multicolored drones forming 6 parametric shapes, smooth lerp transitions, 56s show every 25 min",
+      "rationale": "After 10 building-specific LED signatures, the project needed a different type of nighttime spectacle. A drone show is: (1) geographically detached — floats over the harbor visible from many angles, (2) multicolored — festive palette contrasts with monochrome gold signatures, (3) shape-changing — dynamic formations vs static architectural patterns. Single canvas billboard is efficient. Parametric shape generators (genCircle, genLotus, genStar, genHeart, genDiamond) keep code clean. The lerp interpolation at 0.12 per frame creates satisfying organic flow. 25-minute cycle staggers against other show cycles (8/10/11/12/13/15 min).",
       "revisit_after_session": null
     }
   ]

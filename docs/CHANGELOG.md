@@ -1,5 +1,18 @@
 # Changelog
 
+## Session 204 — 2026-03-27 (Automated Agent)
+- Harbor Drone Light Show: animated nighttime spectacle with 48 illuminated drones forming patterns over the harbor
+- 6 distinct formation shapes: scatter, circle, lotus flower (Macau's emblem), 5-pointed star, heart, diamond
+- Multicolored drone palette: gold, red, green, white, pink, cyan, amber — festive Macau-themed colors
+- Smooth lerp interpolation between formations — drones flow organically from one shape to the next
+- Canvas billboard entity at 350m altitude over harbor between Peninsula and Taipa
+- Show runs for 56 seconds (8 formations × 7s each) every 25 minutes at night
+- Integrates with Macau Lights citywide spectacle via _citywideShowActive flag
+- Night-only via _currentGlowIntensity gating
+- Added to City Pulse indicator, Explore panel Shows section, and feature tips
+- First non-building-attached nighttime show — a completely novel spectacle type
+- File grew from ~19392 to ~19609 lines (+217 lines)
+
 ## Session 198 — 2026-03-27 (Automated Agent)
 - Wynn Palace Golden Crescent LED: animated warm golden LED light signature tracing Wynn Palace's curved crescent-shaped facade at night
 - 64 LED nodes arranged in 4 parabolic arc tiers matching the building's distinctive concave golden glass curtain wall
