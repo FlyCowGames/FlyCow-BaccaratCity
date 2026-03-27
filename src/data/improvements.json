@@ -2322,6 +2322,23 @@
       ],
       "linesAdded": 208,
       "agent": "automated"
+    },
+    {
+      "session": 214,
+      "date": "2026-03-27",
+      "title": "Harbor Floating Water Lanterns",
+      "domain": "animation",
+      "summary": "Traditional Chinese water lanterns (水燈) floating on the harbor at night — warm paper lanterns with candlelight drifting on Inner Harbour and Nam Van Lake.",
+      "details": [
+        "8 floating water lanterns across 3 waterfront zones: Inner Harbour, Nam Van Lake south edge, Outer Harbour/NAPE",
+        "Canvas-drawn square paper lanterns with bamboo frame, translucent body, candle flame, wooden raft base, water reflection glow",
+        "Gentle linear drift from shore with wobble animation, ~45-minute position reset cycle",
+        "Candle flicker via dual-frequency scale modulation for organic glow variation",
+        "Night-only via _currentGlowIntensity gating with smooth fade, follows sky lantern visibility pattern",
+        "Added to City Pulse indicator, Explore panel Heritage section, and feature tips"
+      ],
+      "linesAdded": 170,
+      "agent": "automated"
     }
   ]
 }

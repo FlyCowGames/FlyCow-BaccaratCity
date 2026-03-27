@@ -1,5 +1,17 @@
 # Changelog
 
+## Session 214 — 2026-03-27 (Automated Agent)
+- Harbor Floating Water Lanterns (水燈/河燈): traditional Chinese water lanterns floating on harbor at night
+- 8 floating paper lanterns across 3 waterfront zones: Inner Harbour (3), Nam Van Lake south (3), Outer Harbour/NAPE (2)
+- Canvas-drawn square rice paper lanterns with bamboo frame structure, translucent warm body, candle flame, wooden raft base
+- Water reflection glow below each lantern, outer warm halo for atmospheric depth
+- Gentle linear drift from shore with sinusoidal wobble, ~45-minute position reset cycle
+- Candle flicker animation via dual-frequency scale modulation (3.5Hz + 7.2Hz) for organic glow variation
+- Night-only via _currentGlowIntensity gating with smooth fade, follows proven sky lantern visibility pattern
+- Distinct from sky lanterns (float on water, not air) and lotus flowers (square/cultural, not round/botanical; night-only, not always-on)
+- Added to City Pulse indicator, Explore panel Heritage section, and feature tips
+- File grew from ~20670 to ~20840 lines (+170 lines)
+
 ## Session 212 — 2026-03-27 (Automated Agent)
 - Sands Macao Golden Waterfall LED: animated golden cascade LED light signature on the first Western-operated casino's curved gold-glass tower at night
 - 50 LED nodes arranged in 10 vertical streams across the curved facade with gold gradient palette (bright gold top → deep amber bottom)

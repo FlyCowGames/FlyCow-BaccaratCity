@@ -4133,6 +4133,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1920, lon: 113.5413, alt: 300, pitch: -25 },
   { name: 'Sands Waterfall', chinese: '金沙金瀑布', icon: '💰', start: 19, end: 5,
     lat: 22.1917, lon: 113.5544, alt: 300, pitch: -25 },
+  { name: 'Water Lanterns', chinese: '水燈', icon: '🪔', start: 19, end: 5,
+    lat: 22.1890, lon: 113.5295, alt: 200, pitch: -20 },
   { name: 'Drone Show', chinese: '無人機燈光秀', icon: '🤖', start: 19, end: 5,
     lat: 22.178, lon: 113.543, alt: 600, pitch: -25 },
   { name: 'Ruins Facade Light', chinese: '大三巴夜光', icon: '🏛️', start: 19, end: 5,
@@ -5210,6 +5212,7 @@ async function init() {
     addGuiaLighthouse(viewer);
     addLRT(viewer);
     addSkyLanterns(viewer);
+    addWaterLanterns(viewer);
     addHelicopters(viewer);
     addFountainShow(viewer);
     addFountainMist(viewer);
@@ -7908,6 +7911,7 @@ var ATTRACTIONS = {
     { name: "Street Food Stalls", chinese: "街頭美食", icon: "🥟", lat: 22.1560, lon: 113.5581, alt: 100, pitch: -25 },
     { name: "Azulejo Tiles", chinese: "葡式瓷磚", icon: "🔷", lat: 22.1933, lon: 113.5389, alt: 150, pitch: -20 },
     { name: "Lotus Flowers", chinese: "蓮花", icon: "🪷", lat: 22.1855, lon: 113.5355, alt: 150, pitch: -25 },
+    { name: "Water Lanterns", chinese: "水燈", icon: "🪔", lat: 22.1890, lon: 113.5295, alt: 200, pitch: -20 },
     { name: "Morning Tai Chi", chinese: "太極晨練", icon: "🧘", lat: 22.1830, lon: 113.5360, alt: 120, pitch: -20 },
     { name: "Fishing Sampans", chinese: "漁船", icon: "🛶", lat: 22.1870, lon: 113.5310, alt: 120, pitch: -20 },
     { name: "String Lights", chinese: "串燈", icon: "💡", lat: 22.1560, lon: 113.5580, alt: 80, pitch: -25 },
@@ -11139,6 +11143,171 @@ function addLotusFlowers(viewer) {
         },
       });
     })(lotus, icon);
+  });
+}
+
+// ── Harbor Floating Water Lanterns (水燈/河燈) ──
+// Traditional Chinese water lanterns released on harbor water at night.
+// Cultural practice during festivals (Ghost Festival, Lantern Festival) — floating paper lanterns
+// with candles that drift on water, symbolizing prayers and remembrance.
+// Distinct from sky lanterns (air) and lotus flowers (botanical/always-on).
+var WATER_LANTERN_POSITIONS = [
+  // Inner Harbour waterfront (north of A-Ma Temple area)
+  { lon: 113.5295, lat: 22.1890, phase: 0.0, hue: 30 },   // warm amber
+  { lon: 113.5302, lat: 22.1896, phase: 0.4, hue: 25 },   // orange-amber
+  { lon: 113.5285, lat: 22.1884, phase: 1.1, hue: 35 },   // golden
+  // Nam Van Lake south edge (distinct from lotus cluster in center)
+  { lon: 113.5365, lat: 22.1838, phase: 0.7, hue: 28 },   // warm amber
+  { lon: 113.5378, lat: 22.1835, phase: 1.5, hue: 32 },   // golden-amber
+  { lon: 113.5350, lat: 22.1840, phase: 2.0, hue: 22 },   // deep amber
+  // Outer Harbour / NAPE waterfront
+  { lon: 113.5475, lat: 22.1888, phase: 0.3, hue: 30 },   // warm amber
+  { lon: 113.5465, lat: 22.1882, phase: 1.8, hue: 26 },   // orange
+];
+
+function createWaterLanternIcon(hue) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 40;
+  canvas.height = 40;
+  var ctx = canvas.getContext('2d');
+  var cx = 20, cy = 20;
+
+  // Water reflection glow below lantern
+  var reflGrad = ctx.createRadialGradient(cx, cy + 10, 0, cx, cy + 10, 16);
+  reflGrad.addColorStop(0, 'rgba(255, 180, 60, 0.25)');
+  reflGrad.addColorStop(0.5, 'rgba(255, 150, 30, 0.1)');
+  reflGrad.addColorStop(1, 'rgba(255, 120, 20, 0.0)');
+  ctx.fillStyle = reflGrad;
+  ctx.fillRect(0, cy + 2, 40, 20);
+
+  // Lantern base platform (small wooden raft)
+  ctx.fillStyle = 'rgba(120, 80, 40, 0.7)';
+  ctx.beginPath();
+  ctx.ellipse(cx, cy + 4, 10, 3, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Paper lantern body (square/rectangular with slight taper)
+  var bodyTop = cy - 8;
+  var bodyBot = cy + 2;
+  var topHalf = 6;
+  var botHalf = 7;
+  // Warm translucent paper glow
+  var bodyGrad = ctx.createLinearGradient(cx, bodyTop, cx, bodyBot);
+  bodyGrad.addColorStop(0, 'hsla(' + hue + ', 90%, 75%, 0.9)');
+  bodyGrad.addColorStop(0.4, 'hsla(' + hue + ', 85%, 65%, 0.85)');
+  bodyGrad.addColorStop(1, 'hsla(' + hue + ', 80%, 55%, 0.8)');
+  ctx.fillStyle = bodyGrad;
+  ctx.beginPath();
+  ctx.moveTo(cx - topHalf, bodyTop);
+  ctx.lineTo(cx + topHalf, bodyTop);
+  ctx.lineTo(cx + botHalf, bodyBot);
+  ctx.lineTo(cx - botHalf, bodyBot);
+  ctx.closePath();
+  ctx.fill();
+
+  // Thin frame lines (bamboo structure)
+  ctx.strokeStyle = 'rgba(180, 120, 50, 0.5)';
+  ctx.lineWidth = 0.5;
+  // Vertical center line
+  ctx.beginPath();
+  ctx.moveTo(cx, bodyTop); ctx.lineTo(cx, bodyBot);
+  ctx.stroke();
+  // Horizontal center line
+  var midY = (bodyTop + bodyBot) / 2;
+  var midHalf = (topHalf + botHalf) / 2;
+  ctx.beginPath();
+  ctx.moveTo(cx - midHalf, midY); ctx.lineTo(cx + midHalf, midY);
+  ctx.stroke();
+
+  // Inner candle glow (warm bright center)
+  var candleGrad = ctx.createRadialGradient(cx, cy - 2, 0, cx, cy - 2, 6);
+  candleGrad.addColorStop(0, 'rgba(255, 240, 180, 0.7)');
+  candleGrad.addColorStop(0.4, 'rgba(255, 200, 100, 0.35)');
+  candleGrad.addColorStop(1, 'rgba(255, 160, 50, 0.0)');
+  ctx.fillStyle = candleGrad;
+  ctx.beginPath();
+  ctx.arc(cx, cy - 2, 6, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Tiny candle flame
+  ctx.fillStyle = 'rgba(255, 230, 150, 0.95)';
+  ctx.beginPath();
+  ctx.ellipse(cx, cy - 3, 1.2, 2, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Top cap (slight roof)
+  ctx.fillStyle = 'rgba(160, 100, 40, 0.6)';
+  ctx.beginPath();
+  ctx.moveTo(cx - topHalf - 1, bodyTop);
+  ctx.lineTo(cx + topHalf + 1, bodyTop);
+  ctx.lineTo(cx, bodyTop - 2);
+  ctx.closePath();
+  ctx.fill();
+
+  // Outer warm glow halo
+  var haloGrad = ctx.createRadialGradient(cx, cy - 2, 3, cx, cy - 2, 18);
+  haloGrad.addColorStop(0, 'rgba(255, 180, 60, 0.0)');
+  haloGrad.addColorStop(0.5, 'rgba(255, 150, 40, 0.06)');
+  haloGrad.addColorStop(1, 'rgba(255, 120, 20, 0.12)');
+  ctx.fillStyle = haloGrad;
+  ctx.fillRect(0, 0, 40, 40);
+
+  return canvas;
+}
+
+function addWaterLanterns(viewer) {
+  var startTime = Date.now();
+
+  WATER_LANTERN_POSITIONS.forEach(function(lantern) {
+    var icon = createWaterLanternIcon(lantern.hue).toDataURL();
+
+    (function(data, lanternIcon) {
+      // Slow linear drift outward from shore + gentle wobble
+      var driftAngle = Math.random() * Math.PI * 2;
+      var driftSpeed = 0.0000008 + Math.random() * 0.0000006; // very slow drift
+      var wobblePhase = data.phase * 3;
+
+      var posCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        var t = elapsed + data.phase * 30;
+        // Linear drift with gentle wobble
+        var driftDist = elapsed * driftSpeed;
+        var lon = data.lon + Math.cos(driftAngle) * driftDist + Math.sin(t / 25) * 0.00002;
+        var lat = data.lat + Math.sin(driftAngle) * driftDist + Math.cos(t / 30 + wobblePhase) * 0.000015;
+        // Reset position after drifting too far (~45 min cycle)
+        if (driftDist > 0.003) {
+          var resetPhase = Math.floor(elapsed / 2700);
+          var localElapsed = elapsed - resetPhase * 2700;
+          var localDrift = localElapsed * driftSpeed;
+          lon = data.lon + Math.cos(driftAngle) * localDrift + Math.sin(t / 25) * 0.00002;
+          lat = data.lat + Math.sin(driftAngle) * localDrift + Math.cos(t / 30 + wobblePhase) * 0.000015;
+        }
+        return Cesium.Cartesian3.fromDegrees(lon, lat, 1.0); // Water surface level
+      }, false);
+
+      var scaleCallback = new Cesium.CallbackProperty(function() {
+        var glow = _currentGlowIntensity;
+        if (glow < 0.05) return 0; // hidden during day
+        // Gentle flickering scale simulating candle flicker
+        var t = (Date.now() - startTime) / 1000 + data.phase * 10;
+        var flicker = 1.0 + Math.sin(t * 3.5) * 0.04 + Math.sin(t * 7.2) * 0.02;
+        return flicker * Math.min(glow * 2, 1.0); // fade with night intensity
+      }, false);
+
+      viewer.entities.add({
+        name: 'Water Lantern',
+        position: posCallback,
+        billboard: {
+          image: lanternIcon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: scaleCallback,
+          scaleByDistance: new Cesium.NearFarScalar(30, 2.2, 5000, 0.25),
+          translucencyByDistance: new Cesium.NearFarScalar(20, 1.0, 6000, 0.08),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+    })(lantern, icon);
   });
 }
 
@@ -20059,6 +20228,7 @@ function addSkyCabs(viewer) {
     { icon: '📍', text: isTouch ? 'Tap any landmark for photos, videos, and history — swipe the gallery' : 'Click any landmark for photos, videos, and history — watch fountain shows, bungee jumps, and more' },
     { icon: '🔊', text: isTouch ? 'Enable sound — hear casino chimes near Cotai, temple bells near A-Ma, waves by the harbour' : 'Press M for sound — fly near casinos, temples, or harbour to hear spatial audio zones' },
     { icon: '🪷', text: 'Spot floating lotus flowers on Nam Van Lake — Macau\'s official emblem' },
+    { icon: '🪔', text: 'At night, look for traditional water lanterns (水燈) floating on the harbour — warm paper lanterns drifting on the water near the Inner Harbour and Nam Van Lake' },
     { icon: '🧘', text: 'Look for morning tai chi groups in parks between 5-9 AM Macau time' },
     { icon: '🪁', text: 'Colorful Chinese kites fly above parks during daytime (9 AM-5 PM) — look for dragon and butterfly shapes' },
     { icon: '🛶', text: 'Watch fishing sampans return to Inner Harbour in the afternoon (3-7 PM Macau time)' },

@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-27 (Session 212)*
+*This document evolves every session. Last updated: 2026-03-27 (Session 214)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -164,3 +164,4 @@
 - Harbor Drone Light Show: 48 multicolored drones forming patterns (lotus, star, heart, diamond, circle) over the harbor at night (Session 204)
 - Wynn Macau Prosperity Tree LED: animated golden tree-of-prosperity LED light signature on Wynn Macau's curved bronze tower, 11th landmark LED signature (Session 206)
 - Sands Macao Golden Waterfall LED: animated golden cascade LED light signature on the first Western casino's curved gold-glass tower, 12th landmark LED signature completing all major casinos (Session 212)
+- Harbor floating water lanterns: 8 traditional Chinese water lanterns (水燈) on Inner Harbour, Nam Van Lake, Outer Harbour at night with drift, flicker, and water reflection glow (Session 214)

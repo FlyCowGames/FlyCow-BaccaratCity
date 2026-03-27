@@ -2,7 +2,7 @@
 
 *Rewritten each session to reflect what exists now.*
 
-## Last Updated: 2026-03-27 (Session 212)
+## Last Updated: 2026-03-27 (Session 214)
 
 ## Scene Description
 - CesiumJS viewer with Google Photorealistic 3D Tiles -- real Macau photogrammetry
@@ -57,6 +57,7 @@
 - **Street food market stalls**: 8 animated food vendor stalls at famous food streets (Rua do Cunha/Taipa Village, Senado Square, Three Lamps District, Rua da Felicidade) with warm lantern glow, Chinese food names (蛋撻, 杏仁餅, 豬扒包, 牛雜, 雙皮奶, 咖喱魚蛋, 竹升麵, 鳳凰卷), steam wisps, and flicker animation — always active with night glow boost
 - **Portuguese azulejo tile panels**: 6 decorative blue-and-white Portuguese tile panels at heritage sites (Largo do Senado, Leal Senado, Ruínas de S. Paulo, Largo de S. Agostinho, Fortaleza da Guia, Largo da Barra) with traditional azulejo patterns (cross, floral, diamond, wave motifs), Portuguese place names, Chinese subtitles, gold corner accents — always active with gentle shimmer animation
 - **Floating lotus flowers**: 10 animated lotus flower billboards on Nam Van Lake (6), Inner Harbour (2), and A-Ma Temple coast (2) — Macau's official emblem. Canvas-drawn pink/white lotus with lily pad, gentle circular drift (~40s cycle) and breathing scale pulse. Always active (day and night)
+- **Harbor floating water lanterns**: 8 traditional Chinese water lanterns (水燈/河燈) floating on harbor water at night across 3 waterfront zones — Inner Harbour (3), Nam Van Lake south (3), Outer Harbour/NAPE (2). Canvas-drawn square rice paper lanterns with bamboo frame, translucent warm body, candle flame, wooden raft base, water reflection glow. Gentle linear drift from shore with wobble animation, candle flicker via dual-frequency scale modulation. Night-only via _currentGlowIntensity gating (Session 214)
 - **Macau triciclo pedicabs**: 4 traditional three-wheeled bicycle rickshaws (三輪車) on 3 heritage district routes (Senado Square to Hotel Lisboa, Ruins district, Barra waterfront) with ping-pong movement, amber minimap tracking dots (Session 85)
 - **Waterfront promenade lights**: ~55 warm pathway light points along 5 major waterfront walkways (Nam Van Lake, Outer Harbour, NAPE, Inner Harbour, Taipa) — night-only warm-amber glow creating "string of pearls" coastline effect with gentle pulse animation (Session 86)
 - **Morning tai chi groups**: 5 animated tai chi exercise groups at parks and waterfront areas (Nam Van Lake, NAPE, Lou Lim Ioc Garden, Taipa Central Park, Camoes Garden) — canvas-drawn groups of 5 figures with flowing poses, morning-only 5:00-9:00 Macau time with fade in/out (Session 91)
@@ -175,6 +176,7 @@
 - **Cinematic walking tour** — Walk Tour button starts documentary-style guided tour at 8m altitude through 8 landmarks, auto-opens photo gallery cards at each stop with gentle orbit camera, gold progress bar, stop counter
 - **Street food market stalls** — 8 animated food vendor stalls at Rua do Cunha, Senado Square, Three Lamps District, Rua da Felicidade with warm lantern glow, Chinese food names, steam wisps (always active)
 - **Floating lotus flowers** — 10 animated lotus billboards (Macau's emblem) on Nam Van Lake, Inner Harbour, and A-Ma Temple coast with gentle drift and breathing animation (always active)
+- **Harbor floating water lanterns** — 8 traditional water lanterns (水燈) on Inner Harbour, Nam Van Lake, Outer Harbour at night with drift, flicker, and water reflection glow (night-only)
 - **Macau triciclo pedicabs** — 4 traditional rickshaws on 3 heritage district routes (Senado Square, Ruins, Barra) with ping-pong movement and minimap tracking (always active)
 - **Waterfront promenade lights** — ~55 warm pathway lights along 5 major waterfront promenades (Nam Van Lake, Outer Harbour, NAPE, Inner Harbour, Taipa) creating "string of pearls" coastline glow at night with gentle pulse animation
 - **Morning tai chi groups** — 5 animated groups of tai chi practitioners at parks (Nam Van Lake, NAPE, Lou Lim Ioc Garden, Taipa Central Park, Camoes Garden) with flowing poses, morning-only 5-9 AM Macau time

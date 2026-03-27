@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 212,
+  "last_updated_session": 214,
   "learnings": [
     {
       "type": "pattern",
@@ -1179,6 +1179,12 @@
       "question": "How to add a non-building-attached nighttime spectacle to diversify from LED signatures?",
       "chosen": "Canvas-drawn drone light show billboard at 350m over harbor with 48 multicolored drones forming 6 parametric shapes, smooth lerp transitions, 56s show every 25 min",
       "rationale": "After 10 building-specific LED signatures, the project needed a different type of nighttime spectacle. A drone show is: (1) geographically detached — floats over the harbor visible from many angles, (2) multicolored — festive palette contrasts with monochrome gold signatures, (3) shape-changing — dynamic formations vs static architectural patterns. Single canvas billboard is efficient. Parametric shape generators (genCircle, genLotus, genStar, genHeart, genDiamond) keep code clean. The lerp interpolation at 0.12 per frame creates satisfying organic flow. 25-minute cycle staggers against other show cycles (8/10/11/12/13/15 min).",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add culturally authentic nighttime water features distinct from existing water entities?",
+      "chosen": "Canvas-drawn water lanterns (水燈) using sky lantern visibility pattern (_currentGlowIntensity gating in scale callback), with linear drift + wobble for water-surface movement, dual-frequency flicker for candle realism",
+      "rationale": "Water lanterns are distinct from: sky lanterns (water vs air), lotus flowers (square cultural vs round botanical, night-only vs always-on), water shimmer (floating objects vs point reflections). Using the sky lantern's _currentGlowIntensity-in-scaleCallback pattern for night-only visibility avoids adding new show/hide logic. Linear drift (vs lotus circular drift) better represents objects released from shore. Dual-frequency flicker (3.5Hz + 7.2Hz) creates realistic candle movement that single-frequency can't achieve. Position reset at ~45 min cycle prevents entities from drifting out of view. 3 distinct waterfront zones distribute lanterns without overlapping lotus positions.",
       "revisit_after_session": null
     },
     {
