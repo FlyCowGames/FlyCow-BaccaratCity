@@ -1,5 +1,17 @@
 # Changelog
 
+## Session 197 — 2026-03-27 (Automated Agent)
+- MGM Macau Golden Wave Facade LED: animated golden wave-pattern LED light signature on MGM Macau at night
+- 48 LED nodes arranged in 3 wave-shaped tiers matching the building's iconic undulating golden glass facade
+- Three-tone gold palette: light gold (top tier), medium gold (middle), deep gold (bottom) — reflecting the real building's differently tinted glass
+- Idle mode: gentle golden shimmer with horizontal traveling wave pulse across the facade
+- Show mode: cascading ripple from bottom tier upward, then center-outward ripple across each tier
+- Golden Lion entrance accent at base (warm radial glow), rooftop crown glow, ambient halo
+- 2.5-minute show every 11 minutes, integrates with citywide synchronized "Macau Lights" spectacle
+- Night-only via _currentGlowIntensity gating, follows proven IIFE + canvas billboard + setInterval pattern
+- This is the 9th landmark-specific light signature (after Eiffel, Sai Van, Grand Lisboa, Macau Tower, Morpheus, Venetian, Galaxy, Studio City)
+- File grew from ~18767 to ~18932 lines (+165 lines)
+
 ## Session 194 — 2026-03-27 (Automated Agent)
 - Wynn Performance Lake Dynamic Color Choreography: enhanced existing fountain show with dynamic color cycling during performances
 - Replaced static single-color-per-show with 3-act choreographic structure:

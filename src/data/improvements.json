@@ -2220,6 +2220,23 @@
       ],
       "linesAdded": 122,
       "agent": "automated"
+    },
+    {
+      "session": 197,
+      "date": "2026-03-27",
+      "title": "MGM Macau Golden Wave Facade LED",
+      "domain": "rendering",
+      "summary": "Added animated golden wave LED light signature to MGM Macau, tracing the iconic 3-tier wave-shaped golden glass facade at night.",
+      "details": [
+        "48 LED nodes arranged in 3 wave-shaped tiers matching MGM's distinctive undulating facade",
+        "Three-tone gold palette (light/medium/deep gold) per tier reflecting the real building's differently tinted glass",
+        "Idle mode: golden shimmer with horizontal traveling wave pulse across the facade",
+        "Show mode: cascading ripple from bottom tier upward with center-outward ripple pattern",
+        "Golden Lion entrance accent glow at the base, rooftop crown glow, and ambient halo",
+        "2.5-minute show every 11 minutes, integrates with citywide synchronized spectacle"
+      ],
+      "linesAdded": 165,
+      "agent": "automated"
     }
   ]
 }

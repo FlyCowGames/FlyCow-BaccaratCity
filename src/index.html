@@ -236,6 +236,39 @@
     letter-spacing: 0.1em; line-height: 1.8;
   }
 
+  /* Macau Lights citywide show banner */
+  #macau-lights-banner {
+    position: fixed; top: 38%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; z-index: 200;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 2s ease;
+  }
+  #macau-lights-banner.active { opacity: 1; }
+  #macau-lights-banner .ml-title {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: clamp(1.8rem, 5vw, 3.5rem);
+    background: linear-gradient(135deg, #d4af37 0%, #f5e6a3 30%, #d4af37 50%, #a67c00 70%, #d4af37 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: goldShimmer 4s ease-in-out infinite;
+    letter-spacing: 0.35em;
+    filter: drop-shadow(0 0 30px rgba(212,175,55,0.6)) drop-shadow(0 0 60px rgba(212,175,55,0.3));
+  }
+  #macau-lights-banner .ml-subtitle {
+    font-family: 'Noto Sans SC', sans-serif; font-weight: 300;
+    font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+    color: rgba(212,175,55,0.6);
+    letter-spacing: 0.6em;
+    margin-top: 8px;
+  }
+  #macau-lights-banner .ml-line {
+    width: 80px; height: 1px; margin: 14px auto 0;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent);
+  }
+
   /* Feature tips */
   #feature-tips {
     position: absolute; bottom: 130px; left: 50%;
@@ -3242,6 +3275,11 @@
     click landmark for info &middot; enter casino to play baccarat &middot; press G for street view &middot; press ? for help
   </div>
 
+  <div id="macau-lights-banner">
+    <div class="ml-title">MACAU LIGHTS</div>
+    <div class="ml-subtitle">澳門燈光秀</div>
+    <div class="ml-line"></div>
+  </div>
   <div id="feature-tips"></div>
   <div id="discovery-toast"></div>
   <div id="jackpot-toast"></div>
@@ -4040,6 +4078,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1435, lon: 113.5550, alt: 350, pitch: -25 },
   { name: 'Lake Show', chinese: '表演湖燈光秀', icon: '⛲', start: 19, end: 5,
     lat: 22.1472, lon: 113.5628, alt: 200, pitch: -15 },
+  { name: 'Macau Lights', chinese: '澳門燈光秀', icon: '🌟', start: 19, end: 5,
+    lat: 22.1893, lon: 113.5399, alt: 800, pitch: -30 },
 ];
 
 function isFeatureActive(f, hour) {
@@ -5150,6 +5190,7 @@ async function init() {
     if (window._initVenetianCampanile) window._initVenetianCampanile(viewer);
     if (window._initGalaxyDiamond) window._initGalaxyDiamond(viewer);
     if (window._initGoldenReelLED) window._initGoldenReelLED(viewer);
+    if (window._initMGMGoldenWave) window._initMGMGoldenWave(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -7780,6 +7821,7 @@ var ATTRACTIONS = {
     { name: "Venetian Campanile", chinese: "威尼斯人鐘樓燈", icon: "🏛️", lat: 22.1494, lon: 113.5590, alt: 350, pitch: -25 },
     { name: "Galaxy Diamond LED", chinese: "銀河鑽石燈", icon: "💎", lat: 22.1487, lon: 113.5544, alt: 350, pitch: -25 },
     { name: "Golden Reel LED", chinese: "影匯之星LED", icon: "🎡", lat: 22.1435, lon: 113.5550, alt: 350, pitch: -25 },
+    { name: "Macau Lights Spectacle", chinese: "澳門燈光秀", icon: "🌟", lat: 22.1893, lon: 113.5399, alt: 800, pitch: -30 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -10006,7 +10048,8 @@ function updateFountainShow() {
       stopFountainColorCycle();
     }
   } else {
-    if (isNighttime && now >= _nextFountainCheck) {
+    var citywideForce = window._citywideShowActive && isNighttime;
+    if ((isNighttime && now >= _nextFountainCheck) || citywideForce) {
       _fountainActive = true;
       _fountainShowStart = now;
       _nextFountainCheck = 0;
@@ -11593,17 +11636,18 @@ function initSkyJump(viewer) {
       setTimeout(scheduleLaunch, 1000);
       return;
     }
-    // 1-3 rockets in quick succession (more during firework events)
+    // 1-3 rockets in quick succession (more during firework events and citywide shows)
     var isFireworkEvent = _activeEvent && _activeEvent.effects === 'fireworks';
-    var count = isFireworkEvent
-      ? Math.floor(2 + Math.random() * 3)  // 2-4 rockets during events
+    var isIntense = isFireworkEvent || window._citywideShowActive;
+    var count = isIntense
+      ? Math.floor(2 + Math.random() * 3)  // 2-4 rockets during events/citywide
       : (Math.random() < 0.4 ? Math.floor(2 + Math.random() * 2) : 1);
     for (var c = 0; c < count; c++) {
       setTimeout(launchRocket, c * 300);
     }
     lastLaunch = now;
-    // Next launch: faster during events (2-5s vs 4-10s)
-    var delay = isFireworkEvent
+    // Next launch: faster during events/citywide (2-5s vs 4-10s)
+    var delay = isIntense
       ? 2000 + Math.random() * 3000
       : 4000 + Math.random() * 6000;
     setTimeout(scheduleLaunch, delay);
@@ -11614,9 +11658,9 @@ function initSkyJump(viewer) {
     var hour = getMacauHour();
     var isFireworkEvent = _activeEvent && _activeEvent.effects === 'fireworks';
     // During firework events: extend hours (19:00-02:00) and allow afternoon shows (14:00-16:00)
-    var shouldBeActive = isFireworkEvent
+    var shouldBeActive = window._citywideShowActive || (isFireworkEvent
       ? (hour >= 14 && hour < 16) || (hour >= 19 || hour < 2)
-      : (hour >= 20 || hour < 1);
+      : (hour >= 20 || hour < 1));
     if (shouldBeActive !== fwActive) {
       fwActive = shouldBeActive;
     }
@@ -11886,7 +11930,7 @@ function addLEDFacades(viewer) {
 
       // Sparkle show cycles: 5 minutes of cascade every 15 minutes
       var macauMinutes = getMacauHour() * 60;
-      var cyclePos = macauMinutes % 15; // 0-14 minute position
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 15);
       if (cyclePos < 5 && _sparklePhase === 0) {
         _sparklePhase = 1;
         _sparkleShowTimer = time;
@@ -12051,7 +12095,7 @@ function addLEDFacades(viewer) {
 
       // Bloom show: 3 minutes every 10 minutes
       var macauMinutes = getMacauHour() * 60;
-      var cyclePos = macauMinutes % 10; // 0-9 minute position
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 10);
       if (cyclePos < 3 && _bloomPhase === 0) {
         _bloomPhase = 1;
         _bloomShowTimer = time;
@@ -12258,7 +12302,7 @@ function addLEDFacades(viewer) {
 
       // Light show: 2 minutes every 15 minutes
       var macauMinutes = getMacauHour() * 60;
-      var cyclePos = macauMinutes % 15;
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 15);
       if (cyclePos < 2 && _showPhase === 0) {
         _showPhase = 1;
         _showTimer = time;
@@ -12452,7 +12496,7 @@ function addLEDFacades(viewer) {
 
       // Cascade show: 2.5 minutes every 12 minutes
       var macauMinutes = getMacauHour() * 60;
-      var cyclePos = macauMinutes % 12;
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 12);
       if (cyclePos < 2.5 && _cascadePhase === 0) {
         _cascadePhase = 1;
         _cascadeTimer = time;
@@ -12596,7 +12640,7 @@ function addLEDFacades(viewer) {
 
       // Cascade show: 3 minutes every 10 minutes
       var macauMinutes = getMacauHour() * 60;
-      var cyclePos = macauMinutes % 10;
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 10);
       if (cyclePos < 3 && _showPhase === 0) {
         _showPhase = 1;
         _showTimer = time;
@@ -12801,7 +12845,7 @@ function addLEDFacades(viewer) {
 
       // Diamond pulse show: 2 minutes every 8 minutes
       var macauMinutes = getMacauHour() * 60;
-      var cyclePos = macauMinutes % 8;
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 8);
       if (cyclePos < 2 && _pulsePhase === 0) {
         _pulsePhase = 1;
         _pulseTimer = time;
@@ -13018,7 +13062,7 @@ function addLEDFacades(viewer) {
 
       // Light show: 2 minutes every 10 minutes
       var macauMinutes = getMacauHour() * 60;
-      var cyclePos = macauMinutes % 10;
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 10);
       if (cyclePos < 2 && _showPhase === 0) {
         _showPhase = 1;
         _showTimer = time;
@@ -13032,6 +13076,287 @@ function addLEDFacades(viewer) {
   }
 
   window._initGoldenReelLED = initGoldenReelLED;
+})();
+
+// ── MGM Macau Golden Wave Facade LED ──
+// The MGM Macau (美高梅) is instantly recognizable by its wave-shaped golden glass facade
+// inspired by the South China Sea. Three tiers of differently tinted gold glass undulate
+// across the 35-storey building. At night, golden LED accents trace the wave contours,
+// with the iconic 10-metre golden lion glowing at the base.
+(function() {
+  var MGM_LON = 113.5417, MGM_LAT = 22.1848;
+  var CW = 80, CH = 100;
+  var _waveShowPhase = 0; // 0=idle shimmer, 1=wave show
+  var _waveShowTimer = 0;
+
+  // Three tiers of wave-shaped LED nodes
+  // Each tier follows a sine curve at a different height on the facade
+  var waveNodes = [];
+  var NODES_PER_TIER = 16;
+  var TIERS = [
+    { yBase: 0.18, amplitude: 0.035, freq: 1.8, goldR: 255, goldG: 225, goldB: 120 },  // top tier — light gold
+    { yBase: 0.45, amplitude: 0.045, freq: 2.0, goldR: 240, goldG: 190, goldB: 60  },  // middle tier — medium gold
+    { yBase: 0.72, amplitude: 0.04,  freq: 1.6, goldR: 220, goldG: 165, goldB: 30  },  // bottom tier — deep gold
+  ];
+
+  for (var t = 0; t < TIERS.length; t++) {
+    var tier = TIERS[t];
+    for (var n = 0; n < NODES_PER_TIER; n++) {
+      var frac = n / (NODES_PER_TIER - 1); // 0 to 1 across width
+      var waveY = tier.yBase + Math.sin(frac * Math.PI * tier.freq) * tier.amplitude;
+      waveNodes.push({
+        x: 0.08 + frac * 0.84, // 8% to 92% of canvas width
+        y: waveY,
+        tier: t,
+        idx: n,
+        frac: frac,
+        pathDist: t / TIERS.length + frac * (1 / TIERS.length),
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.4 + Math.random() * 0.5,
+        goldR: tier.goldR,
+        goldG: tier.goldG,
+        goldB: tier.goldB,
+      });
+    }
+  }
+
+  function drawMGMWave(time) {
+    var c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    var ctx = c.getContext('2d');
+
+    var showTime = _waveShowPhase === 1 ? (time - _waveShowTimer) : -1;
+    if (showTime > 14) { _waveShowPhase = 0; showTime = -1; }
+
+    // Facade silhouette — subtle wave outlines for each tier
+    for (var t = 0; t < TIERS.length; t++) {
+      ctx.strokeStyle = 'rgba(180, 150, 60, 0.06)';
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      for (var n = 0; n < NODES_PER_TIER; n++) {
+        var nd = waveNodes[t * NODES_PER_TIER + n];
+        if (n === 0) ctx.moveTo(nd.x * CW, nd.y * CH);
+        else ctx.lineTo(nd.x * CW, nd.y * CH);
+      }
+      ctx.stroke();
+    }
+
+    // Draw vertical connecting lines between tier nodes (building structure)
+    ctx.strokeStyle = 'rgba(180, 150, 60, 0.03)';
+    ctx.lineWidth = 0.4;
+    for (var n = 0; n < NODES_PER_TIER; n += 3) {
+      for (var t = 0; t < TIERS.length - 1; t++) {
+        var upper = waveNodes[t * NODES_PER_TIER + n];
+        var lower = waveNodes[(t + 1) * NODES_PER_TIER + n];
+        ctx.beginPath();
+        ctx.moveTo(upper.x * CW, upper.y * CH);
+        ctx.lineTo(lower.x * CW, lower.y * CH);
+        ctx.stroke();
+      }
+    }
+
+    // Draw LED wave nodes
+    for (var i = 0; i < waveNodes.length; i++) {
+      var nd = waveNodes[i];
+      var intensity;
+
+      if (showTime >= 0) {
+        // Wave show: golden light cascades from bottom tier upward, then ripples outward
+        var tierDelay = (TIERS.length - 1 - nd.tier) * 1.5; // bottom tier first
+        var localTime = showTime - tierDelay;
+        if (localTime < 0) {
+          intensity = 0.05;
+        } else {
+          // Ripple from center outward
+          var center = 0.5;
+          var distFromCenter = Math.abs(nd.frac - center);
+          var ripplePos = (localTime * 0.6) % 1.0;
+          var rippleDist = Math.abs(distFromCenter - ripplePos * 0.5);
+          var ripple = Math.max(0, 1 - rippleDist * 8);
+          // Also add a sustained bright base during show
+          var sustained = Math.min(1, localTime * 0.3) * 0.4;
+          intensity = Math.max(sustained, ripple * 0.9) + 0.1 * Math.sin(time * nd.speed * 3 + nd.phase);
+          intensity = Math.max(0.08, Math.min(1, intensity));
+        }
+      } else {
+        // Idle: gentle golden shimmer with subtle wave motion
+        intensity = 0.08 + 0.18 * Math.max(0, Math.sin(time * nd.speed + nd.phase));
+        // Traveling wave pulse (flows horizontally across the facade)
+        var wPulse = Math.sin(time * 0.35 - nd.frac * Math.PI * 3 + nd.tier * 1.2);
+        if (wPulse > 0.5) intensity += (wPulse - 0.5) * 0.5;
+        // Occasional bright sparkle
+        if (Math.sin(time * nd.speed * 2.3 + nd.phase * 3.7) > 0.91) {
+          intensity = 0.5 + Math.random() * 0.25;
+        }
+        intensity = Math.min(0.65, intensity);
+      }
+
+      if (intensity < 0.03) continue;
+
+      var px = nd.x * CW;
+      var py = nd.y * CH;
+
+      // Golden palette per tier
+      var r = Math.min(255, nd.goldR + Math.round(15 * intensity));
+      var g = Math.min(255, nd.goldG + Math.round(40 * intensity));
+      var b = Math.min(255, nd.goldB + Math.round(30 * intensity));
+      var alpha = intensity * 0.85;
+
+      // Glow halo for bright nodes
+      if (intensity > 0.25) {
+        var glowR = 1.5 + intensity * 5;
+        var grd = ctx.createRadialGradient(px, py, 0, px, py, glowR);
+        grd.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.55).toFixed(2) + ')');
+        grd.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(px, py, glowR, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Core LED point
+      ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha.toFixed(2) + ')';
+      ctx.beginPath();
+      ctx.arc(px, py, 0.6 + intensity * 1.1, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Golden Lion entrance accent — bright golden point at bottom center
+    var lionPulse = 0.12 + 0.06 * Math.sin(time * 0.8);
+    if (showTime >= 0 && showTime > 3) {
+      lionPulse = Math.min(0.35, lionPulse + 0.15);
+    }
+    var lionGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.9, 0, CW * 0.5, CH * 0.9, 10);
+    lionGrad.addColorStop(0, 'rgba(255, 210, 80, ' + lionPulse.toFixed(2) + ')');
+    lionGrad.addColorStop(0.5, 'rgba(240, 180, 40, ' + (lionPulse * 0.4).toFixed(2) + ')');
+    lionGrad.addColorStop(1, 'rgba(220, 160, 20, 0)');
+    ctx.fillStyle = lionGrad;
+    ctx.beginPath();
+    ctx.arc(CW * 0.5, CH * 0.9, 10, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Rooftop crown glow — subtle golden haze at the top of the building
+    var crownAlpha = 0.035 + 0.015 * Math.sin(time * 0.45);
+    if (showTime >= 0 && showTime < 12) {
+      crownAlpha = Math.min(0.12, crownAlpha + showTime * 0.008);
+    }
+    var crownGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.08, 0, CW * 0.5, CH * 0.08, CW * 0.4);
+    crownGrad.addColorStop(0, 'rgba(255, 215, 100, ' + crownAlpha.toFixed(3) + ')');
+    crownGrad.addColorStop(1, 'rgba(240, 190, 60, 0)');
+    ctx.fillStyle = crownGrad;
+    ctx.fillRect(0, 0, CW, CH * 0.3);
+
+    // Outer ambient halo — warm golden glow surrounding the building
+    var haloAlpha = 0.025 + 0.01 * Math.sin(time * 0.4);
+    if (showTime >= 0 && showTime < 12) {
+      haloAlpha = Math.min(0.1, haloAlpha + showTime * 0.007);
+    }
+    var haloGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.45, CW * 0.15, CW * 0.5, CH * 0.45, CW * 0.55);
+    haloGrad.addColorStop(0, 'rgba(240, 200, 80, ' + haloAlpha.toFixed(3) + ')');
+    haloGrad.addColorStop(1, 'rgba(220, 170, 40, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.fillRect(0, 0, CW, CH);
+
+    return c;
+  }
+
+  function initMGMGoldenWave(viewer) {
+    var initialCanvas = drawMGMWave(0);
+    var entity = viewer.entities.add({
+      name: 'MGM Macau Golden Wave LED',
+      position: Cesium.Cartesian3.fromDegrees(MGM_LON, MGM_LAT, 155),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 35,
+        height: 45,
+        scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 15000, 0.5),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 18000, 0.15),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      entity.show = shouldShow;
+      if (!shouldShow) { _waveShowPhase = 0; return; }
+
+      var time = performance.now() / 1000;
+
+      // Wave show: 2.5 minutes every 11 minutes
+      var macauMinutes = getMacauHour() * 60;
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 11);
+      if (cyclePos < 2.5 && _waveShowPhase === 0) {
+        _waveShowPhase = 1;
+        _waveShowTimer = time;
+      } else if (cyclePos >= 2.5 && _waveShowPhase === 1) {
+        _waveShowPhase = 0;
+      }
+
+      var canvas = drawMGMWave(time);
+      entity.billboard.image = canvas.toDataURL();
+    }, 250);
+  }
+
+  window._initMGMGoldenWave = initMGMGoldenWave;
+})();
+
+// ── Citywide Synchronized "Macau Lights" Spectacle ──
+// Every hour on the hour at night, ALL landmark light signatures, fountain show,
+// and fireworks activate simultaneously for a 2-minute coordinated spectacle.
+// Also triggers once after the opening flythrough completes.
+(function() {
+  window._citywideShowActive = false;
+  var _citywideTimeout = null;
+  var _citywideLastHour = -1;
+  var CITYWIDE_DURATION = 120000; // 2 minutes
+
+  function triggerCitywideShow() {
+    if (window._citywideShowActive) return;
+    if (_currentGlowIntensity < 0.1) return; // night only
+    window._citywideShowActive = true;
+
+    // Show banner
+    var banner = document.getElementById('macau-lights-banner');
+    if (banner) {
+      banner.classList.add('active');
+      setTimeout(function() { banner.classList.remove('active'); }, 6000);
+    }
+
+    // End after 2 minutes
+    if (_citywideTimeout) clearTimeout(_citywideTimeout);
+    _citywideTimeout = setTimeout(function() {
+      window._citywideShowActive = false;
+      _citywideTimeout = null;
+    }, CITYWIDE_DURATION);
+  }
+
+  // Schedule: check every 30 seconds, trigger at top of each hour during nighttime
+  setInterval(function() {
+    if (_currentGlowIntensity < 0.1) { _citywideLastHour = -1; return; }
+    var now = new Date();
+    var macauHour = (now.getUTCHours() + 8) % 24;
+    var macauMinute = now.getUTCMinutes();
+    // Trigger at the top of each hour (minute 0), but only once per hour
+    if (macauMinute === 0 && macauHour !== _citywideLastHour) {
+      _citywideLastHour = macauHour;
+      triggerCitywideShow();
+    } else if (macauMinute > 0) {
+      _citywideLastHour = -1;
+    }
+  }, 30000);
+
+  // Also trigger 20 seconds after flythrough ends (first-time visitor wow moment)
+  window.addEventListener('flythroughComplete', function() {
+    setTimeout(function() {
+      if (_currentGlowIntensity > 0.1) triggerCitywideShow();
+    }, 20000);
+  });
+
+  // Expose for external trigger (e.g., time-lapse, testing)
+  window._triggerCitywideShow = triggerCitywideShow;
 })();
 
 // ── Harbor Seagulls ──
@@ -18126,6 +18451,7 @@ function addSkyCabs(viewer) {
     { icon: '\uD83D\uDC8E', text: 'At night, Galaxy Macau\u2019s diamond-shaped LED canopy sparkles with thousands of golden nodes \u2014 watch for the radiating pulse show every 8 minutes as waves of light ripple outward from the center' },
     { icon: '\uD83C\uDFA1', text: 'At night, Studio City\u2019s Golden Reel glows with pink LED lights tracing its iconic figure-8 shape \u2014 watch for dual chase lights racing around the wheel every 10 minutes' },
     { icon: '⛲', text: 'Watch the Wynn Performance Lake at night \u2014 fountain jets dance with sweeping color waves, fire bursts, and a dazzling rainbow grand finale every 15 minutes' },
+    { icon: '🌟', text: 'Every hour on the hour at night, all of Macau lights up at once \u2014 the Macau Lights spectacle synchronizes every landmark show, fireworks, and the fountain for 2 breathtaking minutes' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

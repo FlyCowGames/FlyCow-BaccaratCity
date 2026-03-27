@@ -1,18 +1,18 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 194,
+  "last_updated_session": 197,
   "learnings": [
     {
       "type": "pattern",
       "domain": "rendering",
       "title": "Landmark-specific light signatures elevate hero buildings above generic effects",
-      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188), Galaxy diamond LED canopy (S191), Studio City Golden Reel figure-8 (S192). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 8 implementations.",
-      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile, S191 Galaxy diamond, S192 Golden Reel figure-8 all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, bridge, and unique architectural forms.",
+      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188), Galaxy diamond LED canopy (S191), Studio City Golden Reel figure-8 (S192), MGM Macau golden wave facade (S197). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 9 implementations.",
+      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile, S191 Galaxy diamond, S192 Golden Reel figure-8, S197 MGM golden wave all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, bridge, and unique architectural forms.",
       "tags": ["rendering", "landmarks", "night-effects", "canvas", "pattern"],
       "weight": 0.9,
-      "times_applied": 8,
-      "times_successful": 8
+      "times_applied": 9,
+      "times_successful": 9
     },
     {
       "type": "pattern",
@@ -894,6 +894,12 @@
     }
   ],
   "decisions": [
+    {
+      "question": "How to represent MGM Macau's wave-shaped facade as an LED light signature?",
+      "chosen": "Use 3 tiers of 16 sine-wave-positioned LED nodes with tier-specific gold tones, cascading ripple show from bottom-up, and Golden Lion entrance accent",
+      "rationale": "The wave-shaped facade is MGM Macau's most distinctive architectural feature — three tiers of differently tinted gold glass. Sine wave node placement naturally represents the undulating facade. Three gold tones (light/medium/deep) map to the real building's glass tinting gradient. Bottom-up cascade with center-outward ripple evokes rising ocean waves matching the South China Sea inspiration. The Golden Lion entrance is the other iconic feature, represented as a warm radial glow at the base.",
+      "revisit_after_session": null
+    },
     {
       "question": "How to create a figure-8 shaped LED light signature?",
       "chosen": "Use parametric lemniscate curve (cos(t)/(1+sin²(t))) to place 64 LED nodes, with dual chase lights as the show mode",
