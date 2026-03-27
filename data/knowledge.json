@@ -1,18 +1,18 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 206,
+  "last_updated_session": 212,
   "learnings": [
     {
       "type": "pattern",
       "domain": "rendering",
       "title": "Landmark-specific light signatures elevate hero buildings above generic effects",
-      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188), Galaxy diamond LED canopy (S191), Studio City Golden Reel figure-8 (S192), MGM Macau golden wave facade (S197), Wynn Palace golden crescent (S198), Wynn Macau prosperity tree (S206). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 11 implementations.",
-      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile, S191 Galaxy diamond, S192 Golden Reel figure-8, S197 MGM golden wave, S198 Wynn Palace crescent, S206 Wynn Macau prosperity tree all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, bridge, and unique architectural forms.",
+      "description": "Each major landmark benefits from a unique animated light effect that matches its architectural identity — Eiffel Tower sparkle (S181), Sai Van cable harp (S183), Grand Lisboa lotus crown (S184), Macau Tower LED crown (S186), Morpheus exoskeleton LED (S187), Venetian campanile golden cascade (S188), Galaxy diamond LED canopy (S191), Studio City Golden Reel figure-8 (S192), MGM Macau golden wave facade (S197), Wynn Palace golden crescent (S198), Wynn Macau prosperity tree (S206), Sands Macao golden waterfall (S212). These are more memorable than generic casino effects (neon glow, sky beams) and give each landmark its own visual fingerprint at night. The IIFE + canvas billboard + setInterval + window._init* pattern is now well-proven across 12 implementations. All major casino landmarks now have unique LED signatures.",
+      "evidence": "S181 Eiffel sparkle, S183 Sai Van harp, S184 Lisboa crown, S186 Macau Tower LED, S187 Morpheus exoskeleton, S188 Venetian campanile, S191 Galaxy diamond, S192 Golden Reel figure-8, S197 MGM golden wave, S198 Wynn Palace crescent, S206 Wynn Macau prosperity tree, S212 Sands Macao golden waterfall — all deployed without JS errors. Pattern is stable and efficient across Peninsula, Cotai, bridge, and unique architectural forms. S212 completes coverage of all major casino landmarks.",
       "tags": ["rendering", "landmarks", "night-effects", "canvas", "pattern"],
       "weight": 0.9,
-      "times_applied": 11,
-      "times_successful": 11
+      "times_applied": 12,
+      "times_successful": 12
     },
     {
       "type": "pattern",
@@ -905,6 +905,12 @@
     }
   ],
   "decisions": [
+    {
+      "question": "How to represent Sands Macao's curved gold-glass tower as an LED light signature?",
+      "chosen": "Use 10 vertical streams of 5 LED drops each (50 nodes total) with downward cascade animation evoking a golden waterfall of fortune, 14-minute cycle",
+      "rationale": "Sands Macao's curved gold-glass tower is relatively modest compared to mega-resorts but historically significant as the first Western casino. A 'golden waterfall' metaphor evokes the legendary profitability (US$265M recovered in under one year). Vertical streams with downward drift create a distinct visual language from the other LED signatures (which tend toward upward blooms, horizontal sweeps, or geometric patterns). The cascade animation with left-to-right stagger creates an organic waterfall feel. 14-minute cycle differentiates from other signatures (10/11/12/13/15 min cycles already used). This is the 12th and final major casino LED signature, completing full coverage.",
+      "revisit_after_session": null
+    },
     {
       "question": "How to represent Wynn Palace's curved facade as an LED light signature?",
       "chosen": "Use 4 parabolic arc tiers of LED nodes (14-18 per arc) with center-dip curvature, blooming center-outward cascade show, and Performance Lake reflection glow",

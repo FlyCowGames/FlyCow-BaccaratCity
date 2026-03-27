@@ -1689,6 +1689,35 @@
     border-color: rgba(212,175,55,0.4);
   }
 
+  /* Sky lantern release button */
+  #lantern-btn {
+    position: absolute; bottom: 80px; left: 155px;
+    pointer-events: auto; cursor: pointer;
+    font-family: 'DM Mono', monospace; font-weight: 300;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,160,40,0.45);
+    background: rgba(10,10,18,0.6);
+    border: 1px solid rgba(255,160,40,0.15);
+    padding: 6px 14px; border-radius: 2px;
+    backdrop-filter: blur(4px);
+    transition: all 0.5s ease;
+    z-index: 101;
+    opacity: 0; visibility: hidden;
+  }
+  #lantern-btn:hover {
+    color: rgba(255,160,40,0.85);
+    border-color: rgba(255,160,40,0.4);
+    box-shadow: 0 0 12px rgba(255,160,40,0.15);
+  }
+  #lantern-btn.visible { opacity: 1; visibility: visible; }
+  #lantern-btn.pulse {
+    animation: lanternReleasePulse 0.8s ease-out;
+  }
+  @keyframes lanternReleasePulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,160,40,0.5); color: rgba(255,200,80,0.95); }
+    100% { box-shadow: 0 0 24px 10px rgba(255,160,40,0); }
+  }
+
   /* ── Attractions Panel ── */
   #attractions-toggle {
     position: absolute; top: 50%; right: 0; transform: translateY(-50%);
@@ -2761,6 +2790,13 @@
     #audio-toggle {
       bottom: calc(64px + env(safe-area-inset-bottom)); left: auto; right: calc(12px + env(safe-area-inset-right));
       font-size: 0.7rem; padding: 8px 12px; min-height: 44px;
+    }
+
+    /* Lantern release — tap-friendly, bottom-left on mobile */
+    #lantern-btn {
+      bottom: calc(20px + env(safe-area-inset-bottom));
+      left: calc(12px + env(safe-area-inset-left));
+      font-size: 0.7rem; padding: 8px 12px; min-height: 44px; min-width: 44px;
     }
 
     /* Glow indicator — readable */
@@ -3837,6 +3873,15 @@ const LANDMARKS = [
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Santo_Agostinho_Interior_Macau.jpg/960px-Santo_Agostinho_Interior_Macau.jpg", caption: "Interior with the revered statue of Our Lord of the Passion" },
       { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Largo_de_Santo_Agostinho_Macau.jpg/960px-Largo_de_Santo_Agostinho_Macau.jpg", caption: "St. Augustine's Square — one of Macau's most atmospheric heritage plazas" },
     ] },
+  { name: "Fisherman's Wharf", chinese: "\u6F01\u4EBA\u78BC\u982D", emoji: "\uD83C\uDFDF\uFE0F",
+    lat: 22.1928, lon: 113.5507, type: "Entertainment Complex", year: "2005",
+    desc: "Macau Fisherman\u2019s Wharf (\u6F01\u4EBA\u78BC\u982D) is Macau\u2019s first themed waterfront entertainment and dining complex, stretching along the Outer Harbour near the ferry terminal. Opened on New Year\u2019s Eve 2005 by SJM Holdings founder Stanley Ho, it spans over 111,500 square metres and features three themed zones: Dynasty Wharf (Chinese heritage), East Meets West (European architecture), and Legend Wharf (modern entertainment). The centrepiece is a striking Roman Amphitheatre modelled after the Colosseum, seating up to 2,000 for outdoor concerts and events. The complex includes over 150 shops and restaurants, the Babylon Casino, the Victorian-gothic Rocks Hotel, and the Legend Palace Hotel with its floating casino. Free to enter, the wharf brings a playful mix of world architecture \u2014 from Cape Dutch facades to Tang Dynasty pavilions \u2014 to the Macau waterfront.",
+    facts: ["Opened 31 December 2005 \u2014 Macau\u2019s first themed entertainment complex, developed by Stanley Ho\u2019s SJM Holdings", "Roman Amphitheatre seats 2,000 \u2014 Macau\u2019s only outdoor arena, modelled after the Colosseum for concerts and events", "Three themed zones: Dynasty Wharf (Chinese), East Meets West (European), and Legend Wharf (modern entertainment)", "Over 150 shops and restaurants plus the Babylon Casino, Rocks Hotel, and Legend Palace floating casino"],
+    photos: [
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Fisherman%27s_Wharf%2C_Macao%2C_2013-08-08%2C_DD_03.jpg/960px-Fisherman%27s_Wharf%2C_Macao%2C_2013-08-08%2C_DD_03.jpg", caption: "The Roman Amphitheatre at Fisherman\u2019s Wharf" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Fisherman%27s_Wharf%2C_Macao%2C_2013-08-08%2C_DD_01.jpg/960px-Fisherman%27s_Wharf%2C_Macao%2C_2013-08-08%2C_DD_01.jpg", caption: "Fisherman\u2019s Wharf European-themed waterfront" },
+      { url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Fisherman%27s_Wharf%2C_Macao%2C_2013-08-08%2C_DD_08.jpg/960px-Fisherman%27s_Wharf%2C_Macao%2C_2013-08-08%2C_DD_08.jpg", caption: "Themed architecture along the harbourside promenade" },
+    ] },
 ];
 
 // ── Landmark Discovery Progress ──
@@ -4048,6 +4093,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1893, lon: 113.5399, alt: 600, pitch: -15 },
   { name: 'Dinner Cruise', chinese: '海上晚餐', icon: '🚢', start: 19, end: 23,
     lat: 22.1850, lon: 113.5450, alt: 400, pitch: -25 },
+  { name: 'VIP Junket Cars', chinese: '貴賓車', icon: '🚗', start: 23, end: 4,
+    lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
   { name: 'Neon Casino Glow', chinese: '霓虹', icon: '✨', start: 19, end: 5,
     lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
   { name: 'Harbor Fireworks', chinese: '煙花', icon: '🎆', start: 20, end: 1,
@@ -4084,8 +4131,12 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1478, lon: 113.5630, alt: 300, pitch: -25 },
   { name: 'Wynn Tree', chinese: '永利發財樹', icon: '🌳', start: 19, end: 5,
     lat: 22.1920, lon: 113.5413, alt: 300, pitch: -25 },
+  { name: 'Sands Waterfall', chinese: '金沙金瀑布', icon: '💰', start: 19, end: 5,
+    lat: 22.1917, lon: 113.5544, alt: 300, pitch: -25 },
   { name: 'Drone Show', chinese: '無人機燈光秀', icon: '🤖', start: 19, end: 5,
     lat: 22.178, lon: 113.543, alt: 600, pitch: -25 },
+  { name: 'Ruins Facade Light', chinese: '大三巴夜光', icon: '🏛️', start: 19, end: 5,
+    lat: 22.1974, lon: 113.5410, alt: 200, pitch: -15 },
   { name: 'Macau Lights', chinese: '澳門燈光秀', icon: '🌟', start: 19, end: 5,
     lat: 22.1893, lon: 113.5399, alt: 800, pitch: -30 },
 ];
@@ -5187,6 +5238,7 @@ async function init() {
     addTourBuses(viewer);
     addDinnerCruise(viewer);
     addShuttleBuses(viewer);
+    addVIPLimos(viewer);
     addWaterTaxis(viewer);
     initPaifangArches(viewer);
     initWavingFlags(viewer);
@@ -5201,7 +5253,10 @@ async function init() {
     if (window._initMGMGoldenWave) window._initMGMGoldenWave(viewer);
     if (window._initWynnPalaceLED) window._initWynnPalaceLED(viewer);
     if (window._initWynnMacauLED) window._initWynnMacauLED(viewer);
+    if (window._initSandsMacauLED) window._initSandsMacauLED(viewer);
     if (window._initDroneLightShow) window._initDroneLightShow(viewer);
+    if (window._initAmphitheatreGlow) window._initAmphitheatreGlow(viewer);
+    if (window._initRuinsFacadeLight) window._initRuinsFacadeLight(viewer);
     updateNeonGlow(); // apply immediately
     updateShimmerVisibility(); // apply immediately
     updateSkyBeams(); // apply immediately
@@ -7786,6 +7841,7 @@ var ATTRACTIONS = {
     { name: "Sé Cathedral", chinese: "主教座堂", icon: "⛪", lat: 22.1919, lon: 113.5407, alt: 200, pitch: -15 },
     { name: "Dom Pedro V Theatre", chinese: "伯多祿五世劇院", icon: "🎭", lat: 22.1926, lon: 113.5375, alt: 200, pitch: -15 },
     { name: "St. Augustine's Church", chinese: "聖奧斯定教堂", icon: "⛪", lat: 22.1923, lon: 113.5371, alt: 200, pitch: -15 },
+    { name: "Fisherman's Wharf", chinese: "漁人碼頭", icon: "🏟️", lat: 22.1928, lon: 113.5507, alt: 200, pitch: -15 },
   ],
   water: [
     { name: "Ferry Routes", chinese: "渡輪航線", icon: "🚢", lat: 22.1750, lon: 113.5470, alt: 500, pitch: -25 },
@@ -7835,7 +7891,10 @@ var ATTRACTIONS = {
     { name: "MGM Golden Wave LED", chinese: "美高梅金浪LED", icon: "🌊", lat: 22.1848, lon: 113.5417, alt: 300, pitch: -25 },
     { name: "Wynn Palace Crescent LED", chinese: "永利皇宮金月LED", icon: "🌙", lat: 22.1478, lon: 113.5630, alt: 300, pitch: -25 },
     { name: "Wynn Macau Prosperity Tree", chinese: "永利澳門發財樹LED", icon: "🌳", lat: 22.1920, lon: 113.5413, alt: 300, pitch: -25 },
+    { name: "Sands Macao Golden Waterfall", chinese: "澳門金沙金瀑布LED", icon: "💰", lat: 22.1917, lon: 113.5544, alt: 300, pitch: -25 },
     { name: "Harbor Drone Show", chinese: "無人機燈光秀", icon: "🤖", lat: 22.178, lon: 113.543, alt: 600, pitch: -25 },
+    { name: "Amphitheatre Arena Glow", chinese: "競技場燈光", icon: "🏟️", lat: 22.1928, lon: 113.5507, alt: 200, pitch: -20 },
+    { name: "Ruins Facade Light", chinese: "大三巴夜光", icon: "🏛️", lat: 22.1974, lon: 113.5410, alt: 200, pitch: -15 },
     { name: "Macau Lights Spectacle", chinese: "澳門燈光秀", icon: "🌟", lat: 22.1893, lon: 113.5399, alt: 800, pitch: -30 },
   ],
   racing: [
@@ -10105,6 +10164,7 @@ var SKY_BEAM_CASINOS = [
   { name: 'Studio City Beam', lon: 113.5550, lat: 22.1435, color: [255, 150, 200], height: 270, swaySpeed: 0.075, swayAmp: 0.00014 },
   { name: 'Parisian Beam',   lon: 113.5570, lat: 22.1465, color: [180, 160, 255], height: 280, swaySpeed: 0.06, swayAmp: 0.00016 },
   { name: 'Sands Macao Beam', lon: 113.5544, lat: 22.1917, color: [255, 220, 100], height: 240, swaySpeed: 0.055, swayAmp: 0.00015 },
+  { name: 'Fisherman Wharf Beam', lon: 113.5507, lat: 22.1928, color: [220, 190, 140], height: 220, swaySpeed: 0.06, swayAmp: 0.00014 },
 ];
 
 var _skyBeamEntities = [];
@@ -10203,6 +10263,7 @@ var SEARCHLIGHT_CASINOS = [
   { name: 'Parisian Searchlight',  lon: 113.5574, lat: 22.1468, alt: 120, color: [200, 180, 255], period: 12.5, phase: 2.0, sweep: 2.3 },
   { name: 'Wynn Macau Searchlight', lon: 113.5415, lat: 22.1924, alt: 120, color: [255, 210, 150], period: 13, phase: 1.5, sweep: 2.1 },
   { name: 'Sands Macao Searchlight', lon: 113.5548, lat: 22.1920, alt: 100, color: [255, 230, 150], period: 12, phase: 3.0, sweep: 2.0 },
+  { name: 'Fisherman Wharf Searchlight', lon: 113.5510, lat: 22.1930, alt: 80, color: [220, 200, 160], period: 14, phase: 4.5, sweep: 2.2 },
 ];
 
 var _searchlightEntities = [];
@@ -13977,6 +14038,209 @@ function addLEDFacades(viewer) {
   window._initWynnMacauLED = initWynnMacauLED;
 })();
 
+// ── Sands Macao Golden Waterfall Facade LED ──
+// Sands Macao (澳門金沙) was the first Western-operated casino in Macau, opened
+// 18 May 2004 by Sheldon Adelson. It famously recovered its US$265M construction
+// cost in under one year. The golden waterfall LED signature evokes streams of
+// fortune cascading down the curved gold-glass tower facade at night.
+(function() {
+  var SM_LON = 113.5544, SM_LAT = 22.1917;
+  var CW = 70, CH = 90;
+  var _sandShowPhase = 0; // 0=idle shimmer, 1=cascade show
+  var _sandShowTimer = 0;
+
+  // Golden waterfall streams — vertical channels across the curved facade
+  var streams = [];
+  var NUM_STREAMS = 10;
+  var DROPS_PER_STREAM = 5;
+
+  for (var s = 0; s < NUM_STREAMS; s++) {
+    var xPos = 0.15 + (s / (NUM_STREAMS - 1)) * 0.7;
+    // Curve to match the building's rounded facade
+    var curveOffset = -Math.pow((xPos - 0.5) * 2, 2) * 0.04;
+    for (var d = 0; d < DROPS_PER_STREAM; d++) {
+      var yFrac = 0.15 + (d / DROPS_PER_STREAM) * 0.7;
+      streams.push({
+        x: xPos + (Math.random() - 0.5) * 0.02,
+        y: yFrac + curveOffset,
+        streamIdx: s,
+        dropIdx: d,
+        depth: yFrac, // 0=top, 1=bottom
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.2 + Math.random() * 0.15,
+        size: 0.7 + Math.random() * 0.5,
+        // Gold gradient: brighter gold at top, deeper amber at bottom
+        goldR: 255 - Math.round(d * 3),
+        goldG: 220 - Math.round(d * 6),
+        goldB: 100 + Math.round(d * 8),
+      });
+    }
+  }
+
+  function drawSandsCascade(time) {
+    var cv = document.createElement('canvas');
+    cv.width = CW; cv.height = CH;
+    var ctx = cv.getContext('2d');
+
+    var showTime = _sandShowPhase === 1 ? (time - _sandShowTimer) : -1;
+    if (showTime > 20) { _sandShowPhase = 0; showTime = -1; }
+
+    // Faint building silhouette — curved facade outline
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.035)';
+    ctx.lineWidth = 0.7;
+    ctx.beginPath();
+    ctx.moveTo(CW * 0.12, CH * 0.92);
+    ctx.lineTo(CW * 0.12, CH * 0.15);
+    ctx.quadraticCurveTo(CW * 0.5, CH * 0.08, CW * 0.88, CH * 0.15);
+    ctx.lineTo(CW * 0.88, CH * 0.92);
+    ctx.stroke();
+
+    // Draw cascading golden drops
+    for (var i = 0; i < streams.length; i++) {
+      var nd = streams[i];
+      var intensity;
+
+      if (showTime >= 0) {
+        // Cascade show: golden waterfall top-to-bottom, left-to-right stagger
+        var cascadeDelay = nd.depth * 3.5 + nd.streamIdx * 0.25;
+        var localTime = showTime - cascadeDelay;
+        if (localTime < 0) {
+          intensity = 0.04;
+        } else if (localTime < 3) {
+          intensity = Math.min(1, localTime * 0.5);
+          // Flowing cascade shimmer
+          var fallWave = Math.sin((localTime * 2.5 + nd.phase) * Math.PI);
+          intensity *= 0.5 + 0.5 * Math.max(0, fallWave);
+        } else {
+          // Sustained golden rain with drip accents
+          var sustain = Math.max(0.25, 1 - (localTime - 3) * 0.05);
+          var drip = Math.sin(time * 3.5 + nd.phase * 2) > 0.82 ? 0.25 : 0;
+          intensity = sustain + drip;
+        }
+        intensity = Math.max(0.04, Math.min(1, intensity));
+      } else {
+        // Idle: gentle golden shimmer with downward drift
+        intensity = 0.04 + 0.1 * Math.max(0, Math.sin(time * nd.speed + nd.phase));
+        // Downward drift — light seems to slowly fall
+        var drift = Math.sin(time * 0.3 + nd.y * 5 - nd.streamIdx * 0.5);
+        if (drift > 0.2) intensity += (drift - 0.2) * 0.18;
+        // Occasional bright spark
+        if (Math.sin(time * nd.speed * 3 + nd.phase * 5) > 0.95) {
+          intensity = 0.4 + Math.random() * 0.15;
+        }
+        intensity = Math.min(0.5, intensity);
+      }
+
+      if (intensity < 0.03) continue;
+
+      var px = nd.x * CW;
+      var py = nd.y * CH;
+
+      // During show, animate drops falling
+      if (showTime >= 0 && showTime > nd.depth * 3.5 + nd.streamIdx * 0.25) {
+        py = ((nd.y + (showTime - nd.depth * 3.5) * 0.06 + nd.phase * 0.1) % 0.78 + 0.12) * CH;
+      }
+
+      var r = Math.min(255, nd.goldR + Math.round(12 * intensity));
+      var g = Math.min(255, nd.goldG + Math.round(22 * intensity));
+      var b = Math.min(255, nd.goldB + Math.round(15 * intensity));
+      var alpha = intensity * 0.85;
+
+      // Glow halo for bright nodes
+      if (intensity > 0.15) {
+        var glowR = 1.5 + intensity * 4;
+        var grd = ctx.createRadialGradient(px, py, 0, px, py, glowR);
+        grd.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.4).toFixed(2) + ')');
+        grd.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(px, py, glowR, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Core LED point — slightly elongated vertically for cascade feel
+      ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha.toFixed(2) + ')';
+      ctx.beginPath();
+      ctx.ellipse(px, py, 0.4 + intensity * 0.5, 0.6 + intensity * 0.7, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Base entrance glow — warm golden pool at bottom
+    var baseAlpha = 0.03 + 0.012 * Math.sin(time * 0.35);
+    if (showTime >= 0 && showTime > 2) baseAlpha = Math.min(0.12, baseAlpha + 0.05);
+    var baseGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.95, 0, CW * 0.5, CH * 0.95, CW * 0.38);
+    baseGrad.addColorStop(0, 'rgba(250, 210, 90, ' + baseAlpha.toFixed(3) + ')');
+    baseGrad.addColorStop(0.5, 'rgba(240, 195, 70, ' + (baseAlpha * 0.4).toFixed(3) + ')');
+    baseGrad.addColorStop(1, 'rgba(220, 170, 50, 0)');
+    ctx.fillStyle = baseGrad;
+    ctx.beginPath();
+    ctx.arc(CW * 0.5, CH * 0.95, CW * 0.38, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Crown golden haze — warm glow at top of building
+    var crownAlpha = 0.02 + 0.008 * Math.sin(time * 0.3);
+    if (showTime >= 0 && showTime > 3) crownAlpha = Math.min(0.07, crownAlpha + showTime * 0.003);
+    var crownGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.1, 0, CW * 0.5, CH * 0.1, CW * 0.28);
+    crownGrad.addColorStop(0, 'rgba(255, 225, 120, ' + crownAlpha.toFixed(3) + ')');
+    crownGrad.addColorStop(1, 'rgba(245, 205, 80, 0)');
+    ctx.fillStyle = crownGrad;
+    ctx.fillRect(0, 0, CW, CH * 0.25);
+
+    // Outer ambient halo
+    var haloAlpha = 0.015 + 0.006 * Math.sin(time * 0.25);
+    if (showTime >= 0 && showTime < 18) haloAlpha = Math.min(0.05, haloAlpha + showTime * 0.002);
+    var haloGrad = ctx.createRadialGradient(CW * 0.5, CH * 0.45, CW * 0.08, CW * 0.5, CH * 0.45, CW * 0.48);
+    haloGrad.addColorStop(0, 'rgba(248, 210, 80, ' + haloAlpha.toFixed(3) + ')');
+    haloGrad.addColorStop(1, 'rgba(230, 185, 45, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.fillRect(0, 0, CW, CH);
+
+    return cv;
+  }
+
+  function initSandsMacauLED(viewer) {
+    var initialCanvas = drawSandsCascade(0);
+    var entity = viewer.entities.add({
+      name: 'Sands Macao Golden Waterfall LED',
+      position: Cesium.Cartesian3.fromDegrees(SM_LON, SM_LAT, 100),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 25,
+        height: 35,
+        scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 15000, 0.5),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 18000, 0.15),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      entity.show = shouldShow;
+      if (!shouldShow) { _sandShowPhase = 0; return; }
+
+      var time = performance.now() / 1000;
+
+      // Golden waterfall show: 2.5 minutes every 14 minutes
+      var macauMinutes = getMacauHour() * 60;
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 14);
+      if (cyclePos < 2.5 && _sandShowPhase === 0) {
+        _sandShowPhase = 1;
+        _sandShowTimer = time;
+      } else if (cyclePos >= 2.5 && _sandShowPhase === 1) {
+        _sandShowPhase = 0;
+      }
+
+      var canvas = drawSandsCascade(time);
+      entity.billboard.image = canvas.toDataURL();
+    }, 250);
+  }
+
+  window._initSandsMacauLED = initSandsMacauLED;
+})();
+
 // ── Harbor Drone Light Show ──
 // Macau has embraced drone light shows as a modern spectacle. A swarm of 48
 // illuminated drones forms stunning patterns over the harbor at night —
@@ -14187,6 +14451,334 @@ function addLEDFacades(viewer) {
   }
 
   window._initDroneLightShow = initDroneLightShow;
+})();
+
+// ── Fisherman's Wharf Roman Amphitheatre Arena Glow ──
+// Animated warm arena spotlights circling the amphitheatre at night
+(function() {
+  var _amphEntity = null;
+  var _amphInterval = null;
+  var AMPH_LON = 113.5507, AMPH_LAT = 22.1928, AMPH_ALT = 30;
+  var SZ = 256, NUM_SPOTS = 4;
+
+  function drawAmphGlow(angle) {
+    var c = document.createElement('canvas');
+    c.width = SZ; c.height = SZ;
+    var ctx = c.getContext('2d');
+    var cx = SZ / 2, cy = SZ / 2, r = SZ * 0.35;
+
+    // Amphitheatre ring
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(220, 190, 140, 0.15)';
+    ctx.lineWidth = 16;
+    ctx.shadowColor = 'rgba(220, 190, 140, 0.3)';
+    ctx.shadowBlur = 18;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // Inner arena floor
+    var fg = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 0.65);
+    fg.addColorStop(0, 'rgba(255, 220, 160, 0.07)');
+    fg.addColorStop(1, 'rgba(255, 220, 160, 0)');
+    ctx.fillStyle = fg;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 0.65, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Rotating spotlights
+    for (var i = 0; i < NUM_SPOTS; i++) {
+      var sa = angle + (i * Math.PI * 2 / NUM_SPOTS);
+      var sx = cx + Math.cos(sa) * r;
+      var sy = cy + Math.sin(sa) * r;
+      var ba = sa + Math.PI;
+      var bl = r * 0.5;
+
+      var sg = ctx.createRadialGradient(sx, sy, 2, sx, sy, bl);
+      sg.addColorStop(0, 'rgba(255, 235, 180, 0.55)');
+      sg.addColorStop(0.5, 'rgba(255, 220, 140, 0.18)');
+      sg.addColorStop(1, 'rgba(255, 200, 100, 0)');
+
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.arc(sx, sy, bl, ba - 0.3, ba + 0.3);
+      ctx.closePath();
+      ctx.fillStyle = sg;
+      ctx.fill();
+
+      // Source dot
+      ctx.beginPath();
+      ctx.arc(sx, sy, 3, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 240, 200, 0.8)';
+      ctx.shadowColor = 'rgba(255, 240, 200, 0.5)';
+      ctx.shadowBlur = 6;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+    return c;
+  }
+
+  function initAmphitheatreGlow(viewer) {
+    var angle = 0;
+    _amphEntity = viewer.entities.add({
+      name: 'Fisherman Wharf Amphitheatre Glow',
+      position: Cesium.Cartesian3.fromDegrees(AMPH_LON, AMPH_LAT, AMPH_ALT),
+      billboard: {
+        image: drawAmphGlow(angle).toDataURL(),
+        width: 100, height: 100,
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        translucencyByDistance: new Cesium.NearFarScalar(200, 1.0, 15000, 0.2),
+        scaleByDistance: new Cesium.NearFarScalar(200, 1.0, 8000, 0.4),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+
+    _amphInterval = setInterval(function() {
+      if (!_amphEntity) return;
+      var on = (typeof _currentGlowIntensity !== 'undefined') ? _currentGlowIntensity > 0.1 : false;
+      _amphEntity.show = on;
+      if (!on) return;
+      angle += 0.16;
+      _amphEntity.billboard.image = drawAmphGlow(angle).toDataURL();
+    }, 200);
+  }
+
+  window._initAmphitheatreGlow = initAmphitheatreGlow;
+})();
+
+// ── Ruins of St. Paul's Heritage Facade Illumination (大三巴夜光) ──
+// The Ruins of St. Paul's (大三巴牌坊) — Macau's #1 landmark and UNESCO World Heritage icon.
+// In reality the stone facade is dramatically uplighted at night with warm golden theatrical lighting.
+// This is the first heritage-building light signature (all 11 prior signatures are casino/resort buildings).
+(function() {
+  var RUINS_LON = 113.5410, RUINS_LAT = 22.1974;
+  var CW = 80, CH = 120;
+  var _showPhase = 0; // 0=idle warm uplight, 1=radiance show
+  var _showTimer = 0;
+
+  // Facade architectural elements — 4 tiers of columns + pediment + cross
+  // Tier heights (fraction of canvas height, bottom to top)
+  var TIERS = [
+    { y: 0.82, w: 0.70, cols: 5, archCount: 3 },  // Ground tier — widest, 3 arched doorways
+    { y: 0.62, w: 0.60, cols: 4, archCount: 2 },  // Second tier
+    { y: 0.42, w: 0.48, cols: 3, archCount: 1 },  // Third tier — central niche
+    { y: 0.25, w: 0.34, cols: 2, archCount: 0 },  // Fourth tier — narrow top
+  ];
+
+  function drawFacadeIllumination(time) {
+    var c = document.createElement('canvas');
+    c.width = CW; c.height = CH;
+    var ctx = c.getContext('2d');
+    var cx = CW / 2;
+
+    var showTime = _showPhase === 1 ? (time - _showTimer) : -1;
+
+    // --- Base uplight wash from ground ---
+    var uplightPulse = 0.25 + 0.08 * Math.sin(time * 0.7);
+    if (showTime >= 0 && showTime < 6) {
+      uplightPulse = Math.min(0.55, uplightPulse + showTime * 0.06);
+    }
+    var uplightGrad = ctx.createLinearGradient(cx, CH, cx, CH * 0.15);
+    uplightGrad.addColorStop(0, 'rgba(255, 210, 130, ' + uplightPulse.toFixed(2) + ')');
+    uplightGrad.addColorStop(0.3, 'rgba(255, 200, 120, ' + (uplightPulse * 0.7).toFixed(2) + ')');
+    uplightGrad.addColorStop(0.6, 'rgba(240, 190, 100, ' + (uplightPulse * 0.4).toFixed(2) + ')');
+    uplightGrad.addColorStop(1, 'rgba(220, 175, 80, 0)');
+    ctx.fillStyle = uplightGrad;
+    // Tapered trapezoid shape for uplight beam
+    ctx.beginPath();
+    ctx.moveTo(cx - CW * 0.45, CH);
+    ctx.lineTo(cx - CW * 0.15, CH * 0.12);
+    ctx.lineTo(cx + CW * 0.15, CH * 0.12);
+    ctx.lineTo(cx + CW * 0.45, CH);
+    ctx.closePath();
+    ctx.fill();
+
+    // --- Facade tier outlines in warm light ---
+    for (var ti = 0; ti < TIERS.length; ti++) {
+      var tier = TIERS[ti];
+      var ty = CH * tier.y;
+      var tw = CW * tier.w;
+      var tierH = CH * 0.16;
+      var tx = cx - tw / 2;
+
+      // Tier intensity — bottom tiers brighter (closer to uplights)
+      var tierBase = 0.15 + (TIERS.length - ti) * 0.06;
+      var tierPulse = tierBase + 0.05 * Math.sin(time * (0.5 + ti * 0.15) + ti * 1.2);
+
+      // Show mode: tiers light up bottom-to-top sequentially
+      if (showTime >= 0) {
+        var tierDelay = ti * 0.8;
+        var tierProgress = Math.max(0, (showTime - tierDelay) * 0.8);
+        if (tierProgress > 1) tierProgress = Math.max(0.4, 1 - (tierProgress - 1) * 0.15);
+        tierPulse = Math.min(0.7, tierPulse + tierProgress * 0.35);
+      }
+
+      // Warm stone glow for tier outline
+      var r = 255, g = 210 - ti * 10, b = 130 - ti * 15;
+      ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + tierPulse.toFixed(2) + ')';
+      ctx.lineWidth = 1.2;
+      ctx.shadowColor = 'rgba(' + r + ',' + g + ',' + b + ', 0.6)';
+      ctx.shadowBlur = 3 + tierPulse * 5;
+
+      // Horizontal tier line
+      ctx.beginPath();
+      ctx.moveTo(tx, ty);
+      ctx.lineTo(tx + tw, ty);
+      ctx.stroke();
+
+      // Column verticals
+      for (var ci = 0; ci <= tier.cols; ci++) {
+        var colX = tx + (tw / tier.cols) * ci;
+        ctx.beginPath();
+        ctx.moveTo(colX, ty);
+        ctx.lineTo(colX, ty - tierH);
+        ctx.stroke();
+      }
+
+      // Top lintel
+      ctx.beginPath();
+      ctx.moveTo(tx, ty - tierH);
+      ctx.lineTo(tx + tw, ty - tierH);
+      ctx.stroke();
+
+      // Arch windows — warm glowing openings
+      if (tier.archCount > 0) {
+        var archSpacing = tw / (tier.archCount + 1);
+        for (var ai = 0; ai < tier.archCount; ai++) {
+          var archX = tx + archSpacing * (ai + 1);
+          var archW = archSpacing * 0.35;
+          var archH = tierH * 0.6;
+          var archAlpha = tierPulse * 0.6;
+
+          // Glowing window
+          var windowGrad = ctx.createRadialGradient(archX, ty - tierH * 0.4, 0, archX, ty - tierH * 0.4, archW);
+          windowGrad.addColorStop(0, 'rgba(255, 225, 160, ' + archAlpha.toFixed(2) + ')');
+          windowGrad.addColorStop(0.6, 'rgba(255, 210, 130, ' + (archAlpha * 0.4).toFixed(2) + ')');
+          windowGrad.addColorStop(1, 'rgba(240, 195, 100, 0)');
+          ctx.fillStyle = windowGrad;
+          ctx.beginPath();
+          ctx.arc(archX, ty - tierH * 0.4, archW, Math.PI, 0);
+          ctx.lineTo(archX + archW, ty - tierH * 0.15);
+          ctx.lineTo(archX - archW, ty - tierH * 0.15);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+
+      ctx.shadowBlur = 0;
+    }
+
+    // --- Triangular pediment at top ---
+    var pedY = CH * 0.18;
+    var pedW = CW * 0.30;
+    var pedPeak = CH * 0.08;
+    var pedAlpha = 0.2 + 0.08 * Math.sin(time * 0.6 + 2.0);
+    if (showTime >= 0 && showTime > 3.2) {
+      pedAlpha = Math.min(0.6, pedAlpha + (showTime - 3.2) * 0.12);
+    }
+
+    ctx.strokeStyle = 'rgba(255, 215, 140, ' + pedAlpha.toFixed(2) + ')';
+    ctx.lineWidth = 1.5;
+    ctx.shadowColor = 'rgba(255, 215, 140, 0.7)';
+    ctx.shadowBlur = 4 + pedAlpha * 6;
+    ctx.beginPath();
+    ctx.moveTo(cx - pedW, pedY);
+    ctx.lineTo(cx, pedPeak);
+    ctx.lineTo(cx + pedW, pedY);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // --- Cross at the apex ---
+    var crossY = pedPeak - 2;
+    var crossSize = 5;
+    var crossAlpha = 0.25 + 0.15 * Math.sin(time * 0.9 + 0.5);
+    if (showTime >= 0 && showTime > 4) {
+      crossAlpha = Math.min(0.85, crossAlpha + (showTime - 4) * 0.2);
+    }
+
+    // Cross glow halo
+    var crossGlow = ctx.createRadialGradient(cx, crossY, 0, cx, crossY, crossSize * 2.5);
+    crossGlow.addColorStop(0, 'rgba(255, 230, 170, ' + (crossAlpha * 0.7).toFixed(2) + ')');
+    crossGlow.addColorStop(0.5, 'rgba(255, 215, 140, ' + (crossAlpha * 0.3).toFixed(2) + ')');
+    crossGlow.addColorStop(1, 'rgba(255, 200, 120, 0)');
+    ctx.fillStyle = crossGlow;
+    ctx.beginPath();
+    ctx.arc(cx, crossY, crossSize * 2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Cross shape
+    ctx.strokeStyle = 'rgba(255, 235, 180, ' + crossAlpha.toFixed(2) + ')';
+    ctx.lineWidth = 1.8;
+    ctx.shadowColor = 'rgba(255, 235, 180, 0.9)';
+    ctx.shadowBlur = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx, crossY - crossSize);
+    ctx.lineTo(cx, crossY + crossSize);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx - crossSize * 0.7, crossY - crossSize * 0.25);
+    ctx.lineTo(cx + crossSize * 0.7, crossY - crossSize * 0.25);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // --- Outer ambient halo (subtle warm presence) ---
+    var haloAlpha = 0.06 + 0.03 * Math.sin(time * 0.5);
+    if (showTime >= 0 && showTime < 7) {
+      haloAlpha = Math.min(0.18, haloAlpha + showTime * 0.02);
+    }
+    var haloGrad = ctx.createRadialGradient(cx, CH * 0.5, CW * 0.08, cx, CH * 0.5, CW * 0.55);
+    haloGrad.addColorStop(0, 'rgba(255, 210, 130, ' + haloAlpha.toFixed(2) + ')');
+    haloGrad.addColorStop(1, 'rgba(255, 200, 110, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.fillRect(0, 0, CW, CH);
+
+    return c;
+  }
+
+  function initRuinsFacadeLight(viewer) {
+    var initialCanvas = drawFacadeIllumination(0);
+    var entity = viewer.entities.add({
+      name: 'Ruins of St. Paul\'s Heritage Illumination',
+      position: Cesium.Cartesian3.fromDegrees(RUINS_LON, RUINS_LAT, 45),
+      billboard: {
+        image: initialCanvas.toDataURL(),
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        width: 40,
+        height: 60,
+        scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 12000, 0.4),
+        translucencyByDistance: new Cesium.NearFarScalar(50, 1.0, 15000, 0.12),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+      show: false,
+    });
+
+    // Update every 250ms
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      entity.show = shouldShow;
+      if (!shouldShow) { _showPhase = 0; return; }
+
+      var time = performance.now() / 1000;
+
+      // Radiance show: 2 min every 15 min (heritage pace — slower, more reverent than casino LEDs)
+      var macauMinutes = getMacauHour() * 60;
+      var cyclePos = window._citywideShowActive ? 0 : (macauMinutes % 15);
+      if (cyclePos < 2 && _showPhase === 0) {
+        _showPhase = 1;
+        _showTimer = time;
+      } else if (cyclePos >= 2 && _showPhase === 1) {
+        _showPhase = 0;
+      }
+
+      var c = drawFacadeIllumination(time);
+      entity.billboard.image = c.toDataURL();
+    }, 250);
+  }
+
+  window._initRuinsFacadeLight = initRuinsFacadeLight;
 })();
 
 // ── Citywide Synchronized "Macau Lights" Spectacle ──
@@ -16932,6 +17524,185 @@ function addShuttleBuses(viewer) {
   });
 }
 
+// ── Late-Night VIP Junket Limousines (深夜貴賓車) ──
+// Sleek black sedans ferrying high-rollers between casinos during the wee hours (23:00-04:00)
+var VIP_LIMO_ROUTES = [
+  { // Route 1: Grand Lisboa ↔ Wynn Macau (Peninsula casino corridor)
+    name: 'Peninsula VIP',
+    points: [
+      { lon: 113.5399, lat: 22.1893 }, // Grand Lisboa
+      { lon: 113.5408, lat: 22.1905 },
+      { lon: 113.5413, lat: 22.1920 }, // Wynn Macau
+    ],
+    durationSec: 35,
+    count: 1,
+  },
+  { // Route 2: Venetian ↔ Wynn Palace (Cotai luxury circuit)
+    name: 'Cotai VIP',
+    points: [
+      { lon: 113.5590, lat: 22.1496 }, // Venetian
+      { lon: 113.5610, lat: 22.1488 },
+      { lon: 113.5628, lat: 22.1478 }, // Wynn Palace
+    ],
+    durationSec: 40,
+    count: 1,
+  },
+  { // Route 3: Grand Lisboa ↔ Venetian (cross-bridge junket run via Friendship Bridge)
+    name: 'Cross-Bridge VIP',
+    points: [
+      { lon: 113.5399, lat: 22.1893 }, // Grand Lisboa
+      { lon: 113.5460, lat: 22.1900 },
+      { lon: 113.5520, lat: 22.1890 }, // Friendship Bridge start
+      { lon: 113.5550, lat: 22.1730 }, // Bridge midpoint
+      { lon: 113.5575, lat: 22.1570 }, // Bridge end Taipa side
+      { lon: 113.5585, lat: 22.1530 },
+      { lon: 113.5590, lat: 22.1496 }, // Venetian
+    ],
+    durationSec: 90,
+    count: 2,
+  },
+];
+
+var _vipLimoEntities = [];
+var _vipLimoInterval = null;
+
+function createVIPLimoCanvas() {
+  var canvas = document.createElement('canvas');
+  canvas.width = 36;
+  canvas.height = 22;
+  var ctx = canvas.getContext('2d');
+
+  // Ground shadow
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+  ctx.beginPath();
+  ctx.ellipse(18, 19, 13, 2, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Warm ambient glow (luxury presence)
+  var glow = ctx.createRadialGradient(18, 12, 0, 18, 12, 16);
+  glow.addColorStop(0, 'rgba(212, 175, 55, 0.08)');
+  glow.addColorStop(0.6, 'rgba(212, 175, 55, 0.03)');
+  glow.addColorStop(1, 'rgba(212, 175, 55, 0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, 36, 22);
+
+  // Car body (sleek black sedan)
+  ctx.fillStyle = 'rgba(20, 20, 25, 0.95)';
+  ctx.beginPath();
+  ctx.moveTo(5, 15);
+  ctx.lineTo(5, 10);
+  ctx.quadraticCurveTo(8, 6, 14, 6);
+  ctx.lineTo(24, 6);
+  ctx.quadraticCurveTo(30, 6, 31, 10);
+  ctx.lineTo(31, 15);
+  ctx.closePath();
+  ctx.fill();
+
+  // Gold pinstripe (luxury accent)
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.6)';
+  ctx.lineWidth = 0.6;
+  ctx.beginPath();
+  ctx.moveTo(5, 13);
+  ctx.lineTo(31, 13);
+  ctx.stroke();
+
+  // Tinted windows with warm amber interior glow
+  ctx.fillStyle = 'rgba(180, 140, 50, 0.35)';
+  ctx.fillRect(10, 7.5, 5, 3.5);
+  ctx.fillRect(16, 7.5, 5, 3.5);
+  ctx.fillRect(22, 7.5, 6, 3.5);
+
+  // Interior light wash
+  ctx.fillStyle = 'rgba(255, 200, 100, 0.1)';
+  ctx.fillRect(10, 7.5, 18, 3.5);
+
+  // Headlights (warm white)
+  var headlight = ctx.createRadialGradient(32, 11, 0, 32, 11, 3);
+  headlight.addColorStop(0, 'rgba(255, 240, 200, 0.9)');
+  headlight.addColorStop(0.4, 'rgba(255, 240, 200, 0.3)');
+  headlight.addColorStop(1, 'rgba(255, 240, 200, 0)');
+  ctx.fillStyle = headlight;
+  ctx.beginPath();
+  ctx.arc(32, 11, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Tail lights (red)
+  var taillight = ctx.createRadialGradient(4, 11, 0, 4, 11, 2.5);
+  taillight.addColorStop(0, 'rgba(255, 30, 20, 0.85)');
+  taillight.addColorStop(0.4, 'rgba(255, 30, 20, 0.3)');
+  taillight.addColorStop(1, 'rgba(255, 30, 20, 0)');
+  ctx.fillStyle = taillight;
+  ctx.beginPath();
+  ctx.arc(4, 11, 2.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Wheels
+  ctx.fillStyle = 'rgba(30, 30, 30, 0.9)';
+  ctx.beginPath(); ctx.arc(10, 16, 1.5, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(26, 16, 1.5, 0, Math.PI * 2); ctx.fill();
+
+  // Chrome wheel caps
+  ctx.fillStyle = 'rgba(180, 180, 180, 0.5)';
+  ctx.beginPath(); ctx.arc(10, 16, 0.7, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(26, 16, 0.7, 0, Math.PI * 2); ctx.fill();
+
+  return canvas;
+}
+
+function addVIPLimos(viewer) {
+  var startTime = Date.now();
+  var limoImage = createVIPLimoCanvas().toDataURL();
+
+  VIP_LIMO_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var phaseOffset = i / route.count;
+
+      (function(offset, routeRef) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          var rawT = ((elapsed / routeRef.durationSec) + offset) % 2;
+          var t = rawT <= 1 ? rawT : 2 - rawT;
+          var pos = lerpPosition(routeRef.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 3);
+        }, false);
+
+        var entity = viewer.entities.add({
+          name: 'VIP Limo - ' + routeRef.name,
+          position: positionCallback,
+          billboard: {
+            image: limoImage,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scaleByDistance: new Cesium.NearFarScalar(50, 1.0, 4000, 0.0),
+            translucencyByDistance: new Cesium.NearFarScalar(30, 1.0, 3000, 0.0),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            scale: 1.0,
+          },
+        });
+        _vipLimoEntities.push(entity);
+      })(phaseOffset, route);
+    }
+  });
+
+  // Time-gating: visible 23:00-04:00 with 30-min fade ramps
+  _vipLimoInterval = setInterval(function() {
+    var hour = getMacauHour();
+    var visible = hour >= 23 || hour < 4;
+    var alpha = 1.0;
+
+    if (hour >= 22.5 && hour < 23) alpha = (hour - 22.5) * 2;
+    else if (hour >= 3.5 && hour < 4) alpha = (4 - hour) * 2;
+    else if (!visible) alpha = 0;
+
+    _vipLimoEntities.forEach(function(entity) {
+      entity.show = alpha > 0;
+      if (alpha > 0) {
+        entity.billboard.color = new Cesium.Color(1, 1, 1, alpha);
+      }
+    });
+  }, 500);
+}
+
 // ── Water Taxi Speedboats (快艇) ──
 // Fast harbour water taxis zipping between Peninsula and islands — much faster than ferries
 var WATER_TAXI_ROUTES = [
@@ -19325,7 +20096,7 @@ function addSkyCabs(viewer) {
     { icon: '\u26EA', text: 'Visit St. Augustine\'s Church (聖奧斯定教堂) \u2014 one of Macau\'s oldest churches (1591), home to the annual Procession of Our Lord of Passos, UNESCO World Heritage' },
     { icon: '\uD83E\uDDED', text: isTouch ? 'Tap the compass rose (top-left) to orient north \u2014 it rotates as you look around' : 'Click the compass rose (top-left) to snap camera to north \u2014 watch it rotate as you orbit' },
     { icon: '\u26A1', text: isTouch ? 'Tap City Pulse (bottom-right) to see what\'s happening now \u2014 features change with the time of day' : 'Click City Pulse (bottom-right) to see what\'s active now \u2014 features change with the hour, click any to fly there' },
-    { icon: '\u2605', text: 'Discover all 30 landmarks \u2014 open the Explore panel to track your progress. Your discoveries save automatically!' },
+    { icon: '\u2605', text: 'Discover all 31 landmarks \u2014 open the Explore panel to track your progress. Your discoveries save automatically!' },
     { icon: '\uD83C\uDF03', text: 'When it rains at night, watch for neon reflections shimmering on the wet streets \u2014 casino lights glow on the pavement' },
     { icon: '\uD83D\uDCA7', text: 'During rain, watch for water drops on the camera lens \u2014 some streak down like a real rainy window. Try Typhoon Demo to see more!' },
     { icon: '\uD83C\uDFAC', text: 'Watch for cinematic letterbox bars during the flythrough, walk tour, and auto-tour \u2014 like a travel documentary!' },
@@ -19353,8 +20124,11 @@ function addSkyCabs(viewer) {
     { icon: '\uD83C\uDF0A', text: 'At night, MGM Macau\u2019s golden wave facade glows with three tiers of LED lights tracing the iconic undulating glass \u2014 watch for the rising wave cascade show every 11 minutes' },
     { icon: '\uD83C\uDF19', text: 'At night, Wynn Palace\u2019s golden crescent facade shimmers with warm LED arcs \u2014 watch for the blooming crescent show every 13 minutes as light sweeps along the curved glass' },
     { icon: '🌳', text: 'At night, Wynn Macau\u2019s facade glows with a golden Tree of Prosperity LED pattern \u2014 watch for the prosperity bloom show every 12 minutes as light rises from trunk through branching canopy' },
+    { icon: '💰', text: 'At night, Sands Macao\u2019s curved gold-glass tower shimmers with cascading golden waterfall LED streams \u2014 watch for the fortune cascade show every 14 minutes as golden light flows down the facade like coins' },
     { icon: '🤖', text: 'At night, look for the drone light show over the harbor — 48 illuminated drones form stunning patterns including a lotus flower (Macau\u2019s emblem), star, heart, and diamond shapes every 25 minutes' },
+    { icon: '🏛️', text: 'At night, the Ruins of St. Paul\u2019s (大三巴牌坊) glows with warm golden heritage uplighting — Macau\u2019s #1 landmark is dramatically illuminated, with a radiance show every 15 minutes sweeping light up the 4-tier stone facade to the cross' },
     { icon: '🌟', text: 'Every hour on the hour at night, all of Macau lights up at once \u2014 the Macau Lights spectacle synchronizes every landmark show, fireworks, and the fountain for 2 breathtaking minutes, ending with a Grand Finale firework barrage' },
+    { icon: '\uD83C\uDFDF\uFE0F', text: 'Visit Fisherman\u2019s Wharf (\u6F01\u4EBA\u78BC\u982D) \u2014 Macau\u2019s themed waterfront complex with a Roman Amphitheatre, European facades, and over 150 shops along the Outer Harbour' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;

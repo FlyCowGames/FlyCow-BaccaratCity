@@ -2,7 +2,7 @@
 
 *Auto-generated from data/knowledge.json. Do NOT edit directly.*
 
-## Last Updated: Session 206
+## Last Updated: Session 212
 
 ## Top Patterns (by weight)
 
@@ -41,3 +41,4 @@
 - **How to enhance the Performance Lake fountain show with dynamic colors?** → Add a 200ms setInterval that redraws jet billboard icons with time-varying colors using lerpColor interpolation, structured in 3 acts: color waves, fi
 - **How to add a non-building-attached nighttime spectacle to diversify from LED signatures?** → Canvas-drawn drone light show billboard at 350m over harbor with 48 multicolored drones forming 6 parametric shapes, smooth lerp transitions, 56s show
 - **How to represent Wynn Macau's Tree of Prosperity as an LED light signature?** → Use ~64 LED nodes arranged in a tree pattern (trunk, lower branches, upper canopy, crown sparkles) with bronze-gold palette and upward prosperity bloo
+- **How to represent Sands Macao's curved gold-glass tower as an LED light signature?** → 10 vertical streams of 5 LED drops (50 nodes) with downward cascade animation evoking a golden waterfall of fortune, 14-min cycle. 12th and final major casino LED signature

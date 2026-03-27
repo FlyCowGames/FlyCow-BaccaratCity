@@ -2289,6 +2289,39 @@
       ],
       "linesAdded": 279,
       "agent": "automated"
+    },
+    {
+      "session": 208,
+      "date": "2026-03-27",
+      "title": "Late-Night VIP Junket Limousines",
+      "domain": "animation",
+      "summary": "Sleek black VIP sedans ferry high-rollers between casinos from 11 PM to 4 AM, filling the late-night time slot.",
+      "details": [
+        "4 luxury sedan entities on 3 routes: Peninsula casino corridor, Cotai luxury circuit, cross-bridge junket run",
+        "Canvas-drawn black sedan with gold pinstripe, tinted amber windows, headlights, and tail lights",
+        "Time-gated 23:00-04:00 Macau time with 30-minute fade ramps at boundaries",
+        "Cross-bridge route traverses the Friendship Bridge connecting Grand Lisboa to the Venetian",
+        "Added to City Pulse activity tracker as VIP Junket Cars (貴賓車)"
+      ],
+      "linesAdded": 138,
+      "agent": "automated"
+    },
+    {
+      "session": 212,
+      "date": "2026-03-27",
+      "title": "Sands Macao Golden Waterfall LED",
+      "domain": "rendering",
+      "summary": "Animated golden waterfall LED light signature cascading down Sands Macao's curved gold-glass tower facade at night.",
+      "details": [
+        "50 LED nodes arranged in 10 vertical streams across the curved facade with gold gradient palette",
+        "Idle mode: gentle golden shimmer with downward drift and occasional bright spark accents",
+        "Show mode: cascading golden waterfall flowing top-to-bottom with left-to-right stagger, drip accents",
+        "2.5-minute show every 14 minutes, integrates with citywide Macau Lights spectacle",
+        "12th landmark-specific LED signature — completes coverage of all major casino landmarks",
+        "Added to City Pulse indicator, Explore panel Shows section, and feature tips"
+      ],
+      "linesAdded": 208,
+      "agent": "automated"
     }
   ]
 }

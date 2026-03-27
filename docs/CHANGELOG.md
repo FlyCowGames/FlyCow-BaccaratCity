@@ -1,5 +1,28 @@
 # Changelog
 
+## Session 212 — 2026-03-27 (Automated Agent)
+- Sands Macao Golden Waterfall LED: animated golden cascade LED light signature on the first Western-operated casino's curved gold-glass tower at night
+- 50 LED nodes arranged in 10 vertical streams across the curved facade with gold gradient palette (bright gold top → deep amber bottom)
+- Idle mode: gentle golden shimmer with downward drift effect and occasional bright spark accents
+- Show mode: cascading golden waterfall flowing top-to-bottom with left-to-right stagger, sustained golden rain with drip accents
+- Building silhouette outline with curved facade matching Sands Macao's distinctive rounded form
+- Base entrance glow, crown golden haze, and outer ambient halo for atmospheric depth
+- 2.5-minute show every 14 minutes, integrates with citywide synchronized Macau Lights spectacle
+- Night-only via _currentGlowIntensity gating, follows proven IIFE + canvas billboard + setInterval pattern
+- 12th landmark-specific LED light signature — completes coverage of all major casino landmarks
+- Added to City Pulse indicator, Explore panel Shows section, and feature tips
+- File grew from ~20462 to ~20670 lines (+208 lines)
+
+## Session 208 — 2026-03-27 (Automated Agent)
+- Late-Night VIP Junket Limousines (深夜貴賓車): sleek black sedans ferrying high-rollers between casinos from 23:00-04:00
+- 4 luxury sedan entities on 3 routes: Peninsula casino corridor (Grand Lisboa ↔ Wynn Macau), Cotai luxury circuit (Venetian ↔ Wynn Palace), cross-bridge junket run (Grand Lisboa ↔ Venetian via Friendship Bridge)
+- Canvas-drawn black sedan with gold pinstripe, warm amber tinted windows, headlight/taillight glow, chrome wheel caps
+- Time-gated 23:00-04:00 Macau time with 30-minute fade ramps at boundaries (22:30-23:00 fade in, 03:30-04:00 fade out)
+- Added to City Pulse activity tracker as 'VIP Junket Cars' (貴賓車 🚗)
+- Fills the emptiest time slot (late night) supporting the "baccarat is the soul" directive
+- Follows proven transport entity pattern: CallbackProperty position with ping-pong route interpolation
+- File grew from ~19896 to ~20034 lines (+138 lines)
+
 ## Session 206 — 2026-03-27 (Automated Agent)
 - Wynn Macau Prosperity Tree LED: animated golden tree-of-prosperity LED light signature on Wynn Macau's curved bronze tower at night
 - ~64 LED nodes arranged in a tree pattern: trunk (10 nodes), lower branches (22 nodes in 2 tiers), upper canopy (24 nodes in 2 arcs), crown sparkles (8 scattered points)

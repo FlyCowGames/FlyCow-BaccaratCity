@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-27 (Session 206)*
+*This document evolves every session. Last updated: 2026-03-27 (Session 212)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -163,3 +163,4 @@
 - Studio City Golden Reel Figure-8 LED: animated pink/magenta LED light signature tracing the iconic lemniscate figure-8 Ferris wheel shape at night with dual chase lights (Session 192)
 - Harbor Drone Light Show: 48 multicolored drones forming patterns (lotus, star, heart, diamond, circle) over the harbor at night (Session 204)
 - Wynn Macau Prosperity Tree LED: animated golden tree-of-prosperity LED light signature on Wynn Macau's curved bronze tower, 11th landmark LED signature (Session 206)
+- Sands Macao Golden Waterfall LED: animated golden cascade LED light signature on the first Western casino's curved gold-glass tower, 12th landmark LED signature completing all major casinos (Session 212)
