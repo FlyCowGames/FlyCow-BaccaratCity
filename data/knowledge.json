@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 224,
+  "last_updated_session": 227,
   "learnings": [
     {
       "type": "pattern",
@@ -861,6 +861,17 @@
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "animation",
+      "title": "Time-gated transport with base-station parking adds realism",
+      "description": "The Guia Cable Car parks at its base station outside operating hours (08:00-18:00) rather than disappearing, adding realism. The position CallbackProperty checks getMacauHour() and returns the start point coordinates when outside operating hours, then resumes ping-pong animation during operating hours. Combined with City Pulse time-gating indicator, visitors know exactly when to see the feature.",
+      "evidence": "Session 227: Guia Cable Car parks at Flora Garden base station outside 08:00-18:00, green minimap dots only appear during operating hours. Zero JS errors on desktop and mobile.",
+      "tags": ["animation", "transport", "time-gating", "realism"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
     }
   ],
   "anti_patterns": [
@@ -1202,6 +1213,12 @@
       "question": "How to represent Wynn Macau's Tree of Prosperity as an LED light signature?",
       "chosen": "Use ~64 LED nodes arranged in a tree pattern (trunk, lower branches, upper canopy, crown sparkles) with bronze-gold palette and upward prosperity bloom cascade show",
       "rationale": "Wynn Macau's most famous feature is the Tree of Prosperity animatronic that rises from the atrium floor — a golden tree symbolizing wealth and fortune. The tree shape is unique among all 11 LED signatures (no other uses organic/botanical form). Trunk-to-canopy upward cascade evokes growth and prosperity. Bronze-gold palette matches the building's golden glass facade. 4-group node organization (trunk/branches/canopy/sparkles) with depth-based show timing creates a natural blooming sequence. 12-minute cycle differentiates from other cycles (8/10/11/13/15/25 min). The prosperity sparkle accents on canopy nodes add a fortune/wealth feeling.",
+      "revisit_after_session": null
+    },
+    {
+      "question": "How to add the Guia Cable Car as a transport entity?",
+      "chosen": "2 canvas-drawn green gondola entities on ping-pong route from Flora Garden (25m) to Guia Hill summit (92m), 80-second trips, time-gated 08:00-18:00, day/night icon swap via setInterval",
+      "rationale": "The Guia Cable Car (松山纜車) is the world's shortest cable car at 186m, a beloved Macau tourist feature connecting Flora Garden to Guia Hill. Green color distinguishes it from the gold Wynn SkyCab. Time-gating to real operating hours (08:00-18:00) adds authenticity — cars park at base station when closed rather than disappearing. Using setInterval for day/night icon swap avoids the CallbackProperty-for-billboard-image anti-pattern. The 6-point route with altitude interpolation (25m→92m) creates smooth uphill/downhill travel. Complements existing Guia Fortress landmark and lighthouse beam.",
       "revisit_after_session": null
     }
   ]

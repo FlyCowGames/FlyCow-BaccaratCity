@@ -1,6 +1,6 @@
 # Roadmap
 
-*This document evolves every session. Last updated: 2026-03-27 (Session 214)*
+*This document evolves every session. Last updated: 2026-03-28 (Session 227)*
 
 ## Current Phase: Bringing Macau to Life
 
@@ -165,3 +165,4 @@
 - Wynn Macau Prosperity Tree LED: animated golden tree-of-prosperity LED light signature on Wynn Macau's curved bronze tower, 11th landmark LED signature (Session 206)
 - Sands Macao Golden Waterfall LED: animated golden cascade LED light signature on the first Western casino's curved gold-glass tower, 12th landmark LED signature completing all major casinos (Session 212)
 - Harbor floating water lanterns: 8 traditional Chinese water lanterns (水燈) on Inner Harbour, Nam Van Lake, Outer Harbour at night with drift, flicker, and water reflection glow (Session 214)
+- Guia Cable Car: 2 gondola entities (松山纜車) connecting Flora Garden to Guia Hill summit, world's shortest cable car (186m), daytime-only 08:00-18:00 (Session 227)

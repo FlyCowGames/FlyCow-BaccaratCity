@@ -2371,6 +2371,21 @@
       ],
       "linesAdded": 313,
       "agent": "automated"
+    },
+    {
+      "session": 227,
+      "date": "2026-03-28",
+      "title": "Guia Cable Car",
+      "domain": "animation",
+      "summary": "World's shortest cable car (186m) connecting Flora Garden to Guia Hill summit — a beloved Macau tourist landmark.",
+      "details": [
+        "2 gondola entities on ping-pong route from Flora Garden (25m) to Guia Hill summit (92m), 80-second trips",
+        "Canvas-drawn green gondola with cable grip, roof, 2-pane windows, day/night mode with warm glow",
+        "Time-gated 08:00-18:00 matching real operating hours, parks at base station when closed",
+        "City Pulse indicator, Explore panel Transit entry, green minimap tracking dots, feature tip"
+      ],
+      "linesAdded": 115,
+      "agent": "automated"
     }
   ]
 }

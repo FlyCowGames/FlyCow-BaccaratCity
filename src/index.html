@@ -4181,6 +4181,8 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1893, lon: 113.5399, alt: 500, pitch: -30 },
   { name: 'Heat Shimmer', chinese: '熱浪', icon: '🔥', start: 9.5, end: 16,
     lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
+  { name: 'Guia Cable Car', chinese: '松山纜車', icon: '🚡', start: 8, end: 18,
+    lat: 22.1982, lon: 113.5484, alt: 200, pitch: -30 },
   { name: 'Tour Buses', chinese: '觀光巴士', icon: '🚌', start: 9, end: 15,
     lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
   { name: 'Fishing Sampans', chinese: '漁船', icon: '🛶', start: 15, end: 19,
@@ -5352,6 +5354,7 @@ async function init() {
     addVIPLimos(viewer);
     addWaterTaxis(viewer);
     addLuxuryYachts(viewer);
+    addGuiaCableCar(viewer);
     initPaifangArches(viewer);
     initWavingFlags(viewer);
     addKites(viewer);
@@ -8045,6 +8048,7 @@ var ATTRACTIONS = {
     { name: "Casino Shuttles", chinese: "發財車", icon: "🚐", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
     { name: "Water Taxis", chinese: "快艇", icon: "🚤", lat: 22.1830, lon: 113.5430, alt: 400, pitch: -25 },
     { name: "Casino Yachts", chinese: "豪華遊艇", icon: "🛥️", lat: 22.1920, lon: 113.5460, alt: 400, pitch: -25 },
+    { name: "Guia Cable Car", chinese: "松山纜車", icon: "🚡", lat: 22.1982, lon: 113.5484, alt: 200, pitch: -30 },
   ],
   wildlife: [
     { name: "Harbor Seagulls", chinese: "海鷗", icon: "🕊️", lat: 22.1870, lon: 113.5400, alt: 300, pitch: -20 },
@@ -19291,6 +19295,17 @@ function drawMinimap() {
     }
   }
 
+  // Guia Cable Car — green dots (ping-pong, daytime 8-18 only)
+  var cableHour = getMacauHour();
+  if (cableHour >= 8 && cableHour < 18) {
+    GUIA_CABLE_CAR_ROUTES.forEach(function(route) {
+      var rawT = ((elapsed / route.durationSec) + route.phase) % 2;
+      var t = rawT <= 1 ? rawT : 2 - rawT;
+      var pos = lerpPositionWithAlt(route.points, t);
+      drawTransportDot(pos.lon, pos.lat, 'rgba(58, 140, 78, 0.9)', 2.5);
+    });
+  }
+
   // Pink dolphins — pink dots (ping-pong, always active)
   DOLPHIN_PODS.forEach(function(pod) {
     for (var i = 0; i < pod.count; i++) {
@@ -19316,6 +19331,7 @@ function drawMinimap() {
     { color: 'rgba(180, 100, 220, 0.9)', label: 'Shuttle' },
     { color: 'rgba(60, 160, 255, 0.95)', label: 'Taxi' },
     { color: 'rgba(255, 200, 80, 0.95)', label: 'Cruise' },
+    { color: 'rgba(58, 140, 78, 0.9)', label: 'Cable' },
     { color: 'rgba(245, 170, 200, 0.9)', label: 'Dolphin' },
   ];
   ctx.font = '11px DM Mono, monospace';
@@ -19722,6 +19738,159 @@ function addSkyCabs(viewer) {
       });
     })(route);
   });
+}
+
+// ── Guia Cable Car (松山纜車/東望洋纜車) ──
+// World's shortest cable car (186m), connecting Flora Garden to Guia Hill summit
+// Real operating hours: 08:00-18:00, ~80 seconds per trip
+var GUIA_CABLE_CAR_ROUTES = [
+  { name: 'Guia Cable Car 1', points: [
+    { lon: 113.5479, lat: 22.1992, alt: 25 },
+    { lon: 113.5481, lat: 22.1988, alt: 42 },
+    { lon: 113.5483, lat: 22.1984, alt: 58 },
+    { lon: 113.5485, lat: 22.1980, alt: 72 },
+    { lon: 113.5487, lat: 22.1976, alt: 85 },
+    { lon: 113.5488, lat: 22.1973, alt: 92 },
+  ], durationSec: 80, phase: 0.0 },
+  { name: 'Guia Cable Car 2', points: [
+    { lon: 113.5479, lat: 22.1992, alt: 25 },
+    { lon: 113.5481, lat: 22.1988, alt: 42 },
+    { lon: 113.5483, lat: 22.1984, alt: 58 },
+    { lon: 113.5485, lat: 22.1980, alt: 72 },
+    { lon: 113.5487, lat: 22.1976, alt: 85 },
+    { lon: 113.5488, lat: 22.1973, alt: 92 },
+  ], durationSec: 80, phase: 0.5 },
+];
+
+function createGuiaCableCarIcon(isNight) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 22;
+  canvas.height = 26;
+  var ctx = canvas.getContext('2d');
+
+  // Cable line
+  ctx.strokeStyle = 'rgba(140, 140, 140, 0.6)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, 3);
+  ctx.lineTo(22, 3);
+  ctx.stroke();
+
+  // Cable grip / hanger
+  ctx.strokeStyle = 'rgba(170, 170, 170, 0.8)';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(11, 3);
+  ctx.lineTo(11, 8);
+  ctx.stroke();
+
+  // Gondola cabin body — compact boxy shape (green, matching real Guia cars)
+  ctx.fillStyle = '#3a8c4e';
+  ctx.beginPath();
+  if (ctx.roundRect) {
+    ctx.roundRect(3, 8, 16, 12, 2);
+  } else {
+    ctx.rect(3, 8, 16, 12);
+  }
+  ctx.fill();
+
+  // Cabin roof — dark green
+  ctx.fillStyle = '#2a6e3a';
+  ctx.fillRect(2, 7, 18, 3);
+
+  // Windows — 2 larger panes
+  ctx.fillStyle = isNight ? 'rgba(255, 240, 180, 0.6)' : 'rgba(180, 220, 240, 0.7)';
+  ctx.fillRect(5, 11, 5, 5);
+  ctx.fillRect(12, 11, 5, 5);
+
+  // Window dividers
+  ctx.strokeStyle = '#2a6e3a';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath();
+  ctx.moveTo(7.5, 11); ctx.lineTo(7.5, 16);
+  ctx.moveTo(14.5, 11); ctx.lineTo(14.5, 16);
+  ctx.stroke();
+
+  // Bottom rail
+  ctx.fillStyle = '#1e5a2e';
+  ctx.fillRect(3, 19, 16, 1.5);
+
+  // Warm glow at night
+  if (isNight) {
+    var grad = ctx.createRadialGradient(11, 14, 3, 11, 14, 12);
+    grad.addColorStop(0, 'rgba(255, 240, 180, 0.0)');
+    grad.addColorStop(0.5, 'rgba(255, 240, 180, 0.0)');
+    grad.addColorStop(1, 'rgba(255, 240, 180, 0.08)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 22, 26);
+  }
+
+  return canvas;
+}
+
+function addGuiaCableCar(viewer) {
+  var startTime = Date.now();
+  var dayIcon = createGuiaCableCarIcon(false).toDataURL();
+  var nightIcon = createGuiaCableCarIcon(true).toDataURL();
+  var entities = [];
+
+  GUIA_CABLE_CAR_ROUTES.forEach(function(route) {
+    (function(routeData) {
+      var positionCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        var rawT = ((elapsed / routeData.durationSec) + routeData.phase) % 2;
+        var t = rawT <= 1 ? rawT : 2 - rawT; // ping-pong
+
+        // Time-gate: only operate 8:00-18:00 Macau time
+        var h = getMacauHour();
+        if (h < 8 || h >= 18) {
+          // Park at base station when not operating
+          return Cesium.Cartesian3.fromDegrees(
+            routeData.points[0].lon,
+            routeData.points[0].lat,
+            routeData.points[0].alt
+          );
+        }
+
+        var pos = lerpPositionWithAlt(routeData.points, t);
+        return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, pos.alt);
+      }, false);
+
+      // Gentle sway
+      var swayCallback = new Cesium.CallbackProperty(function() {
+        var elapsed = (Date.now() - startTime) / 1000;
+        return Math.sin(elapsed * 0.6 + routeData.phase * Math.PI * 2) * 0.04;
+      }, false);
+
+      var ent = viewer.entities.add({
+        name: routeData.name,
+        position: positionCallback,
+        billboard: {
+          image: dayIcon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: 1.0,
+          rotation: swayCallback,
+          scaleByDistance: new Cesium.NearFarScalar(30, 2.8, 4000, 0.25),
+          translucencyByDistance: new Cesium.NearFarScalar(30, 1.0, 5000, 0.0),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+      entities.push(ent);
+    })(route);
+  });
+
+  // Update icon for day/night via setInterval (avoids CallbackProperty anti-pattern)
+  var lastBucket = -1;
+  setInterval(function() {
+    var h = getMacauHour();
+    var bucket = (h >= 19 || h < 6) ? 1 : 0;
+    if (bucket !== lastBucket) {
+      lastBucket = bucket;
+      var img = bucket === 1 ? nightIcon : dayIcon;
+      entities.forEach(function(e) { e.billboard.image = img; });
+    }
+  }, 2000);
 }
 
 // ── Drifting Cloud Wisps ──
@@ -20897,6 +21066,7 @@ function addSkyCabs(viewer) {
     { icon: '🏠', text: 'Discover the Taipa Houses-Museum (龍環葡韻) \u2014 five pastel-green Portuguese colonial houses from 1921, one of Macau\u2019s most photographed heritage sites' },
     { icon: '\u26EA', text: 'Visit Penha Church (主教山小堂) \u2014 a 1622 hilltop chapel with panoramic views over Nam Van Lake, Macau Tower, and the Cotai skyline' },
     { icon: '\u26F0\uFE0F', text: 'Explore Guia Fortress (東望洋炮台) \u2014 a 1638 hilltop fortress with the oldest lighthouse on the China coast and rare 17th-century frescoes' },
+    { icon: '🚡', text: 'Watch the Guia Cable Car (松山纜車) climb from Flora Garden to Guia Hill summit between 8 AM\u20136 PM \u2014 the world\u2019s shortest cable car at just 186 metres' },
     { icon: '🏠', text: 'Visit the Mandarin\'s House (鄭家大屋) \u2014 Macau\'s largest traditional Chinese compound, built in 1869 by reformist Zheng Guanying, UNESCO World Heritage' },
     { icon: '\u26EA', text: 'Discover St. Dominic\'s Church (玫瑰堂) \u2014 a stunning 1587 baroque church at Senado Square, home to the Museum of Sacred Art with 300+ works, UNESCO World Heritage' },
     { icon: '\uD83C\uDFDB\uFE0F', text: 'Discover Lou Kau Mansion (盧家大屋) \u2014 an 1889 merchant mansion near Senado Square, blending Cantonese and Western design, UNESCO World Heritage' },

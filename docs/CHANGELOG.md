@@ -1,5 +1,14 @@
 # Changelog
 
+## Session 227 — 2026-03-28 (Automated Agent)
+- Guia Cable Car (松山纜車/東望洋纜車): world's shortest cable car (186m) connecting Flora Garden to Guia Hill summit
+- 2 gondola entities on ping-pong route from base (25m) to summit (92m), 80-second trips
+- Canvas-drawn green gondola with cable grip, roof, 2-pane windows, day/night mode (warm window glow at night)
+- Time-gated 08:00-18:00 Macau time matching real operating hours, parks at base station when closed
+- Gentle sway animation via CallbackProperty rotation, day/night icon swap via setInterval (avoids CallbackProperty anti-pattern)
+- Added to City Pulse indicator (daytime feature), Explore panel Transit section, minimap green tracking dots, feature tips
+- File grew from ~21,485 to ~21,600 lines (+115 lines)
+
 ## Session 224 — 2026-03-28 (Automated Agent)
 - Luxury Casino Yachts (豪華遊艇): sleek luxury yachts cruising and moored near Macau's casino waterfronts
 - 4 yacht entities: 2 cruising on harbour routes (Peninsula waterfront, Outer Harbour), 2 moored at casino marinas (Wynn Macau, NAPE/Sands)
