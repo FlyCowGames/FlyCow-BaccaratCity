@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+<context_bundle>
+  <sources>
+    <prime_directive>/home/ec2-user/GitHub/FlyCow-BaccaratCity/docs/PRIME_DIRECTIVE.md</prime_directive>
+    <project_context>/home/ec2-user/GitHub/FlyCow-BaccaratCity/kaizen.project.md</project_context>
+    <city_config_glob>cities/*/city.yml</city_config_glob>
+    <city_directive_glob>cities/*/city.directive.md</city_directive_glob>
+  </sources>
+  <platform_directive>
+    <raw_markdown># Prime Directive
+
+**This document is immutable. It defines the north star for this project.**
+
+## Mission
+
+Build a living, breathing digital twin of Macau at **baccaratcity.com**.
+
+## Core Principles
+
+1. **Real Geography** — The map must be recognizable as Macau to someone who has been there. The Macau Peninsula, Taipa, Cotai, Coloane, the three bridges, the harbor — all accurate.
+
+2. **Real Landmarks** — Grand Lisboa, Ruins of St. Paul's, Macau Tower, The Venetian, MGM, Wynn, Galaxy, City of Dreams, A-Ma Temple, Senado Square — placed where they actually are.
+
+3. **Real Time** — The scene runs on Macau time (UTC+8). If it's 2am in Macau, it's night. If it's noon, the sun is overhead.
+
+4. **Real Weather** — Current Macau weather reflected in the scene: rain, fog, sunshine, cloud cover, temperature affecting the atmosphere.
+
+5. **Real Events** — A calendar of actual Macau events reflected in the city: F3 Grand Prix (cars racing the Guia Circuit), Chinese New Year (fireworks, lanterns, decorations), Mid-Autumn Festival, Dragon Boat races, casino openings, concerts.
+
+6. **Living &amp; Breathing** — People walk, cars drive, ferries cross the harbor, planes land at the airport, construction cranes move. The city is never static.
+
+7. **Entertainment** — This is not a dry simulation. It should be mesmerizing, cinematic, and explorable. Camera flythroughs, interactive exploration, ambient sound, dramatic lighting.
+
+8. **Baccarat is the Soul** — Macau is the world capital of baccarat. Casino interiors with baccarat tables, card dealing, the culture of gambling — this is the signature feature.
+
+9. **Mobile-First, Even If It Means Double the Work** — The site MUST look and work great on phones. Most visitors will be on mobile. Every feature, every UI element, every new addition must be tested at 390px width. No tiny unreadable text. No broken layouts. No controls that don't work on touch. If a feature looks great on desktop but breaks on mobile, it is NOT done — you must build the mobile version too, even if it doubles the effort. No exceptions. Mobile is a first-class citizen, not an afterthought.
+
+## Technical Stack
+
+- Three.js (WebGL) for 3D rendering
+- Single-page web application at baccaratcity.com
+- Real-time weather API (OpenWeatherMap or similar)
+- Event calendar data
+- Deployed via AWS (S3 + CloudFront)
+
+## Iteration Philosophy
+
+This project improves continuously through automated hourly sessions. Each session:
+- Reviews current state
+- Ideates improvements
+- Implements the highest-impact change
+- Reviews and revises
+- Deploys
+- Evolves the roadmap
+
+The roadmap, ideas backlog, and instructions are living documents that morph over time. Only this Prime Directive remains constant.</raw_markdown>
+    <non_negotiables/>
+  </platform_directive>
+  <project_context>
+    <raw_markdown># Kaizen Project Config: Baccarat City
+
+## Identity
+- **Project:** Baccarat City — living digital twin of Macau
+- **URL:** https://baccaratcity.com
+- **Aesthetic:** Dark, gold, cinematic. Macau luxury casino culture.
+
+## Deployment
+- **S3 Bucket:** baccaratcity-site
+- **CloudFront ID:** E3V8V12C6EPFK6
+- **Main file:** src/index.html (single-file CesiumJS app with Google 3D Tiles)
+- **Audit interval:** 10
+
+## Tech Stack
+- CesiumJS + Google Photorealistic 3D Tiles (real Macau photogrammetry)
+- Single HTML file with inline CSS/JS
+- No build step, no dependencies beyond CDN
+
+## Quality Check Details
+- Wait **10 seconds** after opening for 3D tiles to load before checking errors
+- Desktop check: verify 3D scene renders, UI visible, no black screen, no oversaturation
+- Mobile check: verify scene loads (WebGL works), controls are touch-friendly
+
+## Domain Categories
+`rendering|atmosphere|animation|landmarks|events|interactivity|audio|infrastructure`
+
+---
+
+## Project-Specific Rules
+
+### Landmark Accuracy
+- **Grand Lisboa is the hero landmark.** It MUST be visible and prominent in the initial camera view when the site loads. The opening shot should frame the Grand Lisboa tower.
+- Grand Lisboa real coordinates: **22.1893N, 113.5399E**. All markers, glow effects, beams, and labels for Grand Lisboa must use these coordinates.
+- All landmark positions must match their real-world locations. Look up coordinates — don't guess. Inaccurate placement breaks the &quot;digital twin&quot; promise.
+- Verify new landmarks against Google Maps before placing them.
+
+### Interaction Rules
+- **Any hotkey press or menu/attraction click MUST interrupt whatever sequence is running** (flythrough, tour, orbit). The user is in control. Use `stopFlythrough()` to cancel running sequences.
+- Escape key should stop the flythrough/tour/orbit before closing overlays.
+- Never block user actions because a sequence is running. Never `return` early from a handler just because `flythroughRunning` is true — cancel the sequence and proceed.
+
+### Upcoming Features (see ROADMAP.md)
+- **Street-level guided tour** — Curated walking tour at 5-10m altitude visiting landmarks sequentially, pausing at each to show photos/video. Different from free-roam street mode (G key). Think: travel documentary camera.
+- **Landmark photo/video gallery** — Each landmark info card should include real photos (3-5 per landmark) from Wikimedia Commons or similar freely-licensed sources. Swipeable gallery on mobile. Embedded video where available.</raw_markdown>
+  </project_context>
+  <active_requests/>
+  <managed_cities/>
+</context_bundle>
