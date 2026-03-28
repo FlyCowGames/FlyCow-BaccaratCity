@@ -1,7 +1,7 @@
 {
   "version": 1,
   "project": "baccarat-city",
-  "last_updated_session": 214,
+  "last_updated_session": 224,
   "learnings": [
     {
       "type": "pattern",
@@ -26,8 +26,8 @@
         "feature-enhancement"
       ],
       "weight": 0.7,
-      "times_applied": 21,
-      "times_successful": 21
+      "times_applied": 22,
+      "times_successful": 22
     },
     {
       "type": "pattern",
@@ -847,6 +847,17 @@
       "description": "A swarm of animated light dots on a single canvas billboard creates a convincing drone light show. Define multiple formation shapes as arrays of normalized (x,y) coordinates, then lerp each drone toward its target position each frame. The lerp factor (0.12 at 5fps) produces smooth organic movement where drones flow between shapes rather than snapping. Pre-generating formations avoids per-frame math. Refreshing scatter positions each show ensures visual variety. The single-billboard approach is far more efficient than individual entities per drone.",
       "evidence": "Session 204: 48 drones, 6 formation shapes (scatter, circle, lotus, star, heart, diamond), 200ms setInterval, single 160x160 canvas billboard at 350m. Zero JS errors, passed desktop and mobile checks. Multicolored palette creates festive visual distinct from monochrome LED signatures.",
       "tags": ["canvas", "rendering", "animation", "night-effects", "drone", "formation"],
+      "weight": 0.5,
+      "times_applied": 1,
+      "times_successful": 1
+    },
+    {
+      "type": "pattern",
+      "domain": "animation",
+      "title": "Luxury vessel types fill the missing 'aspiration' tier in harbour vessel mix",
+      "description": "Adding luxury yachts alongside functional vessels (ferries, water taxis), traditional vessels (junks, sampans, gondolas), and leisure vessels (dinner cruise, dragon boats) completes a natural vessel hierarchy. The yacht fills the 'aspiration/luxury' tier that directly connects to the casino high-roller culture. Canvas yacht drawing at 48x32 with night-mode variant follows the dinner cruise pattern (time-aware canvas redraw).",
+      "evidence": "Session 224: 4 yacht entities deployed without JS errors. Fits naturally into existing harbour traffic. Silver minimap dots distinguish from other vessel types. 2 cruising + 2 moored gives both movement and static marina atmosphere.",
+      "tags": ["animation", "transport", "harbour", "casino-culture", "canvas"],
       "weight": 0.5,
       "times_applied": 1,
       "times_successful": 1

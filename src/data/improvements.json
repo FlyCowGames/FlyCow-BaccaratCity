@@ -2339,6 +2339,38 @@
       ],
       "linesAdded": 170,
       "agent": "automated"
+    },
+    {
+      "session": 222,
+      "date": "2026-03-28",
+      "title": "Baccarat Squeeze, Macau Lights HUD & Cotai Golden Mile",
+      "domain": "interactivity",
+      "summary": "Interactive baccarat card squeeze ritual (揸牌) with 3D flip animation, Macau Lights spectacle HUD countdown bar, and Cotai Strip Golden Mile LED pathway.",
+      "details": [
+        "Baccarat card squeeze (揸牌): tap face-down cards to reveal with 3D rotateY flip animation and procedural squeeze sound effect — auto-reveals after 3 seconds if not tapped",
+        "Macau Lights HUD: compact countdown bar with progress fill, time remaining, and FINALE indicator during the citywide spectacle show",
+        "Keyboard shortcut I to trigger Macau Lights spectacle at night, plus City Pulse click-to-trigger integration",
+        "Cotai Strip Golden Mile (金光大道): 40 animated golden LED ground lights along the famous boulevard connecting all mega-resorts, with traveling wave pulse animation at night",
+        "Mobile layout improvements: wider button spacing for 6-button grid at 390px"
+      ],
+      "linesAdded": 332,
+      "agent": "automated"
+    },
+    {
+      "session": 224,
+      "date": "2026-03-28",
+      "title": "Luxury Casino Yachts",
+      "domain": "animation",
+      "summary": "Sleek luxury yachts cruising and moored near casino waterfronts — the ultimate symbol of Macau's high-roller culture.",
+      "details": [
+        "4 yacht entities: 2 cruising harbour routes (Peninsula and Outer Harbour), 2 moored at Wynn Macau and NAPE marina",
+        "Canvas-drawn 48x32 yacht with white hull, navy waterline, gold pinstripe, cabin windows, flying bridge, radar dome",
+        "Night mode: warm cabin glow, green/red navigation lights, deck string lights, water reflection glow",
+        "CallbackProperty ping-pong route animation (140s and 160s cycles), always active 24/7",
+        "Silver minimap tracking dots, Explore panel Transit entry, feature tip for discoverability"
+      ],
+      "linesAdded": 313,
+      "agent": "automated"
     }
   ]
 }

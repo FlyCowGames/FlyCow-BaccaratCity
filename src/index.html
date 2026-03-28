@@ -269,6 +269,69 @@
     background: linear-gradient(90deg, transparent, rgba(212,175,55,0.5), transparent);
   }
 
+  /* Macau Lights HUD — compact spectacle countdown bar */
+  #macau-lights-hud {
+    position: fixed;
+    top: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Mono', monospace;
+    z-index: 180;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+    background: rgba(10,10,18,0.65);
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 20px;
+    padding: 6px 18px;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    white-space: nowrap;
+  }
+  #macau-lights-hud.active { opacity: 1; pointer-events: auto; }
+  .mlh-icon { font-size: 0.8rem; }
+  .mlh-label {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: clamp(0.55rem, 1.2vw, 0.65rem);
+    color: #d4af37;
+    letter-spacing: 0.15em;
+  }
+  .mlh-bar {
+    width: 80px; height: 2px;
+    background: rgba(212,175,55,0.15);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .mlh-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #d4af37, #f5e6a3);
+    width: 0%;
+    transition: width 1s linear;
+    border-radius: 1px;
+  }
+  .mlh-time {
+    font-size: 0.6rem;
+    color: rgba(212,175,55,0.65);
+    letter-spacing: 0.12em;
+    min-width: 32px;
+    text-align: center;
+  }
+  .mlh-finale {
+    font-family: 'Cinzel', serif; font-weight: 700;
+    font-size: 0.55rem;
+    color: #ff8c42;
+    letter-spacing: 0.12em;
+    display: none;
+    animation: mlhFinaleFlash 1.2s ease-in-out infinite;
+  }
+  .mlh-finale.visible { display: inline; }
+  @keyframes mlhFinaleFlash {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; text-shadow: 0 0 8px rgba(255,140,66,0.5); }
+  }
+
   /* Feature tips */
   #feature-tips {
     position: absolute; bottom: 130px; left: 50%;
@@ -2315,14 +2378,14 @@
   .bacc-hand.banker .bacc-hand-label { color: rgba(255,100,100,0.8); }
   .bacc-cards {
     display: flex; gap: 6px; justify-content: center; min-height: 72px;
-    align-items: center;
+    align-items: center; perspective: 600px;
   }
   .bacc-card {
     width: 44px; height: 64px; border-radius: 4px;
     display: flex; align-items: center; justify-content: center; flex-direction: column;
     font-family: 'DM Mono', monospace; font-weight: 400;
     transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-    position: relative;
+    position: relative; transform-style: preserve-3d;
   }
   .bacc-card.facedown {
     background: linear-gradient(135deg, #8b0000, #cc0000);
@@ -2345,6 +2408,23 @@
   }
   .bacc-card.red .bacc-card-rank, .bacc-card.red .bacc-card-suit { color: #cc0000; }
   .bacc-card.black .bacc-card-rank, .bacc-card.black .bacc-card-suit { color: #1a1a1a; }
+  .bacc-card.squeeze-ready {
+    animation: squeezeGlow 1.2s ease-in-out infinite;
+    cursor: pointer;
+  }
+  @keyframes squeezeGlow {
+    0%, 100% { box-shadow: 0 2px 8px rgba(0,0,0,0.4), 0 0 0 rgba(212,175,55,0); }
+    50% { box-shadow: 0 2px 8px rgba(0,0,0,0.4), 0 0 16px rgba(212,175,55,0.5); }
+  }
+  .bacc-squeeze-hint {
+    text-align: center; font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; color: rgba(212,175,55,0.6);
+    letter-spacing: 0.1em; padding: 4px 0; min-height: 20px;
+    animation: squeezeHintPulse 2s ease-in-out infinite;
+  }
+  @keyframes squeezeHintPulse {
+    0%, 100% { opacity: 0.4; } 50% { opacity: 1; }
+  }
   .bacc-score {
     margin-top: 8px; font-family: 'DM Mono', monospace; font-weight: 400;
     font-size: 1.5rem; letter-spacing: 0.05em;
@@ -2699,6 +2779,15 @@
     #time-live-btn { font-size: 0.75rem; padding: 8px 12px; min-height: 44px; }
     #timelapse-btn { font-size: 0.75rem; padding: 8px 10px; min-height: 44px; }
 
+    /* Macau Lights HUD mobile */
+    #macau-lights-hud {
+      top: 110px; padding: 5px 14px; gap: 8px;
+    }
+    .mlh-label { font-size: 0.5rem; }
+    .mlh-bar { width: 50px; }
+    .mlh-time { font-size: 0.55rem; min-width: 28px; }
+    .mlh-finale { font-size: 0.5rem; }
+
     /* City Pulse — above clock on mobile */
     #city-pulse { bottom: calc(110px + env(safe-area-inset-bottom)); right: calc(12px + env(safe-area-inset-right)); }
     #city-pulse-toggle { min-height: 44px; min-width: 44px; display: flex; align-items: center; justify-content: center; }
@@ -2717,12 +2806,12 @@
 
     /* Bottom buttons — 3+3 grid, tap-friendly 44px minimum */
     #replay-btn, #tour-btn, #walk-btn, #share-btn, #photo-btn, #street-btn {
-      font-size: 0.65rem; letter-spacing: 0.1em;
-      padding: 10px 12px; min-height: 44px;
+      font-size: 0.58rem; letter-spacing: 0.05em;
+      padding: 10px 10px; min-height: 44px;
     }
     #replay-btn {
       bottom: calc(20px + env(safe-area-inset-bottom));
-      transform: translateX(calc(-50% - 72px));
+      transform: translateX(calc(-50% - 100px));
     }
     #tour-btn {
       bottom: calc(20px + env(safe-area-inset-bottom));
@@ -2730,11 +2819,11 @@
     }
     #walk-btn {
       bottom: calc(20px + env(safe-area-inset-bottom));
-      transform: translateX(calc(-50% + 72px));
+      transform: translateX(calc(-50% + 100px));
     }
     #share-btn {
       bottom: calc(66px + env(safe-area-inset-bottom));
-      transform: translateX(calc(-50% - 80px));
+      transform: translateX(calc(-50% - 100px));
     }
     #photo-btn {
       bottom: calc(66px + env(safe-area-inset-bottom));
@@ -2742,7 +2831,7 @@
     }
     #street-btn {
       bottom: calc(66px + env(safe-area-inset-bottom));
-      transform: translateX(calc(-50% + 80px));
+      transform: translateX(calc(-50% + 100px));
     }
 
     /* Walk route picker mobile */
@@ -3316,6 +3405,13 @@
     <div class="ml-subtitle">澳門燈光秀</div>
     <div class="ml-line"></div>
   </div>
+  <div id="macau-lights-hud">
+    <span class="mlh-icon">🌟</span>
+    <span class="mlh-label">MACAU LIGHTS</span>
+    <div class="mlh-bar"><div class="mlh-bar-fill" id="mlh-bar-fill"></div></div>
+    <span class="mlh-time" id="mlh-time">2:00</span>
+    <span class="mlh-finale" id="mlh-finale">FINALE</span>
+  </div>
   <div id="feature-tips"></div>
   <div id="discovery-toast"></div>
   <div id="jackpot-toast"></div>
@@ -3418,6 +3514,7 @@
       <div class="help-row"><span class="help-key">M</span><span class="help-desc">Toggle sound (spatial audio zones)</span></div>
       <div class="help-row"><span class="help-key">G</span><span class="help-desc">Street-level view</span></div>
       <div class="help-row"><span class="help-key">Y</span><span class="help-desc">Toggle typhoon demo</span></div>
+      <div class="help-row"><span class="help-key">I</span><span class="help-desc">Trigger Macau Lights spectacle (night)</span></div>
       <div class="help-row"><span class="help-key">C</span><span class="help-desc">Orient camera north (compass)</span></div>
       <div class="help-row"><span class="help-key">W</span><span class="help-key">A</span><span class="help-key">S</span><span class="help-key">D</span><span class="help-desc">Walk in street mode</span></div>
       <div class="help-section">Photo Mode</div>
@@ -3508,6 +3605,7 @@
           <div class="bacc-score" id="bacc-banker-score">-</div>
         </div>
       </div>
+      <div class="bacc-squeeze-hint" id="bacc-squeeze-hint" style="display:none">Tap cards to squeeze 揸牌</div>
       <div class="bacc-result" id="bacc-result"></div>
       <div class="bacc-payout-msg" id="bacc-payout-msg"></div>
       <button class="bacc-deal-btn" id="bacc-deal-btn" disabled>Place Your Bet</button>
@@ -4141,6 +4239,10 @@ var CITY_PULSE_FEATURES = [
     lat: 22.1974, lon: 113.5410, alt: 200, pitch: -15 },
   { name: 'Macau Lights', chinese: '澳門燈光秀', icon: '🌟', start: 19, end: 5,
     lat: 22.1893, lon: 113.5399, alt: 800, pitch: -30 },
+  { name: 'Golden Mile', chinese: '金光大道', icon: '✨', start: 19, end: 5,
+    lat: 22.1470, lon: 113.5580, alt: 500, pitch: -30 },
+  { name: 'Bridge Pulse', chinese: '友誼光河', icon: '💠', start: 19, end: 5,
+    lat: 22.1808, lon: 113.5565, alt: 600, pitch: -35 },
 ];
 
 function isFeatureActive(f, hour) {
@@ -4178,7 +4280,7 @@ function updateCityPulse() {
   CITY_PULSE_FEATURES.forEach(function(f) {
     var active = isFeatureActive(f, hour);
     if (active) activeCount++;
-    html += '<div class="pulse-item' + (active ? ' active' : '') + '" data-pulse-lon="' + f.lon + '" data-pulse-lat="' + f.lat + '" data-pulse-alt="' + f.alt + '" data-pulse-pitch="' + f.pitch + '">'
+    html += '<div class="pulse-item' + (active ? ' active' : '') + '" data-pulse-name="' + f.name + '" data-pulse-lon="' + f.lon + '" data-pulse-lat="' + f.lat + '" data-pulse-alt="' + f.alt + '" data-pulse-pitch="' + f.pitch + '">'
       + '<span class="pi-dot"></span>'
       + '<span class="pi-icon">' + f.icon + '</span>'
       + '<span class="pi-name">' + f.name + '</span>'
@@ -4198,6 +4300,10 @@ function updateCityPulse() {
     item.addEventListener('click', function() {
       if (!_viewer) return;
       stopFlythrough();
+      // If clicking "Macau Lights", also trigger the spectacle
+      if (item.dataset.pulseName === 'Macau Lights' && window._triggerCitywideShow) {
+        window._triggerCitywideShow();
+      }
       _viewer.camera.flyTo({
         destination: Cesium.Cartesian3.fromDegrees(
           parseFloat(item.dataset.pulseLon),
@@ -5207,6 +5313,7 @@ async function init() {
     addCasinoReflections(viewer);
     addBridgeLights(viewer);
     if (window._initCableStayLights) window._initCableStayLights(viewer);
+    if (window._initFriendshipBridgeLED) window._initFriendshipBridgeLED(viewer);
     addSkyBeams(viewer);
     addSearchlights(viewer);
     addGuiaLighthouse(viewer);
@@ -5236,6 +5343,7 @@ async function init() {
     addPromenadeLights(viewer);
     addObstacleLights(viewer);
     addRunwayLights(viewer);
+    addCotaiPathway(viewer);
     addTaiChiGroups(viewer);
     addFishingSampans(viewer);
     addTourBuses(viewer);
@@ -5243,6 +5351,7 @@ async function init() {
     addShuttleBuses(viewer);
     addVIPLimos(viewer);
     addWaterTaxis(viewer);
+    addLuxuryYachts(viewer);
     initPaifangArches(viewer);
     initWavingFlags(viewer);
     addKites(viewer);
@@ -7899,6 +8008,7 @@ var ATTRACTIONS = {
     { name: "Amphitheatre Arena Glow", chinese: "競技場燈光", icon: "🏟️", lat: 22.1928, lon: 113.5507, alt: 200, pitch: -20 },
     { name: "Ruins Facade Light", chinese: "大三巴夜光", icon: "🏛️", lat: 22.1974, lon: 113.5410, alt: 200, pitch: -15 },
     { name: "Macau Lights Spectacle", chinese: "澳門燈光秀", icon: "🌟", lat: 22.1893, lon: 113.5399, alt: 800, pitch: -30 },
+    { name: "Cotai Golden Mile", chinese: "金光大道", icon: "✨", lat: 22.1470, lon: 113.5580, alt: 500, pitch: -30 },
   ],
   racing: [
     { name: "Guia Circuit", chinese: "東望洋跑道", icon: "🏎️", lat: 22.1940, lon: 113.5440, alt: 500, pitch: -30 },
@@ -7924,6 +8034,7 @@ var ATTRACTIONS = {
     { name: "Ponte de Sai Van", chinese: "西灣大橋", icon: "🌉", lat: 22.1730, lon: 113.5380, alt: 600, pitch: -35 },
     { name: "Ponte Gov. Nobre de Carvalho", chinese: "嘉樂庇總督大橋", icon: "🌉", lat: 22.1750, lon: 113.5480, alt: 600, pitch: -35 },
     { name: "Sai Van Cable Harp", chinese: "西灣琴弦燈飾", icon: "🎵", lat: 22.1730, lon: 113.5380, alt: 600, pitch: -35 },
+    { name: "Friendship Bridge LED", chinese: "友誼大橋光河", icon: "💠", lat: 22.1808, lon: 113.5565, alt: 600, pitch: -35 },
   ],
   transit: [
     { name: "Macau LRT", chinese: "澳門輕軌", icon: "🚈", lat: 22.1500, lon: 113.5700, alt: 400, pitch: -25 },
@@ -7933,6 +8044,7 @@ var ATTRACTIONS = {
     { name: "Dinner Cruise", chinese: "海上晚餐", icon: "🚢", lat: 22.1850, lon: 113.5450, alt: 400, pitch: -25 },
     { name: "Casino Shuttles", chinese: "發財車", icon: "🚐", lat: 22.1893, lon: 113.5399, alt: 300, pitch: -25 },
     { name: "Water Taxis", chinese: "快艇", icon: "🚤", lat: 22.1830, lon: 113.5430, alt: 400, pitch: -25 },
+    { name: "Casino Yachts", chinese: "豪華遊艇", icon: "🛥️", lat: 22.1920, lon: 113.5460, alt: 400, pitch: -25 },
   ],
   wildlife: [
     { name: "Harbor Seagulls", chinese: "海鷗", icon: "🕊️", lat: 22.1870, lon: 113.5400, alt: 300, pitch: -20 },
@@ -8373,6 +8485,10 @@ setInterval(updateLiveEvents, 60 * 60 * 1000);
       case 'y': // Toggle typhoon demo
         e.preventDefault();
         document.getElementById('typhoon-sim-btn').click();
+        break;
+      case 'i': // Trigger Macau Lights spectacle
+        e.preventDefault();
+        if (window._triggerCitywideShow) window._triggerCitywideShow();
         break;
       case 'p': // Time-lapse
         e.preventDefault();
@@ -8853,6 +8969,8 @@ function openBaccarat(casinoName) {
   document.getElementById('bacc-payout-msg').className = 'bacc-payout-msg';
   _baccBets = { player: 0, tie: 0, banker: 0 };
   _baccDealing = false;
+  var sqHint = document.getElementById('bacc-squeeze-hint');
+  if (sqHint) sqHint.style.display = 'none';
   updateBaccBetDisplay();
   updateBaccBankrollDisplay();
   var dealBtn = document.getElementById('bacc-deal-btn');
@@ -9027,6 +9145,65 @@ function triggerChipCelebration(netWin) {
   setTimeout(function() { if (container.parentNode) container.parentNode.removeChild(container); }, 3500);
 }
 
+function squeezeReveal(container, cards) {
+  return new Promise(function(resolve) {
+    var cardEls = container.querySelectorAll('.bacc-card');
+    var revealed = 0;
+    var total = cardEls.length;
+
+    function doReveal(idx) {
+      var el = cardEls[idx];
+      if (el.dataset.squeezed) return;
+      el.dataset.squeezed = 'true';
+      el.classList.remove('squeeze-ready');
+      playBaccSound('squeeze');
+
+      el.style.transition = 'transform 0.25s ease-in';
+      el.style.transform = 'rotateY(90deg)';
+
+      setTimeout(function() {
+        var card = cards[idx];
+        el.className = 'bacc-card faceup ' + (isRedSuit(card.suit) ? 'red' : 'black');
+        el.innerHTML = '';
+        el.style.transform = 'rotateY(90deg)';
+        var r = document.createElement('div');
+        r.className = 'bacc-card-rank';
+        r.textContent = card.rank;
+        var s = document.createElement('div');
+        s.className = 'bacc-card-suit';
+        s.textContent = card.suit;
+        el.appendChild(r);
+        el.appendChild(s);
+        el.offsetHeight; // force reflow
+        el.style.transition = 'transform 0.25s ease-out';
+        el.style.transform = 'rotateY(0deg)';
+        playBaccSound('flip');
+
+        revealed++;
+        if (revealed === total) {
+          setTimeout(resolve, 280);
+        }
+      }, 260);
+    }
+
+    cardEls.forEach(function(el, i) {
+      el.classList.add('squeeze-ready');
+      el.addEventListener('click', function() { doReveal(i); }, { once: true });
+    });
+
+    // Auto-reveal after 3 seconds if not squeezed
+    setTimeout(function() {
+      var delay = 0;
+      cardEls.forEach(function(el, i) {
+        if (!el.dataset.squeezed) {
+          setTimeout(function() { doReveal(i); }, delay);
+          delay += 400;
+        }
+      });
+    }, 3000);
+  });
+}
+
 function dealBaccarat() {
   var totalBet = _baccBets.player + _baccBets.tie + _baccBets.banker;
   if (totalBet === 0) return;
@@ -9099,159 +9276,144 @@ function dealBaccarat() {
   });
   delay += CARD_DELAY;
 
-  // Reveal player cards
-  steps.push(function() {
-    playerCardsEl.innerHTML = '';
-    playerCardsEl.appendChild(createCardEl(p1, false));
-    playerCardsEl.appendChild(createCardEl(p2, false));
-    playerScoreEl.textContent = baccScore(playerCards);
-    playBaccSound('flip');
-  });
-  delay += 500;
-
-  // Reveal banker cards
-  steps.push(function() {
-    bankerCardsEl.innerHTML = '';
-    bankerCardsEl.appendChild(createCardEl(b1, false));
-    bankerCardsEl.appendChild(createCardEl(b2, false));
-    bankerScoreEl.textContent = baccScore(bankerCards);
-    playBaccSound('flip');
-  });
-  delay += 600;
-
-  // Third-card rules + result
-  steps.push(function() {
-    var pScore = baccScore(playerCards);
-    var bScore = baccScore(bankerCards);
-    var playerThird = null, bankerThird = null;
-
-    // Natural — no third card
-    if (pScore >= 8 || bScore >= 8) {
-      // naturals, go straight to result
-    } else {
-      // Player third card rule
-      if (pScore <= 5) {
-        playerThird = baccDraw();
-        playerCards.push(playerThird);
-        playerCardsEl.appendChild(createCardEl(playerThird, false));
-        pScore = baccScore(playerCards);
-        playerScoreEl.textContent = pScore;
-        playBaccSound('flip');
-      }
-
-      // Banker third card rule
-      if (playerThird === null) {
-        // Player stood — banker draws on 0-5
-        if (bScore <= 5) {
-          bankerThird = baccDraw();
-          bankerCards.push(bankerThird);
-          bankerCardsEl.appendChild(createCardEl(bankerThird, false));
-          bScore = baccScore(bankerCards);
-          bankerScoreEl.textContent = bScore;
-          playBaccSound('flip');
-        }
-      } else {
-        // Banker draws based on player's third card value
-        var p3v = playerThird.value;
-        var draw = false;
-        if (bScore <= 2) draw = true;
-        else if (bScore === 3 && p3v !== 8) draw = true;
-        else if (bScore === 4 && p3v >= 2 && p3v <= 7) draw = true;
-        else if (bScore === 5 && p3v >= 4 && p3v <= 7) draw = true;
-        else if (bScore === 6 && p3v >= 6 && p3v <= 7) draw = true;
-
-        if (draw) {
-          bankerThird = baccDraw();
-          bankerCards.push(bankerThird);
-          bankerCardsEl.appendChild(createCardEl(bankerThird, false));
-          bScore = baccScore(bankerCards);
-          bankerScoreEl.textContent = bScore;
-          playBaccSound('flip');
-        }
-      }
-    }
-
-    // Determine winner
-    var pFinal = baccScore(playerCards);
-    var bFinal = baccScore(bankerCards);
-    playerScoreEl.textContent = pFinal;
-    bankerScoreEl.textContent = bFinal;
-
-    // Calculate payouts
-    var payout = 0;
-    if (pFinal > bFinal) {
-      resultEl.textContent = 'Player Wins';
-      resultEl.className = 'bacc-result player-wins';
-      _baccStats.p++;
-      _baccRoadHistory.push('p');
-      payout += _baccBets.player * 2;  // 1:1 + original bet
-      playBaccSound(_baccBets.player > 0 ? 'win' : 'lose');
-    } else if (bFinal > pFinal) {
-      resultEl.textContent = 'Banker Wins';
-      resultEl.className = 'bacc-result banker-wins';
-      _baccStats.b++;
-      _baccRoadHistory.push('b');
-      payout += Math.floor(_baccBets.banker * 1.95);  // 0.95:1 (5% commission) + original bet
-      playBaccSound(_baccBets.banker > 0 ? 'win' : 'lose');
-    } else {
-      resultEl.textContent = 'Tie';
-      resultEl.className = 'bacc-result tie';
-      _baccStats.t++;
-      _baccRoadHistory.push('t');
-      payout += _baccBets.tie * 9;  // 8:1 + original bet
-      // Tie returns Player/Banker bets (push)
-      payout += _baccBets.player + _baccBets.banker;
-      playBaccSound(_baccBets.tie > 0 ? 'win' : 'tie');
-    }
-
-    _baccBankroll += payout;
-    updateBaccBankrollDisplay();
-
-    var totalBetNow = _baccBets.player + _baccBets.tie + _baccBets.banker;
-    var net = payout - totalBetNow;
-    if (net > 0) {
-      payoutEl.textContent = '+HK$' + net.toLocaleString();
-      payoutEl.className = 'bacc-payout-msg win';
-      flashBankroll(true);
-      triggerChipCelebration(net);
-    } else if (net < 0) {
-      payoutEl.textContent = '-HK$' + Math.abs(net).toLocaleString();
-      payoutEl.className = 'bacc-payout-msg lose';
-      flashBankroll(false);
-    } else {
-      payoutEl.textContent = 'Push';
-      payoutEl.className = 'bacc-payout-msg';
-    }
-
-    // Track persistent stats
-    _baccHandsPlayed++;
-    if (net > _baccBiggestWin) _baccBiggestWin = net;
-    if (_baccBankroll > _baccPeakBankroll) _baccPeakBankroll = _baccBankroll;
-    updateBaccStats();
-    renderBaccRoad();
-    updateBaccSessionStats();
-    saveBaccState();
-    _baccDealing = false;
-    _baccBets = { player: 0, tie: 0, banker: 0 };
-    updateBaccBetDisplay();
-    if (_baccBankroll <= 0) {
-      dealBtn.textContent = 'Bankrupt';
-      dealBtn.disabled = true;
-      document.getElementById('bacc-reset-btn').style.display = 'block';
-    } else {
-      dealBtn.textContent = 'Place Your Bet';
-      dealBtn.disabled = true;
-    }
-  });
-
-  // Execute steps with delays
-  var cumDelay = 0;
-  for (var i = 0; i < steps.length; i++) {
-    (function(step, d) {
-      setTimeout(step, d);
-    })(steps[i], cumDelay);
-    cumDelay += (i < 4 ? CARD_DELAY : (i === 4 ? 500 : 600));
+  // Execute dealing steps (4 face-down cards)
+  for (var si = 0; si < steps.length; si++) {
+    (function(step, d) { setTimeout(step, d); })(steps[si], si * CARD_DELAY);
   }
+
+  // After dealing, start squeeze reveal sequence
+  setTimeout(function() {
+    var sqHint = document.getElementById('bacc-squeeze-hint');
+    if (sqHint) sqHint.style.display = 'block';
+    dealBtn.textContent = 'Squeeze to reveal...';
+
+    // Squeeze player hand first
+    squeezeReveal(playerCardsEl, playerCards).then(function() {
+      playerScoreEl.textContent = baccScore(playerCards);
+      return new Promise(function(r) { setTimeout(r, 300); });
+    }).then(function() {
+      // Squeeze banker hand
+      return squeezeReveal(bankerCardsEl, bankerCards);
+    }).then(function() {
+      bankerScoreEl.textContent = baccScore(bankerCards);
+      if (sqHint) sqHint.style.display = 'none';
+
+      // Third-card rules
+      var pScore = baccScore(playerCards);
+      var bScore = baccScore(bankerCards);
+      var playerThird = null, bankerThird = null;
+
+      if (pScore >= 8 || bScore >= 8) {
+        // Natural — no third card
+      } else {
+        if (pScore <= 5) {
+          playerThird = baccDraw();
+          playerCards.push(playerThird);
+          playerCardsEl.appendChild(createCardEl(playerThird, false));
+          pScore = baccScore(playerCards);
+          playerScoreEl.textContent = pScore;
+          playBaccSound('flip');
+        }
+
+        if (playerThird === null) {
+          if (bScore <= 5) {
+            bankerThird = baccDraw();
+            bankerCards.push(bankerThird);
+            bankerCardsEl.appendChild(createCardEl(bankerThird, false));
+            bScore = baccScore(bankerCards);
+            bankerScoreEl.textContent = bScore;
+            playBaccSound('flip');
+          }
+        } else {
+          var p3v = playerThird.value;
+          var draw = false;
+          if (bScore <= 2) draw = true;
+          else if (bScore === 3 && p3v !== 8) draw = true;
+          else if (bScore === 4 && p3v >= 2 && p3v <= 7) draw = true;
+          else if (bScore === 5 && p3v >= 4 && p3v <= 7) draw = true;
+          else if (bScore === 6 && p3v >= 6 && p3v <= 7) draw = true;
+
+          if (draw) {
+            bankerThird = baccDraw();
+            bankerCards.push(bankerThird);
+            bankerCardsEl.appendChild(createCardEl(bankerThird, false));
+            bScore = baccScore(bankerCards);
+            bankerScoreEl.textContent = bScore;
+            playBaccSound('flip');
+          }
+        }
+      }
+
+      // Determine winner
+      var pFinal = baccScore(playerCards);
+      var bFinal = baccScore(bankerCards);
+      playerScoreEl.textContent = pFinal;
+      bankerScoreEl.textContent = bFinal;
+
+      var payout = 0;
+      if (pFinal > bFinal) {
+        resultEl.textContent = 'Player Wins';
+        resultEl.className = 'bacc-result player-wins';
+        _baccStats.p++;
+        _baccRoadHistory.push('p');
+        payout += _baccBets.player * 2;
+        playBaccSound(_baccBets.player > 0 ? 'win' : 'lose');
+      } else if (bFinal > pFinal) {
+        resultEl.textContent = 'Banker Wins';
+        resultEl.className = 'bacc-result banker-wins';
+        _baccStats.b++;
+        _baccRoadHistory.push('b');
+        payout += Math.floor(_baccBets.banker * 1.95);
+        playBaccSound(_baccBets.banker > 0 ? 'win' : 'lose');
+      } else {
+        resultEl.textContent = 'Tie';
+        resultEl.className = 'bacc-result tie';
+        _baccStats.t++;
+        _baccRoadHistory.push('t');
+        payout += _baccBets.tie * 9;
+        payout += _baccBets.player + _baccBets.banker;
+        playBaccSound(_baccBets.tie > 0 ? 'win' : 'tie');
+      }
+
+      _baccBankroll += payout;
+      updateBaccBankrollDisplay();
+
+      var totalBetNow = _baccBets.player + _baccBets.tie + _baccBets.banker;
+      var net = payout - totalBetNow;
+      if (net > 0) {
+        payoutEl.textContent = '+HK$' + net.toLocaleString();
+        payoutEl.className = 'bacc-payout-msg win';
+        flashBankroll(true);
+        triggerChipCelebration(net);
+      } else if (net < 0) {
+        payoutEl.textContent = '-HK$' + Math.abs(net).toLocaleString();
+        payoutEl.className = 'bacc-payout-msg lose';
+        flashBankroll(false);
+      } else {
+        payoutEl.textContent = 'Push';
+        payoutEl.className = 'bacc-payout-msg';
+      }
+
+      _baccHandsPlayed++;
+      if (net > _baccBiggestWin) _baccBiggestWin = net;
+      if (_baccBankroll > _baccPeakBankroll) _baccPeakBankroll = _baccBankroll;
+      updateBaccStats();
+      renderBaccRoad();
+      updateBaccSessionStats();
+      saveBaccState();
+      _baccDealing = false;
+      _baccBets = { player: 0, tie: 0, banker: 0 };
+      updateBaccBetDisplay();
+      if (_baccBankroll <= 0) {
+        dealBtn.textContent = 'Bankrupt';
+        dealBtn.disabled = true;
+        document.getElementById('bacc-reset-btn').style.display = 'block';
+      } else {
+        dealBtn.textContent = 'Place Your Bet';
+        dealBtn.disabled = true;
+      }
+    });
+  }, steps.length * CARD_DELAY + 200);
 }
 
 // Baccarat event listeners
@@ -9347,6 +9509,18 @@ function playBaccSound(type) {
     g.gain.setValueAtTime(0.15, t); g.gain.exponentialRampToValueAtTime(0.05, t + 0.15);
     g.gain.setValueAtTime(0.15, t + 0.2); g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
     o.connect(g); g.connect(_audioCtx.destination); o.start(t); o.stop(t + 0.36);
+  }
+  else if (type === 'squeeze') {
+    // Card squeeze — slow paper slide sound
+    var len = Math.floor(_audioCtx.sampleRate * 0.25);
+    var buf = _audioCtx.createBuffer(1, len, _audioCtx.sampleRate);
+    var d = buf.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (len * 0.4));
+    var src = _audioCtx.createBufferSource(); src.buffer = buf;
+    var flt = _audioCtx.createBiquadFilter(); flt.type = 'bandpass'; flt.frequency.value = 1500; flt.Q.value = 0.8;
+    var g = _audioCtx.createGain(); g.gain.setValueAtTime(0.12, t); g.gain.linearRampToValueAtTime(0.08, t + 0.15); g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+    src.connect(flt); flt.connect(g); g.connect(_audioCtx.destination);
+    src.start(t); src.stop(t + 0.26);
   }
 }
 
@@ -9802,6 +9976,78 @@ function addBridgeLights(viewer) {
   }
 
   window._initCableStayLights = initCableStayLights;
+})();
+
+// ── Ponte de Amizade (Friendship Bridge) LED Pulse Wave ──
+// The Friendship Bridge (友誼大橋, 1994) is Macau's longest bridge at 4.7km.
+// At night, a blue-white pulse wave flows along the deck — a "river of light"
+// connecting the Peninsula to Taipa, distinct from Sai Van's golden cable harp.
+(function() {
+  var WAVE_NODES = [
+    { lon: 113.5527, lat: 22.1893 },
+    { lon: 113.5535, lat: 22.1877 },
+    { lon: 113.5551, lat: 22.1843 },
+    { lon: 113.5565, lat: 22.1808 },
+    { lon: 113.5580, lat: 22.1773 },
+    { lon: 113.5595, lat: 22.1738 },
+    { lon: 113.5610, lat: 22.1700 },
+    { lon: 113.5622, lat: 22.1660 },
+  ];
+  var NUM_NODES = WAVE_NODES.length;
+
+  // Dim blue-white LED and bright pulse accent icons
+  var dimIcon = createBridgeLightIcon([140, 180, 255], 10).toDataURL();
+  var brightIcon = createBridgeLightIcon([210, 235, 255], 14).toDataURL();
+
+  function initFriendshipBridgeLED(viewer) {
+    var startTime = Date.now();
+    var entities = [];
+
+    WAVE_NODES.forEach(function(pt, idx) {
+      var fraction = idx / (NUM_NODES - 1);
+      var entity = viewer.entities.add({
+        name: 'Friendship Bridge LED ' + idx,
+        position: Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, 18),
+        billboard: {
+          image: dimIcon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: new Cesium.CallbackProperty(function() {
+            var glow = _currentGlowIntensity;
+            if (glow < 0.05) return 0;
+            var t = ((Date.now() - startTime) / 6000) % 1.0;
+            var dist = Math.abs(fraction - t);
+            if (dist > 0.5) dist = 1.0 - dist;
+            var pulse = dist < 0.12 ? (1.0 + (0.12 - dist) * 8) : 1.0;
+            var breathe = 0.8 + 0.2 * Math.sin((Date.now() - startTime) / 2500 + idx * 0.5);
+            return breathe * pulse * glow * 1.6;
+          }, false),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 15000, 0.0),
+          scaleByDistance: new Cesium.NearFarScalar(200, 2.5, 12000, 0.5),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+        show: false,
+      });
+      entities.push({ entity: entity, fraction: fraction });
+    });
+
+    // Traveling wave image swap — avoids CallbackProperty for billboard.image
+    setInterval(function() {
+      var shouldShow = _currentGlowIntensity > 0.05;
+      var t = ((Date.now() - startTime) / 6000) % 1.0;
+
+      for (var i = 0; i < entities.length; i++) {
+        var d = entities[i];
+        d.entity.show = shouldShow;
+        if (!shouldShow) continue;
+        var dist = Math.abs(d.fraction - t);
+        if (dist > 0.5) dist = 1.0 - dist;
+        d.entity.billboard.image = dist < 0.12 ? brightIcon : dimIcon;
+      }
+    }, 300);
+  }
+
+  window._initFriendshipBridgeLED = initFriendshipBridgeLED;
 })();
 
 // ── Wynn Palace Performance Lake Fountain Show ──
@@ -14954,26 +15200,72 @@ function addLEDFacades(viewer) {
 // Every hour on the hour at night, ALL landmark light signatures, fountain show,
 // and fireworks activate simultaneously for a 2-minute coordinated spectacle.
 // Also triggers once after the opening flythrough completes.
+// HUD countdown bar with progress and Grand Finale indicator (Session 221).
 (function() {
   window._citywideShowActive = false;
   window._fireworksFinaleActive = false;
   var _citywideTimeout = null;
   var _finaleTimeout = null;
   var _citywideLastHour = -1;
+  var _citywideHudInterval = null;
+  var _citywideStartTime = 0;
   var CITYWIDE_DURATION = 120000; // 2 minutes
   var FINALE_LEAD = 30000; // Grand Finale starts 30s before end
+
+  function updateHud() {
+    var elapsed = Date.now() - _citywideStartTime;
+    var remaining = Math.max(0, CITYWIDE_DURATION - elapsed);
+    var mins = Math.floor(remaining / 60000);
+    var secs = Math.floor((remaining % 60000) / 1000);
+    var progress = Math.min(100, (elapsed / CITYWIDE_DURATION) * 100);
+    var timeEl = document.getElementById('mlh-time');
+    var fillEl = document.getElementById('mlh-bar-fill');
+    var finaleEl = document.getElementById('mlh-finale');
+    if (timeEl) timeEl.textContent = mins + ':' + String(secs).padStart(2, '0');
+    if (fillEl) fillEl.style.width = progress + '%';
+    if (finaleEl) {
+      if (window._fireworksFinaleActive) finaleEl.classList.add('visible');
+      else finaleEl.classList.remove('visible');
+    }
+  }
+
+  function showHud() {
+    _citywideStartTime = Date.now();
+    var hud = document.getElementById('macau-lights-hud');
+    if (hud) hud.classList.add('active');
+    // Reset progress bar
+    var fillEl = document.getElementById('mlh-bar-fill');
+    if (fillEl) fillEl.style.width = '0%';
+    var timeEl = document.getElementById('mlh-time');
+    if (timeEl) timeEl.textContent = '2:00';
+    var finaleEl = document.getElementById('mlh-finale');
+    if (finaleEl) finaleEl.classList.remove('visible');
+    if (_citywideHudInterval) clearInterval(_citywideHudInterval);
+    _citywideHudInterval = setInterval(updateHud, 1000);
+  }
+
+  function hideHud() {
+    var hud = document.getElementById('macau-lights-hud');
+    if (hud) hud.classList.remove('active');
+    var finaleEl = document.getElementById('mlh-finale');
+    if (finaleEl) finaleEl.classList.remove('visible');
+    if (_citywideHudInterval) { clearInterval(_citywideHudInterval); _citywideHudInterval = null; }
+  }
 
   function triggerCitywideShow() {
     if (window._citywideShowActive) return;
     if (_currentGlowIntensity < 0.1) return; // night only
     window._citywideShowActive = true;
 
-    // Show banner
+    // Show dramatic banner (fades after 6s)
     var banner = document.getElementById('macau-lights-banner');
     if (banner) {
       banner.classList.add('active');
       setTimeout(function() { banner.classList.remove('active'); }, 6000);
     }
+
+    // Show persistent HUD countdown
+    showHud();
 
     // Grand Finale: activate rapid-fire firework barrage 30s before end
     if (_finaleTimeout) clearTimeout(_finaleTimeout);
@@ -14990,6 +15282,7 @@ function addLEDFacades(viewer) {
       window._fireworksFinaleActive = false;
       _citywideTimeout = null;
       _finaleTimeout = null;
+      hideHud();
     }, CITYWIDE_DURATION);
   }
 
@@ -15015,7 +15308,7 @@ function addLEDFacades(viewer) {
     }, 20000);
   });
 
-  // Expose for external trigger (e.g., time-lapse, testing)
+  // Expose for external trigger (e.g., time-lapse, testing, keyboard shortcut, City Pulse)
   window._triggerCitywideShow = triggerCitywideShow;
 })();
 
@@ -16515,6 +16808,118 @@ function addPromenadeLights(viewer) {
   });
 }
 
+// ── Cotai Strip Golden Mile LED Pathway (金光大道) ──
+// Animated golden light corridor tracing the famous Cotai Strip boulevard at night.
+// The Cotai Strip is officially called "金光大道" (Golden Avenue of Light) — golden
+// LED ground lights along the road create a visible spine connecting all mega-resorts.
+var _cotaiPathwayEntities = [];
+
+var COTAI_PATHWAY_POINTS = [
+  // North entry from Taipa (near Lotus Bridge roundabout)
+  { lon: 113.5528, lat: 22.1545 },
+  { lon: 113.5535, lat: 22.1535 },
+  // Galaxy Macau approach
+  { lon: 113.5540, lat: 22.1522 },
+  { lon: 113.5545, lat: 22.1510 },
+  // City of Dreams area
+  { lon: 113.5555, lat: 22.1498 },
+  { lon: 113.5565, lat: 22.1490 },
+  { lon: 113.5575, lat: 22.1485 },
+  // Venetian / Parisian junction
+  { lon: 113.5580, lat: 22.1478 },
+  { lon: 113.5585, lat: 22.1470 },
+  { lon: 113.5588, lat: 22.1460 },
+  // Wynn Palace approach
+  { lon: 113.5600, lat: 22.1455 },
+  { lon: 113.5610, lat: 22.1450 },
+  { lon: 113.5620, lat: 22.1448 },
+  // South toward Studio City
+  { lon: 113.5615, lat: 22.1435 },
+  { lon: 113.5610, lat: 22.1420 },
+  { lon: 113.5605, lat: 22.1405 },
+  { lon: 113.5598, lat: 22.1390 },
+  { lon: 113.5590, lat: 22.1375 },
+  // Studio City terminus
+  { lon: 113.5580, lat: 22.1360 },
+  { lon: 113.5570, lat: 22.1345 },
+];
+
+function addCotaiPathway(viewer) {
+  var startTime = Date.now();
+  var totalPts = COTAI_PATHWAY_POINTS.length;
+
+  // Golden LED icon — warm gold matching site aesthetic
+  var goldIcon = createBridgeLightIcon([212, 175, 55], 8).toDataURL();
+  // Brighter accent for the traveling wave pulse
+  var brightIcon = createBridgeLightIcon([245, 230, 160], 10).toDataURL();
+
+  // Track each entity with its fraction along the strip for wave animation
+  var entityData = []; // { entity, fraction, idx }
+
+  COTAI_PATHWAY_POINTS.forEach(function(pt, idx) {
+    var fraction = idx / (totalPts - 1); // 0..1 position along the strip
+
+    // Place lights on both sides of the road (~15m offset)
+    var perpOffset = 0.00015;
+    // Slight angle adjustment per point for road curvature
+    var nextPt = COTAI_PATHWAY_POINTS[Math.min(idx + 1, totalPts - 1)];
+    var dx = nextPt.lon - pt.lon;
+    var dy = nextPt.lat - pt.lat;
+    var len = Math.sqrt(dx * dx + dy * dy) || 0.0001;
+    var perpLon = -dy / len * perpOffset;
+    var perpLat = dx / len * perpOffset;
+
+    [1, -1].forEach(function(side) {
+      var lightLon = pt.lon + perpLon * side;
+      var lightLat = pt.lat + perpLat * side;
+
+      var entity = viewer.entities.add({
+        name: 'Cotai Golden Mile ' + (side > 0 ? 'L' : 'R') + idx,
+        position: Cesium.Cartesian3.fromDegrees(lightLon, lightLat, 4),
+        billboard: {
+          image: goldIcon,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+          scale: new Cesium.CallbackProperty(function() {
+            var glow = _currentGlowIntensity;
+            if (glow < 0.05) return 0;
+            var t = ((Date.now() - startTime) / 8000) % 1.0;
+            var dist = Math.abs(fraction - t);
+            if (dist > 0.5) dist = 1.0 - dist;
+            // Pulse: lights near the wave front are larger
+            var pulse = dist < 0.1 ? (1.0 + (0.1 - dist) * 6) : 1.0;
+            var breathe = 0.85 + 0.15 * Math.sin((Date.now() - startTime) / 2000 + idx * 0.3);
+            return breathe * pulse * glow * 1.1;
+          }, false),
+          translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 12000, 0.0),
+          scaleByDistance: new Cesium.NearFarScalar(100, 2.0, 10000, 0.4),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+        show: false,
+      });
+      _cotaiPathwayEntities.push(entity);
+      entityData.push({ entity: entity, fraction: fraction, idx: idx });
+    });
+  });
+
+  // Update traveling wave via setInterval — avoids CallbackProperty for billboard.image
+  // which causes black rectangles with Google 3D Tiles
+  setInterval(function() {
+    var shouldShow = _currentGlowIntensity > 0.05;
+    var t = ((Date.now() - startTime) / 8000) % 1.0;
+
+    for (var i = 0; i < entityData.length; i++) {
+      var d = entityData[i];
+      d.entity.show = shouldShow;
+      if (!shouldShow) continue;
+
+      var dist = Math.abs(d.fraction - t);
+      if (dist > 0.5) dist = 1.0 - dist;
+      d.entity.billboard.image = dist < 0.1 ? brightIcon : goldIcon;
+    }
+  }, 300);
+}
+
 // ── Aviation Obstacle Lights ──
 // Red blinking beacon lights on top of tall buildings — mandatory aviation safety lights
 // Authentic detail: every building over ~150m in real Macau has these
@@ -18002,6 +18407,224 @@ function addWaterTaxis(viewer) {
   });
 }
 
+// ── Luxury Casino Yachts (豪華遊艇) ──
+// Sleek luxury yachts near casino waterfronts — the ultimate symbol of Macau's high-roller culture
+var YACHT_ROUTES = [
+  { // Route 1: Peninsula waterfront cruise (Wynn → Fisherman's Wharf → Inner Harbour)
+    name: 'Peninsula Yacht Cruise',
+    points: [
+      { lon: 113.5445, lat: 22.1935 }, // Near Wynn/Fisherman's Wharf
+      { lon: 113.5480, lat: 22.1910 },
+      { lon: 113.5500, lat: 22.1870 },
+      { lon: 113.5460, lat: 22.1830 },
+      { lon: 113.5400, lat: 22.1850 },
+      { lon: 113.5380, lat: 22.1890 },
+    ],
+    durationSec: 140,
+    count: 1,
+  },
+  { // Route 2: Outer Harbour to bridge area cruise
+    name: 'Harbour Yacht Cruise',
+    points: [
+      { lon: 113.5530, lat: 22.1920 }, // Near Sands/Outer Harbour
+      { lon: 113.5560, lat: 22.1870 },
+      { lon: 113.5540, lat: 22.1810 },
+      { lon: 113.5500, lat: 22.1770 },
+      { lon: 113.5460, lat: 22.1810 },
+      { lon: 113.5490, lat: 22.1870 },
+    ],
+    durationSec: 160,
+    count: 1,
+  },
+];
+
+var YACHT_MOORED = [
+  { name: 'Wynn Marina Yacht', lon: 113.5440, lat: 22.1940, alt: 2 },
+  { name: 'NAPE Marina Yacht', lon: 113.5525, lat: 22.1905, alt: 2 },
+];
+
+function createYachtCanvas(isNight) {
+  var canvas = document.createElement('canvas');
+  canvas.width = 48;
+  canvas.height = 32;
+  var ctx = canvas.getContext('2d');
+
+  // Water reflection glow beneath hull (night)
+  if (isNight) {
+    var reflGrad = ctx.createRadialGradient(24, 29, 2, 24, 29, 20);
+    reflGrad.addColorStop(0, 'rgba(255, 220, 140, 0.2)');
+    reflGrad.addColorStop(1, 'rgba(255, 220, 140, 0)');
+    ctx.fillStyle = reflGrad;
+    ctx.fillRect(0, 18, 48, 14);
+  }
+
+  // Wake spray — subtle V-shape
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath(); ctx.moveTo(24, 24); ctx.lineTo(12, 30); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(24, 24); ctx.lineTo(36, 30); ctx.stroke();
+
+  // Hull — sleek white with dark blue waterline
+  ctx.fillStyle = 'rgba(245, 248, 255, 0.95)';
+  ctx.beginPath();
+  ctx.moveTo(24, 9);    // sharp bow
+  ctx.lineTo(38, 18);
+  ctx.lineTo(37, 23);
+  ctx.lineTo(11, 23);
+  ctx.lineTo(10, 18);
+  ctx.closePath();
+  ctx.fill();
+
+  // Hull waterline stripe — navy blue
+  ctx.fillStyle = 'rgba(20, 40, 80, 0.85)';
+  ctx.beginPath();
+  ctx.moveTo(12, 21); ctx.lineTo(36, 21); ctx.lineTo(37, 23); ctx.lineTo(11, 23);
+  ctx.closePath();
+  ctx.fill();
+
+  // Gold accent pinstripe
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.6)';
+  ctx.lineWidth = 0.6;
+  ctx.beginPath(); ctx.moveTo(14, 20); ctx.lineTo(34, 20); ctx.stroke();
+
+  // Main cabin — low profile
+  ctx.fillStyle = 'rgba(235, 238, 245, 0.9)';
+  ctx.beginPath();
+  ctx.moveTo(17, 14); ctx.lineTo(32, 14); ctx.lineTo(33, 18); ctx.lineTo(16, 18);
+  ctx.closePath();
+  ctx.fill();
+
+  // Cabin windows — tinted blue/warm glow at night
+  var winColor = isNight ? 'rgba(255, 220, 130, 0.9)' : 'rgba(120, 170, 220, 0.7)';
+  for (var w = 0; w < 5; w++) {
+    ctx.fillStyle = winColor;
+    ctx.fillRect(18 + w * 3, 15, 2, 2.5);
+  }
+
+  // Flying bridge — upper deck
+  ctx.fillStyle = 'rgba(225, 228, 235, 0.85)';
+  ctx.fillRect(19, 10, 10, 4);
+
+  // Bridge windshield
+  ctx.fillStyle = isNight ? 'rgba(140, 200, 255, 0.5)' : 'rgba(160, 200, 240, 0.7)';
+  ctx.fillRect(20, 11, 8, 2);
+
+  // Antenna/mast
+  ctx.strokeStyle = 'rgba(180, 185, 195, 0.8)';
+  ctx.lineWidth = 0.5;
+  ctx.beginPath(); ctx.moveTo(23, 10); ctx.lineTo(23, 6); ctx.stroke();
+
+  // Radar dome
+  ctx.fillStyle = 'rgba(220, 225, 235, 0.8)';
+  ctx.beginPath(); ctx.arc(23, 6, 1.2, 0, Math.PI * 2); ctx.fill();
+
+  // Bow railing
+  ctx.strokeStyle = 'rgba(200, 205, 215, 0.6)';
+  ctx.lineWidth = 0.4;
+  ctx.beginPath(); ctx.moveTo(24, 11); ctx.lineTo(27, 14); ctx.stroke();
+
+  // Navigation lights (night)
+  if (isNight) {
+    // Green starboard
+    ctx.fillStyle = 'rgba(80, 255, 80, 0.7)';
+    ctx.beginPath(); ctx.arc(35, 18, 0.8, 0, Math.PI * 2); ctx.fill();
+    // Red port
+    ctx.fillStyle = 'rgba(255, 60, 60, 0.7)';
+    ctx.beginPath(); ctx.arc(13, 18, 0.8, 0, Math.PI * 2); ctx.fill();
+    // Stern white light
+    ctx.fillStyle = 'rgba(255, 255, 240, 0.8)';
+    ctx.beginPath(); ctx.arc(12, 20, 0.6, 0, Math.PI * 2); ctx.fill();
+    // Deck string lights
+    for (var d = 0; d < 6; d++) {
+      ctx.fillStyle = 'rgba(255, 230, 160, 0.85)';
+      ctx.beginPath(); ctx.arc(17 + d * 2.8, 14, 0.5, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  // Warm glow halo for visibility at distance (night)
+  if (isNight) {
+    var halo = ctx.createRadialGradient(24, 16, 6, 24, 16, 24);
+    halo.addColorStop(0, 'rgba(255, 220, 140, 0.12)');
+    halo.addColorStop(0.6, 'rgba(255, 220, 140, 0.04)');
+    halo.addColorStop(1, 'rgba(255, 220, 140, 0)');
+    ctx.fillStyle = halo;
+    ctx.fillRect(0, 0, 48, 32);
+  }
+
+  return canvas;
+}
+
+var _yachtEntities = [];
+var _yachtInterval = null;
+
+function addLuxuryYachts(viewer) {
+  var startTime = Date.now();
+  var isNight = (function() { var h = getMacauHour(); return h >= 19 || h < 5; })();
+  var yachtIcon = createYachtCanvas(isNight).toDataURL();
+
+  // Cruising yachts on routes
+  YACHT_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var phaseOffset = i / Math.max(route.count, 1);
+      var reverseStart = i % 2 === 1;
+
+      (function(offset, reverse) {
+        var positionCallback = new Cesium.CallbackProperty(function() {
+          var elapsed = (Date.now() - startTime) / 1000;
+          var rawT = ((elapsed / route.durationSec) + offset) % 2;
+          var t = rawT <= 1 ? rawT : 2 - rawT;
+          if (reverse) t = 1 - t;
+          var pos = lerpPosition(route.points, t);
+          return Cesium.Cartesian3.fromDegrees(pos.lon, pos.lat, 2);
+        }, false);
+
+        var entity = viewer.entities.add({
+          name: route.name,
+          position: positionCallback,
+          billboard: {
+            image: yachtIcon,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            scale: 1.0,
+            scaleByDistance: new Cesium.NearFarScalar(100, 1.6, 8000, 0.4),
+            translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 12000, 0.15),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          },
+        });
+        _yachtEntities.push(entity);
+      })(phaseOffset, reverseStart);
+    }
+  });
+
+  // Moored yachts at casino marinas (gentle bobbing via setInterval image swap)
+  YACHT_MOORED.forEach(function(mooring) {
+    var entity = viewer.entities.add({
+      name: mooring.name,
+      position: Cesium.Cartesian3.fromDegrees(mooring.lon, mooring.lat, mooring.alt),
+      billboard: {
+        image: yachtIcon,
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        scale: 0.9,
+        scaleByDistance: new Cesium.NearFarScalar(100, 1.4, 8000, 0.35),
+        translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 12000, 0.15),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    _yachtEntities.push(entity);
+  });
+
+  // Update canvas for time-of-day changes (night lights, etc.)
+  _yachtInterval = setInterval(function() {
+    var h = getMacauHour();
+    var nightNow = h >= 19 || h < 5;
+    var newIcon = createYachtCanvas(nightNow).toDataURL();
+    _yachtEntities.forEach(function(e) {
+      if (e.billboard) e.billboard.image = newIcon;
+    });
+  }, 2000);
+}
+
 // ── Traditional Chinese Paifang (牌坊) Gateway Arches ──
 // Ornamental gateway arches marking important entrances — iconic Macau architectural elements
 var PAIFANG_ARCHES = [
@@ -18633,6 +19256,22 @@ function drawMinimap() {
       var pos = lerpPosition(route.points, t);
       drawTransportDot(pos.lon, pos.lat, 'rgba(60, 160, 255, 0.95)', 2.5);
     }
+  });
+
+  // Luxury yachts — white/silver dots (cruising + moored, always active)
+  YACHT_ROUTES.forEach(function(route) {
+    for (var i = 0; i < route.count; i++) {
+      var offset = i / Math.max(route.count, 1);
+      var reverse = i % 2 === 1;
+      var rawT = ((elapsed / route.durationSec) + offset) % 2;
+      var t = rawT <= 1 ? rawT : 2 - rawT;
+      if (reverse) t = 1 - t;
+      var pos = lerpPosition(route.points, t);
+      drawTransportDot(pos.lon, pos.lat, 'rgba(220, 215, 240, 0.9)', 2.5);
+    }
+  });
+  YACHT_MOORED.forEach(function(m) {
+    drawTransportDot(m.lon, m.lat, 'rgba(220, 215, 240, 0.75)', 2);
   });
 
   // Dinner cruise — warm gold dots (ping-pong, evening only)
@@ -20251,6 +20890,7 @@ function addSkyCabs(viewer) {
     { icon: '🙏', text: 'Visit the Kun Iam Statue on the NAPE waterfront \u2014 a 20-metre bronze goddess of mercy on a lotus-shaped island' },
     { icon: '🌻', text: 'Visit Golden Lotus Square \u2014 the gilded bronze lotus sculpture commemorating Macau\'s 1999 handover from Portugal to China' },
     { icon: '🚤', text: 'Watch water taxi speedboats zip across the harbour \u2014 much faster than the ferries! Track them as blue dots on the minimap' },
+    { icon: '\uD83D\uDEE5\uFE0F', text: 'Spot luxury casino yachts cruising near Wynn Macau and the Outer Harbour \u2014 the ultimate symbol of Macau\u2019s high-roller lifestyle' },
     { icon: '🎰', text: 'Visit Wynn Macau \u2014 the first Las Vegas-style casino in Macau, with its iconic golden facade on the Peninsula waterfront' },
     { icon: '🎰', text: 'Explore Sands Macao \u2014 the casino that started it all, the first Western-operated casino that launched Macau\u2019s gaming revolution in 2004' },
     { icon: '🏰', text: 'Visit Monte Fort (大炮台) \u2014 the 1626 Jesuit fortress with 32 cannons that repelled a Dutch invasion, now a UNESCO World Heritage Site next to the Ruins' },
@@ -20297,8 +20937,9 @@ function addSkyCabs(viewer) {
     { icon: '💰', text: 'At night, Sands Macao\u2019s curved gold-glass tower shimmers with cascading golden waterfall LED streams \u2014 watch for the fortune cascade show every 14 minutes as golden light flows down the facade like coins' },
     { icon: '🤖', text: 'At night, look for the drone light show over the harbor — 48 illuminated drones form stunning patterns including a lotus flower (Macau\u2019s emblem), star, heart, and diamond shapes every 25 minutes' },
     { icon: '🏛️', text: 'At night, the Ruins of St. Paul\u2019s (大三巴牌坊) glows with warm golden heritage uplighting — Macau\u2019s #1 landmark is dramatically illuminated, with a radiance show every 15 minutes sweeping light up the 4-tier stone facade to the cross' },
-    { icon: '🌟', text: 'Every hour on the hour at night, all of Macau lights up at once \u2014 the Macau Lights spectacle synchronizes every landmark show, fireworks, and the fountain for 2 breathtaking minutes, ending with a Grand Finale firework barrage' },
+    { icon: '🌟', text: 'Press I at night to trigger the Macau Lights spectacle \u2014 all 12 LED signatures, fireworks, drone show, and fountain synchronize for 2 breathtaking minutes with a countdown HUD and Grand Finale firework barrage' },
     { icon: '\uD83C\uDFDF\uFE0F', text: 'Visit Fisherman\u2019s Wharf (\u6F01\u4EBA\u78BC\u982D) \u2014 Macau\u2019s themed waterfront complex with a Roman Amphitheatre, European facades, and over 150 shops along the Outer Harbour' },
+    { icon: '✨', text: 'At night, the Cotai Strip boulevard glows with the Golden Mile (金光大道) LED pathway — a traveling golden light pulse traces the famous avenue connecting all of Macau\u2019s mega-resorts from Galaxy to Studio City' },
   ];
   var el = document.getElementById('feature-tips');
   if (!el) return;
@@ -20725,6 +21366,8 @@ function enterPhotoMode() {
   if (ticker) ticker.style.opacity = '0';
   var cityPulse = document.getElementById('city-pulse');
   if (cityPulse) cityPulse.style.opacity = '0';
+  var lightsHud = document.getElementById('macau-lights-hud');
+  if (lightsHud) lightsHud.style.opacity = '0';
 
   // Show photo mode overlay
   var pm = document.getElementById('photo-mode');
@@ -20751,6 +21394,8 @@ function exitPhotoMode() {
   if (ticker) ticker.style.opacity = '';
   var cityPulse = document.getElementById('city-pulse');
   if (cityPulse) cityPulse.style.opacity = '';
+  var lightsHud = document.getElementById('macau-lights-hud');
+  if (lightsHud) lightsHud.style.opacity = '';
 
   // Hide photo mode overlay
   document.getElementById('photo-mode').classList.remove('active');

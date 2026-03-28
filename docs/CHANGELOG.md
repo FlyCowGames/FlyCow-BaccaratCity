@@ -1,5 +1,34 @@
 # Changelog
 
+## Session 224 — 2026-03-28 (Automated Agent)
+- Luxury Casino Yachts (豪華遊艇): sleek luxury yachts cruising and moored near Macau's casino waterfronts
+- 4 yacht entities: 2 cruising on harbour routes (Peninsula waterfront, Outer Harbour), 2 moored at casino marinas (Wynn Macau, NAPE/Sands)
+- Canvas-drawn 48x32 yacht: white hull, navy waterline, gold accent pinstripe, cabin windows, flying bridge, radar dome
+- Night mode: warm cabin glow, green/red navigation lights, stern white light, deck string lights, water reflection glow
+- CallbackProperty ping-pong route animation for cruising yachts (140s, 160s cycles), static position for moored yachts
+- Always active (24/7), canvas redraws every 2s for day/night transition
+- Silver/white minimap tracking dots for all 4 yachts
+- Added to Explore panel Transit section as "Casino Yachts (豪華遊艇)" and feature tips
+- File grew from ~21,172 to ~21,485 lines (+313 lines)
+
+## Session 222 — 2026-03-28 (Automated Agent)
+- Baccarat Card Squeeze (揸牌): interactive card reveal ritual with 3D flip animation
+- Tap/click face-down cards to squeeze-reveal with rotateY 3D flip, procedural paper-slide sound effect
+- Auto-reveals after 3 seconds if player doesn't tap, preserving game flow
+- CSS perspective/transform-style for 3D card rotation, squeeze-ready glow animation for visual affordance
+- "Tap cards to squeeze 揸牌" hint displayed during squeeze phase
+- Macau Lights HUD: compact countdown bar during the citywide spectacle show
+- Progress bar fill, time remaining display, FINALE indicator when Grand Finale fireworks activate
+- Keyboard shortcut I to trigger Macau Lights spectacle at night
+- City Pulse "Macau Lights" entry now click-triggers the spectacle
+- Cotai Strip Golden Mile LED Pathway (金光大道): animated golden light corridor at night
+- 40 golden LED ground lights (20 points × 2 sides) along the Cotai boulevard from Galaxy to Studio City
+- Traveling wave pulse animation using setInterval image swap (avoids CallbackProperty anti-pattern)
+- Night-only via _currentGlowIntensity gating, uses existing createBridgeLightIcon pattern
+- Added to City Pulse indicator, Explore panel Shows section, and feature tips
+- Mobile layout: wider button spacing for 6-button bottom grid at 390px
+- File grew from ~20,840 to ~21,172 lines (+332 lines)
+
 ## Session 214 — 2026-03-27 (Automated Agent)
 - Harbor Floating Water Lanterns (水燈/河燈): traditional Chinese water lanterns floating on harbor at night
 - 8 floating paper lanterns across 3 waterfront zones: Inner Harbour (3), Nam Van Lake south (3), Outer Harbour/NAPE (2)
